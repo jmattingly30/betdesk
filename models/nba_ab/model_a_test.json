@@ -1,0 +1,114 @@
+{
+ "yardstick_close_2019_2026": {
+  "base": {
+   "n": 20282,
+   "team_MAE": 9.228,
+   "line_team_MAE": 8.962,
+   "team_APE": 8.35,
+   "line_team_APE": 8.09,
+   "closer_share": 0.463,
+   "game_total_MAE": 14.829
+  },
+  "fix": {
+   "n": 20282,
+   "team_MAE": 9.208,
+   "line_team_MAE": 8.962,
+   "team_APE": 8.36,
+   "line_team_APE": 8.09,
+   "closer_share": 0.466,
+   "game_total_MAE": 14.785
+  },
+  "line_game_total_MAE": 14.344
+ },
+ "by_season": {
+  "2019": {
+   "base": 9.153,
+   "fix": 9.145,
+   "line": 8.933
+  },
+  "2020": {
+   "base": 9.233,
+   "fix": 9.182,
+   "line": 9.036
+  },
+  "2021": {
+   "base": 9.282,
+   "fix": 9.28,
+   "line": 9.033
+  },
+  "2022": {
+   "base": 9.261,
+   "fix": 9.245,
+   "line": 8.914
+  },
+  "2023": {
+   "base": 9.0,
+   "fix": 8.977,
+   "line": 8.782
+  },
+  "2024": {
+   "base": 9.161,
+   "fix": 9.172,
+   "line": 8.962
+  },
+  "2025": {
+   "base": 9.251,
+   "fix": 9.23,
+   "line": 8.896
+  },
+  "2026": {
+   "base": 9.485,
+   "fix": 9.438,
+   "line": 9.16
+  }
+ },
+ "yardstick_dk_open_2026": {
+  "base": {
+   "n": 1390,
+   "team_MAE": 9.284,
+   "line_team_MAE": 9.196,
+   "team_APE": 8.31,
+   "line_team_APE": 8.2,
+   "closer_share": 0.496
+  },
+  "fix": {
+   "n": 1390,
+   "team_MAE": 9.253,
+   "line_team_MAE": 9.196,
+   "team_APE": 8.3,
+   "line_team_APE": 8.2,
+   "closer_share": 0.506
+  }
+ },
+ "sd_margin": 13.7,
+ "sd_total": 18.72,
+ "sd_team": 11.6,
+ "sim_80pct_coverage_2025_26": {
+  "team": 0.792,
+  "total": 0.802,
+  "margin": 0.783
+ },
+ "sim_ot_rate": 0.051,
+ "final": {
+  "const": 0.0333,
+  "b": {
+   "tov": 0.0092,
+   "orb": 0.0228,
+   "fta": -0.1046,
+   "p3": -0.4771,
+   "p2": 0.0884,
+   "s3": 0.0179,
+   "ftp": -0.0037
+  },
+  "mu": {
+   "tov": 13.0473,
+   "orb": 21.3062,
+   "fta": 9.8554,
+   "p3": 35.5506,
+   "p2": 53.2847,
+   "s3": 37.4497,
+   "ftp": 80.4012
+  },
+  "cap": 4.0
+ }
+}

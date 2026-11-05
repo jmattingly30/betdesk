@@ -28,9 +28,10 @@ after a cd). Never print or store API keys. Edit no file except what the scripts
    - All others: `env -u ODDS_API_KEY python3 export_slates.py` (no Odds API credits; reuses saved replies)
 4. `python3 line_tools.py`
 4b. Noon and night: `python3 /mnt/project-files/sports-analytics/models/cbb_ab/live.py` (CBB Model B re-priced on the new lines -> app/data/cbb_ab.json).
+4d. Noon and night: `python3 /mnt/project-files/sports-analytics/models/nba_ab/live.py` (NBA Model B re-priced on the new lines -> app/data/nba_ab.json; J 2026-11-05; ~1 min, needs scipy. The night pull catches NBA openers, where Model B's tiers were tested).
 4a. Night pull only: `cd /mnt/project-files/sports-analytics/models/oddspapi && python3 cfb_usage.py` (rebuilds app/data/cfb_usage.json from the CFB props; noon has no CFB props).
 5. Publish (never edit bet-desk.html): copy app/bet-desk.html to <scratchpad>/betdesk/index.html, and app/data/game_slates.json,
-   app/data/line_tools.json, app/data/cbb_ab.json (noon and night), app/data/cfb_usage.json (night only), app/data/odds/tennis.json as tennis.json if its file time is in the last 30 hours and each app/data/odds/props_{NFL,NBA,NHL}.json made in the last 30 hours (its "made" field) to
+   app/data/line_tools.json, app/data/cbb_ab.json (noon and night), app/data/nba_ab.json (noon and night), app/data/cfb_usage.json (night only), app/data/odds/tennis.json as tennis.json if its file time is in the last 30 hours and each app/data/odds/props_{NFL,NBA,NHL}.json made in the last 30 hours (its "made" field) to
    <scratchpad>/betdesk/ at the bare name. Publish with the Artifact tool: url https://claude.ai/artifact/Pdq3m2UxoriBf2gBdzgBp4,
    file_path <scratchpad>/betdesk/index.html, root <scratchpad>/betdesk, files map of only those data files. If refused for files you
    have not read, read them with the Artifact read action (paths) and publish again. Do not pass capabilities.
