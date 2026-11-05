@@ -31,7 +31,8 @@ B2. NBA: download every season 2015-2027 as /tmp/claude-0/nbadl/pb_YYYY.parquet 
 B3. NFL props, Tuesday to Sunday only (J 2026-10-28; skip Mondays): download nflverse games.csv
     (https://raw.githubusercontent.com/nflverse/nfldata/master/data/games.csv) to /tmp/claude-0/nfldl/games.csv; week = the week of
     the next 2026 regular-season game with no result; (cd models/nfl-player && python3 fetch_data.py /tmp/claude-0/nfldl 2026);
-    (cd models/nfl-player && python3 build_dataset.py /tmp/claude-0/nfldl .); python3 app/export_nfl_props.py /tmp/claude-0/nfldl 2026 <week> /tmp/claude-0/nfl_props.json;
+    (cd models/nfl-player && python3 build_dataset.py /tmp/claude-0/nfldl .); python3 app/export_nfl_props.py /tmp/claude-0/nfldl 2026 <week> /tmp/claude-0/nfl_props.json --overrides models/nfl-player/overrides.csv
+    (J 2026-11-05: starting-QB overrides for props; game-model QB overrides live in models/team-strength/nfl/qb_overrides.json);
     python3 app/add_recent.py NFL /tmp/claude-0/nfl_props.json (rerun once on FileNotFoundError); copy to app/data/nfl_props.json.
     Spot-check a few teams' opponents against games.csv for that week.
 B3a. Every day: python3 models/nfl-player/shadow.py (grading only; needs statsmodels).
@@ -67,6 +68,9 @@ C4f. NBA Model A + Model B (J 2026-11-05 rollout, after B8 live_lineup.py + shad
     0 games with lines while NBA has lines, or 'data through' is 2+ days before yesterday. Then `python3 models/nba_ab/grade.py` (-> models/nba_ab/history/grade.json).
 C4a. `cd /mnt/project-files/sports-analytics/models/oddspapi && python3 cfb_usage.py` (J 2026-10-29: rebuilds app/data/cfb_usage.json, the CFB usage prior and missing-star flags, from this sweep's CFB props).
 C4b. CFB Model A: `bash /mnt/project-files/sports-analytics/models/rebuild/football/cfb_gap/live/run_live.sh` (writes app/data/cfb_live.json).
+C4g. CFB Model A + Model B (J 2026-11-05 rollout, after C4a and C4b): `python3 models/cfb_ab/live.py` (about 15 s) -> app/data/cfb_ab.json. It prints games, tiers,
+    usage matches and every missing starter it priced ('OUT ...'); report if it errors or prints 0 games with lines while CFB has lines. Manual absences live in
+    models/cfb_ab/absences.json (team, player, kind qb/skill, until date). Then `python3 models/cfb_ab/grade.py` (-> models/cfb_ab/history/grade.json).
 C4c. `python3 app/export_model_a.py` (after B8 and C4b) -> app/data/model_a.json.
 C5. Props files: for each app/data/odds/props_{NFL,NBA,NHL}.json made in the last 30 hours, count players and named players
     (ids look like "id1222502"); under half named is worth reporting.
@@ -78,7 +82,7 @@ C8. `python3 models/grading/grade.py` (last).
 Copy app/bet-desk.html to <scratchpad>/betdesk/index.html (never edit bet-desk.html; it already holds the 2026-10-30 Concept E redesign, never rerun app/redesign_patch.py) and every file below that changed this run into
 <scratchpad>/betdesk/ at its bare name: past_props.json, nhl_props.json, nba_props.json, nfl_props.json, games_models.json, cbb_v2.json,
 cfb_model.json, game_slates.json, line_tools.json, props_NFL.json, props_NBA.json, props_NHL.json, parlay_suggestions.json,
-promo_picks.json, scorecard.json, player_results.json, cfb_usage.json, model_a.json, cbb_ab.json, nfl_ab.json, nba_ab.json, tennis_model.json (file time in the last 30 h),
+promo_picks.json, scorecard.json, player_results.json, cfb_usage.json, model_a.json, cbb_ab.json, nfl_ab.json, nba_ab.json, cfb_ab.json, tennis_model.json (file time in the last 30 h),
 tennis.json (from app/data/odds/tennis.json, a bare array: use its file time, last 30 h), and props_vs_close.json if its "made" is newer than the published copy.
 Publish with the Artifact tool: url https://claude.ai/artifact/Pdq3m2UxoriBf2gBdzgBp4, file_path <scratchpad>/betdesk/index.html,
 root <scratchpad>/betdesk, files map of those names. Data files go at the ROOT path (the page fetches nhl_props.json, not data/...).

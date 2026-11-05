@@ -1,0 +1,97 @@
+{
+ "team_games": 7030,
+ "by_group": {
+  "qb_e_1": {
+   "n": 125,
+   "team_minus_A": -2.1,
+   "close_minus_A": -1.94,
+   "se": 1.06
+  },
+  "qb_e_l": {
+   "n": 30,
+   "team_minus_A": -4.82,
+   "close_minus_A": -2.75,
+   "se": 1.96
+  },
+  "qb_n_1": {
+   "n": 278,
+   "team_minus_A": -0.68,
+   "close_minus_A": -1.97,
+   "se": 0.69
+  },
+  "qb_n_l": {
+   "n": 118,
+   "team_minus_A": -0.27,
+   "close_minus_A": -1.2,
+   "se": 1.08
+  },
+  "skill_e_1": {
+   "n": 139,
+   "team_minus_A": -1.12,
+   "close_minus_A": -1.16,
+   "se": 0.95
+  },
+  "skill_e_l": {
+   "n": 39,
+   "team_minus_A": 0.26,
+   "close_minus_A": -1.27,
+   "se": 1.85
+  },
+  "skill_n_1": {
+   "n": 32,
+   "team_minus_A": -3.0,
+   "close_minus_A": -1.35,
+   "se": 1.69
+  },
+  "skill_n_l": {
+   "n": 12,
+   "team_minus_A": -2.24,
+   "close_minus_A": -1.29,
+   "se": 3.81
+  }
+ },
+ "oos_pooled": {
+  "coef_fit_22_23": {
+   "qb_e": -3.86,
+   "qb_n": 0.06,
+   "sk_e": -1.41,
+   "sk_n": -2.46
+  },
+  "team_MAE_A": 8.7706,
+  "team_MAE_A_plus": 8.7743,
+  "diff": 0.0037,
+  "t": 0.4,
+  "affected_n": 355,
+  "affected_diff": 0.037,
+  "vs_close_affected": {
+   "A_plus_MAE": 9.284,
+   "A_MAE": 9.247,
+   "close_MAE": 9.04
+  }
+ },
+ "oos_first_only": {
+  "coef_fit_22_23": {
+   "qb_e_1": -3.0,
+   "qb_n_1": -0.05,
+   "skill_e_1": -1.46,
+   "skill_n_1": -2.25
+  },
+  "team_MAE_A": 8.7706,
+  "team_MAE_A_plus": 8.7689,
+  "diff": -0.0017,
+  "t": -0.25,
+  "affected_n": 270,
+  "affected_diff": -0.023,
+  "vs_close_affected": {
+   "A_plus_MAE": 9.078,
+   "A_MAE": 9.101,
+   "close_MAE": 8.819
+  }
+ },
+ "live_coef": {
+  "qb_e": -2.48,
+  "qb_n": -0.47,
+  "sk_e": -0.65,
+  "sk_n": -2.32
+ }
+}

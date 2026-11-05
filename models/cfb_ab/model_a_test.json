@@ -1,0 +1,305 @@
+{
+ "n_test_games": 3515,
+ "yardstick_2022_25": {
+  "v3": {
+   "MAE": 9.18,
+   "APE": 0.5346,
+   "closer_than_line": 0.454,
+   "minus_line_mean": 0.47
+  },
+  "v4": {
+   "MAE": 8.883,
+   "APE": 0.5123,
+   "closer_than_line": 0.478,
+   "minus_line_mean": 0.38
+  },
+  "line": {
+   "MAE": 8.685,
+   "APE": 0.4922
+  },
+  "game_total_MAE": {
+   "v3": 12.851,
+   "v4": 12.759,
+   "line": 12.45
+  },
+  "margin_MAE": {
+   "v3": 12.367,
+   "v4": 12.257,
+   "line": 12.07
+  },
+  "n_team_scores": 7028
+ },
+ "yardstick_by_season": {
+  "2022": {
+   "v3": {
+    "MAE": 9.439,
+    "APE": 0.5321,
+    "closer_than_line": 0.43,
+    "minus_line_mean": 0.09
+   },
+   "v4": {
+    "MAE": 9.063,
+    "APE": 0.5103,
+    "closer_than_line": 0.452,
+    "minus_line_mean": 0.14
+   },
+   "line": {
+    "MAE": 8.698,
+    "APE": 0.4851
+   },
+   "game_total_MAE": {
+    "v3": 12.736,
+    "v4": 12.682,
+    "line": 12.103
+   },
+   "margin_MAE": {
+    "v3": 12.611,
+    "v4": 12.454,
+    "line": 12.243
+   },
+   "n_team_scores": 1622
+  },
+  "2023": {
+   "v3": {
+    "MAE": 9.235,
+    "APE": 0.5472,
+    "closer_than_line": 0.452,
+    "minus_line_mean": 0.7
+   },
+   "v4": {
+    "MAE": 8.94,
+    "APE": 0.5223,
+    "closer_than_line": 0.481,
+    "minus_line_mean": 0.77
+   },
+   "line": {
+    "MAE": 8.726,
+    "APE": 0.495
+   },
+   "game_total_MAE": {
+    "v3": 12.988,
+    "v4": 12.932,
+    "line": 12.607
+   },
+   "margin_MAE": {
+    "v3": 12.393,
+    "v4": 12.303,
+    "line": 12.092
+   },
+   "n_team_scores": 1798
+  },
+  "2024": {
+   "v3": {
+    "MAE": 9.141,
+    "APE": 0.5165,
+    "closer_than_line": 0.465,
+    "minus_line_mean": 0.64
+   },
+   "v4": {
+    "MAE": 8.891,
+    "APE": 0.4975,
+    "closer_than_line": 0.488,
+    "minus_line_mean": 0.32
+   },
+   "line": {
+    "MAE": 8.775,
+    "APE": 0.4831
+   },
+   "game_total_MAE": {
+    "v3": 12.906,
+    "v4": 12.768,
+    "line": 12.681
+   },
+   "margin_MAE": {
+    "v3": 12.52,
+    "v4": 12.402,
+    "line": 12.027
+   },
+   "n_team_scores": 1770
+  },
+  "2025": {
+   "v3": {
+    "MAE": 8.937,
+    "APE": 0.5418,
+    "closer_than_line": 0.466,
+    "minus_line_mean": 0.42
+   },
+   "v4": {
+    "MAE": 8.66,
+    "APE": 0.5183,
+    "closer_than_line": 0.487,
+    "minus_line_mean": 0.27
+   },
+   "line": {
+    "MAE": 8.544,
+    "APE": 0.5046
+   },
+   "game_total_MAE": {
+    "v3": 12.765,
+    "v4": 12.649,
+    "line": 12.382
+   },
+   "margin_MAE": {
+    "v3": 11.978,
+    "v4": 11.899,
+    "line": 11.937
+   },
+   "n_team_scores": 1838
+  }
+ },
+ "yardstick_wk1_3": {
+  "v3": {
+   "MAE": 9.526,
+   "APE": 0.5649,
+   "closer_than_line": 0.436,
+   "minus_line_mean": 0.23
+  },
+  "v4": {
+   "MAE": 8.818,
+   "APE": 0.5004,
+   "closer_than_line": 0.48,
+   "minus_line_mean": 0.19
+  },
+  "line": {
+   "MAE": 8.614,
+   "APE": 0.4893
+  },
+  "game_total_MAE": {
+   "v3": 12.828,
+   "v4": 12.603,
+   "line": 12.345
+  },
+  "margin_MAE": {
+   "v3": 12.846,
+   "v4": 12.551,
+   "line": 12.336
+  },
+  "n_team_scores": 1878
+ },
+ "yardstick_wk4p": {
+  "v3": {
+   "MAE": 9.054,
+   "APE": 0.5238,
+   "closer_than_line": 0.46,
+   "minus_line_mean": 0.56
+  },
+  "v4": {
+   "MAE": 8.907,
+   "APE": 0.5165,
+   "closer_than_line": 0.477,
+   "minus_line_mean": 0.45
+  },
+  "line": {
+   "MAE": 8.71,
+   "APE": 0.4933
+  },
+  "game_total_MAE": {
+   "v3": 12.859,
+   "v4": 12.815,
+   "line": 12.489
+  },
+  "margin_MAE": {
+   "v3": 12.192,
+   "v4": 12.15,
+   "line": 11.973
+  },
+  "n_team_scores": 5150
+ },
+ "fit_margin_slope": 1.0,
+ "normal_sd": {
+  "margin": 16.24,
+  "total": 16.89,
+  "team": 11.71
+ },
+ "sim": {
+  "N": 1000,
+  "shrink": 1.0,
+  "mean_bias_team": 0.25,
+  "band80": {
+   "home": 0.825,
+   "away": 0.848,
+   "margin": 0.828,
+   "total": 0.815
+  },
+  "sd": {
+   "margin": 16.25,
+   "total": 16.27,
+   "team": 11.93
+  },
+  "team_score_log": {
+   "sim": -3.543,
+   "normal": -3.833
+  },
+  "margin_log": {
+   "sim": -4.128,
+   "normal": -4.16
+  },
+  "team_total_over_brier": {
+   "sim": 0.2563,
+   "normal": 0.2559,
+   "coin": 0.25
+  },
+  "win_brier": {
+   "sim": 0.1628,
+   "normal": 0.1622
+  },
+  "win_calibration": {
+   "(0.0, 0.1]": [
+    0.056,
+    0.094,
+    139
+   ],
+   "(0.1, 0.2]": [
+    0.155,
+    0.211,
+    190
+   ],
+   "(0.2, 0.3]": [
+    0.253,
+    0.305,
+    298
+   ],
+   "(0.3, 0.4]": [
+    0.35,
+    0.399,
+    281
+   ],
+   "(0.4, 0.5]": [
+    0.451,
+    0.463,
+    320
+   ],
+   "(0.5, 0.6]": [
+    0.55,
+    0.57,
+    356
+   ],
+   "(0.6, 0.7]": [
+    0.649,
+    0.645,
+    380
+   ],
+   "(0.7, 0.8]": [
+    0.75,
+    0.724,
+    395
+   ],
+   "(0.8, 0.9]": [
+    0.849,
+    0.866,
+    357
+   ],
+   "(0.9, 1.0]": [
+    0.967,
+    0.97,
+    798
+   ]
+  },
+  "key_numbers": {
+   "p3_sim": 0.04,
+   "p3_actual": 0.098,
+   "p7_sim": 0.045,
+   "p7_actual": 0.079
+  }
+ }
+}

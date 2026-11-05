@@ -1,0 +1,5 @@
+{"note": "Manual player absences for CFB Model A (J 2026-11-05). Each row applies to the team's games kicking off on or before 'until'. kind qb or skill; elite optional (else from 2026 play-by-play usage). Props-based flags (app/data/cfb_usage.json stars_out) are added automatically within 36 h of kickoff.",
+ "out": [
+  {"team": "Miami", "player": "Malachi Toney", "kind": "skill", "until": "2026-11-08", "src": "J 2026-11-05 (no prop posted this week)"},
+  {"team": "Ohio State", "player": "Julian Sayin", "kind": "qb", "until": "2026-11-08", "src": "J 2026-11-05 (no pass prop 10-31 or 11-07; Luke Fahey started week 9)"}
+ ]}
