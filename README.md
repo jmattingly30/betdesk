@@ -10,7 +10,7 @@ Private, standalone version of the Bet Desk (moved out of the Claude artifact on
 
 1. https://dash.cloudflare.com → Workers & Pages → Create → Pages → **Connect to Git** → pick `jmattingly30/betdesk`.
 2. Framework preset: **None**. Build command: *(leave empty)*. Build output directory: `public`. Deploy.
-3. Keep it private: Zero Trust → Access → Applications → Add → Self-hosted, enter the `*.pages.dev` domain, and add a policy "Emails: jackmattingly30@gmail.com". Cloudflare emails you a one-time code to sign in.
+3. Keep it private: Zero Trust → Access → Applications → Add → Self-hosted, enter the `*.pages.dev` domain, and add a policy "Emails: <your email>". Cloudflare emails you a one-time code to sign in.
 
 Every push to `main` redeploys the site.
 
