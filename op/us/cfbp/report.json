@@ -1,0 +1,94 @@
+{
+ "A_games": 152,
+ "A_margin_vs_close": {
+  "n": 152,
+  "rmse_line": 15.17,
+  "rmse_with": 15.103,
+  "coef_per_100yds": 4.1,
+  "picks_3plus": 32,
+  "hit": 0.406
+ },
+ "A_margin_vs_open": {
+  "n": 152,
+  "rmse_line": 15.654,
+  "rmse_with": 15.361,
+  "coef_per_100yds": 6.84,
+  "picks_3plus": 66,
+  "hit": 0.455
+ },
+ "A_total_vs_close": {
+  "n": 152,
+  "rmse_line": 15.082,
+  "rmse_with": 15.262,
+  "coef_per_100yds": -3.09,
+  "picks_3plus": 51,
+  "hit": 0.569
+ },
+ "A_total_vs_open": {
+  "n": 152,
+  "rmse_line": 15.344,
+  "rmse_with": 15.508,
+  "coef_per_100yds": -0.41,
+  "picks_3plus": 33,
+  "hit": 0.485
+ },
+ "A_open_to_close_move_corr": 0.087,
+ "A_prop_posted_hours_before": 94.1,
+ "A_line_posted_hours_before": 162.7,
+ "B": {
+  "False": {
+   "n": 233,
+   "cover_vs_open": 0.496,
+   "cover_vs_close": 0.489,
+   "line_move_pts": -0.01,
+   "margin_minus_close": 0.45,
+   "pass_yds_line": 223.8
+  },
+  "True": {
+   "n": 17,
+   "cover_vs_open": 0.471,
+   "cover_vs_close": 0.471,
+   "line_move_pts": 0.35,
+   "margin_minus_close": -2.68,
+   "pass_yds_line": 193.8
+  }
+ },
+ "C": {
+  "rec|False": {
+   "n": 209,
+   "margin_minus_close": 0.66,
+   "margin_minus_open": 0.68,
+   "line_move": 0.02
+  },
+  "rec|True": {
+   "n": 17,
+   "margin_minus_close": -3.03,
+   "margin_minus_open": -3.53,
+   "line_move": -0.5
+  },
+  "rush|False": {
+   "n": 209,
+   "margin_minus_close": 1.0,
+   "margin_minus_open": 0.91,
+   "line_move": -0.08
+  },
+  "rush|True": {
+   "n": 28,
+   "margin_minus_close": -4.39,
+   "margin_minus_open": -4.2,
+   "line_move": 0.2
+  }
+ },
+ "D": {
+  "n": 261,
+  "pass_mae_prop": 59.0,
+  "pass_mae_season": 67.1,
+  "pass_corr_prop": 0.37,
+  "pass_corr_season": 0.207,
+  "rush_corr_prop_sum": 0.384,
+  "rush_corr_season": 0.106,
+  "pass_share_corr_prop": 0.319,
+  "pass_share_corr_season": 0.114
+ },
+ "made": "2026-10-29 18:16 UTC"
+}

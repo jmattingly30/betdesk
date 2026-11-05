@@ -1,0 +1,249 @@
+RUN NOTE (2026-10-15): the shared folder was unreadable (I/O errors), so this run used a stand-in nfl_games_features.parquet rebuilt
+from nflverse games.csv (scratch replica_features.py: same-recipe walk-forward score and market ratings; est RMSE 2018-25 13.013 vs
+13.012 with the real file; QB term rebuilt from pbp dropback EPA 2016+). The 'on top of base est' rows were also run on the real file on
+2026-10-11 and matched to 3 decimals (e.g. NET_UNITS_delta -0.080 RMSE, O_QB_delta -0.072). Rerun with the real data dir to confirm base B.
+
+player-games 258949, seasons 2016-2026
+
+=== 1. Grade reliability (split-half r: odd vs even games in a season, 2016-19; full_season_r = Spearman-Brown;
+K_prior = shrinkage prior weight in denominator units; yoy_r = season t vs t+1 raw rate, players with >= min_den)
+        grade  split_half_r  full_season_r  K_prior  n_typ  yoy_r  yoy_pairs  min_den  league_mean
+    qb_epa_db         0.406          0.577    407.4  556.0  0.427        273      150       0.0574
+      qb_cpoe         0.415          0.586    353.0  500.0  0.397        259      150       0.3078
+     rec_tprr         0.657          0.793     92.9  356.0  0.679       1581      150       0.1734
+     rec_yprr         0.527          0.690    160.1  356.0  0.672       1581      150       1.2836
+  rec_epa_tgt         0.146          0.255    231.2   79.0  0.307       1031       40       0.1803
+  rec_rel_tgt         0.063          0.118    591.0   79.0  0.236       1031       40      -0.0001
+  rec_cov_tgt         0.141          0.247    241.0   79.0  0.311       1031       40      -0.0001
+ rec_tgt_snap         0.743          0.852     77.5  448.0  0.760       2197      150       0.1065
+   rec_tshare         0.923          0.960     20.4  486.0  0.843       3026      150       0.0858
+     rush_epa         0.261          0.414    219.9  156.0  0.334        421       60      -0.0643
+    rush_succ         0.355          0.524    141.4  156.0  0.451        421       60       0.4018
+    rush_ryoe         0.158          0.272    421.9  158.0  0.167        233       60       0.2362
+rush_car_snap         0.924          0.961     12.6  307.0  0.829        664      100       0.3182
+        ol_pp         0.431          0.602    359.0  544.0  0.259       1209      200      -0.1307
+       ol_run         0.242          0.390    530.6  339.0  0.248       1095      150      -0.0648
+   def_pr_pbp         0.707          0.828     78.0  376.0  0.826       3605      150       0.0138
+def_press_pfr         0.848          0.918     35.9  402.0  0.909       2322      150       0.0249
+  def_cov_tgt         0.893          0.943     24.1  402.0  0.916       2322      150       0.0926
+  def_cov_yds         0.761          0.864     63.0  402.0  0.839       2322      150       0.6868
+  def_onfield         0.294          0.454    780.8  650.0  0.191       3169      300       0.0006
+  off_onfield         0.555          0.714    287.8  719.0  0.329       2976      300       0.0006
+
+QB composite fit on 2016-17 games: EPA/db = -0.038 + 1.44*EPA grade + -0.0023*CPOE grade (t 5.2, -0.3)
+
+Pre-game grade vs that game's rate, 2018-25 (denominator-weighted corr; player-games with den >= 5):
+  qb_epa_db      r +0.270  (n 4776)
+  qb_cpoe        r +0.202  (n 4733)
+  rec_tprr       r +0.438  (n 38137)
+  rec_yprr       r +0.373  (n 38137)
+  rec_epa_tgt    r +0.145  (n 12586)
+  rec_rel_tgt    r +0.078  (n 12586)
+  rec_cov_tgt    r +0.145  (n 12586)
+  rec_tgt_snap   r +0.517  (n 42814)
+  rec_tshare     r +0.744  (n 51843)
+  rush_epa       r +0.121  (n 7531)
+  rush_succ      r +0.153  (n 7531)
+  rush_ryoe      r +0.129  (n 4467)
+  rush_car_snap  r +0.667  (n 11769)
+  ol_pp          r +0.218  (n 24079)
+  ol_run         r +0.151  (n 23505)
+  def_pr_pbp     r +0.483  (n 75460)
+  def_press_pfr  r +0.632  (n 59501)
+  def_cov_tgt    r +0.683  (n 59501)
+  def_cov_yds    r +0.478  (n 59501)
+  def_onfield    r +0.134  (n 79128)
+  off_onfield    r +0.261  (n 73133)
+EPA per credited pass-rush event (sack/hit), 2016-17: -0.83
+position-group slots (median summed snap share): {'DB': 4.82, 'DL': 3.34, 'LB': 2.82, 'OL': 5.0, 'QB': 1.0, 'RB': 1.05, 'TE': 1.28, 'WR': 2.56}
+
+=== 2. Team components (EPA/game vs average). sd across team-games; corr of the EXPECTED-roster value with that game's
+actual offensive EPA (O_*), EPA allowed (D_*), or net EPA (NET_*), 2018-25
+  O_QB             sd  2.97  delta sd  1.22  r(actual) exp +0.288  delta +0.037
+  O_PASSGAME       sd  0.15  delta sd  0.09  r(actual) exp +0.090  delta +0.029
+  O_PASSGAME_cov   sd  0.73  delta sd  0.23  r(actual) exp +0.250  delta -0.012
+  O_PASSGAME_raw   sd  0.75  delta sd  0.24  r(actual) exp +0.254  delta -0.012
+  O_YPRR           sd  0.49  delta sd  0.24  r(actual) exp +0.232  delta +0.057
+  O_TPRR           sd  0.04  delta sd  0.03  r(actual) exp +0.102  delta +0.061
+  O_RUSH           sd  0.56  delta sd  0.23  r(actual) exp +0.165  delta -0.003
+  O_RYOE           sd  0.14  delta sd  0.05  r(actual) exp +0.090  delta +0.022
+  O_OL             sd  0.78  delta sd  0.15  r(actual) exp +0.233  delta -0.061
+  O_ONFIELD        sd  2.68  delta sd  0.43  r(actual) exp +0.308  delta -0.074
+  D_PASSRUSH       sd  0.62  delta sd  0.31  r(actual) exp +0.118  delta +0.041
+  D_PRESS_PFR      sd  0.53  delta sd  0.25  r(actual) exp +0.104  delta +0.045
+  D_COVERAGE       sd  1.48  delta sd  0.68  r(actual) exp +0.096  delta +0.029
+  D_ONFIELD        sd  1.25  delta sd  0.19  r(actual) exp +0.166  delta -0.044
+  O_UNITS          sd  3.72  delta sd  1.28  r(actual) exp +0.308  delta +0.030
+  D_UNITS          sd  1.86  delta sd  0.85  r(actual) exp +0.116  delta +0.039
+  NET_UNITS        sd  4.41  delta sd  1.60  r(actual) exp +0.270  delta +0.052
+  NET_ONFIELD      sd  3.06  delta sd  0.47  r(actual) exp +0.284  delta -0.073
+
+turnover = share of the team's recent snap-weighted roster not expected to play (max of the two teams); top-20% threshold 0.30 (week 1 median 0.43, weeks 5+ median 0.21)
+segment sizes: all 2227, weeks 1-4 509, weeks 5-18 1618, week 1 128, QB change 498, high turnover 446, wk1-4 hi-turn 255
+
+=== 3. Game margin, walk-forward 2018-25. Base A = est (-0.429 + 0.51*rt_pred + 0.561*mkt_pred). Base B = est + existing QB term
+(qb_val_diff, qb_delta_diff). Roster features enter as a residual on top of the base, coefficient refit each season on
+2017..s-1. Win prob = Phi(pred/13.5). Cells: RMSE change / log-loss change x1000 (negative = better); t = paired t of squared-error change
+  base est                                        all            weeks 1-4           weeks 5-18               week 1            QB change        high turnover        wk1-4 hi-turn
+  RMSE / logloss                    13.013/0.6302        12.896/0.6383        13.091/0.6278        13.497/0.6325        13.817/0.6439        13.480/0.6324        13.290/0.6338    
+  base est+QB term                                all            weeks 1-4           weeks 5-18               week 1            QB change        high turnover        wk1-4 hi-turn
+  RMSE / logloss                    12.917/0.6221        12.999/0.6424        12.919/0.6157        13.613/0.6367        13.478/0.6217        13.191/0.6119        13.333/0.6341    
+  closing spread (reference)        12.752/0.6103        12.759/0.6313        12.776/0.6034        13.611/0.6368        13.216/0.6015        12.811/0.5930        13.037/0.6242    
+
+  -- on top of base est --
+  O_QB_delta                      -0.072/-3.8  t-2.2   +0.024/+1.9  t+0.3   -0.108/-5.5  t-2.7   +0.109/+5.3  t+0.6   -0.204/-10.3 t-1.7   -0.135/-7.9  t-1.3   +0.049/+5.7  t+0.4  b=[0.783]
+  O_PASSGAME_delta                +0.012/+0.4  t+0.9   +0.012/-1.0  t+0.3   +0.017/+1.2  t+1.1   +0.063/+0.4  t+0.7   +0.038/+1.3  t+1.1   +0.018/-0.9  t+0.5   +0.029/-1.7  t+0.5  b=[4.046]
+  O_PASSGAME_cov_delta            -0.010/-0.5  t-0.9   -0.013/-2.0  t-0.5   -0.007/+0.2  t-0.5   -0.024/-7.3  t-0.4   -0.004/-0.5  t-0.1   -0.053/-4.3  t-1.8   -0.051/-5.2  t-1.2  b=[1.868]
+  O_PASSGAME_raw_delta            -0.010/-0.4  t-0.9   -0.011/-1.9  t-0.4   -0.007/+0.1  t-0.6   -0.019/-7.1  t-0.3   -0.002/-0.4  t-0.1   -0.052/-4.3  t-1.7   -0.047/-5.1  t-1.1  b=[1.817]
+  O_YPRR_delta                    -0.008/-0.9  t-0.4   +0.028/-2.5  t+0.6   -0.011/+0.1  t-0.5   +0.111/-4.7  t+0.9   -0.043/-3.3  t-1.0   -0.003/-4.1  t-0.1   +0.050/-5.5  t+0.7  b=[2.391]
+  O_TPRR_delta                    -0.008/-1.0  t-0.6   +0.011/-2.5  t+0.4   -0.011/-0.3  t-0.7   +0.064/-3.6  t+0.8   -0.054/-4.1  t-1.8   -0.002/-2.7  t-0.0   +0.026/-4.3  t+0.5  b=[16.215]
+  O_RUSH_delta                    +0.005/+0.9  t+0.2   +0.058/+3.2  t+1.2   -0.016/-0.5  t-0.7   -0.029/+0.5  t-0.3   +0.025/+2.3  t+0.5   +0.023/+1.9  t+0.4   +0.050/+1.5  t+0.6  b=[1.774]
+  O_RYOE_delta                    -0.001/+0.4  t-0.1   +0.008/+0.7  t+0.3   -0.001/+0.4  t-0.1   -0.014/-2.0  t-0.3   -0.022/-0.5  t-1.3   -0.010/+0.1  t-0.3   +0.041/+2.0  t+0.9  b=[7.352]
+  O_OL_delta                      +0.014/+0.3  t+1.5   +0.013/-1.3  t+0.5   +0.014/+0.8  t+1.5   -0.026/-3.2  t-0.3   +0.030/-0.0  t+1.2   -0.009/-2.5  t-0.3   -0.022/-4.1  t-0.5  b=[-0.287]
+  O_ONFIELD_delta                 -0.008/-0.5  t-0.9   +0.020/+2.3  t+0.7   -0.018/-1.4  t-2.3   +0.035/+5.3  t+0.5   -0.037/-1.1  t-1.8   -0.001/+0.6  t-0.0   +0.031/+3.9  t+0.7  b=[0.739]
+  D_PASSRUSH_delta                -0.016/-0.7  t-2.3   -0.024/-1.0  t-1.2   -0.015/-0.8  t-2.1   -0.025/-1.8  t-0.6   -0.005/-0.9  t-0.3   -0.025/-1.0  t-1.1   -0.031/-1.5  t-1.0  b=[1.342]
+  D_PRESS_PFR_delta               -0.007/-0.4  t-0.6   -0.062/-1.6  t-1.7   +0.010/+0.0  t+0.9   -0.080/-1.6  t-0.9   -0.021/-1.6  t-0.7   -0.051/-0.6  t-1.3   -0.133/-4.0  t-2.1  b=[1.49]
+  D_COVERAGE_delta                +0.002/-0.1  t+0.5   +0.001/-0.2  t+0.1   +0.002/-0.1  t+0.4   -0.012/-1.4  t-0.6   -0.008/-0.7  t-0.9   -0.004/-0.7  t-0.3   +0.007/-0.4  t+0.6  b=[0.215]
+  D_ONFIELD_delta                 +0.001/+0.0  t+0.3   +0.007/+1.1  t+0.5   +0.000/-0.3  t+0.0   +0.067/+4.2  t+1.5   -0.000/+0.2  t-0.0   +0.007/+1.1  t+0.4   +0.015/+1.9  t+0.5  b=[0.82]
+  O_UNITS_delta                   -0.080/-3.8  t-2.2   +0.039/+3.1  t+0.5   -0.123/-6.0  t-2.9   +0.133/+6.3  t+0.7   -0.204/-9.6  t-1.6   -0.138/-7.4  t-1.2   +0.075/+6.9  t+0.6  b=[0.785]
+  D_UNITS_delta                   -0.003/-0.0  t-0.3   -0.008/-0.6  t-0.4   -0.003/-0.0  t-0.3   -0.040/-1.9  t-1.1   +0.000/-0.6  t+0.0   -0.014/-0.5  t-0.7   -0.005/-0.5  t-0.2  b=[0.323]
+  NET_UNITS_delta                 -0.080/-4.6  t-2.4   -0.011/-0.7  t-0.2   -0.105/-5.8  t-2.6   +0.103/+1.1  t+0.7   -0.226/-11.9 t-2.1   -0.161/-8.8  t-1.7   +0.028/+1.8  t+0.3  b=[0.614]
+  NET_ONFIELD_delta               -0.009/-0.4  t-0.8   +0.026/+3.1  t+0.8   -0.022/-1.6  t-2.3   +0.078/+7.9  t+1.0   -0.044/-1.4  t-1.8   -0.001/+1.1  t-0.0   +0.037/+5.1  t+0.7  b=[0.759]
+  O_QB_exp                        -0.008/-1.6  t-0.7   -0.038/-3.0  t-1.8   +0.001/-1.0  t+0.1   +0.004/-2.0  t+0.1   -0.008/-2.8  t-0.4   -0.047/-2.5  t-2.0   -0.018/-1.6  t-0.6  b=[0.162]
+  O_PASSGAME_exp                  +0.008/-0.3  t+0.7   -0.011/-0.5  t-0.4   +0.018/-0.1  t+1.4   +0.002/-2.0  t+0.0   +0.040/+0.9  t+1.7   -0.017/-0.9  t-0.7   +0.007/-0.3  t+0.2  b=[1.677]
+  O_PASSGAME_cov_exp              +0.007/+0.2  t+0.9   -0.015/-0.3  t-0.9   +0.014/+0.4  t+1.6   +0.005/+0.5  t+0.2   +0.012/-0.2  t+0.8   +0.004/+0.7  t+0.4   +0.016/+1.0  t+0.9  b=[0.286]
+  O_PASSGAME_raw_exp              +0.008/+0.2  t+1.0   -0.014/-0.2  t-0.9   +0.015/+0.4  t+1.6   +0.006/+0.4  t+0.2   +0.013/-0.2  t+0.9   +0.005/+0.7  t+0.4   +0.017/+1.1  t+0.9  b=[0.278]
+  O_YPRR_exp                      -0.007/-1.0  t-0.5   -0.037/-3.5  t-1.2   +0.004/-0.1  t+0.2   -0.021/-6.5  t-0.3   +0.007/-1.6  t+0.2   -0.037/-2.9  t-1.1   +0.002/-3.6  t+0.0  b=[1.005]
+  O_TPRR_exp                      -0.014/-1.5  t-1.1   -0.019/-3.6  t-0.7   -0.013/-0.9  t-0.8   -0.003/-7.7  t-0.0   -0.023/-2.6  t-0.8   -0.036/-4.7  t-1.1   -0.008/-6.1  t-0.2  b=[10.392]
+  O_RUSH_exp                      +0.009/+0.6  t+0.9   -0.001/-0.3  t-0.0   +0.010/+0.6  t+0.8   +0.004/-1.4  t+0.1   +0.013/+0.2  t+0.6   +0.003/+0.4  t+0.1   +0.003/-0.5  t+0.1  b=[0.612]
+  O_RYOE_exp                      +0.014/+1.0  t+1.8   +0.017/+2.1  t+1.4   +0.012/+0.8  t+1.3   -0.012/-0.2  t-0.5   +0.012/+0.5  t+0.9   +0.004/+1.0  t+0.3   -0.018/+0.2  t-1.0  b=[1.519]
+  O_OL_exp                        -0.007/-0.5  t-0.8   -0.030/-1.6  t-2.0   -0.003/-0.4  t-0.3   -0.026/-2.7  t-1.1   -0.008/-0.4  t-0.4   -0.017/-0.9  t-1.0   -0.036/-2.0  t-1.8  b=[0.537]
+  O_ONFIELD_exp                   +0.010/+0.3  t+1.3   -0.018/-0.9  t-1.3   +0.018/+0.7  t+1.8   -0.003/-0.9  t-0.1   +0.008/-0.6  t+0.5   +0.007/+0.3  t+0.5   +0.006/+0.1  t+0.4  b=[0.108]
+  D_PASSRUSH_exp                  +0.005/-0.2  t+0.5   -0.002/-0.8  t-0.1   +0.006/-0.1  t+0.5   +0.010/-3.3  t+0.2   +0.024/+0.1  t+1.3   +0.005/-0.6  t+0.3   +0.025/-1.0  t+0.9  b=[0.298]
+  D_PRESS_PFR_exp                 -0.001/-0.1  t-0.1   -0.019/-0.9  t-2.0   +0.005/+0.1  t+1.2   -0.023/-1.3  t-1.2   -0.006/-0.5  t-0.7   -0.017/-0.8  t-1.6   -0.026/-1.1  t-1.7  b=[0.326]
+  D_COVERAGE_exp                  +0.020/+1.2  t+1.9   +0.050/+2.1  t+1.7   +0.010/+0.9  t+0.9   +0.054/+1.4  t+0.7   +0.021/+0.8  t+0.8   +0.048/+2.6  t+1.6   +0.047/+1.6  t+1.0  b=[-0.159]
+  D_ONFIELD_exp                   +0.004/+0.2  t+0.9   +0.011/+0.2  t+1.3   +0.002/+0.3  t+0.4   +0.014/+0.4  t+0.8   -0.008/-0.4  t-0.8   +0.018/+0.3  t+2.0   +0.008/-0.0  t+0.7  b=[-0.197]
+  O_UNITS_exp                     -0.009/-1.6  t-0.7   -0.048/-3.5  t-2.1   +0.002/-0.9  t+0.1   -0.004/-3.1  t-0.1   -0.004/-2.6  t-0.2   -0.050/-2.6  t-1.9   -0.027/-2.2  t-0.8  b=[0.146]
+  D_UNITS_exp                     +0.107/+5.2  t+3.4   +0.101/+6.9  t+1.9   +0.113/+4.8  t+2.8   +0.045/-0.8  t+0.7   +0.051/+1.8  t+1.4   +0.094/+4.6  t+2.7   +0.135/+7.0  t+2.3  b=[-0.064]
+  NET_UNITS_exp                   -0.007/-1.6  t-0.7   -0.045/-3.7  t-2.4   +0.004/-0.9  t+0.3   -0.014/-3.4  t-0.4   +0.001/-2.4  t+0.0   -0.035/-2.4  t-1.5   -0.017/-2.2  t-0.6  b=[0.099]
+  NET_ONFIELD_exp                 +0.008/+0.3  t+1.3   -0.007/-0.3  t-0.6   +0.013/+0.5  t+1.7   +0.013/+0.2  t+0.6   +0.006/-0.4  t+0.5   +0.018/+1.0  t+1.7   +0.020/+0.9  t+1.2  b=[0.048]
+  O_QB_delta+O_PASSGAME_delta+O_  -0.045/-2.6  t-1.0   +0.093/+1.5  t+0.9   -0.096/-4.3  t-1.9   +0.101/+1.1  t+0.3   -0.087/-6.3  t-0.6   -0.103/-9.8  t-0.8   +0.088/-0.4  t+0.5  b=[0.765, 3.378, 1.747, -1.238, 1.277, -0.097]
+  NET_UNITS_delta+NET_ONFIELD_de  -0.076/-4.5  t-2.3   -0.020/-1.9  t-0.3   -0.098/-5.3  t-2.4   +0.080/-0.9  t+0.6   -0.221/-12.0 t-2.0   -0.166/-8.7  t-1.7   +0.009/+0.9  t+0.1  b=[0.634, -0.156]
+  O_QB_delta+NET_ONFIELD_delta    -0.068/-3.7  t-2.0   +0.023/+1.4  t+0.3   -0.102/-5.1  t-2.5   +0.096/+5.1  t+0.5   -0.201/-10.2 t-1.7   -0.135/-7.3  t-1.3   +0.037/+5.7  t+0.3  b=[0.783, -0.003]
+  O_PASSGAME_cov_delta+O_TPRR_de  -0.025/-1.5  t-1.4   -0.016/-4.2  t-0.4   -0.025/-0.6  t-1.3   +0.019/-9.9  t+0.2   -0.052/-4.6  t-1.2   -0.063/-6.2  t-1.3   -0.039/-8.4  t-0.5  b=[1.408, 12.198, 1.273]
+  NET_UNITS_delta+NET_UNITS_exp   -0.070/-4.4  t-2.0   -0.018/-1.6  t-0.3   -0.092/-5.4  t-2.2   +0.115/+1.1  t+0.8   -0.221/-12.5 t-2.0   -0.143/-8.2  t-1.5   +0.049/+2.3  t+0.5  b=[0.586, 0.035]
+
+  -- on top of base est+QB term --
+  O_QB_delta                      +0.007/+0.3  t+1.2   +0.010/+0.3  t+0.9   +0.006/+0.2  t+0.8   +0.004/-1.8  t+0.2   +0.020/+0.4  t+0.9   +0.026/+1.2  t+1.3   +0.007/-0.3  t+0.3  b=[-0.057]
+  O_PASSGAME_delta                +0.019/+0.7  t+1.4   +0.009/-0.7  t+0.3   +0.027/+1.5  t+1.8   +0.055/+2.1  t+0.6   +0.051/+1.8  t+1.6   +0.028/-0.2  t+0.8   +0.036/-0.7  t+0.7  b=[3.013]
+  O_PASSGAME_cov_delta            -0.001/-0.1  t-0.1   -0.001/-1.7  t-0.0   -0.000/+0.4  t-0.0   -0.015/-7.1  t-0.3   +0.010/+0.0  t+0.4   -0.036/-3.1  t-1.3   -0.040/-4.2  t-1.0  b=[1.494]
+  O_PASSGAME_raw_delta            -0.002/-0.1  t-0.2   -0.000/-1.7  t-0.0   -0.001/+0.3  t-0.1   -0.015/-7.1  t-0.2   +0.009/+0.0  t+0.4   -0.036/-3.2  t-1.3   -0.039/-4.3  t-1.0  b=[1.46]
+  O_YPRR_delta                    +0.004/-0.1  t+0.2   +0.018/-1.6  t+0.5   +0.006/+0.8  t+0.4   +0.066/-3.1  t+0.6   -0.020/-1.9  t-0.6   +0.004/-2.7  t+0.1   +0.033/-4.2  t+0.5  b=[1.677]
+  O_TPRR_delta                    +0.008/+0.1  t+0.6   +0.014/-1.2  t+0.5   +0.008/+0.7  t+0.6   +0.023/-2.3  t+0.3   -0.039/-3.0  t-1.5   +0.004/-1.4  t+0.1   +0.012/-2.9  t+0.2  b=[10.482]
+  O_RUSH_delta                    +0.012/+1.2  t+0.6   +0.081/+4.2  t+1.5   -0.014/-0.3  t-0.6   +0.035/+3.9  t+0.3   +0.051/+3.7  t+1.0   +0.046/+2.7  t+0.8   +0.073/+2.5  t+0.9  b=[1.51]
+  O_RYOE_delta                    +0.011/+0.8  t+0.8   +0.031/+1.5  t+0.8   +0.007/+0.8  t+0.6   +0.004/-1.2  t+0.1   -0.014/-0.0  t-0.7   +0.011/+0.8  t+0.2   +0.072/+3.1  t+1.0  b=[6.265]
+  O_OL_delta                      +0.003/-0.2  t+0.8   +0.004/-0.8  t+0.4   +0.003/-0.0  t+0.7   -0.020/-2.3  t-0.6   +0.005/-0.5  t+0.6   +0.008/-0.7  t+0.6   -0.006/-1.8  t-0.3  b=[-0.507]
+  O_ONFIELD_delta                 +0.027/+1.0  t+2.4   +0.064/+3.7  t+1.9   +0.017/+0.2  t+1.5   +0.112/+7.5  t+1.6   +0.023/+2.2  t+0.9   +0.092/+6.8  t+3.1   +0.115/+9.6  t+2.5  b=[-0.129]
+  D_PASSRUSH_delta                -0.006/-0.2  t-0.9   -0.007/-0.2  t-0.3   -0.007/-0.4  t-1.1   -0.027/-1.9  t-0.5   -0.006/-0.4  t-0.3   -0.011/-0.7  t-0.5   -0.011/-0.5  t-0.3  b=[0.954]
+  D_PRESS_PFR_delta               -0.002/-0.1  t-0.3   -0.044/-1.1  t-1.6   +0.012/+0.3  t+1.5   -0.067/-1.2  t-1.0   -0.010/-0.9  t-0.5   -0.039/-0.5  t-1.3   -0.094/-2.7  t-1.9  b=[1.081]
+  D_COVERAGE_delta                +0.003/+0.1  t+0.9   +0.005/+0.2  t+0.6   +0.002/-0.0  t+0.5   -0.012/-0.8  t-0.6   -0.000/-0.2  t-0.0   +0.004/-0.2  t+0.5   +0.011/+0.1  t+0.9  b=[0.139]
+  D_ONFIELD_delta                 +0.003/+0.1  t+1.0   +0.011/+1.1  t+1.1   +0.001/-0.1  t+0.4   +0.035/+2.7  t+1.2   -0.000/+0.2  t-0.0   +0.008/+1.0  t+0.7   +0.015/+1.6  t+0.8  b=[0.588]
+  O_UNITS_delta                   +0.007/+0.1  t+1.4   +0.024/+1.0  t+2.1   +0.001/-0.2  t+0.2   +0.018/-0.9  t+0.7   +0.013/+0.1  t+0.8   +0.028/+1.2  t+1.8   +0.025/+0.9  t+1.3  b=[0.006]
+  D_UNITS_delta                   +0.005/+0.6  t+0.4   -0.007/-0.2  t-0.3   +0.005/+0.6  t+0.4   -0.059/-1.3  t-1.1   +0.005/+0.0  t+0.3   -0.006/+0.3  t-0.2   -0.012/+0.0  t-0.3  b=[0.221]
+  NET_UNITS_delta                 +0.001/+0.1  t+0.3   +0.012/+0.7  t+1.9   -0.002/-0.1  t-0.6   +0.017/-0.2  t+1.2   -0.006/-0.3  t-0.5   +0.010/+0.6  t+1.0   +0.014/+0.8  t+1.4  b=[0.066]
+  NET_ONFIELD_delta               +0.029/+1.3  t+2.7   +0.072/+4.0  t+2.1   +0.016/+0.5  t+1.6   +0.113/+7.7  t+1.5   +0.022/+2.2  t+0.8   +0.085/+6.6  t+2.9   +0.106/+9.7  t+2.3  b=[-0.007]
+  O_QB_exp                        +0.077/+6.7  t+2.3   -0.015/+2.4  t-0.3   +0.103/+7.5  t+2.5   -0.117/+0.8  t-1.2   -0.035/+2.4  t-0.6   +0.075/+5.1  t+1.4   +0.020/+3.2  t+0.3  b=[-0.138]
+  O_PASSGAME_exp                  +0.033/+0.9  t+2.0   -0.006/+0.8  t-0.2   +0.050/+1.1  t+2.7   +0.006/+2.7  t+0.1   +0.044/+1.3  t+1.4   +0.009/+0.9  t+0.4   +0.019/+1.3  t+0.5  b=[0.766]
+  O_PASSGAME_cov_exp              +0.065/+5.0  t+2.3   +0.002/+5.8  t+0.0   +0.077/+4.2  t+2.3   +0.007/+12.2 t+0.1   -0.029/+1.2  t-0.6   +0.101/+7.4  t+2.3   +0.088/+9.9  t+1.3  b=[-0.339]
+  O_PASSGAME_raw_exp              +0.066/+5.0  t+2.3   +0.005/+5.9  t+0.1   +0.078/+4.1  t+2.3   +0.013/+12.2 t+0.1   -0.026/+1.1  t-0.5   +0.104/+7.5  t+2.4   +0.091/+10.0 t+1.4  b=[-0.33]
+  O_YPRR_exp                      +0.090/+5.9  t+3.0   +0.008/+4.7  t+0.1   +0.108/+5.8  t+3.0   -0.070/+4.8  t-0.7   +0.016/+1.4  t+0.3   +0.087/+6.3  t+1.9   +0.080/+8.2  t+1.1  b=[0.05]
+  O_TPRR_exp                      +0.011/+0.1  t+0.9   -0.010/-2.0  t-0.5   +0.017/+0.7  t+1.1   -0.030/-5.6  t-0.6   -0.013/-1.8  t-0.5   -0.016/-2.7  t-0.6   -0.002/-3.5  t-0.1  b=[5.804]
+  O_RUSH_exp                      +0.043/+1.9  t+2.7   +0.033/+2.3  t+1.4   +0.050/+1.9  t+2.5   +0.033/-1.8  t+0.6   +0.007/-0.7  t+0.2   +0.047/+2.4  t+2.2   +0.068/+4.1  t+1.9  b=[0.209]
+  O_RYOE_exp                      +0.017/+1.0  t+1.8   +0.019/+2.4  t+1.2   +0.015/+0.8  t+1.3   -0.026/-0.4  t-0.7   -0.001/-0.2  t-0.0   -0.001/+1.0  t-0.1   -0.025/+0.3  t-1.1  b=[0.609]
+  O_OL_exp                        +0.030/+1.4  t+2.1   +0.027/+1.1  t+1.1   +0.029/+1.2  t+1.7   +0.033/+0.3  t+0.6   +0.004/+0.0  t+0.2   +0.037/+0.8  t+1.7   +0.054/+1.7  t+1.5  b=[0.237]
+  O_ONFIELD_exp                   +0.089/+6.4  t+2.7   +0.050/+6.6  t+0.9   +0.099/+6.0  t+2.4   +0.017/+6.6  t+0.2   -0.023/+1.5  t-0.4   +0.112/+6.4  t+2.0   +0.129/+10.0 t+1.7  b=[-0.111]
+  D_PASSRUSH_exp                  +0.008/-0.1  t+0.8   +0.004/-0.7  t+0.2   +0.010/+0.1  t+0.8   +0.004/-3.4  t+0.1   +0.026/+0.2  t+1.6   +0.019/-0.2  t+1.0   +0.038/-0.5  t+1.3  b=[0.24]
+  D_PRESS_PFR_exp                 -0.000/-0.0  t-0.0   -0.013/-0.6  t-2.0   +0.004/+0.1  t+1.2   -0.016/-1.0  t-1.4   -0.002/-0.2  t-0.4   -0.009/-0.4  t-1.2   -0.016/-0.8  t-1.6  b=[0.228]
+  D_COVERAGE_exp                  +0.014/+1.1  t+1.4   +0.040/+1.8  t+1.5   +0.004/+0.8  t+0.4   +0.056/+2.1  t+0.8   +0.008/+0.5  t+0.3   +0.040/+2.4  t+1.4   +0.040/+1.7  t+0.9  b=[-0.204]
+  D_ONFIELD_exp                   +0.007/+0.4  t+1.3   +0.010/+0.3  t+0.8   +0.006/+0.4  t+0.9   -0.001/+0.2  t-0.1   -0.001/+0.2  t-0.1   +0.012/+0.0  t+1.3   +0.004/-0.2  t+0.3  b=[-0.176]
+  O_UNITS_exp                     +0.086/+6.2  t+2.7   +0.012/+3.2  t+0.2   +0.109/+6.8  t+2.7   -0.055/+1.8  t-0.7   -0.021/+1.5  t-0.4   +0.089/+5.0  t+1.8   +0.067/+5.0  t+1.0  b=[-0.074]
+  D_UNITS_exp                     +0.119/+5.8  t+3.3   +0.126/+8.5  t+2.1   +0.121/+5.2  t+2.7   +0.049/-0.1  t+0.8   +0.040/+1.6  t+1.0   +0.116/+5.8  t+2.8   +0.171/+9.5  t+2.6  b=[-0.1]
+  NET_UNITS_exp                   +0.081/+6.0  t+2.5   +0.033/+3.3  t+0.5   +0.096/+6.6  t+2.4   -0.005/+5.8  t-0.0   -0.019/+1.9  t-0.3   +0.093/+5.8  t+1.6   +0.063/+4.9  t+0.8  b=[-0.071]
+  NET_ONFIELD_exp                 +0.063/+4.6  t+2.0   +0.062/+5.5  t+1.0   +0.066/+4.3  t+1.7   +0.113/+8.9  t+1.0   -0.044/-0.7  t-0.7   +0.148/+7.6  t+2.5   +0.156/+10.4 t+1.8  b=[-0.121]
+  O_QB_delta+O_PASSGAME_delta+O_  +0.045/+2.1  t+1.6   +0.113/+3.0  t+1.5   +0.024/+1.3  t+0.8   +0.085/+1.7  t+0.5   +0.146/+5.7  t+2.1   +0.128/+3.3  t+1.6   +0.142/+0.0  t+1.1  b=[-0.074, 2.817, 1.562, -0.853, 0.999, -0.052]
+  NET_UNITS_delta+NET_ONFIELD_de  +0.031/+1.6  t+2.6   +0.054/+3.3  t+1.5   +0.025/+1.1  t+2.2   +0.097/+7.2  t+1.3   +0.020/+1.5  t+0.9   +0.072/+6.6  t+2.4   +0.082/+9.2  t+1.8  b=[0.082, -0.126]
+  O_QB_delta+NET_ONFIELD_delta    +0.036/+1.6  t+3.0   +0.067/+3.9  t+1.8   +0.027/+0.9  t+2.2   +0.116/+7.4  t+1.5   +0.042/+2.5  t+1.4   +0.095/+7.3  t+2.8   +0.093/+9.0  t+2.0  b=[-0.065, 0.056]
+  O_PASSGAME_cov_delta+O_TPRR_de  +0.004/+0.1  t+0.3   +0.009/-2.2  t+0.2   +0.004/+0.9  t+0.2   -0.025/-9.7  t-0.2   -0.035/-3.1  t-1.0   -0.036/-4.1  t-0.9   -0.035/-5.9  t-0.5  b=[1.221, 7.08, 0.906]
+  NET_UNITS_delta+NET_UNITS_exp   +0.091/+6.1  t+2.5   +0.110/+7.1  t+1.5   +0.084/+5.6  t+1.9   +0.139/+10.0 t+1.0   -0.037/+1.4  t-0.6   +0.144/+7.7  t+2.1   +0.177/+10.4 t+1.7  b=[0.135, -0.086]
+
+projection SD weeks 1-4 (2018-25): est 4.76, est+QB term 5.37, est+QB term+NET_UNITS_delta 5.38, closing spread 5.43
+
+=== 4. vs closing spread, 2018-25: (margin - spread_line) ~ feature [coef, t, HC1]; with (est - spread) also in;
+and how much the closing line already moved off est per unit of the feature
+  O_QB_delta             resid coef +0.099 (t +0.60) wk1-4 -0.225 (t -0.89) | with est gap +0.088 (t +0.53) | line moved off est+QB -0.071/unit (t -1.6)
+  O_QB_exp               resid coef +0.065 (t +1.02) wk1-4 +0.036 (t +0.23) | with est gap +0.046 (t +0.71) | line moved off est+QB -0.129/unit (t -10.8)
+  O_PASSGAME_delta       resid coef +2.282 (t +1.07) wk1-4 +2.937 (t +0.75) | with est gap +2.717 (t +1.27) | line moved off est+QB +2.385/unit (t +5.5)
+  O_PASSGAME_exp         resid coef +1.316 (t +1.03) wk1-4 -0.753 (t -0.28) | with est gap +1.452 (t +1.14) | line moved off est+QB +0.784/unit (t +3.2)
+  O_PASSGAME_cov_delta   resid coef +0.343 (t +0.41) wk1-4 +0.642 (t +0.46) | with est gap +0.551 (t +0.65) | line moved off est+QB +1.181/unit (t +6.6)
+  O_PASSGAME_cov_exp     resid coef +0.237 (t +0.93) wk1-4 -0.311 (t -0.49) | with est gap +0.191 (t +0.74) | line moved off est+QB -0.301/unit (t -5.5)
+  O_PASSGAME_raw_delta   resid coef +0.348 (t +0.43) wk1-4 +0.512 (t +0.38) | with est gap +0.552 (t +0.68) | line moved off est+QB +1.155/unit (t +6.7)
+  O_PASSGAME_raw_exp     resid coef +0.232 (t +0.93) wk1-4 -0.296 (t -0.48) | with est gap +0.186 (t +0.74) | line moved off est+QB -0.293/unit (t -5.4)
+  O_YPRR_delta           resid coef +1.283 (t +1.68) wk1-4 +0.915 (t +0.68) | with est gap +1.564 (t +2.02) | line moved off est+QB +1.372/unit (t +8.3)
+  O_YPRR_exp             resid coef +0.888 (t +2.23) wk1-4 +0.284 (t +0.31) | with est gap +0.876 (t +2.20) | line moved off est+QB -0.072/unit (t -0.9)
+  O_TPRR_delta           resid coef +9.504 (t +1.42) wk1-4 +10.563 (t +0.92) | with est gap +11.587 (t +1.72) | line moved off est+QB +10.682/unit (t +7.6)
+  O_TPRR_exp             resid coef +7.120 (t +1.56) wk1-4 +7.205 (t +0.79) | with est gap +7.742 (t +1.69) | line moved off est+QB +3.462/unit (t +3.8)
+  O_RUSH_delta           resid coef +0.479 (t +0.56) wk1-4 +0.008 (t +0.01) | with est gap +0.564 (t +0.65) | line moved off est+QB +0.496/unit (t +2.8)
+  O_RUSH_exp             resid coef +0.560 (t +1.58) wk1-4 +1.048 (t +1.26) | with est gap +0.526 (t +1.49) | line moved off est+QB -0.221/unit (t -3.3)
+  O_RYOE_delta           resid coef +5.870 (t +1.49) wk1-4 +3.237 (t +0.42) | with est gap +5.993 (t +1.52) | line moved off est+QB +0.731/unit (t +0.8)
+  O_RYOE_exp             resid coef +0.687 (t +0.49) wk1-4 +1.148 (t +0.36) | with est gap +0.601 (t +0.43) | line moved off est+QB -0.526/unit (t -1.9)
+  O_OL_delta             resid coef -1.273 (t -0.97) wk1-4 -2.699 (t -1.46) | with est gap -1.157 (t -0.87) | line moved off est+QB +0.726/unit (t +2.3)
+  O_OL_exp               resid coef +0.610 (t +2.43) wk1-4 +1.420 (t +2.41) | with est gap +0.578 (t +2.29) | line moved off est+QB -0.230/unit (t -4.6)
+  O_ONFIELD_delta        resid coef -0.479 (t -1.07) wk1-4 -0.701 (t -1.23) | with est gap -0.449 (t -1.00) | line moved off est+QB +0.191/unit (t +1.8)
+  O_ONFIELD_exp          resid coef +0.117 (t +1.59) wk1-4 +0.149 (t +0.84) | with est gap +0.097 (t +1.29) | line moved off est+QB -0.147/unit (t -9.9)
+  D_PASSRUSH_delta       resid coef +1.073 (t +1.71) wk1-4 +1.343 (t +1.29) | with est gap +1.129 (t +1.80) | line moved off est+QB +0.321/unit (t +2.5)
+  D_PASSRUSH_exp         resid coef +0.295 (t +0.93) wk1-4 +0.560 (t +0.79) | with est gap +0.288 (t +0.91) | line moved off est+QB -0.044/unit (t -0.7)
+  D_PRESS_PFR_delta      resid coef +1.153 (t +1.53) wk1-4 +2.056 (t +1.83) | with est gap +1.189 (t +1.58) | line moved off est+QB +0.208/unit (t +1.3)
+  D_PRESS_PFR_exp        resid coef +0.424 (t +1.14) wk1-4 +1.574 (t +1.90) | with est gap +0.401 (t +1.07) | line moved off est+QB -0.148/unit (t -2.0)
+  D_COVERAGE_delta       resid coef -0.060 (t -0.21) wk1-4 +0.176 (t +0.41) | with est gap -0.017 (t -0.06) | line moved off est+QB +0.261/unit (t +4.5)
+  D_COVERAGE_exp         resid coef -0.155 (t -1.11) wk1-4 +0.170 (t +0.54) | with est gap -0.154 (t -1.11) | line moved off est+QB +0.005/unit (t +0.2)
+  D_ONFIELD_delta        resid coef -0.414 (t -0.40) wk1-4 -1.186 (t -0.89) | with est gap -0.258 (t -0.25) | line moved off est+QB +0.958/unit (t +4.9)
+  D_ONFIELD_exp          resid coef -0.003 (t -0.02) wk1-4 +0.262 (t +0.65) | with est gap -0.032 (t -0.20) | line moved off est+QB -0.171/unit (t -5.4)
+  O_UNITS_delta          resid coef +0.100 (t +0.62) wk1-4 -0.240 (t -1.00) | with est gap +0.095 (t +0.60) | line moved off est+QB -0.027/unit (t -0.6)
+  O_UNITS_exp            resid coef +0.085 (t +1.63) wk1-4 +0.112 (t +0.86) | with est gap +0.072 (t +1.36) | line moved off est+QB -0.097/unit (t -10.0)
+  D_UNITS_delta          resid coef +0.101 (t +0.45) wk1-4 +0.305 (t +0.91) | with est gap +0.138 (t +0.61) | line moved off est+QB +0.212/unit (t +4.6)
+  D_UNITS_exp            resid coef -0.061 (t -0.55) wk1-4 +0.184 (t +0.72) | with est gap -0.061 (t -0.55) | line moved off est+QB -0.002/unit (t -0.1)
+  NET_UNITS_delta        resid coef +0.093 (t +0.76) wk1-4 -0.064 (t -0.37) | with est gap +0.101 (t +0.82) | line moved off est+QB +0.043/unit (t +1.3)
+  NET_UNITS_exp          resid coef +0.051 (t +1.16) wk1-4 +0.117 (t +1.02) | with est gap +0.041 (t +0.90) | line moved off est+QB -0.071/unit (t -8.4)
+  NET_ONFIELD_delta      resid coef -0.455 (t -1.12) wk1-4 -0.728 (t -1.44) | with est gap -0.407 (t -1.00) | line moved off est+QB +0.304/unit (t +3.2)
+  NET_ONFIELD_exp        resid coef +0.090 (t +1.36) wk1-4 +0.164 (t +0.97) | with est gap +0.070 (t +1.03) | line moved off est+QB -0.145/unit (t -11.1)
+
+=== 5. Totals, 2018-25: sum of both teams' grades vs (total - total_line); walk-forward total_line + b*x
+  O_UNITS_exp          coef -0.029 (t -0.52); RMSE 13.187 -> 13.205 (+0.018); weeks 1-4 13.007 -> 13.057 (+0.050)
+  O_UNITS_delta        coef +0.029 (t +0.20); RMSE 13.187 -> 13.194 (+0.007); weeks 1-4 13.007 -> 13.016 (+0.009)
+  O_ONFIELD_exp        coef -0.047 (t -0.62); RMSE 13.187 -> 13.206 (+0.018); weeks 1-4 13.007 -> 13.053 (+0.046)
+  O_ONFIELD_delta      coef -0.177 (t -0.40); RMSE 13.187 -> 13.190 (+0.002); weeks 1-4 13.007 -> 13.020 (+0.013)
+  O_QB_exp             coef -0.035 (t -0.51); RMSE 13.187 -> 13.197 (+0.010); weeks 1-4 13.007 -> 13.042 (+0.035)
+  O_QB_delta           coef +0.044 (t +0.28); RMSE 13.187 -> 13.195 (+0.007); weeks 1-4 13.007 -> 13.014 (+0.007)
+  O_PASSGAME_exp       coef +1.316 (t +1.04); RMSE 13.187 -> 13.190 (+0.003); weeks 1-4 13.007 -> 13.049 (+0.042)
+  O_PASSGAME_delta     coef -1.436 (t -0.66); RMSE 13.187 -> 13.204 (+0.016); weeks 1-4 13.007 -> 12.999 (-0.008)
+  O_PASSGAME_cov_exp   coef +0.101 (t +0.36); RMSE 13.187 -> 13.213 (+0.026); weeks 1-4 13.007 -> 13.083 (+0.076)
+  O_PASSGAME_cov_delta coef -0.764 (t -0.92); RMSE 13.187 -> 13.198 (+0.011); weeks 1-4 13.007 -> 13.001 (-0.006)
+  O_TPRR_exp           coef -2.542 (t -0.58); RMSE 13.187 -> 13.193 (+0.006); weeks 1-4 13.007 -> 13.031 (+0.024)
+  O_TPRR_delta         coef -5.031 (t -0.72); RMSE 13.187 -> 13.194 (+0.007); weeks 1-4 13.007 -> 13.030 (+0.023)
+  O_OL_exp             coef -0.244 (t -0.92); RMSE 13.187 -> 13.205 (+0.018); weeks 1-4 13.007 -> 13.020 (+0.013)
+  O_OL_delta           coef +1.283 (t +0.98); RMSE 13.187 -> 13.195 (+0.008); weeks 1-4 13.007 -> 13.017 (+0.010)
+  D_UNITS_exp          coef -0.056 (t -0.54); RMSE 13.187 -> 13.349 (+0.162); weeks 1-4 13.007 -> 13.220 (+0.213)
+  D_UNITS_delta        coef -0.174 (t -0.79); RMSE 13.187 -> 13.194 (+0.007); weeks 1-4 13.007 -> 13.011 (+0.004)
+  D_PASSRUSH_exp       coef +0.180 (t +0.58); RMSE 13.187 -> 13.220 (+0.033); weeks 1-4 13.007 -> 13.076 (+0.069)
+  D_PASSRUSH_delta     coef -0.327 (t -0.54); RMSE 13.187 -> 13.189 (+0.001); weeks 1-4 13.007 -> 13.008 (+0.001)
+  D_ONFIELD_exp        coef -0.239 (t -1.53); RMSE 13.187 -> 13.218 (+0.031); weeks 1-4 13.007 -> 13.073 (+0.066)
+  D_ONFIELD_delta      coef -0.770 (t -0.73); RMSE 13.187 -> 13.192 (+0.004); weeks 1-4 13.007 -> 13.015 (+0.008)
+  no-market check: total = last season mean + grades (O_UNITS_exp, D_UNITS_exp, O_ONFIELD_exp, D_ONFIELD_exp): RMSE 14.016 -> 13.911; total_line 13.187
+
+=== 6. Big discrepancies, 2018-25: roster-implied margin (walk-forward OLS margin ~ grades + neutral) vs base; top 5% |gap|
+  base est, NET_UNITS_exp: n 112, |gap| mean 8.6 pts (>= 6.9); result beat the base toward the roster side by +1.77 pts (se 1.30), 57% of games; RMSE base 13.84, roster-only 15.03, spread 12.90; closing line sided with roster by +3.25 pts; weeks 1-4 18%
+  base est, NET_ONFIELD_exp: n 112, |gap| mean 5.2 pts (>= 4.3); result beat the base toward the roster side by +1.74 pts (se 1.45), 56% of games; RMSE base 15.42, roster-only 15.83, spread 15.02; closing line sided with roster by +2.25 pts; weeks 1-4 24%
+  base est, O_QB_exp+NET_UNITS_exp+NET_ONFIELD_exp: n 112, |gap| mean 5.3 pts (>= 4.4); result beat the base toward the roster side by +2.12 pts (se 1.44), 60% of games; RMSE base 15.30, roster-only 15.58, spread 14.63; closing line sided with roster by +2.65 pts; weeks 1-4 25%
+  base est+QB term, NET_UNITS_exp: n 112, |gap| mean 9.2 pts (>= 7.4); result beat the base toward the roster side by +1.14 pts (se 1.15), 57% of games; RMSE base 12.16, roster-only 14.74, spread 12.24; closing line sided with roster by +2.45 pts; weeks 1-4 14%
+  base est+QB term, NET_ONFIELD_exp: n 112, |gap| mean 7.4 pts (>= 5.8); result beat the base toward the roster side by -0.36 pts (se 1.19), 53% of games; RMSE base 12.51, roster-only 14.76, spread 12.73; closing line sided with roster by +1.94 pts; weeks 1-4 17%
+  base est+QB term, O_QB_exp+NET_UNITS_exp+NET_ONFIELD_exp: n 112, |gap| mean 7.0 pts (>= 5.5); result beat the base toward the roster side by -1.23 pts (se 1.24), 51% of games; RMSE base 13.10, roster-only 15.37, spread 13.30; closing line sided with roster by +2.18 pts; weeks 1-4 17%

@@ -1,0 +1,17 @@
+{
+ "made": "2026-10-27",
+ "fit": "lined games 2013-2019",
+ "margin": {
+  "const": 0.3622,
+  "tm": 0.5573,
+  "rm": 0.38158,
+  "x_av": -0.22308
+ },
+ "total": {
+  "const": -1.95502,
+  "tt": 0.34998,
+  "rt": 0.44311,
+  "poss_hat": 0.46483
+ },
+ "note": "tm/tt = today's models/cbb margin/total; rm/rt/poss_hat = rebuild full stack (prior + avail); x_av = home minus away continuing absences value (models/cbb abs_val_cont)"
+}

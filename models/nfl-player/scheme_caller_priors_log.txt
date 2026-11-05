@@ -1,0 +1,21 @@
+new-caller teams: 28 | with previous play-calling job: 9
+
+targets: 3705 player-games on new-caller teams (of 8581)
+  fade  4: coef +0.05 (p 0.618, fit 2024 +0.22) | 2025 new-caller MAE 1.769 -> 1.771 | first 6 games 1.721 -> 1.726
+  fade  6: coef +0.08 (p 0.397, fit 2024 +0.21) | 2025 new-caller MAE 1.769 -> 1.772 | first 6 games 1.721 -> 1.727
+  fade 10: coef +0.10 (p 0.205, fit 2024 +0.20) | 2025 new-caller MAE 1.769 -> 1.772 | first 6 games 1.721 -> 1.727
+  fade 99: coef +0.10 (p 0.039, fit 2024 +0.14) | 2025 new-caller MAE 1.769 -> 1.771 | first 6 games 1.721 -> 1.726
+
+rec: 3700 player-games on new-caller teams (of 8573)
+  fade  4: coef -0.00 (p 0.985, fit 2024 +0.20) | 2025 new-caller MAE 1.380 -> 1.380 | first 6 games 1.334 -> 1.334
+  fade  6: coef +0.05 (p 0.704, fit 2024 +0.20) | 2025 new-caller MAE 1.380 -> 1.380 | first 6 games 1.334 -> 1.334
+  fade 10: coef +0.08 (p 0.405, fit 2024 +0.20) | 2025 new-caller MAE 1.380 -> 1.380 | first 6 games 1.334 -> 1.333
+  fade 99: coef +0.09 (p 0.100, fit 2024 +0.15) | 2025 new-caller MAE 1.380 -> 1.380 | first 6 games 1.334 -> 1.332
+
+rec_yds: 3705 player-games on new-caller teams (of 8581)
+  fade  4: coef -0.18 (p 0.225, fit 2024 +0.01) | 2025 new-caller MAE 18.068 -> 18.069 | first 6 games 17.328 -> 17.330
+  fade  6: coef -0.11 (p 0.409, fit 2024 +0.05) | 2025 new-caller MAE 18.068 -> 18.074 | first 6 games 17.328 -> 17.339
+  fade 10: coef -0.04 (p 0.718, fit 2024 +0.09) | 2025 new-caller MAE 18.068 -> 18.081 | first 6 games 17.328 -> 17.348
+  fade 99: coef +0.04 (p 0.611, fit 2024 +0.11) | 2025 new-caller MAE 18.068 -> 18.096 | first 6 games 17.328 -> 17.356
+movers only, targets, fade 6: 1189 player-games, coef +0.06 (p 0.491) | in-sample MAE movers 1.719 -> 1.720, first 6 games 1.622 -> 1.624
+movers only, targets, fade 99: 1189 player-games, coef +0.11 (p 0.027) | in-sample MAE movers 1.719 -> 1.720, first 6 games 1.622 -> 1.628

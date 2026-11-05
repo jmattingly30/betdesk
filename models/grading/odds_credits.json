@@ -1,0 +1,80 @@
+[
+ {
+  "date": "2026-10-19",
+  "used": 32,
+  "left": 468
+ },
+ {
+  "date": "2026-10-20",
+  "used": 44,
+  "left": 456
+ },
+ {
+  "date": "2026-10-21",
+  "used": 70,
+  "left": 430
+ },
+ {
+  "date": "2026-10-22",
+  "used": 79,
+  "left": 421
+ },
+ {
+  "date": "2026-10-23",
+  "used": 88,
+  "left": 412
+ },
+ {
+  "date": "2026-10-24",
+  "used": 97,
+  "left": 403
+ },
+ {
+  "date": "2026-10-25",
+  "used": 106,
+  "left": 394
+ },
+ {
+  "date": "2026-10-26",
+  "used": 115,
+  "left": 385
+ },
+ {
+  "date": "2026-10-27",
+  "used": 128,
+  "left": 372
+ },
+ {
+  "date": "2026-10-28",
+  "used": 152,
+  "left": 348
+ },
+ {
+  "date": "2026-10-29",
+  "used": 152.0,
+  "left": 348.0
+ },
+ {
+  "date": "2026-10-30",
+  "used": 152,
+  "left": 348
+ },
+ {
+  "date": "2026-10-31",
+  "used": 152,
+  "left": 348,
+  "note": "no Odds API call this run; carried forward"
+ },
+ {
+  "date": "2026-11-01",
+  "used": 152,
+  "left": 348,
+  "note": "no Odds API call this run; carried forward"
+ },
+ {
+  "date": "2026-11-02",
+  "used": 152,
+  "left": 348,
+  "note": "no Odds API call this run; carried forward"
+ }
+]

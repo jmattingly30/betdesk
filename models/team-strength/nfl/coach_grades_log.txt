@@ -1,0 +1,41 @@
+NFL 2008-2025: 4897 games, 132 head coaches; residual SD model 13.38, close 13.16
+
+1. Does a coach-season residual repeat? (correlation with the next season he coaches, games >= 8)
+  vs model: same coach same team r -0.11 (n 417)   coach moved r -0.21 (n 11)   team after coach left r -0.26 (n 127)
+  vs score: same coach same team r -0.12 (n 417)   coach moved r -0.25 (n 11)   team after coach left r -0.23 (n 127)
+  vs close: same coach same team r +0.04 (n 417)   coach moved r -0.27 (n 11)   team after coach left r -0.13 (n 127)
+  every coach move with a gap allowed (career mean at old teams -> first season at new team, n 40): model r +0.06, close r +0.06
+    movers: Lovie Smith TB->HOU 2022: +0.0 -> -0.3; Josh McDaniels DEN->LV 2022: -1.5 -> -1.1; Doug Pederson PHI->JAX 2022: +1.1 -> +4.5; Dennis Allen OAK->NO 2022: -3.6 -> -0.2; Todd Bowles NYJ->TB 2022: -1.0 -> -6.2; Steve Wilks ARI->CAR 2022: -5.0 -> +5.3; Frank Reich IND->CAR 2023: +0.4 -> -5.2; Sean Payton NO->DEN 2023: +1.7 -> -2.2; Jim Harbaugh SF->LAC 2024: +1.6 -> +2.6; Dan Quinn ATL->WAS 2024: +0.6 -> +3.5; Pete Carroll SEA->LV 2025: +1.5 -> -6.0; Mike Vrabel TEN->NE 2025: +1.1 -> +5.3
+  coach-season mean residual vs model: SD 3.35 pts; pure luck would give 3.30; implied true spread 0.57 pts per game
+  coach-season mean residual vs close: SD 3.30 pts; pure luck would give 3.25; implied true spread 0.59 pts per game
+  CAREER mean residual vs close (coaches with 48+ games, n 77): SD 1.52; luck 1.43; implied true 0.53 pts per game
+    top / bottom career residual vs close (pts per game, games):
+    DeMeco Ryans +2.5 (57.0), Bill Belichick +2.4 (284.0), John Harbaugh +2.3 (317.0), Sean McDermott +2.2 (164.0), Dan Campbell +2.2 (89.0), Mike Vrabel +1.9 (125.0), Bruce Arians +1.9 (138.0), Sean Payton +1.7 (278.0)
+    Steve Spagnuolo -4.4 (52.0), Hue Jackson -3.8 (56.0), Gus Bradley -3.0 (62.0), Chan Gailey -2.9 (48.0), Jon Gruden -2.6 (69.0), Arthur Smith -2.6 (51.0), Mike Mularkey -2.6 (50.0), Mike Shanahan -2.4 (81.0)
+
+2. Career grade from EARLIER seasons only (mean residual, shrunk with k games of 0) -> this season
+  vs model k  16: coef -0.01 (t -0.10), grade-gap SD 1.65 pts
+  vs model k  48: coef +0.03 (t +0.18), grade-gap SD 1.11 pts
+  vs model k  96: coef +0.09 (t +0.34), grade-gap SD 0.80 pts
+  vs close k  16: coef +0.32 (t +3.06), grade-gap SD 1.89 pts
+  vs close k  48: coef +0.49 (t +3.29), grade-gap SD 1.32 pts
+  vs close k  96: coef +0.68 (t +3.34), grade-gap SD 0.96 pts
+  margin RMSE with the coach grade added x0.25: 13.267 (model alone 13.265)
+  margin RMSE with the coach grade added x0.5: 13.275 (model alone 13.265)
+  margin RMSE with the coach grade added x1.0: 13.308 (model alone 13.265)
+  close games (|model margin| <= 3): win rate of the team with the better coach grade, by grade gap:
+    gap 0-1 pts: n 1080  better-graded coach won 50.7% (+-3.0%), model expected 50.6%
+    gap 1-2 pts: n  447  better-graded coach won 53.9% (+-4.6%), model expected 51.2%
+    gap 2-9 pts: n   76  better-graded coach won 52.6% (+-11.2%), model expected 51.7%
+
+3. Coach vs coach: residual in their earlier meetings -> this meeting (vs model, then vs close)
+  vs model: 2532 games with an earlier meeting, coef -0.060 (t -2.30);  3+ earlier meetings n 1079: coef -0.107 (t -1.58)
+  vs close: 2532 games with an earlier meeting, coef -0.033 (t -1.28);  3+ earlier meetings n 1079: coef -0.084 (t -1.29)
+  same-season rematches (n 864): game-1 residual -> game-2 residual r -0.010 (model), -0.000 (close)
+
+4. Second-half adjustment (2H minus 1H EPA/play margin, game states 10-90% win prob), 2016-2025:
+   coach-season repeat r +0.16 (n 218); same team +0.17; odd/even games split-half below
+   split-half r +0.11 (coach-seasons 331)
+
+5. One-score games (final margin <= 8): win rate minus model expectation, coach-season repeat r +0.03 (n 426)
+   career (40+ one-score games, n 46): SD 0.072, luck alone 0.062; best Chuck Pagano +0.18 (55), Kevin O'Connell +0.16 (45), Jack Del Rio +0.11 (62), Jim Harbaugh +0.10 (51), Bruce Arians +0.09 (62); worst Norv Turner -0.18 (43), Dennis Allen -0.13 (42), Mike McCoy -0.10 (43), John Harbaugh -0.09 (171), Doug Pederson -0.08 (82)

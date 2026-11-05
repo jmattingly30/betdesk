@@ -1,0 +1,12 @@
+2016: 33836 plays, 1035 players
+2017: 33490 plays, 1080 players
+2018: 33283 plays, 1107 players
+2019: 33687 plays, 1040 players
+2020: 33761 plays, 1133 players
+2021: 35484 plays, 1177 players
+2022: 35045 plays, 1126 players
+2023: 35227 plays, 1067 players
+2024: 34947 plays, 1116 players
+2025: 34301 plays, 1035 players
+game-plan coefficients (personnel share per +1.0 opponent nickel/dime rate, per +1.0 5+-rusher rate), fit 2016-2022: {'p11': {'o_nick': 0.088, 'o_r5': -0.085}, 'p12': {'o_nick': -0.055, 'o_r5': 0.072}, 'heavy': {'o_nick': -0.05, 'o_r5': -0.03}}
+team-seasons 320 (new caller 133, of them movers 62); opponent rows 320; player-seasons 13934

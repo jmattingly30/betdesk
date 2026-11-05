@@ -1,0 +1,9 @@
+pyarrow
+pandas
+numpy
+scipy
+statsmodels
+scikit-learn
+lightgbm
+numba
+requests

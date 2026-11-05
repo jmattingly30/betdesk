@@ -1,0 +1,1 @@
+{"tau": 0.45, "q": 3e-05, "carry": 0.7, "q_off": 0.003, "p0": 0.4, "pace_tau": 0.16, "pace_q": 5e-05, "d_scale": {"p3": 0.3, "ftp": 0.05}, "hca_gain": 0.0005, "recenter": 1}

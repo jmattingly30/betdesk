@@ -1,0 +1,57 @@
+{
+ "note": "rebuild walk-forward predictions vs Bet Desk unblended projections on the same games",
+ "NBA": {
+  "rebuild": {
+   "n": 43,
+   "team_mae": 10.13,
+   "margin_mae": 12.34,
+   "total_mae": 14.9,
+   "winner_right": 0.628
+  },
+  "today": {
+   "n": 43,
+   "team_mae": 9.46,
+   "margin_mae": 12.25,
+   "total_mae": 14.36,
+   "winner_right": 0.674
+  },
+  "line": {
+   "n": 43,
+   "total_mae": 14.2,
+   "margin_mae": 11.44
+  },
+  "rebuild_full_stack": {
+   "n": 43,
+   "team_mae": 10.18,
+   "margin_mae": 12.09,
+   "total_mae": 15.12
+  }
+ },
+ "NFL": {
+  "rebuild": {
+   "n": 26,
+   "team_mae": 7.44,
+   "margin_mae": 9.16,
+   "total_mae": 10.45,
+   "winner_right": 0.538
+  },
+  "today": {
+   "n": 26,
+   "team_mae": 7.26,
+   "margin_mae": 9.33,
+   "total_mae": 10.35,
+   "winner_right": 0.615
+  },
+  "line": {
+   "n": 26,
+   "total_mae": 10.44,
+   "margin_mae": 8.27
+  }
+ },
+ "NHL": {
+  "team_games": 132,
+  "note": "Bet Desk = summed skater goal projections (scorecard teams)",
+  "bet_desk_team_mae": 1.358,
+  "rebuild_team_mae": 1.376
+ }
+}

@@ -1,0 +1,30 @@
+{
+ "sog": {
+  "alpha": 0.06745,
+  "temp": 1.0232
+ },
+ "points": {
+  "alpha": 6e-05,
+  "temp": 1.055
+ },
+ "goals": {
+  "alpha": 6e-05,
+  "temp": 1.0535
+ },
+ "assists": {
+  "alpha": 0.00744,
+  "temp": 1.0475
+ },
+ "blk": {
+  "alpha": 0.1017,
+  "temp": 0.9858
+ },
+ "hits": {
+  "alpha": 0.16482,
+  "temp": 1.0103
+ },
+ "saves": {
+  "alpha": 0.02464,
+  "temp": 1.0816
+ }
+}

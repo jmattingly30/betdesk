@@ -1,0 +1,1308 @@
+{
+ "updatedAt": "2026-10-17T02:29:46.253Z",
+ "date": "2026-09-18",
+ "pending": 0,
+ "source": "MLB Apps Script app",
+ "meta": {
+  "nbAlpha": {
+   "eff": 0.2429,
+   "v3": 0.2556,
+   "v3d": 0.2551,
+   "v3f": 0.255
+  },
+  "totalsCalSlope": 0.498,
+  "tieHomeWin": 0.52,
+  "marketBlend": {
+   "const": 0.0375,
+   "mkt": 0.9805,
+   "model": 0.0275
+  },
+  "primary": "eff",
+  "loggingOnly": [
+   "v3",
+   "v3d",
+   "v3f"
+  ],
+  "totalsCalSlopeByModel": {
+   "eff": 0.1776,
+   "v3": 0.498
+  },
+  "marketBlendByModel": {
+   "eff": {
+    "const": 0.0375,
+    "mkt": 0.9805,
+    "model": 0.0275
+   },
+   "v3": {
+    "const": 0.0154,
+    "mkt": 0.8546,
+    "model": 0.1506
+   }
+  },
+  "sampleNote": "shape only: eff numbers in this sample are copied from v3"
+ },
+ "games": [
+  {
+   "gamePk": 824463,
+   "date": "2026-09-18",
+   "startUtc": "2026-09-18T22:40:00Z",
+   "away": "Chicago Cubs",
+   "home": "Cincinnati Reds",
+   "awaySP": "Clay Holmes",
+   "homeSP": "Chase Burns",
+   "lineupsPosted": true,
+   "status": "ok",
+   "models": {
+    "eff": {
+     "runsAway": 4.450371165497799,
+     "runsHome": 4.363768586508443,
+     "homeWinProb": 0.5093832622775639,
+     "total": 8.814139752006241,
+     "totals": [
+      {
+       "line": 6.5,
+       "over": 0.6720981189563269,
+       "under": 0.32790186850332936,
+       "push": 0,
+       "overNoPush": 0.6720981273846685,
+       "pOver": 0.5884132267270126,
+       "pUnder": 0.4115867732729874
+      },
+      {
+       "line": 7,
+       "over": 0.5744746835154426,
+       "under": 0.32790186850332936,
+       "push": 0.0976234354408841,
+       "overNoPush": 0.6366241257380233,
+       "pOver": 0.5693621801028421,
+       "pUnder": 0.4306378198971579
+      },
+      {
+       "line": 7.5,
+       "over": 0.5744746835154426,
+       "under": 0.42552530394421345,
+       "push": 0,
+       "overNoPush": 0.5744746907195528,
+       "pOver": 0.5372969774455761,
+       "pUnder": 0.46270302255442386
+      },
+      {
+       "line": 8,
+       "over": 0.47864415126051557,
+       "under": 0.42552530394421345,
+       "push": 0.0958305322549266,
+       "overNoPush": 0.5293743871851292,
+       "pOver": 0.5146411225538468,
+       "pUnder": 0.48535887744615325
+      },
+      {
+       "line": 8.5,
+       "over": 0.47864415126051557,
+       "under": 0.52135583619914,
+       "push": 0,
+       "overNoPush": 0.4786441572628781,
+       "pOver": 0.4893599225385528,
+       "pUnder": 0.5106400774614472
+      },
+      {
+       "line": 9,
+       "over": 0.389385202898282,
+       "under": 0.52135583619914,
+       "push": 0.08925894836223362,
+       "overNoPush": 0.4275476630373186,
+       "pOver": 0.4637268056821365,
+       "pUnder": 0.5362731943178636
+      },
+      {
+       "line": 9.5,
+       "over": 0.389385202898282,
+       "under": 0.6106147845613736,
+       "push": 0,
+       "overNoPush": 0.3893852077813066,
+       "pOver": 0.4442209360364832,
+       "pUnder": 0.5557790639635167
+      },
+      {
+       "line": 10,
+       "over": 0.30983249041398714,
+       "under": 0.6106147845613736,
+       "push": 0.07955271248429484,
+       "overNoPush": 0.3366107965524489,
+       "pOver": 0.416329310118125,
+       "pUnder": 0.583670689881875
+      },
+      {
+       "line": 10.5,
+       "over": 0.30983249041398714,
+       "under": 0.6901674970456685,
+       "push": 0,
+       "overNoPush": 0.3098324942993933,
+       "pOver": 0.40158880211201115,
+       "pUnder": 0.5984111978879889
+      },
+      {
+       "line": 11,
+       "over": 0.24154495378275703,
+       "under": 0.6901674970456685,
+       "push": 0.06828753663123027,
+       "overNoPush": 0.25924839103308006,
+       "pOver": 0.3721884800005046,
+       "pUnder": 0.6278115199994954
+      },
+      {
+       "line": 11.5,
+       "over": 0.24154495378275703,
+       "under": 0.7584550336768987,
+       "push": 0,
+       "overNoPush": 0.24154495681181395,
+       "pOver": 0.36127709051852097,
+       "pUnder": 0.638722909481479
+      }
+     ],
+     "pythHomeWinProb": 0.5093832622775639
+    },
+    "v3": {
+     "runsAway": 4.450371165497799,
+     "runsHome": 4.363768586508443,
+     "homeWinProb": 0.5093832622775639,
+     "total": 8.814139752006241,
+     "totals": [
+      {
+       "line": 6.5,
+       "over": 0.6720981189563269,
+       "under": 0.32790186850332936,
+       "push": 0,
+       "overNoPush": 0.6720981273846685,
+       "pOver": 0.5884132267270126,
+       "pUnder": 0.4115867732729874
+      },
+      {
+       "line": 7,
+       "over": 0.5744746835154426,
+       "under": 0.32790186850332936,
+       "push": 0.0976234354408841,
+       "overNoPush": 0.6366241257380233,
+       "pOver": 0.5693621801028421,
+       "pUnder": 0.4306378198971579
+      },
+      {
+       "line": 7.5,
+       "over": 0.5744746835154426,
+       "under": 0.42552530394421345,
+       "push": 0,
+       "overNoPush": 0.5744746907195528,
+       "pOver": 0.5372969774455761,
+       "pUnder": 0.46270302255442386
+      },
+      {
+       "line": 8,
+       "over": 0.47864415126051557,
+       "under": 0.42552530394421345,
+       "push": 0.0958305322549266,
+       "overNoPush": 0.5293743871851292,
+       "pOver": 0.5146411225538468,
+       "pUnder": 0.48535887744615325
+      },
+      {
+       "line": 8.5,
+       "over": 0.47864415126051557,
+       "under": 0.52135583619914,
+       "push": 0,
+       "overNoPush": 0.4786441572628781,
+       "pOver": 0.4893599225385528,
+       "pUnder": 0.5106400774614472
+      },
+      {
+       "line": 9,
+       "over": 0.389385202898282,
+       "under": 0.52135583619914,
+       "push": 0.08925894836223362,
+       "overNoPush": 0.4275476630373186,
+       "pOver": 0.4637268056821365,
+       "pUnder": 0.5362731943178636
+      },
+      {
+       "line": 9.5,
+       "over": 0.389385202898282,
+       "under": 0.6106147845613736,
+       "push": 0,
+       "overNoPush": 0.3893852077813066,
+       "pOver": 0.4442209360364832,
+       "pUnder": 0.5557790639635167
+      },
+      {
+       "line": 10,
+       "over": 0.30983249041398714,
+       "under": 0.6106147845613736,
+       "push": 0.07955271248429484,
+       "overNoPush": 0.3366107965524489,
+       "pOver": 0.416329310118125,
+       "pUnder": 0.583670689881875
+      },
+      {
+       "line": 10.5,
+       "over": 0.30983249041398714,
+       "under": 0.6901674970456685,
+       "push": 0,
+       "overNoPush": 0.3098324942993933,
+       "pOver": 0.40158880211201115,
+       "pUnder": 0.5984111978879889
+      },
+      {
+       "line": 11,
+       "over": 0.24154495378275703,
+       "under": 0.6901674970456685,
+       "push": 0.06828753663123027,
+       "overNoPush": 0.25924839103308006,
+       "pOver": 0.3721884800005046,
+       "pUnder": 0.6278115199994954
+      },
+      {
+       "line": 11.5,
+       "over": 0.24154495378275703,
+       "under": 0.7584550336768987,
+       "push": 0,
+       "overNoPush": 0.24154495681181395,
+       "pOver": 0.36127709051852097,
+       "pUnder": 0.638722909481479
+      }
+     ]
+    },
+    "v3d": {
+     "runsAway": 4.486281071882377,
+     "runsHome": 4.388289498393184,
+     "homeWinProb": 0.5083292781979579
+    },
+    "v3f": {
+     "runsAway": 4.425880145038423,
+     "runsHome": 4.319938375232569,
+     "homeWinProb": 0.5071497684223006
+    },
+    "sheetPyth": {
+     "homeWinProb": 0.41836066746805795
+    },
+    "sheetMC": {
+     "homeWinProb": 0.4268583411511506
+    }
+   },
+   "inputs": {
+    "away": {
+     "efficiency": 1.011109254386982,
+     "seasonRpg": 5.339869281045751,
+     "framing": 0,
+     "catcher": null,
+     "fielding": 0,
+     "platoon": -0.29630999999999996,
+     "pairing": null,
+     "starterThrows": "R",
+     "efficiencySource": "this season x 150/162"
+    },
+    "home": {
+     "efficiency": 0.9698405073283956,
+     "seasonRpg": 4.137254901960785,
+     "framing": 0,
+     "catcher": null,
+     "fielding": 0,
+     "platoon": -0.29630999999999996,
+     "pairing": null,
+     "starterThrows": "R",
+     "efficiencySource": "this season x 150/162"
+    },
+    "tempF": null,
+    "parkFactor": 1.07
+   },
+   "warnings": [
+    "Model v3: the Savant batter file has no ISO column, so v3 ran without its power term",
+    "Model v3: no game-time temperature posted yet; v3 used an average night (73.5F)",
+    "Model v3 + defense: a starting catcher is not marked in the lineup; framing left at average"
+   ]
+  },
+  {
+   "gamePk": 823331,
+   "date": "2026-09-18",
+   "startUtc": "2026-09-18T22:40:00Z",
+   "away": "Kansas City Royals",
+   "home": "Pittsburgh Pirates",
+   "awaySP": "Randy Dobnak",
+   "homeSP": "Paul Skenes",
+   "lineupsPosted": true,
+   "status": "ok",
+   "models": {
+    "eff": {
+     "runsAway": 3.961860256497657,
+     "runsHome": 4.4265150825710515,
+     "homeWinProb": 0.5754739014778012,
+     "total": 8.388375339068709,
+     "totals": [
+      {
+       "line": 6.5,
+       "over": 0.6373930760382195,
+       "under": 0.36260691640230885,
+       "push": 0,
+       "overNoPush": 0.6373930808565744,
+       "pOver": 0.5697681928111721,
+       "pUnder": 0.4302318071888279
+      },
+      {
+       "line": 7,
+       "over": 0.536062518116556,
+       "under": 0.36260691640230885,
+       "push": 0.10133055792166355,
+       "overNoPush": 0.5965068995626367,
+       "pOver": 0.5485178157841504,
+       "pUnder": 0.4514821842158496
+      },
+      {
+       "line": 7.5,
+       "over": 0.536062518116556,
+       "under": 0.4639374743239724,
+       "push": 0,
+       "overNoPush": 0.5360625221689054,
+       "pOver": 0.5179826153607184,
+       "pUnder": 0.48201738463928157
+      },
+      {
+       "line": 8,
+       "over": 0.4389304849744071,
+       "under": 0.4639374743239724,
+       "push": 0.09713203314214912,
+       "overNoPush": 0.4861513585170315,
+       "pOver": 0.49310204984363876,
+       "pUnder": 0.5068979501563613
+      },
+      {
+       "line": 8.5,
+       "over": 0.4389304849744071,
+       "under": 0.5610695074661215,
+       "push": 0,
+       "overNoPush": 0.4389304882924896,
+       "pOver": 0.4694728002637568,
+       "pUnder": 0.5305271997362432
+      },
+      {
+       "line": 9,
+       "over": 0.35057841782953936,
+       "under": 0.5610695074661215,
+       "push": 0.08835206714486775,
+       "overNoPush": 0.38455461598932683,
+       "pOver": 0.44171870781829703,
+       "pUnder": 0.558281292181703
+      },
+      {
+       "line": 9.5,
+       "over": 0.35057841782953936,
+       "under": 0.6494215746109893,
+       "push": 0,
+       "overNoPush": 0.35057842047972687,
+       "pOver": 0.42384330533259723,
+       "pUnder": 0.5761566946674028
+      },
+      {
+       "line": 10,
+       "over": 0.27367238122061155,
+       "under": 0.6494215746109893,
+       "push": 0.07690603660892774,
+       "overNoPush": 0.2964729424255242,
+       "pOver": 0.3940435007246894,
+       "pUnder": 0.6059564992753106
+      },
+      {
+       "line": 10.5,
+       "over": 0.27367238122061155,
+       "under": 0.726327611219917,
+       "push": 0,
+       "overNoPush": 0.2736723832894301,
+       "pOver": 0.380816841591183,
+       "pUnder": 0.619183158408817
+      },
+      {
+       "line": 11,
+       "over": 0.20919290945982924,
+       "under": 0.726327611219917,
+       "push": 0.0644794717607822,
+       "overNoPush": 0.22361124618392159,
+       "pOver": 0.3498081353150241,
+       "pUnder": 0.6501918646849759
+      },
+      {
+       "line": 11.5,
+       "over": 0.20919290945982924,
+       "under": 0.7908070829806991,
+       "push": 0,
+       "overNoPush": 0.20919291104121712,
+       "pOver": 0.3402368283792619,
+       "pUnder": 0.6597631716207382
+      }
+     ],
+     "pythHomeWinProb": 0.5754739014778012
+    },
+    "v3": {
+     "runsAway": 3.961860256497657,
+     "runsHome": 4.4265150825710515,
+     "homeWinProb": 0.5754739014778012,
+     "total": 8.388375339068709,
+     "totals": [
+      {
+       "line": 6.5,
+       "over": 0.6373930760382195,
+       "under": 0.36260691640230885,
+       "push": 0,
+       "overNoPush": 0.6373930808565744,
+       "pOver": 0.5697681928111721,
+       "pUnder": 0.4302318071888279
+      },
+      {
+       "line": 7,
+       "over": 0.536062518116556,
+       "under": 0.36260691640230885,
+       "push": 0.10133055792166355,
+       "overNoPush": 0.5965068995626367,
+       "pOver": 0.5485178157841504,
+       "pUnder": 0.4514821842158496
+      },
+      {
+       "line": 7.5,
+       "over": 0.536062518116556,
+       "under": 0.4639374743239724,
+       "push": 0,
+       "overNoPush": 0.5360625221689054,
+       "pOver": 0.5179826153607184,
+       "pUnder": 0.48201738463928157
+      },
+      {
+       "line": 8,
+       "over": 0.4389304849744071,
+       "under": 0.4639374743239724,
+       "push": 0.09713203314214912,
+       "overNoPush": 0.4861513585170315,
+       "pOver": 0.49310204984363876,
+       "pUnder": 0.5068979501563613
+      },
+      {
+       "line": 8.5,
+       "over": 0.4389304849744071,
+       "under": 0.5610695074661215,
+       "push": 0,
+       "overNoPush": 0.4389304882924896,
+       "pOver": 0.4694728002637568,
+       "pUnder": 0.5305271997362432
+      },
+      {
+       "line": 9,
+       "over": 0.35057841782953936,
+       "under": 0.5610695074661215,
+       "push": 0.08835206714486775,
+       "overNoPush": 0.38455461598932683,
+       "pOver": 0.44171870781829703,
+       "pUnder": 0.558281292181703
+      },
+      {
+       "line": 9.5,
+       "over": 0.35057841782953936,
+       "under": 0.6494215746109893,
+       "push": 0,
+       "overNoPush": 0.35057842047972687,
+       "pOver": 0.42384330533259723,
+       "pUnder": 0.5761566946674028
+      },
+      {
+       "line": 10,
+       "over": 0.27367238122061155,
+       "under": 0.6494215746109893,
+       "push": 0.07690603660892774,
+       "overNoPush": 0.2964729424255242,
+       "pOver": 0.3940435007246894,
+       "pUnder": 0.6059564992753106
+      },
+      {
+       "line": 10.5,
+       "over": 0.27367238122061155,
+       "under": 0.726327611219917,
+       "push": 0,
+       "overNoPush": 0.2736723832894301,
+       "pOver": 0.380816841591183,
+       "pUnder": 0.619183158408817
+      },
+      {
+       "line": 11,
+       "over": 0.20919290945982924,
+       "under": 0.726327611219917,
+       "push": 0.0644794717607822,
+       "overNoPush": 0.22361124618392159,
+       "pOver": 0.3498081353150241,
+       "pUnder": 0.6501918646849759
+      },
+      {
+       "line": 11.5,
+       "over": 0.20919290945982924,
+       "under": 0.7908070829806991,
+       "push": 0,
+       "overNoPush": 0.20919291104121712,
+       "pOver": 0.3402368283792619,
+       "pUnder": 0.6597631716207382
+      }
+     ]
+    },
+    "v3d": {
+     "runsAway": 3.9873441000093424,
+     "runsHome": 4.429051775830508,
+     "homeWinProb": 0.5720338206261915
+    },
+    "v3f": {
+     "runsAway": 3.921596485846211,
+     "runsHome": 4.350100192121284,
+     "homeWinProb": 0.5714288290889026
+    },
+    "sheetPyth": {
+     "homeWinProb": 0.5643596251599856
+    },
+    "sheetMC": {
+     "homeWinProb": 0.5509399857416316
+    }
+   },
+   "inputs": {
+    "away": {
+     "efficiency": 0.9687169513679154,
+     "seasonRpg": 4.2026143790849675,
+     "framing": 0,
+     "catcher": "Carter Jensen",
+     "fielding": 0,
+     "platoon": -0.29630999999999996,
+     "pairing": 0,
+     "starterThrows": "R",
+     "efficiencySource": "this season x 150/162"
+    },
+    "home": {
+     "efficiency": 0.9925754166962839,
+     "seasonRpg": 4.77124183006536,
+     "framing": 0,
+     "catcher": "Henry Davis",
+     "fielding": 0,
+     "platoon": -0.29630999999999996,
+     "pairing": 0,
+     "starterThrows": "R",
+     "efficiencySource": "this season x 150/162"
+    },
+    "tempF": null,
+    "parkFactor": 0.96
+   },
+   "warnings": [
+    "Model v3: the Savant batter file has no ISO column, so v3 ran without its power term",
+    "Model v3: no game-time temperature posted yet; v3 used an average night (73.5F)"
+   ]
+  },
+  {
+   "gamePk": 824790,
+   "date": "2026-09-18",
+   "startUtc": "2026-09-18T23:05:00Z",
+   "away": "Milwaukee Brewers",
+   "home": "Baltimore Orioles",
+   "awaySP": "Dustin May",
+   "homeSP": "Cade Povich",
+   "lineupsPosted": false,
+   "status": "waiting",
+   "notes": [
+    "Home (Baltimore Orioles): lineup not posted yet."
+   ]
+  },
+  {
+   "gamePk": 824383,
+   "date": "2026-09-18",
+   "startUtc": "2026-09-18T23:10:00Z",
+   "away": "Athletics",
+   "home": "Cleveland Guardians",
+   "awaySP": "Mason Barnett",
+   "homeSP": "Daniel Espino",
+   "lineupsPosted": true,
+   "status": "ok",
+   "models": {
+    "eff": {
+     "runsAway": 4.052288297052647,
+     "runsHome": 4.446430231342925,
+     "homeWinProb": 0.5665839050845719,
+     "total": 8.498718528395571,
+     "totals": [
+      {
+       "line": 6.5,
+       "over": 0.6466841886923456,
+       "under": 0.3533158027313171,
+       "push": 0,
+       "overNoPush": 0.6466841942385274,
+       "pOver": 0.5746964640989256,
+       "pUnder": 0.4253035359010744
+      },
+      {
+       "line": 7,
+       "over": 0.5462538621382977,
+       "under": 0.3533158027313171,
+       "push": 0.10043032655404792,
+       "overNoPush": 0.6072390871667207,
+       "pOver": 0.5540354783648433,
+       "pUnder": 0.44596452163515665
+      },
+      {
+       "line": 7.5,
+       "over": 0.5462538621382977,
+       "under": 0.453746129285365,
+       "push": 0,
+       "overNoPush": 0.5462538668231551,
+       "pOver": 0.5230840500468762,
+       "pUnder": 0.4769159499531238
+      },
+      {
+       "line": 8,
+       "over": 0.4493724636798943,
+       "under": 0.453746129285365,
+       "push": 0.09688139845840375,
+       "overNoPush": 0.4975785762581244,
+       "pOver": 0.4987941238872828,
+       "pUnder": 0.5012058761127172
+      },
+      {
+       "line": 8.5,
+       "over": 0.4493724636798943,
+       "under": 0.5506275277437688,
+       "push": 0,
+       "overNoPush": 0.449372467533864,
+       "pOver": 0.47472235863395884,
+       "pUnder": 0.5252776413660412
+      },
+      {
+       "line": 9,
+       "over": 0.3606901008750624,
+       "under": 0.5506275277437688,
+       "push": 0.08868236280483181,
+       "overNoPush": 0.395789667123761,
+       "pOver": 0.4475255286855887,
+       "pUnder": 0.5524744713144113
+      },
+      {
+       "line": 9.5,
+       "over": 0.3606901008750624,
+       "under": 0.6393098905486005,
+       "push": 0,
+       "overNoPush": 0.3606901039684623,
+       "pOver": 0.42921850584196325,
+       "pUnder": 0.5707814941580367
+      },
+      {
+       "line": 10,
+       "over": 0.28300946992704873,
+       "under": 0.6393098905486005,
+       "push": 0.07768063094801367,
+       "overNoPush": 0.30684541825197936,
+       "pOver": 0.39991371267992815,
+       "pUnder": 0.6000862873200719
+      },
+      {
+       "line": 10.5,
+       "over": 0.28300946992704873,
+       "under": 0.7169905214966142,
+       "push": 0,
+       "overNoPush": 0.28300947235423335,
+       "pOver": 0.3862905109123451,
+       "pUnder": 0.6137094890876549
+      },
+      {
+       "line": 11,
+       "over": 0.21747123787183836,
+       "under": 0.7169905214966142,
+       "push": 0.0655382320552103,
+       "overNoPush": 0.2327235284821225,
+       "pOver": 0.355691923794407,
+       "pUnder": 0.644308076205593
+      },
+      {
+       "line": 11.5,
+       "over": 0.21747123787183836,
+       "under": 0.7825287535518245,
+       "push": 0,
+       "overNoPush": 0.21747123973694504,
+       "pOver": 0.34577317895589865,
+       "pUnder": 0.6542268210441013
+      }
+     ],
+     "pythHomeWinProb": 0.5665839050845719
+    },
+    "v3": {
+     "runsAway": 4.052288297052647,
+     "runsHome": 4.446430231342925,
+     "homeWinProb": 0.5665839050845719,
+     "total": 8.498718528395571,
+     "totals": [
+      {
+       "line": 6.5,
+       "over": 0.6466841886923456,
+       "under": 0.3533158027313171,
+       "push": 0,
+       "overNoPush": 0.6466841942385274,
+       "pOver": 0.5746964640989256,
+       "pUnder": 0.4253035359010744
+      },
+      {
+       "line": 7,
+       "over": 0.5462538621382977,
+       "under": 0.3533158027313171,
+       "push": 0.10043032655404792,
+       "overNoPush": 0.6072390871667207,
+       "pOver": 0.5540354783648433,
+       "pUnder": 0.44596452163515665
+      },
+      {
+       "line": 7.5,
+       "over": 0.5462538621382977,
+       "under": 0.453746129285365,
+       "push": 0,
+       "overNoPush": 0.5462538668231551,
+       "pOver": 0.5230840500468762,
+       "pUnder": 0.4769159499531238
+      },
+      {
+       "line": 8,
+       "over": 0.4493724636798943,
+       "under": 0.453746129285365,
+       "push": 0.09688139845840375,
+       "overNoPush": 0.4975785762581244,
+       "pOver": 0.4987941238872828,
+       "pUnder": 0.5012058761127172
+      },
+      {
+       "line": 8.5,
+       "over": 0.4493724636798943,
+       "under": 0.5506275277437688,
+       "push": 0,
+       "overNoPush": 0.449372467533864,
+       "pOver": 0.47472235863395884,
+       "pUnder": 0.5252776413660412
+      },
+      {
+       "line": 9,
+       "over": 0.3606901008750624,
+       "under": 0.5506275277437688,
+       "push": 0.08868236280483181,
+       "overNoPush": 0.395789667123761,
+       "pOver": 0.4475255286855887,
+       "pUnder": 0.5524744713144113
+      },
+      {
+       "line": 9.5,
+       "over": 0.3606901008750624,
+       "under": 0.6393098905486005,
+       "push": 0,
+       "overNoPush": 0.3606901039684623,
+       "pOver": 0.42921850584196325,
+       "pUnder": 0.5707814941580367
+      },
+      {
+       "line": 10,
+       "over": 0.28300946992704873,
+       "under": 0.6393098905486005,
+       "push": 0.07768063094801367,
+       "overNoPush": 0.30684541825197936,
+       "pOver": 0.39991371267992815,
+       "pUnder": 0.6000862873200719
+      },
+      {
+       "line": 10.5,
+       "over": 0.28300946992704873,
+       "under": 0.7169905214966142,
+       "push": 0,
+       "overNoPush": 0.28300947235423335,
+       "pOver": 0.3862905109123451,
+       "pUnder": 0.6137094890876549
+      },
+      {
+       "line": 11,
+       "over": 0.21747123787183836,
+       "under": 0.7169905214966142,
+       "push": 0.0655382320552103,
+       "overNoPush": 0.2327235284821225,
+       "pOver": 0.355691923794407,
+       "pUnder": 0.644308076205593
+      },
+      {
+       "line": 11.5,
+       "over": 0.21747123787183836,
+       "under": 0.7825287535518245,
+       "push": 0,
+       "overNoPush": 0.21747123973694504,
+       "pOver": 0.34577317895589865,
+       "pUnder": 0.6542268210441013
+      }
+     ]
+    },
+    "v3d": {
+     "runsAway": 4.0693653632221105,
+     "runsHome": 4.429583108986566,
+     "homeWinProb": 0.5621190465725211
+    },
+    "v3f": {
+     "runsAway": 3.991709835989624,
+     "runsHome": 4.334074319502753,
+     "homeWinProb": 0.5608797334122203
+    },
+    "sheetPyth": {
+     "homeWinProb": 0.49549747093356555
+    },
+    "sheetMC": {
+     "homeWinProb": 0.49489449368758454
+    }
+   },
+   "inputs": {
+    "away": {
+     "efficiency": 0.9633167746729925,
+     "seasonRpg": 4.320261437908497,
+     "framing": 0,
+     "catcher": "Jonah Heim",
+     "fielding": 0,
+     "platoon": -0.29630999999999996,
+     "pairing": 0,
+     "starterThrows": "R",
+     "efficiencySource": "this season x 150/162"
+    },
+    "home": {
+     "efficiency": 0.9885138282874679,
+     "seasonRpg": 4.124183006535947,
+     "framing": 0,
+     "catcher": "Patrick Bailey",
+     "fielding": 0,
+     "platoon": -0.29630999999999996,
+     "pairing": 0,
+     "starterThrows": "R",
+     "efficiencySource": "this season x 150/162"
+    },
+    "tempF": null,
+    "parkFactor": 0.97
+   },
+   "warnings": [
+    "Model v3: the Savant batter file has no ISO column, so v3 ran without its power term",
+    "Model v3: no game-time temperature posted yet; v3 used an average night (73.5F)"
+   ]
+  },
+  {
+   "gamePk": 822923,
+   "date": "2026-09-18",
+   "startUtc": "2026-09-18T23:10:00Z",
+   "away": "Boston Red Sox",
+   "home": "Tampa Bay Rays",
+   "awaySP": "Ranger Suarez",
+   "homeSP": "Ian Seymour",
+   "lineupsPosted": true,
+   "status": "ok",
+   "models": {
+    "eff": {
+     "runsAway": 3.775242648346166,
+     "runsHome": 3.9241791231919696,
+     "homeWinProb": 0.538988057083473,
+     "total": 7.699421771538136,
+     "totals": [
+      {
+       "line": 6.5,
+       "over": 0.5752676579470947,
+       "under": 0.42473234098162355,
+       "push": 0,
+       "overNoPush": 0.5752676585633684,
+       "pOver": 0.5376986613248574,
+       "pUnder": 0.46230133867514256
+      },
+      {
+       "line": 7,
+       "over": 0.4693575715256403,
+       "under": 0.42473234098162355,
+       "push": 0.10591008642145423,
+       "overNoPush": 0.5249556727571592,
+       "pOver": 0.5124356952612359,
+       "pUnder": 0.4875643047387641
+      },
+      {
+       "line": 7.5,
+       "over": 0.4693575715256403,
+       "under": 0.5306424274030778,
+       "push": 0,
+       "overNoPush": 0.4693575720284546,
+       "pOver": 0.4847256772129259,
+       "pUnder": 0.5152743227870741
+      },
+      {
+       "line": 8,
+       "over": 0.3720209024866737,
+       "under": 0.5306424274030778,
+       "push": 0.09733666903896662,
+       "overNoPush": 0.4121369398401408,
+       "pOver": 0.45590016476584805,
+       "pUnder": 0.544099835234152
+      },
+      {
+       "line": 8.5,
+       "over": 0.3720209024866737,
+       "under": 0.6279790964420444,
+       "push": 0,
+       "overNoPush": 0.37202090288521295,
+       "pOver": 0.4351839456774147,
+       "pUnder": 0.5648160543225853
+      },
+      {
+       "line": 9,
+       "over": 0.2871385675709541,
+       "under": 0.6279790964420444,
+       "push": 0.08488233491571957,
+       "overNoPush": 0.3137722927473461,
+       "pOver": 0.4037881014098395,
+       "pUnder": 0.5962118985901605
+      },
+      {
+       "line": 9.5,
+       "over": 0.2871385675709541,
+       "under": 0.712861431357764,
+       "push": 0,
+       "overNoPush": 0.28713856787856046,
+       "pOver": 0.3886851664889272,
+       "pUnder": 0.6113148335110727
+      },
+      {
+       "line": 10,
+       "over": 0.2163085836449852,
+       "under": 0.712861431357764,
+       "push": 0.07082998392596909,
+       "overNoPush": 0.23279763676440332,
+       "pOver": 0.355739286475653,
+       "pUnder": 0.644260713524347
+      },
+      {
+       "line": 10.5,
+       "over": 0.2163085836449852,
+       "under": 0.7836914152837331,
+       "push": 0,
+       "overNoPush": 0.21630858387671265,
+       "pOver": 0.34500243496841104,
+       "pUnder": 0.6549975650315889
+      },
+      {
+       "line": 11,
+       "over": 0.15938348082335901,
+       "under": 0.7836914152837331,
+       "push": 0.05692510282162618,
+       "overNoPush": 0.16900405416502576,
+       "pOver": 0.31148933636925435,
+       "pUnder": 0.6885106636307456
+      },
+      {
+       "line": 11.5,
+       "over": 0.15938348082335901,
+       "under": 0.8406165181053593,
+       "push": 0,
+       "overNoPush": 0.15938348099410363,
+       "pOver": 0.30405001679589816,
+       "pUnder": 0.6959499832041018
+      }
+     ],
+     "pythHomeWinProb": 0.538988057083473
+    },
+    "v3": {
+     "runsAway": 3.775242648346166,
+     "runsHome": 3.9241791231919696,
+     "homeWinProb": 0.538988057083473,
+     "total": 7.699421771538136,
+     "totals": [
+      {
+       "line": 6.5,
+       "over": 0.5752676579470947,
+       "under": 0.42473234098162355,
+       "push": 0,
+       "overNoPush": 0.5752676585633684,
+       "pOver": 0.5376986613248574,
+       "pUnder": 0.46230133867514256
+      },
+      {
+       "line": 7,
+       "over": 0.4693575715256403,
+       "under": 0.42473234098162355,
+       "push": 0.10591008642145423,
+       "overNoPush": 0.5249556727571592,
+       "pOver": 0.5124356952612359,
+       "pUnder": 0.4875643047387641
+      },
+      {
+       "line": 7.5,
+       "over": 0.4693575715256403,
+       "under": 0.5306424274030778,
+       "push": 0,
+       "overNoPush": 0.4693575720284546,
+       "pOver": 0.4847256772129259,
+       "pUnder": 0.5152743227870741
+      },
+      {
+       "line": 8,
+       "over": 0.3720209024866737,
+       "under": 0.5306424274030778,
+       "push": 0.09733666903896662,
+       "overNoPush": 0.4121369398401408,
+       "pOver": 0.45590016476584805,
+       "pUnder": 0.544099835234152
+      },
+      {
+       "line": 8.5,
+       "over": 0.3720209024866737,
+       "under": 0.6279790964420444,
+       "push": 0,
+       "overNoPush": 0.37202090288521295,
+       "pOver": 0.4351839456774147,
+       "pUnder": 0.5648160543225853
+      },
+      {
+       "line": 9,
+       "over": 0.2871385675709541,
+       "under": 0.6279790964420444,
+       "push": 0.08488233491571957,
+       "overNoPush": 0.3137722927473461,
+       "pOver": 0.4037881014098395,
+       "pUnder": 0.5962118985901605
+      },
+      {
+       "line": 9.5,
+       "over": 0.2871385675709541,
+       "under": 0.712861431357764,
+       "push": 0,
+       "overNoPush": 0.28713856787856046,
+       "pOver": 0.3886851664889272,
+       "pUnder": 0.6113148335110727
+      },
+      {
+       "line": 10,
+       "over": 0.2163085836449852,
+       "under": 0.712861431357764,
+       "push": 0.07082998392596909,
+       "overNoPush": 0.23279763676440332,
+       "pOver": 0.355739286475653,
+       "pUnder": 0.644260713524347
+      },
+      {
+       "line": 10.5,
+       "over": 0.2163085836449852,
+       "under": 0.7836914152837331,
+       "push": 0,
+       "overNoPush": 0.21630858387671265,
+       "pOver": 0.34500243496841104,
+       "pUnder": 0.6549975650315889
+      },
+      {
+       "line": 11,
+       "over": 0.15938348082335901,
+       "under": 0.7836914152837331,
+       "push": 0.05692510282162618,
+       "overNoPush": 0.16900405416502576,
+       "pOver": 0.31148933636925435,
+       "pUnder": 0.6885106636307456
+      },
+      {
+       "line": 11.5,
+       "over": 0.15938348082335901,
+       "under": 0.8406165181053593,
+       "push": 0,
+       "overNoPush": 0.15938348099410363,
+       "pOver": 0.30405001679589816,
+       "pUnder": 0.6959499832041018
+      }
+     ]
+    },
+    "v3d": {
+     "runsAway": 3.8065473640687166,
+     "runsHome": 3.9651427552883987,
+     "homeWinProb": 0.5398997513643498
+    },
+    "v3f": {
+     "runsAway": 3.7345612751093493,
+     "runsHome": 3.9112089386260003,
+     "homeWinProb": 0.5425472508368357
+    },
+    "sheetPyth": {
+     "homeWinProb": 0.529920874013653
+    },
+    "sheetMC": {
+     "homeWinProb": 0.5215723277547377
+    }
+   },
+   "inputs": {
+    "away": {
+     "efficiency": 0.9717903462783949,
+     "seasonRpg": 4.392156862745098,
+     "framing": 0,
+     "catcher": "Connor Wong",
+     "fielding": 0,
+     "platoon": -0.29630999999999996,
+     "pairing": 0,
+     "starterThrows": "R",
+     "efficiencySource": "this season x 150/162"
+    },
+    "home": {
+     "efficiency": 0.9977431765011981,
+     "seasonRpg": 4.592105263157896,
+     "framing": 0,
+     "catcher": "Nick Fortes",
+     "fielding": 0,
+     "platoon": -0.29630999999999996,
+     "pairing": 0,
+     "starterThrows": "R",
+     "efficiencySource": "this season x 150/162"
+    },
+    "tempF": null,
+    "parkFactor": 0.92
+   },
+   "warnings": [
+    "Model v3: the Savant batter file has no ISO column, so v3 ran without its power term",
+    "Model v3: no game-time temperature posted yet; v3 used an average night (73.5F)"
+   ]
+  },
+  {
+   "gamePk": 823572,
+   "date": "2026-09-18",
+   "startUtc": "2026-09-18T23:15:00Z",
+   "away": "Philadelphia Phillies",
+   "home": "New York Mets",
+   "awaySP": null,
+   "homeSP": "Zac Thornton",
+   "lineupsPosted": false,
+   "status": "waiting",
+   "notes": [
+    "Away (Philadelphia Phillies): no probable starting pitcher listed yet.",
+    "Away (Philadelphia Phillies): lineup not posted yet.",
+    "Home (New York Mets): lineup not posted yet."
+   ]
+  },
+  {
+   "gamePk": 824547,
+   "date": "2026-09-18",
+   "startUtc": "2026-09-18T23:40:00Z",
+   "away": "Detroit Tigers",
+   "home": "Chicago White Sox",
+   "awaySP": "Andrew Sears",
+   "homeSP": "David Sandlin",
+   "lineupsPosted": false,
+   "status": "waiting",
+   "notes": [
+    "Away (Detroit Tigers): lineup not posted yet.",
+    "Home (Chicago White Sox): lineup not posted yet."
+   ]
+  },
+  {
+   "gamePk": 822847,
+   "date": "2026-09-18",
+   "startUtc": "2026-09-19T00:05:00Z",
+   "away": "Toronto Blue Jays",
+   "home": "Texas Rangers",
+   "awaySP": "Dylan Cease",
+   "homeSP": "Kumar Rocker",
+   "lineupsPosted": false,
+   "status": "waiting",
+   "notes": [
+    "Away (Toronto Blue Jays): lineup not posted yet.",
+    "Home (Texas Rangers): lineup not posted yet."
+   ]
+  },
+  {
+   "gamePk": 824303,
+   "date": "2026-09-18",
+   "startUtc": "2026-09-19T00:10:00Z",
+   "away": "Seattle Mariners",
+   "home": "Colorado Rockies",
+   "awaySP": "Bryan Woo",
+   "homeSP": "Gabriel Hughes",
+   "lineupsPosted": false,
+   "status": "waiting",
+   "notes": [
+    "Away (Seattle Mariners): lineup not posted yet.",
+    "Home (Colorado Rockies): lineup not posted yet."
+   ]
+  },
+  {
+   "gamePk": 824138,
+   "date": "2026-09-18",
+   "startUtc": "2026-09-19T00:10:00Z",
+   "away": "Atlanta Braves",
+   "home": "Houston Astros",
+   "awaySP": "Tyler Mahle",
+   "homeSP": "Peter Lambert",
+   "lineupsPosted": false,
+   "status": "waiting",
+   "notes": [
+    "Away (Atlanta Braves): lineup not posted yet.",
+    "Home (Houston Astros): lineup not posted yet."
+   ]
+  },
+  {
+   "gamePk": 823005,
+   "date": "2026-09-18",
+   "startUtc": "2026-09-19T00:15:00Z",
+   "away": "Washington Nationals",
+   "home": "St. Louis Cardinals",
+   "awaySP": "Cade Cavalli",
+   "homeSP": "Kyle Leahy",
+   "lineupsPosted": false,
+   "status": "waiting",
+   "notes": [
+    "Away (Washington Nationals): lineup not posted yet.",
+    "Home (St. Louis Cardinals): lineup not posted yet."
+   ]
+  },
+  {
+   "gamePk": 823977,
+   "date": "2026-09-18",
+   "startUtc": "2026-09-19T01:38:00Z",
+   "away": "Minnesota Twins",
+   "home": "Los Angeles Angels",
+   "awaySP": "Connor Prielipp",
+   "homeSP": "Grayson Rodriguez",
+   "lineupsPosted": false,
+   "status": "waiting",
+   "notes": [
+    "Away (Minnesota Twins): lineup not posted yet.",
+    "Home (Los Angeles Angels): lineup not posted yet."
+   ]
+  },
+  {
+   "gamePk": 823252,
+   "date": "2026-09-18",
+   "startUtc": "2026-09-19T01:40:00Z",
+   "away": "Miami Marlins",
+   "home": "San Diego Padres",
+   "awaySP": "Tyler Phillips",
+   "homeSP": "Nick Pivetta",
+   "lineupsPosted": false,
+   "status": "waiting",
+   "notes": [
+    "Away (Miami Marlins): lineup not posted yet.",
+    "Home (San Diego Padres): lineup not posted yet."
+   ]
+  },
+  {
+   "gamePk": 825032,
+   "date": "2026-09-18",
+   "startUtc": "2026-09-19T01:40:00Z",
+   "away": "New York Yankees",
+   "home": "Arizona Diamondbacks",
+   "awaySP": "Gerrit Cole",
+   "homeSP": "Eduardo Rodriguez",
+   "lineupsPosted": false,
+   "status": "waiting",
+   "notes": [
+    "Away (New York Yankees): lineup not posted yet.",
+    "Home (Arizona Diamondbacks): lineup not posted yet."
+   ]
+  },
+  {
+   "gamePk": 823898,
+   "date": "2026-09-18",
+   "startUtc": "2026-09-19T02:15:00Z",
+   "away": "San Francisco Giants",
+   "home": "Los Angeles Dodgers",
+   "awaySP": "Cesar Perdomo",
+   "homeSP": "Tyler Glasnow",
+   "lineupsPosted": false,
+   "status": "waiting",
+   "notes": [
+    "Away (San Francisco Giants): lineup not posted yet.",
+    "Home (Los Angeles Dodgers): lineup not posted yet."
+   ]
+  }
+ ]
+}

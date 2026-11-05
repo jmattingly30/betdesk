@@ -1,0 +1,366 @@
+team_id,name,tier,conf_id
+130,Michigan,high,7.0
+150,Duke,high,2.0
+12,Arizona,high,8.0
+57,Florida,high,23.0
+248,Houston,high,8.0
+356,Illinois,high,7.0
+66,Iowa State,high,8.0
+2509,Purdue,high,7.0
+41,UConn,high,4.0
+2250,Gonzaga,mid,29.0
+127,Michigan State,high,7.0
+2599,St. John's,high,4.0
+333,Alabama,high,23.0
+2633,Tennessee,high,23.0
+238,Vanderbilt,high,23.0
+2641,Texas Tech,high,8.0
+97,Louisville,high,2.0
+158,Nebraska,high,7.0
+8,Arkansas,high,23.0
+252,BYU,high,8.0
+2294,Iowa,high,7.0
+96,Kentucky,high,23.0
+2305,Kansas,high,8.0
+275,Wisconsin,high,7.0
+258,Virginia,high,2.0
+194,Ohio State,high,7.0
+26,UCLA,high,7.0
+2,Auburn,high,23.0
+153,North Carolina,high,2.0
+328,Utah State,mid,44.0
+251,Texas,high,23.0
+61,Georgia,high,23.0
+2608,Saint Mary's,mid,29.0
+228,Clemson,high,2.0
+152,NC State,high,2.0
+245,Texas A&M,high,23.0
+222,Villanova,high,4.0
+84,Indiana,high,7.0
+239,Baylor,high,8.0
+2390,Miami,high,2.0
+201,Oklahoma,high,23.0
+139,Saint Louis,mid,3.0
+2567,SMU,high,2.0
+2628,TCU,high,8.0
+2132,Cincinnati,high,8.0
+2670,VCU,mid,3.0
+2541,Santa Clara,mid,29.0
+21,San Diego State,mid,44.0
+264,Washington,high,7.0
+167,New Mexico,mid,44.0
+142,Missouri,high,23.0
+277,West Virginia,high,8.0
+58,South Florida,mid,62.0
+77,Northwestern,high,7.0
+2550,Seton Hall,high,4.0
+68,Boise State,mid,44.0
+2116,UCF,high,8.0
+145,Ole Miss,high,23.0
+156,Creighton,high,4.0
+99,LSU,high,23.0
+2507,Providence,high,4.0
+30,USC,high,7.0
+269,Marquette,high,4.0
+259,Virginia Tech,high,2.0
+154,Wake Forest,high,2.0
+2086,Butler,high,4.0
+52,Florida State,high,2.0
+2168,Dayton,mid,3.0
+2253,Grand Canyon,mid,44.0
+202,Tulsa,mid,62.0
+2006,Akron,low,14.0
+43,Yale,mid,12.0
+2440,Nevada,mid,44.0
+135,Minnesota,high,7.0
+2483,Oregon,high,7.0
+2272,High Point,low,6.0
+38,Colorado,high,8.0
+9,Arizona State,high,8.0
+46,Georgetown,high,4.0
+344,Mississippi State,high,23.0
+24,Stanford,high,2.0
+197,Oklahoma State,high,8.0
+2752,Xavier,high,4.0
+25,California,high,2.0
+2057,Belmont,mid,18.0
+2460,Northern Iowa,mid,18.0
+183,Syracuse,high,2.0
+2306,Kansas State,high,8.0
+2724,Wichita State,mid,62.0
+2377,McNeese,low,25.0
+45,George Washington,mid,3.0
+36,Colorado State,mid,44.0
+221,Pittsburgh,high,2.0
+2579,South Carolina,high,23.0
+87,Notre Dame,high,2.0
+305,DePaul,high,4.0
+2287,Illinois State,mid,18.0
+2244,George Mason,mid,3.0
+120,Maryland,high,7.0
+193,Miami (OH),low,14.0
+254,Utah,high,8.0
+3084,Utah Valley,mid,30.0
+2275,Hofstra,mid,10.0
+2439,UNLV,mid,44.0
+235,Memphis,mid,62.0
+2335,Liberty,mid,11.0
+2751,Wyoming,mid,44.0
+2539,San Francisco,mid,29.0
+2603,Saint Joseph's,mid,3.0
+164,Rutgers,high,7.0
+71,Bradley,mid,18.0
+213,Penn State,high,7.0
+5,UAB,mid,62.0
+350,UNC Wilmington,mid,10.0
+2226,Florida Atlantic,mid,62.0
+2900,St. Thomas-Minnesota,low,49.0
+2166,Davidson,mid,3.0
+300,UC Irvine,mid,9.0
+249,North Texas,mid,62.0
+2547,Seattle U,mid,29.0
+2184,Duquesne,mid,3.0
+82,UIC,mid,18.0
+62,Hawai'i,mid,9.0
+79,Southern Illinois,mid,18.0
+2617,Stephen F. Austin,low,25.0
+93,Murray State,mid,18.0
+2534,Sam Houston,mid,11.0
+2856,California Baptist,mid,30.0
+2449,North Dakota State,low,49.0
+179,St. Bonaventure,mid,3.0
+172,Cornell,mid,12.0
+28,UC San Diego,mid,9.0
+265,Washington State,mid,29.0
+227,Rhode Island,mid,3.0
+257,Richmond,mid,3.0
+2193,East Tennessee State,low,24.0
+59,Georgia Tech,high,2.0
+103,Boston College,high,2.0
+2653,Troy,low,27.0
+2426,Navy,low,22.0
+218,Temple,mid,62.0
+279,Pacific,mid,29.0
+108,Harvard,mid,12.0
+2032,Arkansas State,low,27.0
+338,Kennesaw State,mid,11.0
+2649,Toledo,low,14.0
+119,Towson,mid,10.0
+2737,Winthrop,low,6.0
+2540,UC Santa Barbara,mid,9.0
+231,Furman,low,24.0
+2750,Wright State,low,45.0
+278,Fresno State,mid,44.0
+98,Western Kentucky,mid,11.0
+2309,Kent State,low,14.0
+2393,Middle Tennessee,mid,11.0
+147,Montana State,low,5.0
+2458,Northern Colorado,low,5.0
+189,Bowling Green,low,14.0
+204,Oregon State,mid,29.0
+2351,Loyola Marymount,mid,29.0
+2729,William & Mary,mid,10.0
+219,Pennsylvania,mid,12.0
+2181,Drake,mid,18.0
+2230,Fordham,mid,3.0
+292,UT Rio Grande Valley,low,25.0
+232,Charleston,mid,10.0
+2502,Portland State,low,5.0
+2561,Siena,low,13.0
+2429,Charlotte,mid,62.0
+166,New Mexico State,mid,11.0
+2523,Robert Morris,low,45.0
+2674,Valparaiso,mid,18.0
+2473,Oakland,low,45.0
+2368,Marist,low,13.0
+171,Columbia,mid,12.0
+2046,Austin Peay,low,46.0
+2571,South Dakota State,low,49.0
+2382,Mercer,low,24.0
+2771,Merrimack,low,13.0
+2535,Samford,low,24.0
+282,Indiana State,mid,18.0
+288,Lipscomb,low,46.0
+250,UT Arlington,mid,30.0
+2348,Louisiana Tech,mid,11.0
+70,Idaho,low,5.0
+276,Marshall,low,27.0
+2655,Tulane,mid,62.0
+113,Massachusetts,low,14.0
+2026,App State,low,27.0
+6,South Alabama,low,27.0
+2405,Monmouth,mid,10.0
+2378,UMBC,low,1.0
+2463,Cal State Northridge,mid,9.0
+2110,Central Arkansas,low,46.0
+2511,Queens University,low,46.0
+256,James Madison,low,27.0
+302,UC Davis,mid,9.0
+2634,Tennessee State,low,20.0
+94,Northern Kentucky,low,45.0
+2623,Missouri State,mid,11.0
+2514,Quinnipiac,low,13.0
+2229,Florida International,mid,11.0
+47,Howard,low,16.0
+331,Eastern Washington,low,5.0
+55,Jacksonville State,mid,11.0
+357,Texas A&M-Corpus Christi,low,25.0
+149,Montana,low,5.0
+2097,Campbell,mid,10.0
+195,Ohio,low,14.0
+261,Vermont,low,1.0
+2182,Drexel,mid,10.0
+2754,Youngstown State,low,45.0
+2717,Western Carolina,low,24.0
+2692,Weber State,low,5.0
+163,Princeton,mid,12.0
+2427,UNC Asheville,low,6.0
+3101,Utah Tech,mid,30.0
+112358,Long Island University,low,19.0
+23,San José State,mid,44.0
+2142,Colgate,low,22.0
+242,Rice,mid,62.0
+2747,Wofford,low,24.0
+2084,Buffalo,low,14.0
+2239,Cal State Fullerton,mid,9.0
+2630,UT Martin,low,20.0
+526,Florida Gulf Coast,low,46.0
+2546,Southeast Missouri State,low,20.0
+2572,Southern Miss,low,27.0
+2515,Radford,low,6.0
+2325,La Salle,mid,3.0
+13,Cal Poly,mid,9.0
+151,East Carolina,mid,62.0
+2627,Tarleton State,mid,30.0
+2344,Longwood,low,6.0
+314,Iona,low,13.0
+2210,Elon,mid,10.0
+159,Dartmouth,mid,12.0
+2612,Saint Peter's,low,13.0
+290,Georgia Southern,low,27.0
+44,American University,low,22.0
+2350,Loyola Chicago,mid,3.0
+2501,Portland,mid,29.0
+2320,Lamar,low,25.0
+2739,Green Bay,low,45.0
+2565,SIU Edwardsville,low,20.0
+295,Old Dominion,low,27.0
+326,Texas State,low,27.0
+2437,Omaha,low,49.0
+104,Boston University,low,22.0
+2127,Charleston Southern,low,6.0
+2619,Stony Brook,mid,10.0
+301,San Diego,mid,29.0
+2443,New Orleans,low,25.0
+2174,Detroit Mercy,low,45.0
+2870,Purdue Fort Wayne,low,45.0
+2638,UTEP,mid,11.0
+270,Milwaukee,low,45.0
+2506,Presbyterian,low,6.0
+2217,Fairfield,low,13.0
+2172,Denver,low,49.0
+2000,Abilene Christian,mid,30.0
+236,Chattanooga,low,24.0
+2447,Nicholls,low,25.0
+2199,Eastern Michigan,low,14.0
+304,Idaho State,low,5.0
+225,Brown,mid,12.0
+324,Coastal Carolina,low,27.0
+2065,Bethune-Cookman,low,26.0
+299,Long Beach State,mid,9.0
+116,Mount St. Mary's,low,13.0
+111,Northeastern,mid,10.0
+2582,Southern,low,26.0
+2198,Eastern Kentucky,low,46.0
+2916,Incarnate Word,low,25.0
+27,UC Riverside,mid,9.0
+2815,Lindenwood,low,20.0
+2430,UNC Greensboro,low,24.0
+2329,Lehigh,low,22.0
+2492,Pepperdine,mid,29.0
+2117,Central Michigan,low,14.0
+2261,Hampton,mid,10.0
+48,Delaware,mid,11.0
+233,South Dakota,low,49.0
+2529,Sacred Heart,low,13.0
+2711,Western Michigan,low,14.0
+155,North Dakota,low,49.0
+2385,Mercyhurst,low,19.0
+294,Jacksonville,low,46.0
+2413,Morehead State,low,20.0
+253,Southern Utah,mid,30.0
+2050,Ball State,low,14.0
+91,Bellarmine,low,46.0
+2115,Central Connecticut,low,19.0
+16,Sacramento State,low,5.0
+2908,South Carolina Upstate,low,6.0
+2545,SE Louisiana,low,25.0
+2031,Little Rock,low,20.0
+2448,North Carolina A&T,mid,10.0
+2330,Le Moyne,low,19.0
+2450,Norfolk State,low,16.0
+2247,Georgia State,low,27.0
+339,Evansville,mid,18.0
+2349,UMass Lowell,low,1.0
+2466,Northwestern State,low,25.0
+2698,West Georgia,low,46.0
+2755,Grambling,low,26.0
+399,UAlbany,low,1.0
+198,Oral Roberts,low,49.0
+2681,Wagner,low,19.0
+2504,Prairie View A&M,low,26.0
+2277,Houston Christian,low,25.0
+309,Louisiana,low,27.0
+2640,Texas Southern,low,26.0
+322,Lafayette,low,22.0
+2352,Loyola Maryland,low,22.0
+2635,Tennessee Tech,low,20.0
+325,Cleveland State,low,45.0
+2837,East Texas A&M,low,25.0
+2083,Bucknell,low,22.0
+2441,New Haven,low,19.0
+50,Florida A&M,low,26.0
+2011,Alabama State,low,26.0
+2363,Manhattan,low,13.0
+56,Stetson,low,46.0
+2453,North Alabama,low,46.0
+2464,Northern Arizona,low,5.0
+107,Holy Cross,low,22.0
+2197,Eastern Illinois,low,20.0
+2934,Cal State Bakersfield,mid,9.0
+85,IU Indianapolis,low,45.0
+2010,Alabama A&M,low,26.0
+311,Maine,low,1.0
+2636,UTSA,mid,62.0
+2454,North Florida,low,46.0
+284,Stonehill,low,19.0
+2885,NJIT,low,1.0
+2029,Arkansas-Pine Bluff,low,26.0
+161,Fairleigh Dickinson,low,19.0
+349,Army,low,22.0
+2803,Bryant,low,1.0
+315,Niagara,low,13.0
+160,New Hampshire,low,1.0
+2459,Northern Illinois,low,14.0
+88,Southern Indiana,low,20.0
+2428,North Carolina Central,low,16.0
+2296,Jackson State,low,26.0
+2643,The Citadel,low,24.0
+2130,Chicago State,low,19.0
+2005,Air Force,mid,44.0
+2099,Canisius,low,13.0
+2379,Maryland Eastern Shore,low,16.0
+2520,Rider,low,13.0
+2569,South Carolina State,low,16.0
+2415,Morgan State,low,16.0
+2016,Alcorn State,low,26.0
+2598,Saint Francis,low,19.0
+2433,UL Monroe,low,27.0
+140,Kansas City,low,49.0
+2066,Binghamton,low,1.0
+2678,VMI,low,24.0
+2169,Delaware State,low,16.0
+2241,Gardner-Webb,low,6.0
+2710,Western Illinois,low,20.0
+2154,Coppin State,low,16.0
+2400,Mississippi Valley State,low,26.0

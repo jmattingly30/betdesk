@@ -1,0 +1,18 @@
+(1) Is a player's split against a look a repeatable skill? Correlation of (yards per play vs look A - vs look B), 2023 vs 2024, 30+ plays each side
+   rec  mz    man vs zone: r = +0.150 (n 47 players)
+   rec  shell one vs two: r = +0.126 (n 48 players)
+   rec  blitz blitz vs none: r = +0.463 (n 22 players)
+   rush box   even vs light: r = -0.208 (n 30 players)
+   rush db    base vs nickel: r = +0.397 (n 31 players)
+
+(2) Does the matchup multiplier add to the projection? Poisson GLM, offset = model projection; fit 2024, judged on 2025
+  rec_yds: 7287 player-games with a multiplier; spread of M: mz 10-90% 0.988-1.010, shell 10-90% 0.994-1.005, db 10-90% 0.989-1.010, blitz 10-90% 0.995-1.005
+    mz                     coef mz -1.86 (p 0.052) | 2025 MAE 18.888 -> 18.882 (+0.03%)
+    shell                  coef shell -1.78 (p 0.313) | 2025 MAE 18.888 -> 18.891 (-0.02%)
+    db                     coef db +0.71 (p 0.467) | 2025 MAE 18.888 -> 18.901 (-0.07%)
+    blitz                  coef blitz -2.48 (p 0.175) | 2025 MAE 18.888 -> 18.889 (-0.01%)
+    mz+shell+db+blitz      coef mz -1.72 (p 0.082), shell -0.95 (p 0.601), db +0.77 (p 0.427), blitz -2.42 (p 0.185) | 2025 MAE 18.888 -> 18.902 (-0.08%)
+  rush_yds: 1842 player-games with a multiplier; spread of M: box 10-90% 0.992-1.012, db 10-90% 0.988-1.012
+    box                    coef box +2.79 (p 0.085) | 2025 MAE 23.962 -> 24.145 (-0.76%)
+    db                     coef db -0.23 (p 0.832) | 2025 MAE 23.962 -> 23.964 (-0.01%)
+    box+db                 coef box +3.00 (p 0.069), db -0.72 (p 0.519) | 2025 MAE 23.962 -> 24.147 (-0.77%)

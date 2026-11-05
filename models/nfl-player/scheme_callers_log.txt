@@ -1,0 +1,47 @@
+team-seasons 320, callers matched 320
+
+A1. Same team, next season: correlation of each tendency, caller stayed (171 team-pairs) vs caller changed (117)
+   tendency           stayed  changed
+   proe                +0.53    +0.23
+   is11                +0.70    +0.28
+   is12                +0.48    +0.13
+   heavy               +0.56    +0.20
+   pa                  +0.51    -0.10
+   motion              +0.84    +0.52
+   screen              +0.18    +0.14
+   sh_WR               +0.56    +0.12
+   sh_TE               +0.61    +0.16
+   sh_RB               +0.57    +0.28
+   adot                +0.41    +0.32
+   rz_pass             +0.36    +0.32
+   rz_te_rb            +0.42    +0.13
+   man_minus_zone      -0.01    +0.07
+   one_minus_two       -0.09    -0.12
+
+A2. Callers who moved teams (50: Kyle Shanahan ATL->SF 2017, Chip Kelly SF->LV 2025, Chan Gailey NYJ->MIA 2020, Gary Kubiak DEN->MIN 2020, Sean McVay WAS->LA 2017, Bill Musgrave LV->DEN 2018, Pat Shurmur MIN->NYG 2018, Ben McAdoo NYG->CAR 2022, John Morton NYJ->DET 2025, Todd Downing LV->TEN 2021, Darrell Bevell SEA->DET 2019, Todd Haley PIT->CLE 2018, Mike McCarthy GB->DAL 2023, Nathaniel Hackett JAX->NYJ 2023, Adam Gase MIA->NYJ 2019, John DeFilippo MIN->JAX 2019, Matt LaFleur TEN->GB 2019, Dirk Koetter TB->ATL 2019, Byron Leftwich ARI->TB 2019, Bill O'Brien HOU->NE 2023, Pat Shurmur NYG->DEN 2020, Jay Gruden WAS->JAX 2020, Kevin Stefanski MIN->CLE 2020, Brian Schottenheimer SEA->DAL 2025, Doug Pederson PHI->JAX 2022, Darrell Bevell DET->JAX 2021, Shane Steichen LAC->PHI 2021, Arthur Smith TEN->ATL 2021, Joe Brady CAR->BUF 2024, Tim Kelly HOU->TEN 2023, Sean Payton NO->DEN 2023, Klint Kubiak MIN->DEN 2022, Brian Daboll BUF->NYG 2022, Josh McDaniels NE->LV 2022, Frank Reich IND->CAR 2023, Shane Steichen PHI->IND 2023, Kliff Kingsbury ARI->WAS 2024, Josh McDaniels LV->NE 2025, Klint Kubiak DEN->NO 2024, Kellen Moore DAL->LAC 2023, Greg Roman BAL->LAC 2024, Luke Getsy CHI->LV 2024, Kellen Moore LAC->PHI 2024, Arthur Smith ATL->PIT 2024, Shane Waldron SEA->CHI 2024, Dave Canales TB->CAR 2024, Ben Johnson DET->CHI 2025, Klint Kubiak NO->SEA 2025, Kellen Moore PHI->NO 2025, Liam Coen TB->JAX 2025)
+   does the new team look like the CALLER's old team, or like the TEAM's own last season?
+   tendency          caller old team  team last year
+   proe                        +0.09           +0.45
+   is11                        +0.57           +0.32
+   is12                        +0.45           +0.17
+   heavy                       +0.33           +0.26
+   pa                          +0.52           -0.03
+   motion                      +0.48           +0.44
+   screen                      +0.56           +0.06
+   sh_WR                       +0.24           +0.16
+   sh_TE                       +0.26           +0.05
+   sh_RB                       +0.28           +0.22
+   adot                        +0.14           +0.39
+   rz_pass                     +0.23           +0.34
+   rz_te_rb                    +0.15           +0.14
+   man_minus_zone              -0.23           +0.01
+   one_minus_two               +0.08           -0.15
+
+B. Game plans: team-game deviation from the team's own season average, on the opponent's coverage habits
+   (coefficient = change in the tendency for +10 points of opponent man / two-high / nickel+ / blitz rate; * = p < 0.01)
+   proe      game-to-game sd 0.082 | man -0.000 , two +0.001 , nick -0.001 , blitz +0.008* | R2 0.002
+   is11      game-to-game sd 0.125 | man +0.000 , two -0.001 , nick +0.015*, blitz -0.014* | R2 0.019
+   is12      game-to-game sd 0.100 | man -0.003 , two -0.000 , nick -0.008*, blitz +0.011  | R2 0.011
+   heavy     game-to-game sd 0.124 | man -0.002 , two -0.001 , nick -0.015*, blitz +0.011  | R2 0.018
+   pa        game-to-game sd 0.091 | man +0.008*, two -0.003 , nick -0.004*, blitz -0.009* | R2 0.011
+   motion    game-to-game sd 0.109 | man +0.010 , two +0.001 , nick -0.004 , blitz -0.007  | R2 0.007

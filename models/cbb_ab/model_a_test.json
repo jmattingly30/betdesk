@@ -1,0 +1,66 @@
+{
+ "sd_margin_fit": 10.93,
+ "sd_total_fit": 17.14,
+ "sd_margin_test": 11.38,
+ "sd_total_test": 16.78,
+ "fit_k_eg_ot": [
+  -1.242,
+  73.934
+ ],
+ "test_2020_2026": {
+  "v2": {
+   "total_MAE_all": 13.222,
+   "team_MAE_lined": 7.988,
+   "team_APE_lined": 0.1169,
+   "closer_than_line": 0.4783,
+   "total_MAE_by_season": {
+    "2020": 13.294,
+    "2021": 13.362,
+    "2022": 13.073,
+    "2023": 13.033,
+    "2024": 13.148,
+    "2025": 12.975,
+    "2026": 13.712
+   }
+  },
+  "fit": {
+   "total_MAE_all": 13.224,
+   "team_MAE_lined": 7.987,
+   "team_APE_lined": 0.1169,
+   "closer_than_line": 0.4791,
+   "total_MAE_by_season": {
+    "2020": 13.294,
+    "2021": 13.363,
+    "2022": 13.072,
+    "2023": 13.033,
+    "2024": 13.154,
+    "2025": 12.977,
+    "2026": 13.715
+   }
+  },
+  "theory": {
+   "total_MAE_all": 13.264,
+   "team_MAE_lined": 7.994,
+   "team_APE_lined": 0.1171,
+   "closer_than_line": 0.4782,
+   "total_MAE_by_season": {
+    "2020": 13.317,
+    "2021": 13.417,
+    "2022": 13.088,
+    "2023": 13.067,
+    "2024": 13.197,
+    "2025": 13.019,
+    "2026": 13.79
+   }
+  },
+  "line": {
+   "team_MAE_lined": 7.893,
+   "team_APE_lined": 0.1148,
+   "n_team_scores": 43896
+  },
+  "fit_vs_v2_total_t": 1.71,
+  "theory_vs_v2_total_t": 9.8,
+  "r_eg_with_line_minus_v2": -0.074
+ },
+ "test_z_sd": 1.041
+}

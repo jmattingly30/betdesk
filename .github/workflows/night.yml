@@ -1,0 +1,37 @@
+name: Bet Desk night pull
+on:
+  schedule:
+    - cron: "15 4,5 * * *"   # UTC; two hours cover MDT and MST, the first step keeps the one at 22:15 Denver time
+  workflow_dispatch: {}
+concurrency: { group: betdesk-data, cancel-in-progress: false }
+permissions: { contents: write }
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 200
+    env:
+      ODDSPAPI_API_KEY: ${{ secrets.ODDSPAPI_API_KEY }}
+      ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+      CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
+    steps:
+      - id: win
+        env: { TZ: America/Denver }
+        run: |
+          d=$(( $(date +%s) - $(date -d "today 22:15" +%s) ))
+          if [ "$GITHUB_EVENT_NAME" != schedule ] || { [ $d -ge 0 ] && [ $d -lt 3300 ]; }; then echo go=1 >> "$GITHUB_OUTPUT"
+          else echo "not 22:15 in Denver (this is the other daylight-saving cron); skipping"; fi
+      - if: steps.win.outputs.go == '1'
+        uses: actions/checkout@v4
+        with: { fetch-depth: 1 }
+      - if: steps.win.outputs.go == '1'
+        uses: actions/setup-python@v5
+        with: { python-version: "3.13", cache: pip }
+      - if: steps.win.outputs.go == '1'
+        run: python3 -m pip install -q -r requirements.txt
+      - if: steps.win.outputs.go == '1'
+        run: |
+          npm install -g playwright@1.49.1
+          npx playwright install --with-deps chromium
+          echo "NODE_PATH=$(npm root -g)" >> "$GITHUB_ENV"
+      - if: steps.win.outputs.go == '1'
+        run: bash tools/pull.sh night

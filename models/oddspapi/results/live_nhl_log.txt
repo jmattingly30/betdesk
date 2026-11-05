@@ -1,0 +1,99 @@
+live_nhl prop rows 41756 fixtures 430 fixtures with props by book {'draftkings': 289, 'fanduel': 81, 'pinnacle': 415} stats {'assists': 12681, 'blk': 100, 'goals': 5103, 'points': 13202, 'saves': 598, 'sog': 10072}
+fixtures matched to our games 69
+player ids named 263 of 713 | prop rows named 0.461
+joined rows 4094 {'draftkings': 2151, 'pinnacle': 1943}
+
+== live_nhl: size check at the closing main line (one per player-stat-game)
+            n  our_mean  close_line  actual  our_mae  line_mae
+stat                                                         
+assists  562      0.50        0.50    0.54     0.59      0.63
+blk       28      1.46        1.61    1.61     0.96      0.96
+goals    422      0.35        0.50    0.37     0.50      0.57
+points   562      0.79        0.59    0.86     0.72      0.78
+saves     54     23.69       24.19   24.17     4.73      4.63
+sog      532      2.37        2.27    2.39     1.26      1.29
+
+== live_nhl: accuracy at the opening lines and at the closing lines (log loss: lower is better; book = no-vig)
+  when       book    stat    n  players  over_rate  ll_model  ll_book  ll_blend  brier_model  brier_book   corr  avg_hold
+ open draftkings assists  636      636     0.3836    0.6367   0.6286    0.6314       0.2230      0.2195 0.9289    0.0697
+ open draftkings     blk   50       50     0.4400    0.7373   0.6832    0.6924       0.2634      0.2451 0.5860    0.0844
+ open draftkings  points  645      639     0.5008    0.6686   0.6659    0.6661       0.2382      0.2370 0.9397    0.0722
+ open draftkings   saves  104       90     0.5192    0.7117   0.6892    0.6949       0.2588      0.2480 0.2042    0.0755
+ open draftkings     sog  580      553     0.4638    0.6786   0.6849    0.6799       0.2428      0.2459 0.7803    0.0744
+ open   pinnacle assists  492      492     0.4431    0.6755   0.6692    0.6705       0.2408      0.2382 0.8673    0.0701
+ open   pinnacle   goals  422      422     0.3081    0.6107   0.6063    0.6075       0.2103      0.2082 0.8614    0.0701
+ open   pinnacle  points  504      504     0.5536    0.6822   0.6788    0.6792       0.2443      0.2429 0.8986    0.0735
+ open   pinnacle     sog  514      513     0.4728    0.6809   0.6862    0.6820       0.2440      0.2465 0.7965    0.0718
+ open        all     all 3947      765     0.4515    0.6649   0.6618    0.6616       0.2361      0.2349 0.9079    0.0720
+close draftkings assists  353      353     0.3768    0.6507   0.6430    0.6456       0.2292      0.2260 0.9333    0.0698
+close draftkings  points  351      351     0.5100    0.6776   0.6742    0.6748       0.2425      0.2411 0.9420    0.0727
+close draftkings   saves   55       54     0.5273    0.7130   0.6931    0.6991       0.2592      0.2500 0.3211    0.0759
+close draftkings     sog  315      313     0.4540    0.6790   0.6860    0.6813       0.2430      0.2464 0.8311    0.0747
+close   pinnacle assists  487      487     0.4456    0.6756   0.6694    0.6711       0.2409      0.2383 0.9010    0.0700
+close   pinnacle   goals  422      422     0.3081    0.6107   0.6070    0.6079       0.2103      0.2086 0.8784    0.0741
+close   pinnacle  points  502      502     0.5538    0.6822   0.6783    0.6790       0.2443      0.2426 0.9065    0.0716
+close   pinnacle     sog  511      511     0.4638    0.6811   0.6852    0.6821       0.2441      0.2460 0.8620    0.0703
+close        all     all 3024      677     0.4494    0.6678   0.6645    0.6647       0.2374      0.2361 0.9284    0.0719
+
+== live_nhl: bets when our EV beats the price (one per player-stat-game, best of those books; CLV = fair close x price - 1)
+  when       books  ev_over  side  bets   win    roi  roi_se    clv  avg_price
+ open         pin     0.00  Over   336 0.491  0.068   0.064 -0.041      2.327
+ open         pin     0.00 Under   537 0.521 -0.077   0.039 -0.047      1.826
+ open         pin     0.03  Over   200 0.490  0.113   0.087 -0.040      2.419
+ open         pin     0.03 Under   347 0.513 -0.076   0.050 -0.039      1.871
+ open         pin     0.05  Over   135 0.519  0.221   0.111 -0.034      2.460
+ open         pin     0.05 Under   243 0.494 -0.084   0.061 -0.031      1.914
+ open         pin     0.08  Over    83 0.590  0.454   0.149 -0.028      2.544
+ open         pin     0.08 Under   149 0.557  0.071   0.081 -0.017      1.976
+ open         pin     0.12  Over    40 0.700  0.920   0.229 -0.017      2.857
+ open         pin     0.12 Under    80 0.550  0.100   0.114  0.004      2.044
+ open     dra+fan     0.00  Over   333 0.474 -0.000   0.063 -0.033      2.261
+ open     dra+fan     0.00 Under   601 0.536 -0.055   0.037 -0.049      1.803
+ open     dra+fan     0.03  Over   194 0.443  0.012   0.090 -0.017      2.447
+ open     dra+fan     0.03 Under   395 0.534 -0.029   0.047 -0.042      1.847
+ open     dra+fan     0.05  Over   134 0.485  0.093   0.107 -0.017      2.468
+ open     dra+fan     0.05 Under   290 0.524 -0.022   0.056 -0.036      1.895
+ open     dra+fan     0.08  Over    88 0.511  0.124   0.128 -0.010      2.584
+ open     dra+fan     0.08 Under   187 0.567  0.063   0.069 -0.033      1.927
+ open     dra+fan     0.12  Over    38 0.421 -0.032   0.199  0.013      2.722
+ open     dra+fan     0.12 Under   109 0.606  0.149   0.091 -0.026      1.939
+ open pin+dra+fan     0.00  Over   460 0.457  0.025   0.057 -0.032      2.435
+ open pin+dra+fan     0.00 Under   765 0.537 -0.055   0.033 -0.042      1.807
+ open pin+dra+fan     0.03  Over   288 0.441  0.060   0.078 -0.029      2.573
+ open pin+dra+fan     0.03 Under   514 0.525 -0.048   0.041 -0.034      1.862
+ open pin+dra+fan     0.05  Over   196 0.464  0.145   0.097 -0.024      2.633
+ open pin+dra+fan     0.05 Under   375 0.509 -0.046   0.050 -0.027      1.912
+ open pin+dra+fan     0.08  Over   130 0.515  0.281   0.121 -0.022      2.739
+ open pin+dra+fan     0.08 Under   244 0.541  0.031   0.062 -0.018      1.965
+ open pin+dra+fan     0.12  Over    62 0.532  0.457   0.192 -0.015      2.960
+ open pin+dra+fan     0.12 Under   149 0.584  0.122   0.080 -0.003      1.978
+close         pin     0.00  Over   267 0.502  0.056   0.070    NaN      2.257
+close         pin     0.00 Under   518 0.531 -0.080   0.039    NaN      1.789
+close         pin     0.03  Over   164 0.530  0.158   0.092    NaN      2.335
+close         pin     0.03 Under   315 0.498 -0.121   0.051    NaN      1.821
+close         pin     0.05  Over   104 0.567  0.298   0.123    NaN      2.398
+close         pin     0.05 Under   204 0.505 -0.083   0.065    NaN      1.855
+close         pin     0.08  Over    57 0.649  0.620   0.177    NaN      2.559
+close         pin     0.08 Under    93 0.527  0.003   0.102    NaN      1.928
+close         pin     0.12  Over    20 0.700  0.924   0.334    NaN      2.886
+close         pin     0.12 Under    39 0.513  0.033   0.166    NaN      2.032
+close     dra+fan     0.00  Over   137 0.526  0.086   0.097    NaN      2.245
+close     dra+fan     0.00 Under   346 0.535 -0.060   0.049    NaN      1.795
+close     dra+fan     0.03  Over    71 0.535  0.131   0.141    NaN      2.487
+close     dra+fan     0.03 Under   223 0.538 -0.035   0.061    NaN      1.841
+close     dra+fan     0.05  Over    48 0.562  0.146   0.152    NaN      2.524
+close     dra+fan     0.05 Under   160 0.544 -0.006   0.074    NaN      1.885
+close     dra+fan     0.08  Over    25 0.480 -0.021   0.213    NaN      2.896
+close     dra+fan     0.08 Under    98 0.520 -0.029   0.096    NaN      1.929
+close     dra+fan     0.12  Over     6 0.333 -0.264   0.438    NaN      3.721
+close     dra+fan     0.12 Under    46 0.500 -0.028   0.146    NaN      2.003
+close pin+dra+fan     0.00  Over   321 0.505  0.078   0.065    NaN      2.322
+close pin+dra+fan     0.00 Under   658 0.533 -0.070   0.035    NaN      1.793
+close pin+dra+fan     0.03  Over   194 0.510  0.142   0.088    NaN      2.463
+close pin+dra+fan     0.03 Under   413 0.513 -0.087   0.045    NaN      1.834
+close pin+dra+fan     0.05  Over   131 0.550  0.256   0.108    NaN      2.506
+close pin+dra+fan     0.05 Under   290 0.514 -0.061   0.055    NaN      1.877
+close pin+dra+fan     0.08  Over    73 0.589  0.457   0.157    NaN      2.751
+close pin+dra+fan     0.08 Under   158 0.506 -0.044   0.077    NaN      1.934
+close pin+dra+fan     0.12  Over    26 0.615  0.650   0.293    NaN      3.078
+close pin+dra+fan     0.12 Under    81 0.481 -0.051   0.112    NaN      2.016

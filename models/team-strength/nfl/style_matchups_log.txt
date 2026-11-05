@@ -1,0 +1,21 @@
+team-games: train 2018-21 2144, test 2022-25 2278; residual SD (EPA/play) 0.271
+  main style effects          : out-of-sample R2 -0.0116
+  main + all 35 interactions  : out-of-sample R2 -0.0257
+  ridge (alpha 10000)            : out-of-sample R2 -0.0000
+  strongest interactions, all years (t): odeepxdnick -1.8, odeepxdtwo -1.6, odeepxdblitz -1.4, onhxdnick -1.1, o11xdbox +1.6, otttxdtwo +2.0, odeepxdman +2.0, onhxdman +2.0
+  interaction coefficients 2018-21 vs 2022-25: r -0.01 (1 = same rock-paper-scissors both periods, 0 = noise)
+
+  play-caller vs defence style: residual slope on the opponent style, caller-season vs next caller-season
+    vs dnick : next season r +0.05 (n 156), split-half r +0.02
+    vs dman  : next season r -0.02 (n 156), split-half r -0.03
+    vs dtwo  : next season r -0.03 (n 156), split-half r +0.08
+    vs dblitz: next season r +0.01 (n 156), split-half r +0.01
+    vs dbox  : next season r +0.06 (n 156), split-half r +0.00
+  defensive-side head coach vs offence style (offence residual slope; negative = his defence handles that style):
+    vs o11   : next season r +0.12 (n 167), split-half r +0.03
+    vs oheavy: next season r -0.00 (n 167), split-half r +0.03
+    vs oproe : next season r -0.01 (n 167), split-half r +0.01
+    vs odeep : next season r -0.06 (n 167), split-half r +0.06
+    vs ogun  : next season r +0.06 (n 167), split-half r -0.03
+    vs onh   : next season r -0.01 (n 167), split-half r +0.04
+    vs ottt  : next season r -0.01 (n 167), split-half r +0.13

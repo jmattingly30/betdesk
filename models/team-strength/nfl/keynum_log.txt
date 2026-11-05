@@ -1,0 +1,25 @@
+leave-one-season-out log loss, 2010-2025 (4363 games); lower is better. Normal curve sigma 13.3:
+  normal          cover 0.6943  alt-3.5 0.6694  alt+3.5 0.6583  alt+6.5 0.5983  8+ 0.6450  14+ 0.5552
+  bw 0.75 mix  0.1  cover 0.6946  alt-3.5 0.6699  alt+3.5 0.6536  alt+6.5 0.5916  8+ 0.6373  14+ 0.5546
+  bw 0.75 mix 0.25  cover 0.6943  alt-3.5 0.6697  alt+3.5 0.6538  alt+6.5 0.5920  8+ 0.6374  14+ 0.5544
+  bw 0.75 mix  0.4  cover 0.6941  alt-3.5 0.6695  alt+3.5 0.6543  alt+6.5 0.5928  8+ 0.6381  14+ 0.5544
+  bw  1.0 mix  0.1  cover 0.6947  alt-3.5 0.6699  alt+3.5 0.6539  alt+6.5 0.5918  8+ 0.6372  14+ 0.5548
+  bw  1.0 mix 0.25  cover 0.6944  alt-3.5 0.6697  alt+3.5 0.6541  alt+6.5 0.5923  8+ 0.6374  14+ 0.5546
+  bw  1.0 mix  0.4  cover 0.6942  alt-3.5 0.6696  alt+3.5 0.6545  alt+6.5 0.5930  8+ 0.6381  14+ 0.5545
+  bw  1.5 mix  0.1  cover 0.6950  alt-3.5 0.6701  alt+3.5 0.6546  alt+6.5 0.5925  8+ 0.6371  14+ 0.5551
+  bw  1.5 mix 0.25  cover 0.6946  alt-3.5 0.6699  alt+3.5 0.6547  alt+6.5 0.5930  8+ 0.6374  14+ 0.5549
+  bw  1.5 mix  0.4  cover 0.6943  alt-3.5 0.6697  alt+3.5 0.6550  alt+6.5 0.5937  8+ 0.6381  14+ 0.5549
+chosen (0.75, 0.1) gain vs normal (log loss x1000): {'cover': np.float64(-0.29), 'alt-3.5': np.float64(-0.51), 'alt+3.5': np.float64(4.69), 'alt+6.5': np.float64(6.67), '8+': np.float64(7.67), '14+': np.float64(0.61)}
+
+chance the favourite wins by 8+ / pushes 3 / pushes 7, by closing spread: actual vs table vs normal
+  spread    0- 2.5 n  985: actual 0.251  table 0.278  normal 0.344
+  spread  2.5- 3.5 n 1070: actual 0.307  table 0.313  normal 0.385
+  spread  3.5- 6.5 n 1029: actual 0.396  table 0.399  normal 0.447
+  spread  6.5- 7.5 n  496: actual 0.468  table 0.468  normal 0.505
+  spread  7.5- 9.5 n  245: actual 0.498  table 0.515  normal 0.553
+  spread  9.5-13.5 n  399: actual 0.576  table 0.577  normal 0.622
+  spread 13.5-  30 n  134: actual 0.701  table 0.688  normal 0.732
+  spread exactly 3: push actual 0.088 (n 635), table 0.082, normal 0.031
+  spread exactly 7: push actual 0.064 (n 281), table 0.056, normal 0.031
+  spread exactly 10: push actual 0.087 (n 126), table 0.044, normal 0.031
+-> /tmp/claude-0/nflwork/nfl_margin.json 36 KB

@@ -1,0 +1,139 @@
+team,score_rating,market_rating,blended_rating
+Ohio State,23.66,24.9,27.68
+Indiana,25.89,23.64,27.62
+Notre Dame,20.96,22.94,25.17
+Georgia,22.48,19.28,23.06
+Miami,24.23,17.47,22.42
+Oregon,17.68,20.84,22.33
+Texas Tech,14.81,22.1,22.13
+Utah,19.55,17.35,20.49
+Alabama,20.39,16.71,20.35
+Texas,16.52,15.35,17.82
+Texas A&M,10.16,18.13,17.38
+Ole Miss,10.14,15.07,15.11
+Oklahoma,7.55,15.13,14.13
+Tennessee,12.31,12.1,13.77
+Iowa,12.8,11.04,13.18
+USC,7.68,13.76,13.18
+Missouri,10.45,12.23,13.13
+Vanderbilt,7.78,12.97,12.64
+James Madison,15.35,8.37,12.21
+BYU,11.77,10.1,12.08
+Penn State,9.68,10.62,11.65
+Michigan,6.36,12.19,11.5
+Florida State,5.65,12.57,11.5
+LSU,15.77,6.97,11.34
+SMU,7.56,10.88,11.0
+Pittsburgh,9.11,9.95,10.93
+Arizona,10.02,8.84,10.46
+Washington,7.51,10.09,10.4
+Florida,8.15,8.82,9.71
+Clemson,1.84,12.12,9.67
+Auburn,7.37,9.01,9.55
+Louisville,8.97,7.78,9.26
+TCU,5.23,9.65,9.18
+Kansas State,8.81,7.31,8.86
+South Carolina,4.81,8.87,8.44
+Duke,10.17,5.99,8.42
+Houston,7.01,7.46,8.26
+Nebraska,10.26,5.54,8.12
+Virginia,4.68,8.17,7.87
+South Florida,4.14,8.3,7.76
+Illinois,1.98,9.4,7.72
+Kentucky,4.89,7.53,7.48
+Iowa State,5.7,6.94,7.36
+North Texas,4.18,7.69,7.32
+Baylor,8.24,5.12,7.02
+Kansas,4.54,6.87,6.86
+Northwestern,10.1,3.81,6.78
+Mississippi State,3.85,6.81,6.54
+Wake Forest,7.67,4.42,6.28
+NC State,6.31,3.46,5.03
+Georgia Tech,-0.17,6.61,4.81
+Arkansas,-2.56,7.79,4.74
+Wisconsin,6.79,2.46,4.49
+Boise State,7.61,1.06,3.77
+Navy,-2.4,6.13,3.58
+Cincinnati,1.59,2.79,2.68
+Arizona State,-0.38,3.39,2.35
+Tulane,-1.96,3.83,2.06
+Virginia Tech,3.21,1.06,2.04
+Memphis,3.45,0.65,1.84
+New Mexico,8.37,-2.21,1.66
+UCLA,5.23,-0.79,1.48
+Texas State,1.94,0.95,1.46
+Toledo,4.59,-0.7,1.29
+UCF,2.79,-0.09,1.03
+Minnesota,3.76,-1.05,0.7
+Old Dominion,-7.12,4.63,0.62
+East Carolina,1.11,-0.2,0.29
+Army,1.66,-1.22,-0.25
+San Diego State,-4.01,1.6,-0.4
+Michigan State,-3.2,1.15,-0.41
+North Carolina,-1.08,-0.04,-0.45
+Fresno State,3.01,-2.58,-0.72
+UNLV,-1.65,-0.35,-0.9
+North Dakota State,12.22,-7.95,-1.07
+UTSA,1.38,-3.41,-1.97
+West Virginia,-1.72,-2.1,-2.23
+Rutgers,-3.56,-1.41,-2.44
+Washington State,-2.16,-2.32,-2.56
+Utah State,-4.68,-1.82,-3.18
+Western Michigan,-1.73,-3.74,-3.44
+Maryland,-7.44,-1.77,-4.23
+California,-5.94,-2.9,-4.47
+UConn,-1.62,-5.67,-4.82
+Colorado,-6.7,-3.22,-5.01
+Purdue,-7.44,-2.87,-5.04
+Boston College,-6.57,-3.68,-5.3
+Air Force,-2.34,-6.31,-5.57
+Ohio,-5.59,-4.58,-5.58
+Oregon State,0.15,-8.82,-6.45
+Temple,-3.34,-7.3,-6.7
+Marshall,-9.63,-3.98,-6.72
+Louisiana Tech,-3.5,-7.38,-6.83
+Oklahoma State,-1.83,-8.47,-6.97
+Southern Miss,-10.4,-4.02,-7.05
+Liberty,-1.74,-8.69,-7.1
+Syracuse,-4.84,-7.84,-7.69
+Hawai'i,-10.73,-4.75,-7.72
+Georgia Southern,-6.39,-7.12,-7.77
+Jacksonville State,-3.53,-8.69,-7.8
+South Alabama,-7.51,-6.6,-7.82
+Kennesaw State,-8.17,-6.31,-7.86
+Miami (OH),-6.65,-7.12,-7.87
+Florida Atlantic,-4.35,-8.63,-8.08
+Louisiana,-4.51,-8.64,-8.15
+Arkansas State,-5.94,-8.57,-8.66
+Western Kentucky,-11.06,-7.06,-9.56
+Troy,-6.04,-9.88,-9.67
+San José State,-11.71,-7.14,-9.87
+Tulsa,-9.1,-8.56,-9.89
+Stanford,-12.52,-7.47,-10.43
+Florida International,-7.7,-10.26,-10.6
+Central Michigan,-11.28,-8.59,-10.77
+Missouri State,-8.76,-10.01,-10.83
+Delaware,-10.11,-9.78,-11.19
+Wyoming,-12.42,-8.92,-11.46
+Colorado State,-12.1,-10.9,-12.8
+Nevada,-8.05,-13.24,-12.94
+App State,-6.2,-14.24,-12.95
+Georgia State,-3.59,-15.98,-13.2
+Buffalo,-14.63,-10.75,-13.68
+UAB,-11.03,-13.2,-14.08
+Bowling Green,-14.47,-12.43,-14.86
+Sacramento State,-14.47,-12.87,-15.19
+Eastern Michigan,-10.85,-14.83,-15.21
+Rice,-13.11,-14.52,-15.86
+Coastal Carolina,-12.87,-14.86,-16.03
+New Mexico State,-10.31,-16.55,-16.27
+Akron,-18.73,-13.18,-17.09
+Northern Illinois,-15.49,-15.36,-17.43
+Middle Tennessee,-16.33,-16.62,-18.68
+Kent State,-17.06,-17.37,-19.52
+UL Monroe,-22.47,-14.81,-19.76
+UTEP,-21.66,-15.59,-20.02
+Sam Houston,-13.23,-20.35,-20.22
+Ball State,-19.23,-18.86,-21.48
+Charlotte,-23.54,-19.77,-23.84
+Massachusetts,-16.39,-26.91,-26.3

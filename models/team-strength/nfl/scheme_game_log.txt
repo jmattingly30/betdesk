@@ -1,0 +1,56 @@
+358,937 plays with personnel, 2016-2025
+
+(1) Do OFFENCE splits repeat?  r between odd-week and even-week splits of the same team-season (shrunk, k=60 plays)
+  db     base r +0.10  nickel r +0.01  dime r -0.03   | 11-personnel only: base -0.05  nickel -0.05  dime -0.05   (team-seasons 320)
+  cov    man r -0.09  zone r -0.08   | 11-personnel only: man -0.07  zone -0.09   (team-seasons 256)
+  shell  one r +0.04  two r +0.04   | 11-personnel only: one +0.03  two +0.02   (team-seasons 256)
+  prush  r4 r +0.03  r5 r +0.02   | 11-personnel only: r4 -0.01  r5 -0.01   (team-seasons 320)
+  box    light r -0.07  b7 r +0.03  heavy r -0.06   | 11-personnel only: light +0.06  b7 +0.09  heavy +0.08   (team-seasons 320)
+  defence side (defence split vs offence personnel, offence quality removed):
+  pers   p11 r -0.01  p12 r -0.04  heavy r -0.01  other r -0.06
+
+    season to next season, same play-caller vs new play-caller (offence splits, all neutral snaps):
+  db     same caller (n 171): base -0.15  nickel -0.13  dime +0.10   new caller (n 117): base +0.00  nickel -0.03  dime +0.10
+  cov    same caller (n 130): man -0.12  zone -0.11   new caller (n 94): man +0.06  zone +0.01
+  shell  same caller (n 130): one -0.03  two +0.03   new caller (n 94): one +0.01  two +0.01
+  prush  same caller (n 171): r4 -0.11  r5 -0.12   new caller (n 117): r4 +0.03  r5 +0.05
+  box    same caller (n 171): light +0.00  b7 +0.05  heavy +0.08   new caller (n 117): light +0.06  b7 +0.03  heavy -0.07
+
+(2) Does a DEFENCE's look mix repeat? (share of snaps in the look; odd vs even weeks / next season)
+  db     split base r +0.83  nickel r +0.90  dime r +0.95
+  db     year  base r +0.48  nickel r +0.55  dime r +0.61
+  cov    split man r +0.87  zone r +0.87
+  cov    year  man r +0.36  zone r +0.36
+  shell  split one r +0.81  two r +0.81
+  shell  year  one r +0.55  two r +0.55
+  prush  split r4 r +0.77  r5 r +0.77
+  prush  year  r4 r +0.53  r5 r +0.53
+  box    split light r +0.78  b7 r +0.57  heavy r +0.76
+  box    year  light r +0.52  b7 r +0.33  heavy r +0.54
+
+(3) Walk-forward game test 2018-2025 vs the closing line
+  team-games 4422; term SD (EPA/play): db 0.0106  cov 0.0085  shell 0.0072  prush 0.0053  box 0.0056  pers 0.0096  all 0.0209
+  team points minus closing-line implied points ~ term (EPA/play x ~62 plays would be ~62 if fully real and unpriced):
+    db     coef    -1.7 pts per EPA/play  (t -0.13)   1 SD of term = -0.02 pts
+    cov    coef   -10.4 pts per EPA/play  (t -0.62)   1 SD of term = -0.09 pts
+    shell  coef    -1.6 pts per EPA/play  (t -0.08)   1 SD of term = -0.01 pts
+    prush  coef   +37.0 pts per EPA/play  (t +1.43)   1 SD of term = +0.20 pts
+    box    coef   -17.2 pts per EPA/play  (t -0.69)   1 SD of term = -0.10 pts
+    pers   coef   -16.5 pts per EPA/play  (t -1.05)   1 SD of term = -0.16 pts
+    all    coef    -4.6 pts per EPA/play  (t -0.67)   1 SD of term = -0.10 pts
+  all terms together:
+==============================================================================
+                 coef    std err          z      P>|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          0.2546      0.142      1.787      0.074      -0.025       0.534
+db            -0.3508     13.224     -0.027      0.979     -26.270      25.569
+cov          -12.9604     17.362     -0.746      0.455     -46.990      21.069
+shell         -0.1148     19.228     -0.006      0.995     -37.801      37.571
+prush         40.2324     25.981      1.549      0.121     -10.689      91.154
+box          -17.5942     25.058     -0.702      0.483     -66.707      31.519
+pers         -16.4158     15.727     -1.044      0.297     -47.239      14.408
+==============================================================================
+  margin - spread    coef -2.7 (t -0.29); top-20% largest terms (n 439): right side 52.7%
+  margin - our model coef -1.1 (t -0.12); top-20% largest terms (n 439): right side 54.0%
+  total - total line coef -6.5 (t -0.69); top-20% largest terms (n 439): right side 47.7%
+  by season (team points coef on the summed term): 2018: +16  2019: -15  2020: +30  2021: +7  2022: -9  2023: -30  2024: +12  2025: -65

@@ -1,0 +1,1123 @@
+{
+ "fit": {
+  "margin": {
+   "new_per_epa": 36.92,
+   "new_se": 5.85,
+   "cont_per_epa": 11.33,
+   "cont_se": 4.85,
+   "rmse": 12.961,
+   "rmse_without": 13.078
+  },
+  "line": {
+   "new_per_epa": 26.41,
+   "new_se": 1.13,
+   "cont_per_epa": 15.23,
+   "cont_se": 0.94,
+   "rmse": 2.514,
+   "rmse_without": 2.893
+  }
+ },
+ "upcoming": {
+  "2026_08_CHI_SEA": [
+   2,
+   0,
+   "Sam Darnold",
+   "Caleb Williams",
+   0.055
+  ],
+  "2026_09_JAX_BAL": [
+   0,
+   0,
+   "Lamar Jackson",
+   "Trevor Lawrence",
+   0.0
+  ],
+  "2026_09_ARI_SEA": [
+   2,
+   0,
+   "Sam Darnold",
+   "Jacoby Brissett",
+   0.055
+  ],
+  "2026_09_CIN_ATL": [
+   0,
+   0,
+   "Michael Penix Jr.",
+   "Joe Burrow",
+   0.0
+  ],
+  "2026_09_CLE_NO": [
+   0,
+   0,
+   "Tyler Shough",
+   "Deshaun Watson",
+   0.0
+  ],
+  "2026_09_DAL_IND": [
+   0,
+   0,
+   "Daniel Jones",
+   "Dak Prescott",
+   0.0
+  ],
+  "2026_09_DEN_CAR": [
+   0,
+   0,
+   "Bryce Young",
+   "Bo Nix",
+   0.0
+  ],
+  "2026_09_DET_MIA": [
+   0,
+   0,
+   "Malik Willis",
+   "Jared Goff",
+   0.0
+  ],
+  "2026_09_GB_NE": [
+   0,
+   0,
+   "Drake Maye",
+   "Jordan Love",
+   0.0
+  ],
+  "2026_09_HOU_LAC": [
+   0,
+   0,
+   "Justin Herbert",
+   "C.J. Stroud",
+   0.0
+  ],
+  "2026_09_LA_WAS": [
+   0,
+   0,
+   "Jayden Daniels",
+   "Matthew Stafford",
+   0.0
+  ],
+  "2026_09_LV_SF": [
+   0,
+   0,
+   "Brock Purdy",
+   "Kirk Cousins",
+   0.0
+  ],
+  "2026_09_NYG_PHI": [
+   2,
+   2,
+   "Tanner McKee",
+   "J.J. McCarthy",
+   -0.098
+  ],
+  "2026_09_NYJ_KC": [
+   0,
+   0,
+   "Patrick Mahomes",
+   "Geno Smith",
+   0.0
+  ],
+  "2026_09_TB_CHI": [
+   0,
+   0,
+   "Caleb Williams",
+   "Baker Mayfield",
+   0.0
+  ],
+  "2026_09_BUF_MIN": [
+   0,
+   0,
+   "Kyler Murray",
+   "Josh Allen",
+   0.0
+  ],
+  "2026_10_WAS_NYG": [
+   2,
+   0,
+   "J.J. McCarthy",
+   "Jayden Daniels",
+   -0.05
+  ],
+  "2026_10_BUF_NYJ": [
+   0,
+   0,
+   "Geno Smith",
+   "Josh Allen",
+   0.0
+  ],
+  "2026_10_CAR_NO": [
+   0,
+   0,
+   "Tyler Shough",
+   "Bryce Young",
+   0.0
+  ],
+  "2026_10_HOU_CLE": [
+   0,
+   0,
+   "Deshaun Watson",
+   "C.J. Stroud",
+   0.0
+  ],
+  "2026_10_JAX_TEN": [
+   0,
+   0,
+   "Cam Ward",
+   "Trevor Lawrence",
+   0.0
+  ],
+  "2026_10_KC_ATL": [
+   0,
+   0,
+   "Michael Penix Jr.",
+   "Patrick Mahomes",
+   0.0
+  ],
+  "2026_10_LA_ARI": [
+   0,
+   0,
+   "Jacoby Brissett",
+   "Matthew Stafford",
+   0.0
+  ],
+  "2026_10_MIA_IND": [
+   0,
+   0,
+   "Daniel Jones",
+   "Malik Willis",
+   0.0
+  ],
+  "2026_10_MIN_GB": [
+   0,
+   0,
+   "Jordan Love",
+   "Kyler Murray",
+   0.0
+  ],
+  "2026_10_NE_DET": [
+   0,
+   0,
+   "Jared Goff",
+   "Drake Maye",
+   0.0
+  ],
+  "2026_10_PIT_CIN": [
+   0,
+   0,
+   "Joe Burrow",
+   "Aaron Rodgers",
+   0.0
+  ],
+  "2026_10_SEA_LV": [
+   0,
+   2,
+   "Kirk Cousins",
+   "Sam Darnold",
+   -0.055
+  ],
+  "2026_10_SF_DAL": [
+   0,
+   0,
+   "Dak Prescott",
+   "Brock Purdy",
+   0.0
+  ],
+  "2026_10_LAC_BAL": [
+   0,
+   0,
+   "Lamar Jackson",
+   "Justin Herbert",
+   0.0
+  ],
+  "2026_11_IND_HOU": [
+   0,
+   0,
+   "C.J. Stroud",
+   "Daniel Jones",
+   0.0
+  ],
+  "2026_11_ARI_KC": [
+   0,
+   0,
+   "Patrick Mahomes",
+   "Jacoby Brissett",
+   0.0
+  ],
+  "2026_11_BAL_CAR": [
+   0,
+   0,
+   "Bryce Young",
+   "Lamar Jackson",
+   0.0
+  ],
+  "2026_11_JAX_NYG": [
+   2,
+   0,
+   "J.J. McCarthy",
+   "Trevor Lawrence",
+   -0.05
+  ],
+  "2026_11_LV_DEN": [
+   0,
+   0,
+   "Bo Nix",
+   "Kirk Cousins",
+   0.0
+  ],
+  "2026_11_MIA_BUF": [
+   0,
+   0,
+   "Josh Allen",
+   "Malik Willis",
+   0.0
+  ],
+  "2026_11_MIN_SF": [
+   0,
+   0,
+   "Brock Purdy",
+   "Kyler Murray",
+   0.0
+  ],
+  "2026_11_NO_CHI": [
+   0,
+   0,
+   "Caleb Williams",
+   "Tyler Shough",
+   0.0
+  ],
+  "2026_11_NYJ_LAC": [
+   0,
+   0,
+   "Justin Herbert",
+   "Geno Smith",
+   0.0
+  ],
+  "2026_11_PIT_PHI": [
+   2,
+   0,
+   "Tanner McKee",
+   "Aaron Rodgers",
+   -0.147
+  ],
+  "2026_11_TB_DET": [
+   0,
+   0,
+   "Jared Goff",
+   "Baker Mayfield",
+   0.0
+  ],
+  "2026_11_TEN_DAL": [
+   0,
+   0,
+   "Dak Prescott",
+   "Cam Ward",
+   0.0
+  ],
+  "2026_11_CIN_WAS": [
+   0,
+   0,
+   "Jayden Daniels",
+   "Joe Burrow",
+   0.0
+  ],
+  "2026_12_GB_LA": [
+   0,
+   0,
+   "Matthew Stafford",
+   "Jordan Love",
+   0.0
+  ],
+  "2026_12_CHI_DET": [
+   0,
+   0,
+   "Jared Goff",
+   "Caleb Williams",
+   0.0
+  ],
+  "2026_12_KC_BUF": [
+   0,
+   0,
+   "Josh Allen",
+   "Patrick Mahomes",
+   0.0
+  ],
+  "2026_12_PHI_DAL": [
+   0,
+   2,
+   "Dak Prescott",
+   "Tanner McKee",
+   0.147
+  ],
+  "2026_12_DEN_PIT": [
+   0,
+   0,
+   "Aaron Rodgers",
+   "Bo Nix",
+   0.0
+  ],
+  "2026_12_ATL_MIN": [
+   0,
+   0,
+   "Kyler Murray",
+   "Michael Penix Jr.",
+   0.0
+  ],
+  "2026_12_BAL_HOU": [
+   0,
+   0,
+   "C.J. Stroud",
+   "Lamar Jackson",
+   0.0
+  ],
+  "2026_12_LV_CLE": [
+   0,
+   0,
+   "Deshaun Watson",
+   "Kirk Cousins",
+   0.0
+  ],
+  "2026_12_NE_LAC": [
+   0,
+   0,
+   "Justin Herbert",
+   "Drake Maye",
+   0.0
+  ],
+  "2026_12_NO_CIN": [
+   0,
+   0,
+   "Joe Burrow",
+   "Tyler Shough",
+   0.0
+  ],
+  "2026_12_NYG_IND": [
+   0,
+   2,
+   "Daniel Jones",
+   "J.J. McCarthy",
+   0.05
+  ],
+  "2026_12_NYJ_MIA": [
+   0,
+   0,
+   "Malik Willis",
+   "Geno Smith",
+   0.0
+  ],
+  "2026_12_SEA_SF": [
+   0,
+   2,
+   "Brock Purdy",
+   "Sam Darnold",
+   -0.055
+  ],
+  "2026_12_TEN_JAX": [
+   0,
+   0,
+   "Trevor Lawrence",
+   "Cam Ward",
+   0.0
+  ],
+  "2026_12_WAS_ARI": [
+   0,
+   0,
+   "Jacoby Brissett",
+   "Jayden Daniels",
+   0.0
+  ],
+  "2026_12_CAR_TB": [
+   0,
+   0,
+   "Baker Mayfield",
+   "Bryce Young",
+   0.0
+  ],
+  "2026_13_KC_LA": [
+   0,
+   0,
+   "Matthew Stafford",
+   "Patrick Mahomes",
+   0.0
+  ],
+  "2026_13_BUF_NE": [
+   0,
+   0,
+   "Drake Maye",
+   "Josh Allen",
+   0.0
+  ],
+  "2026_13_CAR_MIN": [
+   0,
+   0,
+   "Kyler Murray",
+   "Bryce Young",
+   0.0
+  ],
+  "2026_13_CIN_CLE": [
+   0,
+   0,
+   "Deshaun Watson",
+   "Joe Burrow",
+   0.0
+  ],
+  "2026_13_DET_ATL": [
+   0,
+   0,
+   "Michael Penix Jr.",
+   "Jared Goff",
+   0.0
+  ],
+  "2026_13_GB_NO": [
+   0,
+   0,
+   "Tyler Shough",
+   "Jordan Love",
+   0.0
+  ],
+  "2026_13_HOU_PIT": [
+   0,
+   0,
+   "Aaron Rodgers",
+   "C.J. Stroud",
+   0.0
+  ],
+  "2026_13_JAX_CHI": [
+   0,
+   0,
+   "Caleb Williams",
+   "Trevor Lawrence",
+   0.0
+  ],
+  "2026_13_LAC_TB": [
+   0,
+   0,
+   "Baker Mayfield",
+   "Justin Herbert",
+   0.0
+  ],
+  "2026_13_MIA_DEN": [
+   0,
+   0,
+   "Bo Nix",
+   "Malik Willis",
+   0.0
+  ],
+  "2026_13_PHI_ARI": [
+   0,
+   2,
+   "Jacoby Brissett",
+   "Tanner McKee",
+   0.147
+  ],
+  "2026_13_SF_NYG": [
+   2,
+   0,
+   "J.J. McCarthy",
+   "Brock Purdy",
+   -0.05
+  ],
+  "2026_13_WAS_TEN": [
+   0,
+   0,
+   "Cam Ward",
+   "Jayden Daniels",
+   0.0
+  ],
+  "2026_13_DAL_SEA": [
+   2,
+   0,
+   "Sam Darnold",
+   "Dak Prescott",
+   0.055
+  ],
+  "2026_14_MIN_NE": [
+   0,
+   0,
+   "Drake Maye",
+   "Kyler Murray",
+   0.0
+  ],
+  "2026_14_ATL_CLE": [
+   0,
+   0,
+   "Deshaun Watson",
+   "Michael Penix Jr.",
+   0.0
+  ],
+  "2026_14_BUF_GB": [
+   0,
+   0,
+   "Jordan Love",
+   "Josh Allen",
+   0.0
+  ],
+  "2026_14_CHI_MIA": [
+   0,
+   0,
+   "Malik Willis",
+   "Caleb Williams",
+   0.0
+  ],
+  "2026_14_DEN_NYJ": [
+   0,
+   0,
+   "Geno Smith",
+   "Bo Nix",
+   0.0
+  ],
+  "2026_14_HOU_WAS": [
+   0,
+   0,
+   "Jayden Daniels",
+   "C.J. Stroud",
+   0.0
+  ],
+  "2026_14_IND_PHI": [
+   2,
+   0,
+   "Tanner McKee",
+   "Daniel Jones",
+   -0.147
+  ],
+  "2026_14_KC_CIN": [
+   0,
+   0,
+   "Joe Burrow",
+   "Patrick Mahomes",
+   0.0
+  ],
+  "2026_14_LAC_LV": [
+   0,
+   0,
+   "Kirk Cousins",
+   "Justin Herbert",
+   0.0
+  ],
+  "2026_14_LA_SF": [
+   0,
+   0,
+   "Brock Purdy",
+   "Matthew Stafford",
+   0.0
+  ],
+  "2026_14_NO_CAR": [
+   0,
+   0,
+   "Bryce Young",
+   "Tyler Shough",
+   0.0
+  ],
+  "2026_14_NYG_SEA": [
+   2,
+   2,
+   "Sam Darnold",
+   "J.J. McCarthy",
+   0.104
+  ],
+  "2026_14_TB_BAL": [
+   0,
+   0,
+   "Lamar Jackson",
+   "Baker Mayfield",
+   0.0
+  ],
+  "2026_14_TEN_DET": [
+   0,
+   0,
+   "Jared Goff",
+   "Cam Ward",
+   0.0
+  ],
+  "2026_14_PIT_JAX": [
+   0,
+   0,
+   "Trevor Lawrence",
+   "Aaron Rodgers",
+   0.0
+  ],
+  "2026_15_SF_LAC": [
+   0,
+   0,
+   "Justin Herbert",
+   "Brock Purdy",
+   0.0
+  ],
+  "2026_15_CHI_BUF": [
+   0,
+   0,
+   "Josh Allen",
+   "Caleb Williams",
+   0.0
+  ],
+  "2026_15_SEA_PHI": [
+   2,
+   2,
+   "Tanner McKee",
+   "Sam Darnold",
+   -0.202
+  ],
+  "2026_15_ATL_WAS": [
+   0,
+   0,
+   "Jayden Daniels",
+   "Michael Penix Jr.",
+   0.0
+  ],
+  "2026_15_BAL_PIT": [
+   0,
+   0,
+   "Aaron Rodgers",
+   "Lamar Jackson",
+   0.0
+  ],
+  "2026_15_CIN_CAR": [
+   0,
+   0,
+   "Bryce Young",
+   "Joe Burrow",
+   0.0
+  ],
+  "2026_15_CLE_NYG": [
+   2,
+   0,
+   "J.J. McCarthy",
+   "Deshaun Watson",
+   -0.05
+  ],
+  "2026_15_DAL_LA": [
+   0,
+   0,
+   "Matthew Stafford",
+   "Dak Prescott",
+   0.0
+  ],
+  "2026_15_DEN_LV": [
+   0,
+   0,
+   "Kirk Cousins",
+   "Bo Nix",
+   0.0
+  ],
+  "2026_15_DET_MIN": [
+   0,
+   0,
+   "Kyler Murray",
+   "Jared Goff",
+   0.0
+  ],
+  "2026_15_IND_TEN": [
+   0,
+   0,
+   "Cam Ward",
+   "Daniel Jones",
+   0.0
+  ],
+  "2026_15_JAX_HOU": [
+   0,
+   0,
+   "C.J. Stroud",
+   "Trevor Lawrence",
+   0.0
+  ],
+  "2026_15_MIA_GB": [
+   0,
+   0,
+   "Jordan Love",
+   "Malik Willis",
+   0.0
+  ],
+  "2026_15_NO_TB": [
+   0,
+   0,
+   "Baker Mayfield",
+   "Tyler Shough",
+   0.0
+  ],
+  "2026_15_NYJ_ARI": [
+   0,
+   0,
+   "Jacoby Brissett",
+   "Geno Smith",
+   0.0
+  ],
+  "2026_15_NE_KC": [
+   0,
+   0,
+   "Patrick Mahomes",
+   "Drake Maye",
+   0.0
+  ],
+  "2026_16_HOU_PHI": [
+   2,
+   0,
+   "Tanner McKee",
+   "C.J. Stroud",
+   -0.147
+  ],
+  "2026_16_BUF_DEN": [
+   0,
+   0,
+   "Bo Nix",
+   "Josh Allen",
+   0.0
+  ],
+  "2026_16_GB_CHI": [
+   0,
+   0,
+   "Caleb Williams",
+   "Jordan Love",
+   0.0
+  ],
+  "2026_16_LA_SEA": [
+   2,
+   0,
+   "Sam Darnold",
+   "Matthew Stafford",
+   0.055
+  ],
+  "2026_16_ARI_NO": [
+   0,
+   0,
+   "Tyler Shough",
+   "Jacoby Brissett",
+   0.0
+  ],
+  "2026_16_CAR_PIT": [
+   0,
+   0,
+   "Aaron Rodgers",
+   "Bryce Young",
+   0.0
+  ],
+  "2026_16_CIN_IND": [
+   0,
+   0,
+   "Daniel Jones",
+   "Joe Burrow",
+   0.0
+  ],
+  "2026_16_CLE_BAL": [
+   0,
+   0,
+   "Lamar Jackson",
+   "Deshaun Watson",
+   0.0
+  ],
+  "2026_16_JAX_DAL": [
+   0,
+   0,
+   "Dak Prescott",
+   "Trevor Lawrence",
+   0.0
+  ],
+  "2026_16_LAC_MIA": [
+   0,
+   0,
+   "Malik Willis",
+   "Justin Herbert",
+   0.0
+  ],
+  "2026_16_NE_NYJ": [
+   0,
+   0,
+   "Geno Smith",
+   "Drake Maye",
+   0.0
+  ],
+  "2026_16_SF_KC": [
+   0,
+   0,
+   "Patrick Mahomes",
+   "Brock Purdy",
+   0.0
+  ],
+  "2026_16_TB_ATL": [
+   0,
+   0,
+   "Michael Penix Jr.",
+   "Baker Mayfield",
+   0.0
+  ],
+  "2026_16_TEN_LV": [
+   0,
+   0,
+   "Kirk Cousins",
+   "Cam Ward",
+   0.0
+  ],
+  "2026_16_WAS_MIN": [
+   0,
+   0,
+   "Kyler Murray",
+   "Jayden Daniels",
+   0.0
+  ],
+  "2026_16_NYG_DET": [
+   0,
+   2,
+   "Jared Goff",
+   "J.J. McCarthy",
+   0.05
+  ],
+  "2026_17_BAL_CIN": [
+   0,
+   0,
+   "Joe Burrow",
+   "Lamar Jackson",
+   0.0
+  ],
+  "2026_17_BUF_MIA": [
+   0,
+   0,
+   "Malik Willis",
+   "Josh Allen",
+   0.0
+  ],
+  "2026_17_DEN_NE": [
+   0,
+   0,
+   "Drake Maye",
+   "Bo Nix",
+   0.0
+  ],
+  "2026_17_DET_CHI": [
+   0,
+   0,
+   "Caleb Williams",
+   "Jared Goff",
+   0.0
+  ],
+  "2026_17_IND_CLE": [
+   0,
+   0,
+   "Deshaun Watson",
+   "Daniel Jones",
+   0.0
+  ],
+  "2026_17_KC_LAC": [
+   0,
+   0,
+   "Justin Herbert",
+   "Patrick Mahomes",
+   0.0
+  ],
+  "2026_17_LA_TB": [
+   0,
+   0,
+   "Baker Mayfield",
+   "Matthew Stafford",
+   0.0
+  ],
+  "2026_17_LV_ARI": [
+   0,
+   0,
+   "Jacoby Brissett",
+   "Kirk Cousins",
+   0.0
+  ],
+  "2026_17_MIN_NYJ": [
+   0,
+   0,
+   "Geno Smith",
+   "Kyler Murray",
+   0.0
+  ],
+  "2026_17_NO_ATL": [
+   0,
+   0,
+   "Michael Penix Jr.",
+   "Tyler Shough",
+   0.0
+  ],
+  "2026_17_NYG_DAL": [
+   0,
+   2,
+   "Dak Prescott",
+   "J.J. McCarthy",
+   0.05
+  ],
+  "2026_17_PHI_SF": [
+   0,
+   2,
+   "Brock Purdy",
+   "Tanner McKee",
+   0.147
+  ],
+  "2026_17_PIT_TEN": [
+   0,
+   0,
+   "Cam Ward",
+   "Aaron Rodgers",
+   0.0
+  ],
+  "2026_17_SEA_CAR": [
+   0,
+   2,
+   "Bryce Young",
+   "Sam Darnold",
+   -0.055
+  ],
+  "2026_17_WAS_JAX": [
+   0,
+   0,
+   "Trevor Lawrence",
+   "Jayden Daniels",
+   0.0
+  ],
+  "2026_17_HOU_GB": [
+   0,
+   0,
+   "Jordan Love",
+   "C.J. Stroud",
+   0.0
+  ],
+  "2026_18_ATL_CAR": [
+   0,
+   0,
+   "Bryce Young",
+   "Michael Penix Jr.",
+   0.0
+  ],
+  "2026_18_CHI_MIN": [
+   0,
+   0,
+   "Kyler Murray",
+   "Caleb Williams",
+   0.0
+  ],
+  "2026_18_CLE_CIN": [
+   0,
+   0,
+   "Joe Burrow",
+   "Deshaun Watson",
+   0.0
+  ],
+  "2026_18_DAL_WAS": [
+   0,
+   0,
+   "Jayden Daniels",
+   "Dak Prescott",
+   0.0
+  ],
+  "2026_18_DET_GB": [
+   0,
+   0,
+   "Jordan Love",
+   "Jared Goff",
+   0.0
+  ],
+  "2026_18_JAX_IND": [
+   0,
+   0,
+   "Daniel Jones",
+   "Trevor Lawrence",
+   0.0
+  ],
+  "2026_18_LAC_DEN": [
+   0,
+   0,
+   "Bo Nix",
+   "Justin Herbert",
+   0.0
+  ],
+  "2026_18_LV_KC": [
+   0,
+   0,
+   "Patrick Mahomes",
+   "Kirk Cousins",
+   0.0
+  ],
+  "2026_18_MIA_NE": [
+   0,
+   0,
+   "Drake Maye",
+   "Malik Willis",
+   0.0
+  ],
+  "2026_18_NYJ_BUF": [
+   0,
+   0,
+   "Josh Allen",
+   "Geno Smith",
+   0.0
+  ],
+  "2026_18_PHI_NYG": [
+   2,
+   2,
+   "J.J. McCarthy",
+   "Tanner McKee",
+   0.098
+  ],
+  "2026_18_PIT_BAL": [
+   0,
+   0,
+   "Lamar Jackson",
+   "Aaron Rodgers",
+   0.0
+  ],
+  "2026_18_SEA_LA": [
+   0,
+   2,
+   "Matthew Stafford",
+   "Sam Darnold",
+   -0.055
+  ],
+  "2026_18_SF_ARI": [
+   0,
+   0,
+   "Jacoby Brissett",
+   "Brock Purdy",
+   0.0
+  ],
+  "2026_18_TB_NO": [
+   0,
+   0,
+   "Tyler Shough",
+   "Baker Mayfield",
+   0.0
+  ],
+  "2026_18_TEN_HOU": [
+   0,
+   0,
+   "C.J. Stroud",
+   "Cam Ward",
+   0.0
+  ]
+ },
+ "usual": {
+  "ATL": "Michael Penix Jr.",
+  "ARI": "Jacoby Brissett",
+  "CLE": "Deshaun Watson",
+  "TEN": "Cam Ward",
+  "STL": "Nick Foles",
+  "DET": "Jared Goff",
+  "NYJ": "Geno Smith",
+  "IND": "Daniel Jones",
+  "WAS": "Jayden Daniels",
+  "JAX": "Trevor Lawrence",
+  "HOU": "C.J. Stroud",
+  "MIA": "Malik Willis",
+  "BUF": "Josh Allen",
+  "MIN": "Kyler Murray",
+  "CIN": "Joe Burrow",
+  "NE": "Drake Maye",
+  "CAR": "Bryce Young",
+  "NO": "Tyler Shough",
+  "BAL": "Lamar Jackson",
+  "CHI": "Caleb Williams",
+  "SEA": "Drew Lock",
+  "SF": "Brock Purdy",
+  "PHI": "Jalen Hurts",
+  "GB": "Jordan Love",
+  "DAL": "Dak Prescott",
+  "KC": "Patrick Mahomes",
+  "OAK": "Derek Carr",
+  "SD": "Philip Rivers",
+  "PIT": "Aaron Rodgers",
+  "TB": "Baker Mayfield",
+  "NYG": "Jameis Winston",
+  "DEN": "Bo Nix",
+  "LA": "Matthew Stafford",
+  "LAC": "Justin Herbert",
+  "LV": "Kirk Cousins"
+ }
+}

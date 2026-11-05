@@ -1,0 +1,47 @@
+NFL 2010-2025 regular+post, 4363 games
+
+1. How often do games end 8+ points apart?
+  final margin 8+: 51.9%   14+: 35.1%   21+: 17.3%
+  closing spread 7.5+: 22.8%   10+: 12.2%
+  our model margin 7.5+: 24.4%   10+: 12.1%
+  spread of projections (SD): closing line 5.94, our model 5.92, score rating alone 5.88
+
+2. Does the model stretch far enough? Slope of actual margin on the projection (1.0 = right size, >1 = too timid)
+  est          slope 0.97  RMSE 13.26
+  spread_line  slope 1.05  RMSE 13.04
+  rt_pred      slope 0.95  RMSE 13.34
+  mkt_pred     slope 1.06  RMSE 13.33
+  by season block (walk-forward est):
+    2010-2015: slope est 0.98, line 1.08
+    2016-2020: slope est 0.98, line 1.02
+    2021-2025: slope est 0.95, line 1.05
+
+3. By closing spread: favourite margin, cover rate, and how often the favourite wins by 8+ / 14+
+ spread    n  avg_spread  avg_fav_margin  sd_vs_line  fav_cover  push  won_by_8+  normal_8+  won_by_14+  normal_14+  dog_won  normal_dog
+  0-2.5  990       1.762           0.547      12.816      0.485 0.008      0.252      0.333       0.143       0.189    0.474       0.447
+      3 1070       3.203           3.358      13.556      0.466 0.052      0.307      0.373       0.219       0.219    0.392       0.405
+  4-6.5 1029       5.301           5.672      12.643      0.477 0.011      0.396      0.434       0.263       0.269    0.316       0.345
+  7-7.5  496       7.217           8.476      13.367      0.468 0.036      0.468      0.492       0.367       0.318    0.238       0.294
+  8-9.5  245       8.835           8.788      13.240      0.461 0.000      0.498      0.540       0.388       0.363    0.245       0.253
+10-13.5  399      11.182          11.955      12.675      0.491 0.030      0.576      0.609       0.446       0.431    0.150       0.201
+    14+  134      15.384          15.209      12.522      0.463 0.030      0.701      0.721       0.552       0.555    0.082       0.126
+
+4. Totals and blowouts: average total vs closing total, by spread band (do lopsided games go over or under?)
+  0-2.5    n  990  actual - line -0.29  over 47.8%  fav pts - implied -0.75  dog pts - implied +0.46
+  3        n 1070  actual - line +0.34  over 48.3%  fav pts - implied +0.25  dog pts - implied +0.09
+  4-6.5    n 1029  actual - line +1.09  over 50.0%  fav pts - implied +0.73  dog pts - implied +0.36
+  7-7.5    n  496  actual - line +1.75  over 52.4%  fav pts - implied +1.51  dog pts - implied +0.25
+  8-9.5    n  245  actual - line +0.44  over 47.8%  fav pts - implied +0.20  dog pts - implied +0.24
+  10-13.5  n  399  actual - line +0.35  over 49.1%  fav pts - implied +0.56  dog pts - implied -0.21
+  14+      n  134  actual - line -0.14  over 45.5%  fav pts - implied -0.16  dog pts - implied +0.02
+
+5. Win-by-8+ chance: normal curve vs actual, model-projected games (walk-forward est), by projected margin
+  model (-0.1, 3.0]  n 1603  avg proj   1.5  avg actual   1.6  won by 8+ 27.0% (normal 32.7%)  line avg   1.5
+  model (3.0, 5.0]   n  869  avg proj   4.0  avg actual   4.0  won by 8+ 33.9% (normal 39.6%)  line avg   3.6
+  model (5.0, 7.5]   n  825  avg proj   6.2  avg actual   6.2  won by 8+ 41.1% (normal 46.1%)  line avg   5.7
+  model (7.5, 10.0]  n  538  avg proj   8.6  avg actual   8.5  won by 8+ 48.7% (normal 53.3%)  line avg   7.7
+  model (10.0, 40.0] n  528  avg proj  12.8  avg actual  11.4  won by 8+ 57.2% (normal 65.1%)  line avg  10.9
+
+6. Key numbers: share of games decided by exactly
+   1: 4.4%   2: 4.4%   3: 14.6%   4: 5.0%   6: 6.6%   7: 8.7%   8: 4.1%  10: 5.1%  14: 5.0%  17: 3.3%  21: 2.4%
+   2021-2025 only: 3:15.4% 6:6.7% 7:7.8% 10:4.6% 14:4.3%

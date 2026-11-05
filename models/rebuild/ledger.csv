@@ -1,0 +1,206 @@
+when,sport,stage,module,baseline,loss,n,a,b,delta,t,p,decision,note
+2026-10-26 19:45,NBA,frame,"tuned four-factor Kalman frame (interim tune 2016-17), test 2018+",today honest (nba_known),team_abs,11452,9.2509,9.2464,-0.0045,-0.26,0.8,PASS frame gate (bias -0.07),tie on team score
+2026-10-26 19:45,NBA,frame,"tuned four-factor Kalman frame (interim tune 2016-17), test 2018+",today honest (nba_known),total_abs,11452,14.9556,14.8296,-0.126,-3.04,0.0024,PASS frame gate (bias -0.07),frame better on totals
+2026-10-26 19:45,NBA,frame,"tuned four-factor Kalman frame (interim tune 2016-17), test 2018+",today honest (nba_known),margin_abs,11452,10.6238,10.7796,0.1558,8.1,1e-15,PASS frame gate (bias -0.07),frame worse on margin; player layer expected to close
+2026-10-26 20:20,NBA,sim,score effects k=0.07 + shared shooting w=0.05 (calibrated 2016-17),independent possessions k=0,margin_crps,2619,7.1215,7.0365,-0.085,,,KEEP (calibration),"margin cover80 0.89->0.80, total cover80 0.79; win logloss 0.611; confirm on test seasons"
+2026-10-26 20:32,NBA,module,"lineup/availability shift (known lineup vs running avg, + absence value), HL15",frame,team_abs,11452,9.2464,9.205,-0.0414,-5.16,2.7659986166454896e-07,KEEP,vs today: delta -0.0459 p=0.00998
+2026-10-26 20:32,NBA,module,"lineup/availability shift (known lineup vs running avg, + absence value), HL15",frame,margin_abs,11452,10.7796,10.6603,-0.1194,-6.21,6.550657747343405e-10,KEEP,vs today: delta 0.0364 p=0.0163
+2026-10-26 20:32,NBA,module,"lineup/availability shift (known lineup vs running avg, + absence value), HL15",frame,total_abs,11452,14.8296,14.8201,-0.0094,-0.73,0.46779194747187697,KEEP,vs today: delta -0.1354 p=0.00131
+2026-10-26 20:43,NBA,module,"schedule (b2b, 3+ days rest, 5th+ road game) on top of lineup",frame+lineup,team_abs,11452,9.2059,9.2033,-0.0027,-0.65,0.5177646658184409,KEEP,margin gain p=2e-5; totals flat
+2026-10-26 20:43,NBA,module,"schedule (b2b, 3+ days rest, 5th+ road game) on top of lineup",frame+lineup,margin_abs,11452,10.6599,10.6405,-0.0194,-4.28,1.993872047064015e-05,KEEP,margin gain p=2e-5; totals flat
+2026-10-26 20:43,NBA,module,"schedule (b2b, 3+ days rest, 5th+ road game) on top of lineup",frame+lineup,total_abs,11452,14.8243,14.8346,0.0103,1.04,0.3000771075719563,KEEP,margin gain p=2e-5; totals flat
+2026-10-26 21:57,NBA,module,"luck split: 3P% allowed 0.3, FT% allowed 0.05 of normal rating movement",frame+lineup+schedule,team_abs,11452,9.2033,9.1955,-0.0078,-2.69,0.007208541069827367,KEEP,testing 0.1 and wider variants
+2026-10-26 21:57,NBA,module,"luck split: 3P% allowed 0.3, FT% allowed 0.05 of normal rating movement",frame+lineup+schedule,margin_abs,11452,10.6405,10.6283,-0.0122,-2.12,0.0339274964535563,KEEP,testing 0.1 and wider variants
+2026-10-26 21:57,NBA,module,"luck split: 3P% allowed 0.3, FT% allowed 0.05 of normal rating movement",frame+lineup+schedule,total_abs,11452,14.8346,14.8259,-0.0087,-1.46,0.1436803698603681,KEEP,testing 0.1 and wider variants
+2026-10-26 21:57,CBB,module,"roster prior added to start ratings (first 6 games fit, scale 1)",frame,team_abs,54258,8.1434,8.1306,-0.0128,-3.32,0.0009198126752946447,KEEP (small),"vs today delta 0.0364; scale 1.5 and 12-game fits were worse; the first regression version hurt (team-id bug + over-shrink), discarded"
+2026-10-26 21:57,CBB,module,"roster prior added to start ratings (first 6 games fit, scale 1)",frame,margin_abs,54258,9.0838,9.0549,-0.0289,-2.5,0.012444002992393134,KEEP (small),"vs today delta 0.1081; scale 1.5 and 12-game fits were worse; the first regression version hurt (team-id bug + over-shrink), discarded"
+2026-10-26 21:57,CBB,module,"roster prior added to start ratings (first 6 games fit, scale 1)",frame,total_abs,54258,13.4155,13.4202,0.0046,1.48,0.14010037141506296,KEEP (small),"vs today delta 0.0091; scale 1.5 and 12-game fits were worse; the first regression version hurt (team-id bug + over-shrink), discarded"
+2026-10-26 22:14,CBB,module,luck split 3P%/FT% allowed (0.3/0.05),frame+prior,team_abs,54258,8.1306,8.1151,-0.0155,-8.27,2.993499901870908e-16,KEEP,
+2026-10-26 22:14,CBB,module,luck split 3P%/FT% allowed (0.3/0.05),frame+prior,margin_abs,54258,9.0549,9.0538,-0.0012,-0.32,0.7475679516980728,KEEP,
+2026-10-26 22:14,CBB,module,luck split 3P%/FT% allowed (0.3/0.05),frame+prior,total_abs,54258,13.4202,13.3879,-0.0322,-8.52,4.0550469002537323e-17,KEEP,
+2026-10-26 22:14,CBB,module,availability (continuing absences of regulars),frame+prior,team_abs,54258,8.1306,8.1269,-0.0037,-4.23,2.482556597512073e-05,KEEP,
+2026-10-26 22:14,CBB,module,availability (continuing absences of regulars),frame+prior,margin_abs,54258,9.0549,9.0466,-0.0083,-3.23,0.001253936723561766,KEEP,
+2026-10-26 22:14,CBB,module,availability (continuing absences of regulars),frame+prior,total_abs,54258,13.4202,13.417,-0.0032,-3.04,0.0024368510800104382,KEEP,
+2026-10-26 22:14,NBA,module,luck split stronger (p3 0.1),frame+lineup+schedule,team_abs,11452,9.2033,9.1943,-0.0089,-2.03,0.042897285402009586,DISCARD (no better than 0.3),
+2026-10-26 22:14,NBA,module,luck split stronger (p3 0.1),frame+lineup+schedule,margin_abs,11452,10.6405,10.6294,-0.011,-1.27,0.20516864774815344,DISCARD (no better than 0.3),
+2026-10-26 22:14,NBA,module,luck split stronger (p3 0.1),frame+lineup+schedule,total_abs,11452,14.8346,14.8236,-0.011,-1.21,0.22739503778256254,DISCARD (no better than 0.3),
+2026-10-26 22:14,NBA,module,luck split also on 3PA rate + ORB,frame+lineup+schedule,team_abs,11452,9.2033,9.1967,-0.0066,-2.23,0.026159205433548837,DISCARD (no better than 0.3),
+2026-10-26 22:14,NBA,module,luck split also on 3PA rate + ORB,frame+lineup+schedule,margin_abs,11452,10.6405,10.632,-0.0085,-1.47,0.1417525771200581,DISCARD (no better than 0.3),
+2026-10-26 22:14,NBA,module,luck split also on 3PA rate + ORB,frame+lineup+schedule,total_abs,11452,14.8346,14.8265,-0.008,-1.34,0.18147091185804562,DISCARD (no better than 0.3),
+2026-10-26 22:17,NBA,sim,simulated means as point projection (300 sims),formula means,margin_abs,11452,10.6283,10.7417,0.1134,6.53,8e-11,DISCARD,"sim means add Monte Carlo noise and +0.54 bias; keep formula means for the point, sim for spread/win%/distribution (win logloss 0.616 vs today 0.6166)"
+2026-10-26 22:35,NBA,module,altitude (games at DEN/UTAH),stack (retuned),team_abs,11452,9.1946,9.1943,-0.0003,-0.29,0.7691644904746339,DISCARD,no gain; home court already learned
+2026-10-26 22:35,NBA,module,altitude (games at DEN/UTAH),stack (retuned),margin_abs,11452,10.6279,10.6261,-0.0018,-0.57,0.5665535671190008,DISCARD,no gain; home court already learned
+2026-10-26 22:35,NBA,module,altitude (games at DEN/UTAH),stack (retuned),total_abs,11452,14.8214,14.8214,-0.0001,-0.07,0.9420072568393176,DISCARD,no gain; home court already learned
+2026-10-26 22:35,NBA,frame,"re-tune with modules in place (tau .45, carry .7, p0 .4, hca_gain .0005)",stack,team_abs,11452,9.1955,9.1946,-0.0009,,,KEEP (neutral),"test margin 10.628, total 14.821"
+2026-10-27 00:25,CBB,frame,"re-tune with prior+avail+luck in place (carry .6, p0 .4, hca_gain .0005)",stack,margin_abs,54258,8.9468,9.026,0.0792,,,KEEP,"vs today: team 8.097 vs 8.094 (tie), total 13.362 vs 13.411 (better), margin 9.026 vs 8.947 (behind)"
+2026-10-27 00:25,CBB,sim,sim means (k_score .07 blowout compression) as point,formula,margin_abs,54258,9.026,9.0129,-0.0131,-1.51,0.13,HOLD,"helps margin slightly in CBB (not sig), hurts totals/team; opposite of NBA"
+2026-10-27 00:39,CBB,module,"conference layer (pc0 .05, carry_c .95, comps p2,p3,tov,orb; picked on tuning-season margin)",stack,team_abs,54258,8.0974,8.0945,-0.0029,-1.29,0.19562016927583525,KEEP,"margin -0.048 (p 1e-17), team -0.003, totals +0.027 (cost); all-comps and other settings within 0.01"
+2026-10-27 00:39,CBB,module,"conference layer (pc0 .05, carry_c .95, comps p2,p3,tov,orb; picked on tuning-season margin)",stack,margin_abs,54258,9.026,8.9779,-0.0481,-8.65,1.3778251175892083e-17,KEEP,"margin -0.048 (p 1e-17), team -0.003, totals +0.027 (cost); all-comps and other settings within 0.01"
+2026-10-27 00:39,CBB,module,"conference layer (pc0 .05, carry_c .95, comps p2,p3,tov,orb; picked on tuning-season margin)",stack,total_abs,54258,13.3621,13.389,0.0269,6.75,2.187548303770157e-11,KEEP,"margin -0.048 (p 1e-17), team -0.003, totals +0.027 (cost); all-comps and other settings within 0.01"
+2026-10-27 00:45,CBB,ablation,remove avail,stack without it,team_abs,54258,8.098,8.0945,-0.0035,-4.11,4.2449602134290196e-05,KEEPS ITS PLACE,delta = full stack minus stack without avail
+2026-10-27 00:45,CBB,ablation,remove avail,stack without it,margin_abs,54258,8.9857,8.9779,-0.0077,-3.02,0.0025683692517056594,KEEPS ITS PLACE,delta = full stack minus stack without avail
+2026-10-27 00:45,CBB,ablation,remove avail,stack without it,total_abs,54258,13.3922,13.389,-0.0033,-3.32,0.0009135074028179556,KEEPS ITS PLACE,delta = full stack minus stack without avail
+2026-10-27 00:45,CBB,ablation,remove conf,stack without it,team_abs,54258,8.0974,8.0945,-0.0029,-1.29,0.19562016927583525,KEEPS ITS PLACE,delta = full stack minus stack without conf
+2026-10-27 00:45,CBB,ablation,remove conf,stack without it,margin_abs,54258,9.026,8.9779,-0.0481,-8.65,1.3778251175892083e-17,KEEPS ITS PLACE,delta = full stack minus stack without conf
+2026-10-27 00:45,CBB,ablation,remove conf,stack without it,total_abs,54258,13.3621,13.389,0.0269,6.75,2.187548303770157e-11,KEEPS ITS PLACE,delta = full stack minus stack without conf
+2026-10-27 00:45,CBB,ablation,remove luck,stack without it,team_abs,54258,8.1109,8.0945,-0.0164,-8.96,1.0025012286235684e-18,KEEPS ITS PLACE,delta = full stack minus stack without luck
+2026-10-27 00:45,CBB,ablation,remove luck,stack without it,margin_abs,54258,8.9906,8.9779,-0.0126,-3.57,0.0003658195958610734,KEEPS ITS PLACE,delta = full stack minus stack without luck
+2026-10-27 00:45,CBB,ablation,remove luck,stack without it,total_abs,54258,13.4139,13.389,-0.0249,-6.88,8.779275046259375e-12,KEEPS ITS PLACE,delta = full stack minus stack without luck
+2026-10-27 00:45,CBB,ablation,remove prior,stack without it,team_abs,54258,8.1036,8.0945,-0.0091,-3.01,0.002652439351868002,KEEPS ITS PLACE,delta = full stack minus stack without prior
+2026-10-27 00:45,CBB,ablation,remove prior,stack without it,margin_abs,54258,9.0096,8.9779,-0.0317,-3.7,0.00022435116972130683,KEEPS ITS PLACE,delta = full stack minus stack without prior
+2026-10-27 00:45,CBB,ablation,remove prior,stack without it,total_abs,54258,13.3752,13.389,0.0138,3.21,0.001364620340559234,KEEPS ITS PLACE,delta = full stack minus stack without prior
+2026-10-27 00:45,NBA,ablation,remove lineup,stack without it,team_abs,11452,9.2486,9.1946,-0.054,-6.29,4.0454297890572646e-10,KEEPS ITS PLACE,delta = full stack minus stack without lineup
+2026-10-27 00:45,NBA,ablation,remove lineup,stack without it,margin_abs,11452,10.7788,10.6279,-0.1509,-7.29,4.728764108007449e-13,KEEPS ITS PLACE,delta = full stack minus stack without lineup
+2026-10-27 00:45,NBA,ablation,remove lineup,stack without it,total_abs,11452,14.8306,14.8214,-0.0091,-0.67,0.5000624621778753,KEEPS ITS PLACE,delta = full stack minus stack without lineup
+2026-10-27 00:45,NBA,ablation,remove luck,stack without it,team_abs,11452,9.2011,9.1946,-0.0065,-2.46,0.01407420879979622,KEEPS ITS PLACE,delta = full stack minus stack without luck
+2026-10-27 00:45,NBA,ablation,remove luck,stack without it,margin_abs,11452,10.6331,10.6279,-0.0051,-0.96,0.3376292724341132,KEEPS ITS PLACE,delta = full stack minus stack without luck
+2026-10-27 00:45,NBA,ablation,remove luck,stack without it,total_abs,11452,14.8302,14.8214,-0.0087,-1.59,0.1109931290138252,KEEPS ITS PLACE,delta = full stack minus stack without luck
+2026-10-27 00:45,NBA,ablation,remove schedule,stack without it,team_abs,11452,9.2002,9.1946,-0.0056,-1.27,0.20463316487429925,KEEPS ITS PLACE,delta = full stack minus stack without schedule
+2026-10-27 00:45,NBA,ablation,remove schedule,stack without it,margin_abs,11452,10.6526,10.6279,-0.0247,-4.31,1.682976759581824e-05,KEEPS ITS PLACE,delta = full stack minus stack without schedule
+2026-10-27 00:45,NBA,ablation,remove schedule,stack without it,total_abs,11452,14.8101,14.8214,0.0114,1.12,0.26418255748294345,KEEPS ITS PLACE,delta = full stack minus stack without schedule
+2026-10-27 01:21,NHL,layer2 sim,frame1 ratings through sim,goals-Kalman through same sim,win_ll,7177,0.6523,0.6479,-0.0044,-2.09,0.037179232971840684,KEEP,"test 2022+, nsim 300, simcal {'s_eff': 0.08, 'pull1': 1.9, 'pull_boost': 2.1, 'en_rate': 16.0, 'ot_mult': 2.2, 'pull2': 2.9}"
+2026-10-27 01:21,NHL,layer2 sim,frame1 ratings through sim,goals-Kalman through same sim,margin_crps,7177,1.4655,1.4599,-0.0056,-1.56,0.11894667207411136,HOLD,"test 2022+, nsim 300, simcal {'s_eff': 0.08, 'pull1': 1.9, 'pull_boost': 2.1, 'en_rate': 16.0, 'ot_mult': 2.2, 'pull2': 2.9}"
+2026-10-27 01:21,NHL,layer2 sim,frame1 ratings through sim,goals-Kalman through same sim,total_crps,7177,1.3089,1.3042,-0.0047,-1.54,0.12478995456527796,HOLD,"test 2022+, nsim 300, simcal {'s_eff': 0.08, 'pull1': 1.9, 'pull_boost': 2.1, 'en_rate': 16.0, 'ot_mult': 2.2, 'pull2': 2.9}"
+2026-10-27 01:21,NHL,layer2 sim,frame1 ratings through sim,goals-Kalman through same sim,team_abs,7177,1.3967,1.3904,-0.0063,-2.35,0.01912374324528234,KEEP,"test 2022+, nsim 300, simcal {'s_eff': 0.08, 'pull1': 1.9, 'pull_boost': 2.1, 'en_rate': 16.0, 'ot_mult': 2.2, 'pull2': 2.9}"
+2026-10-27 01:21,NHL,layer2 sim,frame1 ratings through sim,goals-Kalman through same sim,margin_abs,7177,2.1238,2.1369,0.0131,2.42,0.01582876333056408,LOSES,"test 2022+, nsim 300, simcal {'s_eff': 0.08, 'pull1': 1.9, 'pull_boost': 2.1, 'en_rate': 16.0, 'ot_mult': 2.2, 'pull2': 2.9}"
+2026-10-27 01:21,NHL,layer2 sim,frame1 ratings through sim,goals-Kalman through same sim,total_abs,7177,1.8611,1.8535,-0.0077,-1.52,0.12929361136781867,HOLD,"test 2022+, nsim 300, simcal {'s_eff': 0.08, 'pull1': 1.9, 'pull_boost': 2.1, 'en_rate': 16.0, 'ot_mult': 2.2, 'pull2': 2.9}"
+2026-10-27 01:21,NHL,module,"schedule (b2b, rest3, 3-in-4)",frame1,team_abs,7177,1.3904,1.3889,-0.0015,-3.29,0.0010479695492411143,KEEP,"fit 2012-21 test 2022+, ridge 50"
+2026-10-27 01:21,NHL,module,"schedule (b2b, rest3, 3-in-4)",frame1,margin_abs,7177,2.1369,2.1307,-0.0062,-5.25,1.8305826542509164e-07,KEEP,"fit 2012-21 test 2022+, ridge 50"
+2026-10-27 01:21,NHL,module,"schedule (b2b, rest3, 3-in-4)",frame1,total_abs,7177,1.8535,1.8534,-0.0,-0.16,0.8703385032550637,DISCARD,"fit 2012-21 test 2022+, ridge 50"
+2026-10-27 01:21,NHL,module,"schedule (b2b, rest3, 3-in-4)",frame1,margin_sq,7177,6.4544,6.4306,-0.0238,-4.0,6.813702400803418e-05,KEEP,"fit 2012-21 test 2022+, ridge 50"
+2026-10-27 01:23,NHL,module,goalie usual starter (no news),frame1 (actual starter),team_abs,7177,1.3904,1.3907,0.0003,0.71,0.4767014195296434,INFO,delta = variant minus actual-starter frame
+2026-10-27 01:23,NHL,module,goalie usual starter (no news),frame1 (actual starter),margin_sq,7177,6.4544,6.4618,0.0074,1.41,0.159207771760253,INFO,delta = variant minus actual-starter frame
+2026-10-27 01:23,NHL,module,goalie usual starter (no news),frame1 (actual starter),total_abs,7177,1.8535,1.8535,0.0,0.01,0.9917582428439012,INFO,delta = variant minus actual-starter frame
+2026-10-27 01:23,NHL,module,goalie: no goalie ratings,frame1 (actual starter),team_abs,7177,1.3904,1.3894,-0.001,-2.47,0.01362695804602264,INFO,delta = no-goalie minus actual-starter frame
+2026-10-27 01:23,NHL,module,goalie: no goalie ratings,frame1 (actual starter),margin_sq,7177,6.4544,6.4625,0.008,2.11,0.034824024169536366,INFO,delta = no-goalie minus actual-starter frame
+2026-10-27 01:23,NHL,module,goalie: no goalie ratings,frame1 (actual starter),total_abs,7177,1.8535,1.8515,-0.002,-2.32,0.020688215303679404,INFO,delta = no-goalie minus actual-starter frame
+2026-10-27 01:28,NHL,module,schedule b2b+rest3+g3in4+tz_move+east+far+b2b_move,frame1,team_abs,7177,1.3904,1.3892,-0.0012,-2.19,0.02859243019435139,KEEP,"fit 2012-21 test 2022+, ridge 50"
+2026-10-27 01:28,NHL,module,schedule b2b+rest3+g3in4+tz_move+east+far+b2b_move,frame1,margin_abs,7177,2.1369,2.1313,-0.0056,-4.46,8.906560731565336e-06,KEEP,"fit 2012-21 test 2022+, ridge 50"
+2026-10-27 01:28,NHL,module,schedule b2b+rest3+g3in4+tz_move+east+far+b2b_move,frame1,total_abs,7177,1.8535,1.8531,-0.0004,-0.47,0.6392469187849324,HOLD,"fit 2012-21 test 2022+, ridge 50"
+2026-10-27 01:28,NHL,module,schedule b2b+rest3+g3in4+tz_move+east+far+b2b_move,frame1,margin_sq,7177,6.4544,6.4343,-0.0202,-3.21,0.0013793115176976946,KEEP,"fit 2012-21 test 2022+, ridge 50"
+2026-10-27 01:28,NHL,module,"travel (tz_move, east, far, b2b_move) on top of schedule",frame1 + schedule,team_abs,7177,1.3889,1.3892,0.0002,0.72,0.4741980594560796,DISCARD,incremental over schedule
+2026-10-27 01:28,NHL,module,"travel (tz_move, east, far, b2b_move) on top of schedule",frame1 + schedule,margin_abs,7177,2.1307,2.1313,0.0005,1.14,0.25275627811632567,DISCARD,incremental over schedule
+2026-10-27 01:28,NHL,module,"travel (tz_move, east, far, b2b_move) on top of schedule",frame1 + schedule,margin_sq,7177,6.4306,6.4343,0.0036,1.55,0.12259027499579947,DISCARD,incremental over schedule
+2026-10-27 01:28,NHL,module,"travel (tz_move, east, far, b2b_move) on top of schedule",frame1 + schedule,total_abs,7177,1.8534,1.8531,-0.0004,-0.44,0.6619049458391074,HOLD,incremental over schedule
+2026-10-27 01:31,NHL,module,"lineup (dressed skaters 5v5 impact, HL 60.0, K 8.0h)",frame1s,team_abs,7177,1.3889,1.3861,-0.0028,-4.13,3.8935653097982154e-05,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:31,NHL,module,"lineup (dressed skaters 5v5 impact, HL 60.0, K 8.0h)",frame1s,margin_abs,7177,2.1307,2.1234,-0.0073,-5.16,2.9649449110172147e-07,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:31,NHL,module,"lineup (dressed skaters 5v5 impact, HL 60.0, K 8.0h)",frame1s,total_abs,7177,1.8534,1.8479,-0.0056,-4.02,6.083347475959223e-05,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:31,NHL,module,"lineup (dressed skaters 5v5 impact, HL 60.0, K 8.0h)",frame1s,margin_sq,7177,6.4306,6.4015,-0.0291,-3.85,0.00012587599472902027,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:32,NHL,module,"lineup (dressed skaters 5v5 impact, HL 60.0, K 3.0h)",frame1s,team_abs,7177,1.3889,1.3862,-0.0027,-4.25,2.356685763962905e-05,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:32,NHL,module,"lineup (dressed skaters 5v5 impact, HL 60.0, K 3.0h)",frame1s,margin_abs,7177,2.1307,2.1238,-0.007,-5.17,2.767967485058439e-07,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:32,NHL,module,"lineup (dressed skaters 5v5 impact, HL 60.0, K 3.0h)",frame1s,total_abs,7177,1.8534,1.8482,-0.0052,-4.18,3.2024652755659865e-05,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:32,NHL,module,"lineup (dressed skaters 5v5 impact, HL 60.0, K 3.0h)",frame1s,margin_sq,7177,6.4306,6.4023,-0.0283,-3.93,8.973563427303863e-05,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:32,NHL,module,"lineup (dressed skaters 5v5 impact, HL 150.0, K 8.0h)",frame1s,team_abs,7177,1.3889,1.3858,-0.0031,-4.42,1.0810986439163758e-05,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:32,NHL,module,"lineup (dressed skaters 5v5 impact, HL 150.0, K 8.0h)",frame1s,margin_abs,7177,2.1307,2.1228,-0.008,-5.61,2.493972200460658e-08,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:32,NHL,module,"lineup (dressed skaters 5v5 impact, HL 60.0, K 20.0h)",frame1s,team_abs,7177,1.3889,1.386,-0.003,-4.1,4.485781714536318e-05,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:32,NHL,module,"lineup (dressed skaters 5v5 impact, HL 150.0, K 8.0h)",frame1s,total_abs,7177,1.8534,1.8476,-0.0058,-4.09,4.529881404970637e-05,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:32,NHL,module,"lineup (dressed skaters 5v5 impact, HL 60.0, K 20.0h)",frame1s,margin_abs,7177,2.1307,2.1231,-0.0076,-5.19,2.524596949553786e-07,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:32,NHL,module,"lineup (dressed skaters 5v5 impact, HL 150.0, K 8.0h)",frame1s,margin_sq,7177,6.4306,6.3983,-0.0323,-4.23,2.542565277865376e-05,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:32,NHL,module,"lineup (dressed skaters 5v5 impact, HL 60.0, K 20.0h)",frame1s,total_abs,7177,1.8534,1.8476,-0.0058,-3.96,7.863503490506524e-05,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:32,NHL,module,"lineup (dressed skaters 5v5 impact, HL 60.0, K 20.0h)",frame1s,margin_sq,7177,6.4306,6.4007,-0.0299,-3.83,0.0001342555193972948,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:33,NHL,module,schedule b2b+rest3+g3in4,frame1n,team_abs,7177,1.3894,1.388,-0.0014,-3.21,0.0013848780845162002,KEEP,"fit 2012-21 test 2022+, ridge 50"
+2026-10-27 01:33,NHL,module,schedule b2b+rest3+g3in4,frame1n,margin_abs,7177,2.1392,2.1327,-0.0064,-5.49,4.830076171889317e-08,KEEP,"fit 2012-21 test 2022+, ridge 50"
+2026-10-27 01:33,NHL,module,schedule b2b+rest3+g3in4,frame1n,total_abs,7177,1.8515,1.8515,0.0,0.02,0.9857346776257617,DISCARD,"fit 2012-21 test 2022+, ridge 50"
+2026-10-27 01:33,NHL,module,schedule b2b+rest3+g3in4,frame1n,margin_sq,7177,6.4625,6.4387,-0.0238,-4.03,6.034861387143135e-05,KEEP,"fit 2012-21 test 2022+, ridge 50"
+2026-10-27 01:34,NHL,module,"lineup (dressed skaters 5v5 impact, HL 150.0, K 8.0h)",frame1,team_abs,7177,1.3904,1.3872,-0.0032,-4.48,8.264633392160275e-06,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:34,NHL,module,"lineup (dressed skaters 5v5 impact, HL 150.0, K 8.0h)",frame1,margin_abs,7177,2.1369,2.1287,-0.0083,-5.79,9.326791613153132e-09,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:34,NHL,module,"lineup (dressed skaters 5v5 impact, HL 150.0, K 8.0h)",frame1,total_abs,7177,1.8535,1.8476,-0.0059,-4.12,4.023674703183321e-05,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:34,NHL,module,"lineup (dressed skaters 5v5 impact, HL 150.0, K 8.0h)",frame1,margin_sq,7177,6.4544,6.4212,-0.0332,-4.3,1.8206991928895452e-05,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:34,NHL,module,"lineup (dressed skaters 5v5 impact, HL 150.0, K 8.0h)",frame1ns,team_abs,7177,1.388,1.3849,-0.0031,-4.37,1.3841680864115127e-05,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:34,NHL,module,"lineup (dressed skaters 5v5 impact, HL 150.0, K 8.0h)",frame1ns,margin_abs,7177,2.1327,2.1248,-0.0079,-5.49,4.829251717938103e-08,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:34,NHL,module,"lineup (dressed skaters 5v5 impact, HL 150.0, K 8.0h)",frame1ns,total_abs,7177,1.8515,1.8458,-0.0057,-4.03,5.956335223456663e-05,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:34,NHL,module,"lineup (dressed skaters 5v5 impact, HL 150.0, K 8.0h)",frame1ns,margin_sq,7177,6.4387,6.4056,-0.0331,-4.26,2.191783079047402e-05,KEEP,fit 2012-21 test 2022+
+2026-10-27 01:34,NHL,ablation,remove schedule,stack without it,team_abs,7177,1.3872,1.3858,-0.0014,-3.17,0.0015478662270399586,KEEPS ITS PLACE,delta = full stack minus stack without schedule
+2026-10-27 01:34,NHL,ablation,remove schedule,stack without it,margin_sq,7177,6.4212,6.3983,-0.023,-3.87,0.00011331720620538789,KEEPS ITS PLACE,delta = full stack minus stack without schedule
+2026-10-27 01:34,NHL,ablation,remove schedule,stack without it,total_abs,7177,1.8476,1.8476,0.0,0.15,0.8826411675531839,COSTS,delta = full stack minus stack without schedule
+2026-10-27 01:34,NHL,ablation,remove lineup,stack without it,team_abs,7177,1.3889,1.3858,-0.0031,-4.42,1.0810986439163758e-05,KEEPS ITS PLACE,delta = full stack minus stack without lineup
+2026-10-27 01:34,NHL,ablation,remove lineup,stack without it,margin_sq,7177,6.4306,6.3983,-0.0323,-4.23,2.542565277865376e-05,KEEPS ITS PLACE,delta = full stack minus stack without lineup
+2026-10-27 01:34,NHL,ablation,remove lineup,stack without it,total_abs,7177,1.8534,1.8476,-0.0058,-4.09,4.529881404970637e-05,KEEPS ITS PLACE,delta = full stack minus stack without lineup
+2026-10-27 01:34,NHL,ablation,remove goalie ratings,stack without it,team_abs,7177,1.3849,1.3858,0.0009,2.32,0.02070251305615332,COSTS,delta = full stack minus stack without goalie ratings
+2026-10-27 01:34,NHL,ablation,remove goalie ratings,stack without it,margin_sq,7177,6.4056,6.3983,-0.0073,-1.93,0.05415041999488866,KEEPS ITS PLACE,delta = full stack minus stack without goalie ratings
+2026-10-27 01:34,NHL,ablation,remove goalie ratings,stack without it,total_abs,7177,1.8458,1.8476,0.0018,2.17,0.030129627398746996,COSTS,delta = full stack minus stack without goalie ratings
+2026-10-27 01:34,NHL,stack,frame+schedule+lineup,goals-Kalman,team_abs,7177,1.3967,1.3858,-0.0108,-3.88,0.00011111771773761483,KEEP,test 2022+
+2026-10-27 01:34,NHL,stack,frame+schedule+lineup,goals-Kalman,margin_sq,7177,6.5279,6.3983,-0.1296,-4.11,4.282305440143348e-05,KEEP,test 2022+
+2026-10-27 01:34,NHL,stack,frame+schedule+lineup,goals-Kalman,margin_abs,7177,2.1238,2.1228,-0.001,-0.18,0.8544096110249884,CHECK,test 2022+
+2026-10-27 01:34,NHL,stack,frame+schedule+lineup,goals-Kalman,total_abs,7177,1.8611,1.8476,-0.0135,-2.57,0.010160244633847985,KEEP,test 2022+
+2026-10-27 01:39,NHL,layer2 sim,stack ratings through sim,goals-Kalman through same sim,win_ll,7177,0.6503,0.6432,-0.0071,-3.42,0.0006405842692616713,KEEP,"test 2022+, nsim 300, simcal {'s_eff': 0.08, 'pull1': 1.9, 'pull_boost': 2.1, 'en_rate': 16.0, 'ot_mult': 2.2, 'pull2': 2.9, 'rate_sd': 0.1}"
+2026-10-27 01:39,NHL,layer2 sim,stack ratings through sim,goals-Kalman through same sim,margin_crps,7177,1.4648,1.4522,-0.0126,-3.45,0.0005818399521316542,KEEP,"test 2022+, nsim 300, simcal {'s_eff': 0.08, 'pull1': 1.9, 'pull_boost': 2.1, 'en_rate': 16.0, 'ot_mult': 2.2, 'pull2': 2.9, 'rate_sd': 0.1}"
+2026-10-27 01:39,NHL,layer2 sim,stack ratings through sim,goals-Kalman through same sim,total_crps,7177,1.3092,1.3001,-0.0091,-2.79,0.005333040518013531,KEEP,"test 2022+, nsim 300, simcal {'s_eff': 0.08, 'pull1': 1.9, 'pull_boost': 2.1, 'en_rate': 16.0, 'ot_mult': 2.2, 'pull2': 2.9, 'rate_sd': 0.1}"
+2026-10-27 01:39,NHL,layer2 sim,stack ratings through sim,goals-Kalman through same sim,team_abs,7177,1.3967,1.3845,-0.0121,-4.27,2.082884624707076e-05,KEEP,"test 2022+, nsim 300, simcal {'s_eff': 0.08, 'pull1': 1.9, 'pull_boost': 2.1, 'en_rate': 16.0, 'ot_mult': 2.2, 'pull2': 2.9, 'rate_sd': 0.1}"
+2026-10-27 01:39,NHL,layer2 sim,stack ratings through sim,goals-Kalman through same sim,margin_abs,7177,2.1238,2.1228,-0.001,-0.18,0.8544096110249885,HOLD,"test 2022+, nsim 300, simcal {'s_eff': 0.08, 'pull1': 1.9, 'pull_boost': 2.1, 'en_rate': 16.0, 'ot_mult': 2.2, 'pull2': 2.9, 'rate_sd': 0.1}"
+2026-10-27 01:39,NHL,layer2 sim,stack ratings through sim,goals-Kalman through same sim,total_abs,7177,1.8611,1.8458,-0.0154,-2.83,0.0047916327298028,KEEP,"test 2022+, nsim 300, simcal {'s_eff': 0.08, 'pull1': 1.9, 'pull_boost': 2.1, 'en_rate': 16.0, 'ot_mult': 2.2, 'pull2': 2.9, 'rate_sd': 0.1}"
+2026-10-27 01:49,NFL,frame,drive-component frame (frame1),points Kalman,team_abs,2333,7.5302,7.5059,-0.0243,-1.14,0.25658579980967594,HOLD,"test 2018+, tuned 2008-17"
+2026-10-27 01:49,NFL,frame,drive-component frame (frame1),points Kalman,margin_sq,2333,173.6664,171.8083,-1.8582,-1.61,0.10737731642488615,HOLD,"test 2018+, tuned 2008-17"
+2026-10-27 01:49,NFL,frame,drive-component frame (frame1),points Kalman,total_abs,2333,10.7994,10.7487,-0.0507,-1.16,0.24460679584080483,HOLD,"test 2018+, tuned 2008-17"
+2026-10-27 01:49,NFL,module,"starting QB (HL 24.0, K 250.0, backup -0.08)",frame1,team_abs,2333,7.5059,7.435,-0.0709,-4.32,1.9044547276166198e-05,KEEP,fit 2008-17 test 2018+
+2026-10-27 01:49,NFL,module,"starting QB (HL 24.0, K 250.0, backup -0.08)",frame1,margin_sq,2333,171.8083,168.1126,-3.6957,-3.77,0.0001815161943782499,KEEP,fit 2008-17 test 2018+
+2026-10-27 01:49,NFL,module,"starting QB (HL 24.0, K 250.0, backup -0.08)",frame1,total_abs,2333,10.7487,10.6894,-0.0593,-1.87,0.061778663083578156,KEEP,fit 2008-17 test 2018+
+2026-10-27 01:50,NFL,module,weather+rest dome+wind_over10+cold_under30+bye+short,frame1q,team_abs,2333,7.435,7.404,-0.0309,-3.35,0.0008617706768968546,KEEP,fit 2008-17 test 2018+
+2026-10-27 01:50,NFL,module,weather+rest dome+wind_over10+cold_under30+bye+short,frame1q,margin_sq,2333,168.1126,168.0815,-0.0311,-0.13,0.8968134477298001,HOLD,fit 2008-17 test 2018+
+2026-10-27 01:50,NFL,module,weather+rest dome+wind_over10+cold_under30+bye+short,frame1q,total_abs,2333,10.6894,10.6256,-0.0638,-2.4,0.016813658530055068,KEEP,fit 2008-17 test 2018+
+2026-10-27 01:50,NFL,module,weather+rest dome+wind_over10+cold_under30,frame1q,team_abs,2333,7.435,7.4084,-0.0266,-3.01,0.0027505482693915167,KEEP,fit 2008-17 test 2018+
+2026-10-27 01:50,NFL,module,weather+rest dome+wind_over10+cold_under30,frame1q,margin_sq,2333,168.1126,168.1126,-0.0,-1.92,0.05531359152123527,DISCARD,fit 2008-17 test 2018+
+2026-10-27 01:50,NFL,module,weather+rest dome+wind_over10+cold_under30,frame1q,total_abs,2333,10.6894,10.6256,-0.0638,-2.4,0.016813658530054842,KEEP,fit 2008-17 test 2018+
+2026-10-27 01:50,NFL,module,"rest (bye, short week) on top of weather",frame1q+weather,team_abs,2333,7.4084,7.404,-0.0044,-1.26,0.20677443548733404,HOLD,incremental
+2026-10-27 01:50,NFL,module,"rest (bye, short week) on top of weather",frame1q+weather,margin_sq,2333,168.1126,168.0815,-0.0311,-0.13,0.8968134477298035,HOLD,incremental
+2026-10-27 01:50,NFL,module,"rest (bye, short week) on top of weather",frame1q+weather,total_abs,2333,10.6256,10.6256,0.0,1.06,0.28817781187934827,DISCARD,incremental
+2026-10-27 01:51,NFL,module,missing regulars (unit),frame1qw,team_abs,2333,7.4084,7.3843,-0.0241,-4.67,3.9320566464718885e-06,KEEP,fit 2013-17 test 2018+
+2026-10-27 01:51,NFL,module,missing regulars (unit),frame1qw,margin_sq,2333,168.1126,166.699,-1.4135,-4.57,6.011370165240592e-06,KEEP,fit 2013-17 test 2018+
+2026-10-27 01:51,NFL,module,missing regulars (unit),frame1qw,total_abs,2333,10.6256,10.6161,-0.0094,-1.08,0.28180229725138517,HOLD,fit 2013-17 test 2018+
+2026-10-27 01:51,NFL,module,missing regulars (group),frame1qw,team_abs,2333,7.4084,7.4011,-0.0073,-0.92,0.35990384296963446,HOLD,fit 2013-17 test 2018+
+2026-10-27 01:51,NFL,module,missing regulars (group),frame1qw,margin_sq,2333,168.1126,167.4877,-0.6248,-1.33,0.18467985735961154,HOLD,fit 2013-17 test 2018+
+2026-10-27 01:51,NFL,module,missing regulars (group),frame1qw,total_abs,2333,10.6256,10.6308,0.0053,0.34,0.7337348050734744,DISCARD,fit 2013-17 test 2018+
+2026-10-27 01:54,NFL,module,play-caller change (carry 0.5 + 30% travels),frame1,team_abs,2333,7.5059,7.5075,0.0016,0.24,0.811854087472415,DISCARD,"also tried carry 0.35/0.5, travel 0/0.3/0.5; none helps, incl. weeks 1-6 caller-change games"
+2026-10-27 01:54,NFL,module,weather+rest dome+wind_over10+cold_under30,frame1,team_abs,2333,7.5059,7.4834,-0.0225,-2.44,0.01508345263407736,KEEP,fit 2008-17 test 2018+
+2026-10-27 01:54,NFL,module,weather+rest dome+wind_over10+cold_under30,frame1,margin_sq,2333,171.8083,171.8083,-0.0,-0.38,0.7061334924055259,DISCARD,fit 2008-17 test 2018+
+2026-10-27 01:54,NFL,module,weather+rest dome+wind_over10+cold_under30,frame1,total_abs,2333,10.7487,10.6831,-0.0656,-2.52,0.01203698675730523,KEEP,fit 2008-17 test 2018+
+2026-10-27 01:54,NFL,module,missing regulars (unit),frame1q,team_abs,2333,7.435,7.4129,-0.022,-4.42,1.2144976485698183e-05,KEEP,fit 2013-17 test 2018+
+2026-10-27 01:54,NFL,module,missing regulars (unit),frame1q,margin_sq,2333,168.1126,166.7451,-1.3675,-4.58,5.903395744037016e-06,KEEP,fit 2013-17 test 2018+
+2026-10-27 01:54,NFL,module,missing regulars (unit),frame1q,total_abs,2333,10.6894,10.6809,-0.0085,-1.01,0.3148074141337652,HOLD,fit 2013-17 test 2018+
+2026-10-27 01:54,NFL,module,missing regulars (unit),ab_w,team_abs,2333,7.4834,7.4531,-0.0303,-4.44,1.1111929998903648e-05,KEEP,fit 2013-17 test 2018+
+2026-10-27 01:54,NFL,module,missing regulars (unit),ab_w,margin_sq,2333,171.8083,169.8845,-1.9238,-4.81,2.039319755058182e-06,KEEP,fit 2013-17 test 2018+
+2026-10-27 01:54,NFL,module,missing regulars (unit),ab_w,total_abs,2333,10.6831,10.6665,-0.0166,-1.39,0.16568720372161924,HOLD,fit 2013-17 test 2018+
+2026-10-27 01:54,NFL,ablation,remove starting QB,stack without it,team_abs,2333,7.4531,7.3843,-0.0687,-4.25,2.5021412653457482e-05,KEEPS ITS PLACE,delta = full stack minus stack without starting QB
+2026-10-27 01:54,NFL,ablation,remove starting QB,stack without it,margin_sq,2333,169.8845,166.699,-3.1855,-3.4,0.0007285426617626883,KEEPS ITS PLACE,delta = full stack minus stack without starting QB
+2026-10-27 01:54,NFL,ablation,remove starting QB,stack without it,total_abs,2333,10.6665,10.6161,-0.0504,-1.6,0.1102977787948574,MARGINAL,delta = full stack minus stack without starting QB
+2026-10-27 01:54,NFL,ablation,remove weather,stack without it,team_abs,2333,7.4129,7.3843,-0.0286,-3.16,0.001682117430798881,KEEPS ITS PLACE,delta = full stack minus stack without weather
+2026-10-27 01:54,NFL,ablation,remove weather,stack without it,margin_sq,2333,166.7451,166.699,-0.046,-3.23,0.0012980005137254666,KEEPS ITS PLACE,delta = full stack minus stack without weather
+2026-10-27 01:54,NFL,ablation,remove weather,stack without it,total_abs,2333,10.6809,10.6161,-0.0648,-2.43,0.015340935021505936,KEEPS ITS PLACE,delta = full stack minus stack without weather
+2026-10-27 01:54,NFL,ablation,remove missing regulars,stack without it,team_abs,2333,7.4084,7.3843,-0.0241,-4.67,3.9320566464718885e-06,KEEPS ITS PLACE,delta = full stack minus stack without missing regulars
+2026-10-27 01:54,NFL,ablation,remove missing regulars,stack without it,margin_sq,2333,168.1126,166.699,-1.4135,-4.57,6.011370165240592e-06,KEEPS ITS PLACE,delta = full stack minus stack without missing regulars
+2026-10-27 01:54,NFL,ablation,remove missing regulars,stack without it,total_abs,2333,10.6256,10.6161,-0.0094,-1.08,0.28180229725138517,MARGINAL,delta = full stack minus stack without missing regulars
+2026-10-27 01:54,NFL,stack,frame+QB+weather+missing regulars,points Kalman,team_abs,2333,7.5302,7.3843,-0.1458,-4.82,1.9155797133895296e-06,KEEP,test 2018+
+2026-10-27 01:54,NFL,stack,frame+QB+weather+missing regulars,points Kalman,margin_sq,2333,173.6664,166.699,-6.9674,-4.14,4.0877764340606515e-05,KEEP,test 2018+
+2026-10-27 01:54,NFL,stack,frame+QB+weather+missing regulars,points Kalman,total_abs,2333,10.7994,10.6161,-0.1832,-3.01,0.0027222911032956554,KEEP,test 2018+
+2026-10-27 01:59,NFL,layer2,normal x key-number weights,plain normal sd 13.4,margin_logscore,2333,3.9785,3.8581,-0.1204,,,KEEP,"margin CRPS 7.239->7.215, total CRPS 7.519->7.497, win ll 0.6281->0.6285; weights fit 2010-17"
+2026-10-27 01:59,NFL,layer2,"drive simulator (score effects, form noise)",plain normal sd 13.4,margin_crps,2333,7.5023,7.5638,0.0615,,,DISCARD as probability engine,tuning seasons; under-produces 3 and 7 margins; keep only to draw drives in the viewer
+2026-10-27 02:06,CFB,frame,"drive frame (margin) + points rating (total), weights fit 2015-19",points Kalman,team_abs,4811,9.6947,9.4185,-0.2762,-5.06,6.391716727725802e-07,KEEP,"test 2021+, frame weights {'margin': np.float64(1.0), 'total': np.float64(0.1)}"
+2026-10-27 02:06,CFB,frame,"drive frame (margin) + points rating (total), weights fit 2015-19",points Kalman,margin_sq,4811,320.5901,288.8423,-31.7478,-5.2,3.1862469357914513e-07,KEEP,"test 2021+, frame weights {'margin': np.float64(1.0), 'total': np.float64(0.1)}"
+2026-10-27 02:06,CFB,frame,"drive frame (margin) + points rating (total), weights fit 2015-19",points Kalman,total_abs,4811,12.9345,12.9358,0.0012,0.21,0.8344797680710023,LOSES,"test 2021+, frame weights {'margin': np.float64(1.0), 'total': np.float64(0.1)}"
+2026-10-27 02:09,CFB,frame,"weekly re-fit ridge frame (vs forward Kalman), both + points total",kalman blend,team_abs,4811,9.4185,9.275,-0.1435,-4.53,7.676939899050116e-06,KEEP,"test 2021+, weights {'margin': 1.0, 'total': 0.1}"
+2026-10-27 02:09,CFB,frame,"weekly re-fit ridge frame (vs forward Kalman), both + points total",kalman blend,margin_sq,4811,288.8423,274.638,-14.2043,-4.61,5.404476020237838e-06,KEEP,"test 2021+, weights {'margin': 1.0, 'total': 0.1}"
+2026-10-27 02:09,CFB,frame,"weekly re-fit ridge frame (vs forward Kalman), both + points total",kalman blend,total_abs,4811,12.9358,12.9369,0.0011,0.2,0.8432843710570114,LOSES,"test 2021+, weights {'margin': 1.0, 'total': 0.1}"
+2026-10-27 02:10,CFB,module,roster/returning-production prior,ridge1b,team_abs,4811,9.275,9.2249,-0.0501,-5.15,4.1104303524881053e-07,KEEP,fit 2015-19 test 2021+
+2026-10-27 02:10,CFB,module,roster/returning-production prior,ridge1b,margin_sq,4811,274.638,269.105,-5.533,-5.79,1.3595134547333363e-08,KEEP,fit 2015-19 test 2021+
+2026-10-27 02:10,CFB,module,roster/returning-production prior,ridge1b,total_abs,4811,12.9369,12.94,0.0031,1.84,0.06594160984954218,DISCARD,fit 2015-19 test 2021+
+2026-10-27 02:11,CFB,module,roster/returning-production prior_ng,ridge1p,team_abs,4811,9.2249,10.0887,0.8638,6.94,1.4791825044535202e-11,DISCARD,fit 2015-19 test 2021+
+2026-10-27 02:11,CFB,module,roster/returning-production prior_ng,ridge1p,margin_sq,4811,269.105,364.661,95.5561,6.82,3.136260338825174e-11,DISCARD,fit 2015-19 test 2021+
+2026-10-27 02:11,CFB,module,roster/returning-production prior_ng,ridge1p,total_abs,4811,12.94,12.9318,-0.0082,-1.38,0.1683530775103851,HOLD,fit 2015-19 test 2021+
+2026-10-27 02:12,CFB,stack,v3 + rebuild drive ridge (weights fit 2015-19),today v3,margin_abs,3515,12.3644,12.3721,0.0077,0.66,0.5104081488293261,LOSES,lined 2022-25; rebuild alone 12.93 vs v3 12.36 margin MAE
+2026-10-27 02:12,CFB,stack,v3 + rebuild drive ridge (weights fit 2015-19),today v3,margin_sq,3515,242.5769,242.9898,0.4129,1.03,0.30152014542631506,LOSES,lined 2022-25; rebuild alone 12.93 vs v3 12.36 margin MAE
+2026-10-27 02:12,CFB,stack,v3 + rebuild drive ridge (weights fit 2015-19),today v3,total_abs,3515,12.849,12.8374,-0.0116,-0.8,0.4248820358955078,HOLD,lined 2022-25; rebuild alone 12.93 vs v3 12.36 margin MAE
+2026-10-27 02:13,CFB,summary,rebuild CFB (ridge drive frame + prior + points total),today v3,margin_abs,3515,12.364,12.925,0.561,,,LOSES - v3 stays,lined 2022-25; v3 + rebuild blend adds nothing (12.372)
+2026-10-27 02:13,NFL,frame,weekly re-fit ridge engine,forward Kalman frame1,team_abs,2333,7.5059,7.4927,-0.013,,,TIE - keep Kalman,tune obj 14.533 vs 14.527; margin RMSE test 13.097 vs 13.108
+2026-10-27 02:37,CBB,frame,blend kalman frame1 + twice-weekly re-fit ridge (w kalman 0.9),kalman frame1,team_abs,54258,8.1434,8.1421,-0.0012,-2.81,0.005019645718214233,KEEP,"test 2017+; ridge alone: weekly 8.20, twice-weekly 8.184 vs kalman 8.143 team MAE"
+2026-10-27 02:37,CBB,frame,blend kalman frame1 + twice-weekly re-fit ridge (w kalman 0.9),kalman frame1,margin_sq,54258,133.4406,133.468,0.0275,2.56,0.010491065986699447,DISCARD,"test 2017+; ridge alone: weekly 8.20, twice-weekly 8.184 vs kalman 8.143 team MAE"
+2026-10-27 02:37,CBB,frame,blend kalman frame1 + twice-weekly re-fit ridge (w kalman 0.9),kalman frame1,total_abs,54258,13.4155,13.4111,-0.0044,-4.17,3.213320059932351e-05,KEEP,"test 2017+; ridge alone: weekly 8.20, twice-weekly 8.184 vs kalman 8.143 team MAE"
+2026-10-27 02:38,CBB,summary,weekly / twice-weekly re-fit ridge,kalman frame1,team_abs,54258,8.1434,8.1841,0.0407,,,DISCARD,"re-fit lags in-week games; 90/10 blend gains 0.001 team, loses margin"
+2026-10-27 02:38,CBB,frame,season recentering (league level kept in mu),kalman frame1,team_abs,54258,8.1434,8.139,-0.0044,-4.18,3.094937851847725e-05,KEEP,test 2017+
+2026-10-27 02:38,CBB,frame,season recentering (league level kept in mu),kalman frame1,margin_sq,54258,133.4406,133.3656,-0.0749,-4.94,8.691760185551508e-07,KEEP,test 2017+
+2026-10-27 02:38,CBB,frame,season recentering (league level kept in mu),kalman frame1,total_abs,54258,13.4155,13.4071,-0.0084,-3.32,0.0009326179118530335,KEEP,test 2017+
+2026-10-27 02:39,NBA,frame,season recentering,kalman frame1,team_abs,11511,9.3146,9.3096,-0.005,-1.56,0.11882488006639447,HOLD,test 2018+
+2026-10-27 02:39,NBA,frame,season recentering,kalman frame1,margin_sq,11511,190.2398,190.2499,0.01,2.07,0.03818487977415345,DISCARD,test 2018+
+2026-10-27 02:39,NBA,frame,season recentering,kalman frame1,total_abs,11511,14.9641,14.9543,-0.0097,-1.37,0.17102784998190682,HOLD,test 2018+
+2026-10-27 03:06,NBA,frame,playoff games do not move league level,frame + recenter,team_abs,11511,9.3096,9.3188,0.0092,2.82,0.004779226630738762,DISCARD,test 2018+
+2026-10-27 03:06,NBA,frame,playoff games do not move league level,frame + recenter,total_abs,11511,14.9543,14.98,0.0257,3.49,0.0004900070360449974,DISCARD,test 2018+
+2026-10-27 03:06,NBA,frame,playoff games do not move league level,frame + recenter,margin_sq,11511,190.2499,190.3192,0.0693,1.01,0.31290824774560444,DISCARD,test 2018+

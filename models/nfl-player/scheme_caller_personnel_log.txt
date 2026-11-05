@@ -1,0 +1,14 @@
+ season posteam    d11
+   2024     CAR -0.145
+   2024     CHI  0.046
+   2024      LV -0.056
+   2024     PHI -0.002
+   2024     PIT -0.447
+   2025     CHI -0.141
+   2025     JAX  0.059
+   2025      NO  0.211
+   2025     SEA -0.356
+296 depth-player games on mover-caller teams
+  targets: coef per +10 pts of 11 personnel +0.043 (p 0.410) | MAE on those games 1.600 -> 1.599
+  rec: coef per +10 pts of 11 personnel +0.064 (p 0.231) | MAE on those games 1.206 -> 1.193
+  rec_yds: coef per +10 pts of 11 personnel -0.006 (p 0.947) | MAE on those games 16.343 -> 16.354
