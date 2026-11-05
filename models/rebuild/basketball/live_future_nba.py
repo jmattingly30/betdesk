@@ -78,7 +78,8 @@ def project(slate):
         rh, ra = E.expit(lh + ph[j]), E.expit(la + pa[j])
         out[gm["id"]] = (float(E.ppp({c: rh[k] for k, c in enumerate(E.COMP)}) * poss),
                          float(E.ppp({c: ra[k] for k, c in enumerate(E.COMP)}) * poss),
-                         fut_L[2 * i]["miss_names"], fut_L[2 * i + 1]["miss_names"])
+                         fut_L[2 * i]["miss_names"], fut_L[2 * i + 1]["miss_names"],
+                         [float(v) for v in rh], [float(v) for v in ra], float(poss))   # 4-6 added 2026-11-05 for models/nba_ab (component fix); shadow reads [:2]
     return out
 
 if __name__ == "__main__":

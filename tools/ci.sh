@@ -27,7 +27,7 @@ publish(){
   local D="$SA/app/data" P="$SA/public" n=0
   for f in past_props.json nhl_props.json nba_props.json nfl_props.json games_models.json cbb_v2.json cfb_model.json cfb_v2.json \
            game_slates.json line_tools.json parlay_suggestions.json promo_picks.json scorecard.json player_results.json \
-           cfb_usage.json model_a.json cbb_ab.json nfl_ab.json tennis_model.json props_vs_close.json landing.json; do
+           cfb_usage.json model_a.json cbb_ab.json nfl_ab.json nba_ab.json tennis_model.json props_vs_close.json landing.json; do
     [ -f "$D/$f" ] && ! cmp -s "$D/$f" "$P/$f" && cp "$D/$f" "$P/$f" && n=$((n+1))
   done
   for f in props_NFL.json props_NBA.json props_NHL.json tennis.json; do

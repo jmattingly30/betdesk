@@ -34,6 +34,7 @@ step "C2 slates" bash -c "cd app && python3 export_slates.py"
 step "C4 line tools" python3 app/line_tools.py
 step "C4d CBB Model A+B" bash -c "python3 models/cbb_ab/live.py && python3 models/cbb_ab/grade.py"
 step "C4e NFL Model A+B" bash -c "python3 models/nfl_ab/live.py && python3 models/nfl_ab/grade.py $DL/nfldl/games.csv"
+step "C4f NBA Model A+B" bash -c "python3 models/nba_ab/live.py && python3 models/nba_ab/grade.py"
 step "C4a CFB usage" bash -c "cd models/oddspapi && python3 cfb_usage.py"
 step "C4b CFB Model A" bash models/rebuild/football/cfb_gap/live/run_live.sh
 step "C4c Model A export" python3 app/export_model_a.py

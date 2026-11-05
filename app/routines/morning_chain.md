@@ -62,6 +62,9 @@ C4d. CBB Model A + Model B (J 2026-11-02, after B5 and C2): `python3 models/cbb_
 C4e. NFL Model A + Model B (J 2026-11-05 rollout, after B8 shadow.py and C2): `python3 models/nfl_ab/live.py` -> app/data/nfl_ab.json. It prints games,
     tiers and the slate total guard; report if it errors or prints 0 games with lines while NFL has lines. Then
     `python3 models/nfl_ab/grade.py /tmp/claude-0/nfldl/games.csv` (nflverse finals -> models/nfl_ab/history/grade.json).
+C4f. NBA Model A + Model B (J 2026-11-05 rollout, after B8 live_lineup.py + shadow.py nba and C2): `python3 models/nba_ab/live.py` (about 1 min; needs scipy)
+    -> app/data/nba_ab.json. It prints games, lineup feed True/False, data-through date, tiers and the slate total gap; report if it errors, prints
+    0 games with lines while NBA has lines, or 'data through' is 2+ days before yesterday. Then `python3 models/nba_ab/grade.py` (-> models/nba_ab/history/grade.json).
 C4a. `cd /mnt/project-files/sports-analytics/models/oddspapi && python3 cfb_usage.py` (J 2026-10-29: rebuilds app/data/cfb_usage.json, the CFB usage prior and missing-star flags, from this sweep's CFB props).
 C4b. CFB Model A: `bash /mnt/project-files/sports-analytics/models/rebuild/football/cfb_gap/live/run_live.sh` (writes app/data/cfb_live.json).
 C4c. `python3 app/export_model_a.py` (after B8 and C4b) -> app/data/model_a.json.
@@ -75,7 +78,7 @@ C8. `python3 models/grading/grade.py` (last).
 Copy app/bet-desk.html to <scratchpad>/betdesk/index.html (never edit bet-desk.html; it already holds the 2026-10-30 Concept E redesign, never rerun app/redesign_patch.py) and every file below that changed this run into
 <scratchpad>/betdesk/ at its bare name: past_props.json, nhl_props.json, nba_props.json, nfl_props.json, games_models.json, cbb_v2.json,
 cfb_model.json, game_slates.json, line_tools.json, props_NFL.json, props_NBA.json, props_NHL.json, parlay_suggestions.json,
-promo_picks.json, scorecard.json, player_results.json, cfb_usage.json, model_a.json, cbb_ab.json, nfl_ab.json, tennis_model.json (file time in the last 30 h),
+promo_picks.json, scorecard.json, player_results.json, cfb_usage.json, model_a.json, cbb_ab.json, nfl_ab.json, nba_ab.json, tennis_model.json (file time in the last 30 h),
 tennis.json (from app/data/odds/tennis.json, a bare array: use its file time, last 30 h), and props_vs_close.json if its "made" is newer than the published copy.
 Publish with the Artifact tool: url https://claude.ai/artifact/Pdq3m2UxoriBf2gBdzgBp4, file_path <scratchpad>/betdesk/index.html,
 root <scratchpad>/betdesk, files map of those names. Data files go at the ROOT path (the page fetches nhl_props.json, not data/...).
