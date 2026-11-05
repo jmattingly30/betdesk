@@ -16,4 +16,6 @@ step "NFL Model B (nfl_ab live)" python3 models/nfl_ab/live.py
 if [ "$T" != nfl ]; then step "NBA Model B (nba_ab live)" python3 models/nba_ab/live.py; fi
 if [ "$T" = night ]; then step "CFB usage" bash -c "cd models/oddspapi && python3 cfb_usage.py"; fi
 if [ "$T" != nfl ]; then step "CFB Model B (cfb_ab live)" python3 models/cfb_ab/live.py; fi
+if [ "$T" != nfl ]; then step "Tennis Model A+B (tennis_ab live)" python3 models/tennis_ab/live.py; fi
+if [ "$T" = night ]; then step "Tennis grade" python3 models/tennis_ab/grade.py; fi
 publish; commit "$T pull" || echo "commit" >> "$FAILS"; finish

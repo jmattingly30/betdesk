@@ -82,7 +82,7 @@ C8. `python3 models/grading/grade.py` (last).
 Copy app/bet-desk.html to <scratchpad>/betdesk/index.html (never edit bet-desk.html; it already holds the 2026-10-30 Concept E redesign, never rerun app/redesign_patch.py) and every file below that changed this run into
 <scratchpad>/betdesk/ at its bare name: past_props.json, nhl_props.json, nba_props.json, nfl_props.json, games_models.json, cbb_v2.json,
 cfb_model.json, game_slates.json, line_tools.json, props_NFL.json, props_NBA.json, props_NHL.json, parlay_suggestions.json,
-promo_picks.json, scorecard.json, player_results.json, cfb_usage.json, model_a.json, cbb_ab.json, nfl_ab.json, nba_ab.json, cfb_ab.json, tennis_model.json (file time in the last 30 h),
+promo_picks.json, scorecard.json, player_results.json, cfb_usage.json, model_a.json, cbb_ab.json, nfl_ab.json, nba_ab.json, cfb_ab.json, tennis_model.json and tennis_ab.json (file time in the last 30 h),
 tennis.json (from app/data/odds/tennis.json, a bare array: use its file time, last 30 h), and props_vs_close.json if its "made" is newer than the published copy.
 Publish with the Artifact tool: url https://claude.ai/artifact/Pdq3m2UxoriBf2gBdzgBp4, file_path <scratchpad>/betdesk/index.html,
 root <scratchpad>/betdesk, files map of those names. Data files go at the ROOT path (the page fetches nhl_props.json, not data/...).

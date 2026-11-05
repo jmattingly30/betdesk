@@ -1,0 +1,70 @@
+{
+ "base": {
+  "m|Tour|clay|3": 0.5108,
+  "m|Tour|clay|5": 0.5108,
+  "m|Tour|grass|3": 0.6857,
+  "m|Tour|grass|5": 0.6857,
+  "m|Tour|hard|3": 0.5754,
+  "m|Tour|hard|5": 0.5754,
+  "m|Tour|carpet|3": 0.619,
+  "m|Tour|carpet|5": 0.619,
+  "m|Challenger|clay|3": 0.4263,
+  "m|Challenger|clay|5": 0.4263,
+  "m|Challenger|grass|3": 0.5971,
+  "m|Challenger|grass|5": 0.5971,
+  "m|Challenger|hard|3": 0.4895,
+  "m|Challenger|hard|5": 0.4895,
+  "m|Challenger|carpet|3": 0.5322,
+  "m|Challenger|carpet|5": 0.5322,
+  "m|ITF|clay|3": 0.3433,
+  "m|ITF|clay|5": 0.3433,
+  "m|ITF|grass|3": 0.5108,
+  "m|ITF|grass|5": 0.5108,
+  "m|ITF|hard|3": 0.4055,
+  "m|ITF|hard|5": 0.4055,
+  "m|ITF|carpet|3": 0.4473,
+  "m|ITF|carpet|5": 0.4473,
+  "w|Tour|clay|3": 0.1805,
+  "w|Tour|clay|5": 0.1805,
+  "w|Tour|grass|3": 0.3433,
+  "w|Tour|grass|5": 0.3433,
+  "w|Tour|hard|3": 0.2412,
+  "w|Tour|hard|5": 0.2412,
+  "w|Tour|carpet|3": 0.2819,
+  "w|Tour|carpet|5": 0.2819,
+  "w|ITF|clay|3": 0.1201,
+  "w|ITF|clay|5": 0.1201,
+  "w|ITF|grass|3": 0.2819,
+  "w|ITF|grass|5": 0.2819,
+  "w|ITF|hard|3": 0.1805,
+  "w|ITF|hard|5": 0.1805,
+  "w|ITF|carpet|3": 0.2209,
+  "w|ITF|carpet|5": 0.2209
+ },
+ "style_means": {
+  "m|Challenger": [
+   9.687030933909401,
+   0.15395108074957223
+  ],
+  "m|ITF": [
+   9.403090795815325,
+   0.10848005373940356
+  ],
+  "m|Tour": [
+   9.864155858803468,
+   0.18300715045630206
+  ],
+  "w|ITF": [
+   9.040729782327835,
+   0.08279257720327518
+  ],
+  "w|Tour": [
+   9.299311340550895,
+   0.10089182313009996
+  ]
+ },
+ "c_gps": 0,
+ "c_tb": 1.5,
+ "sd": 0.35,
+ "fit": "2017-20 bet365-close-fed, Kaggle alimoh89"
+}

@@ -358,6 +358,11 @@ function tenPrice(m){
   return {best, nv, pn};
 }
 const tenModel = m => ((TENM && TENM.matches) || []).find(z => z.fid && z.fid === m.fid) || null;
+// Tennis Model A + B (models/tennis_ab/live.py -> tennis_ab.json, 2026-11-05): A = point sim on our win % (total games, each
+// player's games, set scores, fair lines); B = blend with the market, tier B lean (women, 6-10% edge, both 30+ rated) or C. No tier A.
+let TENAB = null;
+fetch('tennis_ab.json', {cache:'no-cache'}).then(r => r.ok ? r.json() : null).then(j => { if (j && j.matches){ TENAB = j; try { renderTennis(); } catch(e){} } }).catch(() => {});
+const tenAB = m => ((TENAB && TENAB.matches) || []).find(z => z.fid && z.fid === m.fid) || null;
 function renderTennis(){
   const out = $('#tennisOut'); if (!out) return;
   if (!TEN || !TEN.length){ out.innerHTML = '<div class="empty">No tennis odds loaded yet. They come with the morning odds pull.</div>'; return; }
@@ -370,7 +375,7 @@ function renderTennis(){
     const side = k => { const b = best[k]; return `<span class="t">${esc(tenName(k ? m.p2 : m.p1))}</span><span class="sc">${pm != null ? pct(k ? 1 - pm : pm, 0) : '–'}</span><span class="sb">${b ? amS(amOf(b[1])) : '–'}</span>`; };
     const ev = k => pm == null || !best[k] ? null : (k ? 1 - pm : pm)*best[k][1] - 1, eb = Math.max(ev(0) ?? -1, ev(1) ?? -1);
     const mv = pn && pn.open && pn.now && pn.open[1] && pn.now[1] && pn.open[1] !== pn.now[1] ? ` · Pinnacle ${amS(amOf(pn.open[1]))} → ${amS(amOf(pn.now[1]))}` : '';
-    return `<button type="button" class="erow tn" data-i="${i}">${side(0)}${side(1)}<span class="meta"><span>${esc(kick({k:m.start}))} · ${esc(m.tournament.replace(/ (Women|Men) Singles$/, ''))}${z && z.surface ? ' · ' + esc(z.surface) : ''}${mv}</span><span>${nv != null ? `<span class="chip b">Pinnacle ${esc(tenName(m.p1).split(' ').slice(-1)[0])} ${pct(nv, 0)}</span> ` : ''}${z && z.flag ? '<span class="chip y">paper flag</span> ' : ''}${eb >= 0.03 ? `<span class="chip b">model ${sgn(eb)} · paper</span>` : ''}</span></span></button>`; };
+    return `<button type="button" class="erow tn" data-i="${i}">${side(0)}${side(1)}<span class="meta"><span>${esc(kick({k:m.start}))} · ${esc(m.tournament.replace(/ (Women|Men) Singles$/, ''))}${z && z.surface ? ' · ' + esc(z.surface) : ''}${mv}</span><span>${nv != null ? `<span class="chip b">Pinnacle ${esc(tenName(m.p1).split(' ').slice(-1)[0])} ${pct(nv, 0)}</span> ` : ''}${z && z.flag ? '<span class="chip y">paper flag</span> ' : ''}${(() => { const q = tenAB(m); return q ? `<span class="chip">${q.A.tot_med} games</span> ` + (q.B.tier === 'B' ? `<span class="chip y">B lean ${esc(tenName(q.B.pick).split(' ').slice(-1)[0])} · paper</span> ` : '') : ''; })()}${eb >= 0.03 ? `<span class="chip b">model ${sgn(eb)} · paper</span>` : ''}</span></span></button>`; };
   out.innerHTML = `<p class="small muted">Paper only: the tennis model has not beaten closing prices in 2026, so nothing here is a tested bet. Columns: our model's win chance, then the best price at Colorado books. Tap a match for both players' ratings and form, every book, and to log a bet. Model ${TENM ? esc(String(TENM.made).slice(0, 16).replace('T', ' ')) + ' UTC' : 'not loaded'}.</p>
     <div class="chips" role="group">${cats.map(c => `<button type="button" data-c="${esc(c)}" aria-pressed="${c === TEN_CAT}">${esc(c)}</button>`).join('')}</div>
     ${L.length ? `<p class="small muted ablg"><b class="ka">%</b> our model <b class="kb">$</b> best price</p><div class="elist">${L.slice(0, 80).map(row).join('')}</div>` : '<div class="empty">No upcoming matches in this category.</div>'}`;
@@ -407,11 +412,25 @@ function tenTile(out, m){
     why.push(Math.abs(d) < 0.02 ? 'Our model and Pinnacle agree on this match.' : `Our model is ${pct(Math.abs(d), 0)} higher on ${N[w]} than Pinnacle's no-vig price.`); }
   if (z.flag) why.push('Paper flag: the edge clears the tennis thread\'s 6% bar on a rated ITF women or Challenger match. Tracked on paper, not a tested bet.');
   if (pm == null) why.push('This match is not in the model file yet (it prices today and tomorrow each morning).');
+  const q = tenAB(m), QA = q && q.A, QB = q && q.B;
+  if (QB && QB.tier === 'B') why.push(`Model B lean (paper): ${tenName(QB.pick)} at ${amS(amOf(QB.price))} ${bkName(QB.book)}, blended edge ${sgn(QB.edge)}. ${QB.note}`);
+  else if (QB && QB.edge != null) why.push(`Model B: pass (tier C). ${QB.note}`);
+  const pA = QA ? (() => { const Sx = Object.entries(QA.sets || {}).sort((a, b) => b[1] - a[1]);
+    const hp = v => v == null ? '–' : (v > 0 ? '+' : '') + v;
+    return `<div class="panel"><h3>Model A projection</h3><div class="tablewrap"><table class="et"><tbody>
+      <tr><td class="t">Total games</td><td><b>${QA.tot_med}</b> <span class="muted">(80% range ${QA.tot_range[0]}-${QA.tot_range[1]}, fair line ${QA.tot_line_fair})</span></td></tr>
+      <tr><td class="t">Games won</td><td>${esc(N[0])} ${QA.games_p1} · ${esc(N[1])} ${QA.games_p2}</td></tr>
+      <tr><td class="t">Games handicap</td><td>${esc(N[0])} ${hp(QA.hcp_p1_fair)} <span class="muted">(fair)</span></td></tr>
+      <tr><td class="t">Set score</td><td>${Sx.slice(0, 4).map(([k, v]) => `${esc(k)} ${pct(v, 0)}`).join(' · ')} <span class="muted">(first player's sets first)</span></td></tr>
+      <tr><td class="t">Straight sets</td><td>${pct(QA.p_straight, 0)}${QA.best_of === 5 ? ' · best of 5' : ''}</td></tr>
+      <tr><td class="t">Serve points won</td><td>${pct(QA.serve_pts[0], 0)} · ${pct(QA.serve_pts[1], 0)} <span class="muted">(sim inputs)</span></td></tr></tbody></table></div>
+      <p class="small muted">Point-by-point sim on our win chance. 2021-25 test: total games about as close as bet365's closing line (miss 4.86 vs 4.84 games), so these are numbers, not bets.</p></div>`; })() : '';
   out.innerHTML = `<div class="row" style="justify-content:space-between"><button class="btn ghost sm" type="button" id="tnBack">‹ All matches</button><span class="small muted">${esc(kick({k:m.start}))}</span></div>
     <h2 class="gt">${esc(N[0])} <span class="muted">vs</span> ${esc(N[1])}</h2>
     <p class="small muted">${esc(m.tournament.replace(/ (Women|Men) Singles$/, ''))} · ${esc(m.cat)}${z.surface ? ' · ' + esc(z.surface) : ''}</p>
     <div class="abrow">${side(0)}${side(1)}</div>
     <details class="dis panel" open><summary><b>Why</b></summary>${why.map(t => `<p class="small">${esc(t)}</p>`).join('')}<p class="small muted">Paper only: the tennis model has not beaten closing prices in 2026.</p></details>
+    ${pA}
     <div class="panel"><h3>Player inputs</h3>${hasInfo ? `<div class="tablewrap"><table class="et"><thead><tr><th></th><th>${esc(N[0])}</th><th>${esc(N[1])}</th></tr></thead><tbody>${stat.map(([l, f]) => `<tr><td class="t">${l}</td><td>${f(P[0])}</td><td>${f(P[1])}</td></tr>`).join('')}</tbody></table></div>`
       : '<p class="small muted">The ratings, serve numbers, style and form for each player are not in the model file yet. They show here once the tennis model writes them.</p>'}</div>
     <div class="panel"><h3>Every book</h3><div class="tablewrap"><table class="et"><thead><tr><th>Book</th><th>${esc(N[0])}</th><th>${esc(N[1])}</th></tr></thead><tbody>${bk.map(([b, v]) => `<tr><td class="t">${esc(bkName(b))}${myBook(b) ? '' : ' <span class="muted">ref</span>'}</td>${cell(1, v, b)}${cell(2, v, b)}</tr>`).join('')}</tbody></table></div>
