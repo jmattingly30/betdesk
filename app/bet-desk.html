@@ -3416,7 +3416,7 @@ let MA = null, TEN = null, TENM = null, SHEET = null;
 const AB_DESK = sp => sp === 'CBB' ? 'A' : 'B';
 const AB_SD = {NFL:13.5, CFB:15.5, NBA:12, CBB:10.5};
 const AB_GAP = {NFL:[3, 4], CFB:[4, 6], NBA:[4, 6], CBB:[3, 5], NHL:[0.6, 0.8]};   // margin, total: a gap this big opens the why box
-const AB_LAB = sp => sp === 'CBB' ? ['Scores · v2 + sim', 'Bets · tier'] : sp === 'NFL' ? ['Scores · rebuild + key numbers', 'Bets · tier'] : sp === 'NBA' && cabOn('NBA') ? ['Scores · rebuild + sim', 'Bets · tier'] : sp === 'CFB' ? ['Rebuild v4', cfVer === 'v2' ? 'CFB v2 (yours)' : 'Desk v3'] : ['Rebuild', 'Desk model'];
+const AB_LAB = sp => sp === 'CBB' ? ['Scores · v2 + sim', 'Bets · tier'] : sp === 'NFL' ? ['Scores · rebuild + key numbers', 'Bets · tier'] : sp === 'NBA' && cabOn('NBA') ? ['Scores · rebuild + sim', 'Bets · tier'] : sp === 'CFB' && cabOn('CFB') ? ['Scores · v4 + drive sim', 'Bets · tier'] : sp === 'CFB' ? ['Rebuild v4', cfVer === 'v2' ? 'CFB v2 (yours)' : 'Desk v3'] : ['Rebuild', 'Desk model'];
 function maGame(sp, x){
   const M = MA && MA.sports && MA.sports[sp]; if (!M) return null;
   const id = String(x.g ?? x.id ?? ''), h = x.home ?? x.h, a = x.away ?? x.a;
@@ -3431,7 +3431,7 @@ const abWin = (sp, hs, as) => sp === 'NHL' ? poisWin(hs, as) : ncdf((hs - as)/(A
 // both models for one game: {A, B, gapM, gapT, big}; each model {hs, as, p (home win), est (chance from the score, not the card)}
 function abOf(sp, x, r){
   const desk = r ? {hs:r.raw.hs, as:r.raw.as, p:r.pml ?? abWin(sp, r.raw.hs, r.raw.as), est:r.pml == null} : null;
-  if ((sp === 'NFL' || sp === 'NBA') && cabOn(sp)){ const G = cabGame(x, sp), m = maGame(sp, x);   // NFL, NBA (J 2026-11-05): Model A = {nfl,nba}_ab.json scores, Model B = its bet engine; the desk model stays in the full card below
+  if ((sp === 'NFL' || sp === 'NBA' || sp === 'CFB') && cabOn(sp)){ const G = cabGame(x, sp), m = maGame(sp, x);   // NFL, NBA, CFB (J 2026-11-05): Model A = {nfl,nba,cfb}_ab.json scores, Model B = its bet engine; the desk model stays in the full card below
     return {A:G && G.A ? {hs:G.A.hs, as:G.A.as, p:G.A.p_home, est:false, g:G} : m ? {hs:m.hs, as:m.as, p:abWin(sp, m.hs, m.as), est:true, g:m} : null, B:null}; }
   const m = sp === 'CBB' ? null : maGame(sp, x), other = m ? {hs:m.hs, as:m.as, p:abWin(sp, m.hs, m.as), est:true, g:m} : null;   // CBB: Model B is the bet engine (cbb_ab.json), not a second score
   const [A, B] = AB_DESK(sp) === 'A' ? [desk, other] : [other, desk], o = {A, B};
@@ -3446,7 +3446,8 @@ const abTm = (x, m) => Math.abs(m) < 0.05 ? 'even' : m > 0 ? `${x.home} by ${m.t
 // our gap that has been real (confidence), line age, EV at Colorado books, tier A = bet, B = lean (tracked, not a bet), C = pass.
 // NFL joined 2026-11-05 (models/nfl_ab/live.py -> nfl_ab.json): same boxes and tiers; NFL game tiers max B (lean) until live tracking proves them.
 // NBA joined 2026-11-05 (models/nba_ab/live.py -> nba_ab.json): rebuild + component fix + possession sim; tiers from the opener tests.
-const CAB_F = {CBB:'cbb_ab.json', NFL:'nfl_ab.json', NBA:'nba_ab.json'}, CABS = {};
+// CFB joined 2026-11-05 (models/cfb_ab/live.py -> cfb_ab.json): v4 + usage prior + missing starters in the score, drive-sim ranges, key-number curve; opener-tested tiers.
+const CAB_F = {CBB:'cbb_ab.json', NFL:'nfl_ab.json', NBA:'nba_ab.json', CFB:'cfb_ab.json'}, CABS = {};
 const AB2 = sp => sp in CAB_F, cabOn = sp => !!(CABS[sp] && CABS[sp].games);
 function cabLoad(sp){ (sp ? [sp] : Object.keys(CAB_F)).forEach(s => { if (CABS[s] !== undefined) return; CABS[s] = false;
   fetch(CAB_F[s], {cache:'no-cache'}).then(r => r.ok ? r.json() : null).then(j => { if (j && j.games){ CABS[s] = j; try { renderGameList(); renderHome(); renderBest(); } catch(e){} } }).catch(() => {}); }); }
@@ -3460,11 +3461,12 @@ function cabBox(sp, x){
   if (!B) return `<div class="abx b"><span class="lab">Model B · bets</span><p class="small muted">No lines posted for this game yet.</p></div>`;
   const row = (k, z) => !z ? '' : `<div class="small">${{spread:'Spread', total:'Total', ml:'Moneyline'}[k]} <span class="chip ${z.tier === 'A' ? '' : z.tier === 'B' ? 'y' : 'b'}">${z.tier} · ${CAB_T[z.tier]}</span></div><b style="font:400 19px var(--f-display)">${esc(cabPick(k, z) || '–')}</b>
     <p class="small">${z.bet ? `${esc(z.bet.book_name)} ${amS(z.bet.price)} · our chance ${pct(z.bet.p, 0)} · EV ${sgn(z.bet.ev)}` : 'No price posted yet'}</p>
-    <p class="small muted">Market ${k !== 'total' ? esc(abTm(x, z.market)) : z.market.toFixed(1)} · gap ${Math.abs(z.gap).toFixed(1)}, ${Math.abs(z.real).toFixed(1)} of it trusted · ${sp === 'NFL' ? (z.fresh ? 'look-ahead line' : 'game-week line') : z.fresh ? 'new line' : 'older line'}</p>`;
+    <p class="small muted">Market ${k !== 'total' ? esc(abTm(x, z.market)) : z.market.toFixed(1)} · gap ${Math.abs(z.gap).toFixed(1)}, ${Math.abs(z.real).toFixed(1)} of it trusted · ${sp === 'NFL' || sp === 'CFB' ? (z.fresh ? 'look-ahead line' : 'game-week line') : z.fresh ? 'new line' : 'older line'}</p>`;
   return `<div class="abx b"><span class="lab">Model B · bets</span>${row('spread', B.spread)}${row('total', B.total)}${B.ml && B.ml.tier !== 'C' ? row('ml', B.ml) : ''}</div>`;
 }
 function cabRange(sp, x){
   const G = cabGame(x, sp), A = G && G.A; if (!A) return '';
+  if (sp === 'CFB') return `<p class="small muted">80% of drive sims: ${esc(x.away)} ${A.a10}–${A.a90}, ${esc(x.home)} ${A.h10}–${A.h90} · total ${A.t10}–${A.t90} · lands on 3: ${pct(A.p3, 0)}, on 7: ${pct(A.p7, 0)}</p>`;
   if (sp === 'NFL') return `<p class="small muted">80% range: ${esc(x.away)} ${A.a10}–${A.a90}, ${esc(x.home)} ${A.h10}–${A.h90} · total ${A.t10}–${A.t90} · lands on 3: ${pct(A.p3, 0)}, on 7: ${pct(A.p7, 0)}</p>`;
   return `<p class="small muted">80% of sims: ${esc(x.away)} ${A.a10}–${A.a90}, ${esc(x.home)} ${A.h10}–${A.h90} · total ${A.t10}–${A.t90} · OT ${pct(A.p_ot, 0)}</p>`;
 }
@@ -3478,6 +3480,11 @@ function cabWhy(sp, x){
   if (sp === 'NFL'){ const N = S.games && S.games.NFL, QG = N && N.qb && N.qb.games && N.qb.games[x.home + '@' + x.away];
     if (G.desk_m != null) L.push(`<p class="small muted">Desk model (the full card below): ${esc(abTm(x, G.desk_m))}${QG ? `; its starting QBs ${esc(x.home)} ${esc(QG.hq)}, ${esc(x.away)} ${esc(QG.aq)}` : ''}. Model A prices the depth-chart QB and missing regulars with the drive engine's own sizes.</p>`);
     L.push(`<p class="small muted">Tested: Model A team scores miss by 7.4 pts vs the closing line's 7.3 (2018-26). 2026 openers (106 games): our spread gaps of 3+ saw the line move our way 82-86% of the time but covered only 49-56%, so NFL game bets stay leans until live tracking proves them. Player props are where NFL bets come from (unders and receptions at 5%+ EV).</p>`); }
+  else if (sp === 'CFB'){ const A = G.A;
+    if (A && A.v4) L.push(`<p class="small muted">Model A: rebuild v4 ${esc(x.home)} ${(+A.v4[0]).toFixed(1)}, ${esc(x.away)} ${(+A.v4[1]).toFixed(1)}${A.usage ? `, player usage prior ${sgn1(A.usage)} to ${esc(x.home)}` : ''}${(A.absences || []).length ? ', missing starters ' + A.absences.map(z => `${esc(z.player)} (${esc(z.team)}${z.elite ? ', elite' : ''}) ${sgn1(z.pts)}`).join(', ') : ''}.</p>`);
+    (A && A.absences || []).forEach(z => L.push(`<p class="small wrn">Out: ${esc(z.player)} (${esc(z.team)}, ${z.kind === 'qb' ? 'starting QB' : 'top skill player'}${z.elite ? ', elite' : ''}) · ${esc(z.src)}. Priced into Model A at ${sgn1(z.pts)} team pts.</p>`));
+    if (G.desk_m != null) L.push(`<p class="small muted">Desk model v3 (the full card below): ${esc(abTm(x, G.desk_m))}.</p>`);
+    L.push(`<p class="small muted">Tested 2022-25: Model A team scores miss by 8.9 pts vs the closing line's 8.7 (v3 9.2). Openers with a spread gap of 4+ covered 58% (866 bets), 6+ 59%, game-week gaps of 4+ 55%. Look-ahead unders of 4+ hit 58%; overs and late totals lost. Missing star sizes come from 2022-25 play-by-play (elite QB out: team scored 2.1 under, the close already 1.9 under).</p>`); }
   else if (sp === 'NBA'){ const A = G.A;
     if (A && A.base) L.push(`<p class="small muted">Model A: rebuild ${esc(x.home)} ${(+A.base[0]).toFixed(1)}, ${esc(x.away)} ${(+A.base[1]).toFixed(1)} (${A.src === 'stack' ? "ratings plus tonight's projected lineup" : 'ratings only, no projected lineup yet'}), then the shooting-mix fix ${sgn1(A.fix[0])} / ${sgn1(A.fix[1])} (our 3-point % and free-throw terms were overweighted). Ratings alone: ${(+A.ratings[0]).toFixed(1)}–${(+A.ratings[1]).toFixed(1)}.</p>`);
     if (G.desk_m != null) L.push(`<p class="small muted">Desk team model (the full card below, full rosters): ${esc(abTm(x, G.desk_m))}.</p>`);
@@ -3494,7 +3501,7 @@ function cfbUse(h, a){ const g = cfbUseG(h, a); if (g) return +g.shift || 0; con
 const cfbUseTxt = (h, a) => { const s = cfbUse(h, a); return s ? `<p class="small">Player usage prior (offense implied by player prop lines): ${sgn1(s)} pts to ${esc(h)}, included. Totals unchanged.</p>` : ''; };
 // elite missing star: tracked, shown only on bets (J 2026-10-29)
 const cfbStars = (h, a) => { const g = cfbUseG(h, a) || cfbUseG(a, h); return g ? (g.stars_out || []).filter(s => s.elite) : []; };
-const starNote = (h, a) => cfbStars(h, a).map(s => `<p class="small wrn">Elite player out: ${esc(s.name || 'unnamed starter')} (${esc(s.team)}, ${esc(s.kind)} line about ${s.avg_line}). Tracked, not in the price.</p>`).join('');
+const starNote = (h, a) => cfbStars(h, a).map(s => `<p class="small wrn">Elite player out: ${esc(s.name || 'unnamed starter')} (${esc(s.team)}, ${esc(s.kind)} line about ${s.avg_line}). ${cabOn('CFB') ? 'Priced into Model A.' : 'Tracked, not in the price.'}</p>`).join('');
 // "well above his average" tag (J 2026-10-28): projection 20%+ above both his recent and season averages at a comparable workload
 function avgTag(sp, p, k){
   const s = p && p.s && p.s[k], f = s && flagOf(sp, k, s, 0.2, 'over');

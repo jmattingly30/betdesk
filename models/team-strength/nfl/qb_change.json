@@ -41,10 +41,10 @@
   ],
   "2026_09_CLE_NO": [
    0,
-   0,
+   1,
    "Tyler Shough",
-   "Deshaun Watson",
-   0.0
+   "Shedeur Sanders",
+   0.106
   ],
   "2026_09_DAL_IND": [
    0,
@@ -145,11 +145,11 @@
    0.0
   ],
   "2026_10_HOU_CLE": [
+   1,
    0,
-   0,
-   "Deshaun Watson",
+   "Shedeur Sanders",
    "C.J. Stroud",
-   0.0
+   -0.106
   ],
   "2026_10_JAX_TEN": [
    0,
@@ -362,11 +362,11 @@
    0.237
   ],
   "2026_12_LV_CLE": [
+   1,
    0,
-   0,
-   "Deshaun Watson",
+   "Shedeur Sanders",
    "Kirk Cousins",
-   0.0
+   -0.106
   ],
   "2026_12_NE_LAC": [
    0,
@@ -446,11 +446,11 @@
    0.0
   ],
   "2026_13_CIN_CLE": [
+   1,
    0,
-   0,
-   "Deshaun Watson",
+   "Shedeur Sanders",
    "Joe Burrow",
-   0.0
+   -0.106
   ],
   "2026_13_DET_ATL": [
    0,
@@ -530,11 +530,11 @@
    0.0
   ],
   "2026_14_ATL_CLE": [
+   1,
    0,
-   0,
-   "Deshaun Watson",
+   "Shedeur Sanders",
    "Michael Penix Jr.",
-   0.0
+   -0.106
   ],
   "2026_14_BUF_GB": [
    0,
@@ -671,10 +671,10 @@
   ],
   "2026_15_CLE_NYG": [
    2,
-   0,
+   1,
    "J.J. McCarthy",
-   "Deshaun Watson",
-   -0.05
+   "Shedeur Sanders",
+   0.0
   ],
   "2026_15_DAL_LA": [
    0,
@@ -790,10 +790,10 @@
   ],
   "2026_16_CLE_BAL": [
    1,
-   0,
+   1,
    "Joe Fagnano",
-   "Deshaun Watson",
-   -0.237
+   "Shedeur Sanders",
+   -0.131
   ],
   "2026_16_JAX_DAL": [
    0,
@@ -880,11 +880,11 @@
    0.0
   ],
   "2026_17_IND_CLE": [
+   1,
    0,
-   0,
-   "Deshaun Watson",
+   "Shedeur Sanders",
    "Daniel Jones",
-   0.0
+   -0.106
   ],
   "2026_17_KC_LAC": [
    0,
@@ -979,10 +979,10 @@
   ],
   "2026_18_CLE_CIN": [
    0,
-   0,
+   1,
    "Joe Burrow",
-   "Deshaun Watson",
-   0.0
+   "Shedeur Sanders",
+   0.106
   ],
   "2026_18_DAL_WAS": [
    0,

@@ -5,7 +5,7 @@ USAGE PRIOR: each team's prop-implied offense = its QB's pass-yards line + every
 gap (per 100 yds) shifts our CFB margin by a coefficient refit every run on completed 2026 games against CFB v3's walk-forward
 margin (models/cfb-v3/game_predictions.parquet), through the origin so it only adds what our model misses. Tested 2026-10-29:
 walk-forward margin MAE 12.65 -> 12.58 (112 games); props predict team pass/rush yards 2-3x better than season averages.
-MISSING STAR: the team's usual top rusher/receiver prop (top in 2+ of its last 4 games) has no prop this game while the team
+MISSING STAR: the team's usual top rusher/receiver/QB (pass yds, added 2026-11-05) prop (top in 2+ of its last 4 games) has no prop this game while the team
 has 3+ prop players posted. Elite = his average line 75+ rush yds / 60+ rec yds. Graded each run (margin vs our model and
 the line) in 'track'; ~45 games so far ran ~4 pts under the close (not significant)."""
 import os, json, collections, datetime as dt, statistics as stt
@@ -15,7 +15,7 @@ import college_props as cp
 US, SA = cp.US, cp.SA; APP = f'{SA}/app/data'; STORE = f'{US}/cfbp/live_store.json'
 NOW = dt.datetime.now(dt.timezone.utc)
 LIVE_STAT = {'Pass Yards': 'pass', 'Rush Yards': 'rush', 'Receiving Yards': 'rec'}
-ELITE = {'rush': 75, 'rec': 60}
+ELITE = {'rush': 75, 'rec': 60, 'pass': 225}   # pass added J 2026-11-05 (Julian Sayin out, QBs were never checked)
 CAP = 6.0   # largest margin shift in points
 
 
@@ -111,7 +111,7 @@ def main():
             d = by[t]; n = len({p for s in d.values() for p in s})
             feat[t] = dict(pass_l=max(d['pass'].values()) if d['pass'] else None, rush_l=round(sum(d['rush'].values()), 1) if d['rush'] else None,
                            rec_l=round(sum(d['rec'].values()), 1) if d['rec'] else None, n=n)
-            for kind in ('rush', 'rec'):
+            for kind in ('rush', 'rec', 'pass'):
                 last = tops[(t, kind)][-4:]; c = collections.Counter(last).most_common(1)
                 if c and c[0][1] >= 2 and n >= 3 and c[0][0] not in d[kind] and c[0][0] not in {p for s in d.values() for p in s}:
                     a = stt.mean(avg[c[0][0]]); stars_out.append(dict(team=t, kind=kind, pid=c[0][0], avg_line=round(a, 1), elite=a >= ELITE[kind]))

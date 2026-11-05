@@ -1,4 +1,11 @@
 {
-  "note": "Manual starting-QB overrides (J). Used when the ESPN depth chart lags a trade or signing. Applied by qb_change.py depth_starters and rebuild/shadow/shadow.py. Entry format: \"BAL\": {\"id\": \"00-0033119\", \"name\": \"Jacoby Brissett\", \"until\": \"YYYY-MM-DD\", \"why\": \"...\"}; it stops applying after 'until'.",
-  "teams": {}
+ "note": "Manual starting-QB overrides (J). Used when the ESPN depth chart lags a trade or signing. Applied by qb_change.py depth_starters and rebuild/shadow/shadow.py. Entry format: \"BAL\": {\"id\": \"00-0033119\", \"name\": \"Jacoby Brissett\", \"until\": \"YYYY-MM-DD\", \"why\": \"...\"}; it stops applying after 'until' = the player's game day (J 2026-11-05).",
+ "teams": {
+  "CLE": {
+   "id": "00-0040668",
+   "name": "Shedeur Sanders",
+   "until": "2026-11-08",
+   "why": "J 2026-11-05: Sanders likely starts week 9 (CLE@NO 11-08); ESPN depth chart 11-05 lists Deshaun Watson QB1."
+  }
+ }
 }

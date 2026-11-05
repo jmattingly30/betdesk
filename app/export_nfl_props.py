@@ -30,6 +30,16 @@ week = auto_week(dl, season) if args[2] == 'auto' else int(args[2])
 print('NFL props week', week)
 out = args[3] if len(args) > 3 else f'{here}/data/nfl_props.json'
 tmp = f'/tmp/nfl_proj_{season}_{week}.csv'
+if ov and os.path.exists(ov):
+    # J 2026-11-05: an override row with an 'until' date (YYYY-MM-DD, the player's game day) expires after that day (Denver)
+    import pandas as pd
+    o = pd.read_csv(ov, dtype=str).fillna('')
+    if 'until' in o:
+        today = pd.Timestamp.now(tz='America/Denver').strftime('%Y-%m-%d')
+        keep = o[(o.until == '') | (o.until >= today)]
+        if len(keep) < len(o): print('expired overrides dropped:', o[~o.index.isin(keep.index)].team.tolist())
+        ov = f'/tmp/nfl_overrides_live.csv'; keep.drop(columns='until').to_csv(ov, index=False)
+    print('overrides:', pd.read_csv(ov).fillna('').to_dict('records'))
 sys.argv = ['project.py', M, dl, str(season), str(week), '--out', tmp] + (['--overrides', ov] if ov else [])
 g = runpy.run_path(f'{M}/project.py', run_name='__main__')
 pred, sims, cal, P = g['pred'], g['sims'], g['cal'], g['P']
