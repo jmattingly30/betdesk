@@ -17,7 +17,9 @@ setup_paths(){
 step(){
   local label="$1"; shift
   echo "::group::$label"
-  if (cd "$SA" && "$@"); then echo "ok: $label"; else echo "::error::FAILED: $label"; echo "$label" >> "$FAILS"; fi
+  local out="${RUNNER_TEMP:-/tmp}/step.log"
+  if (cd "$SA" && "$@") 2>&1 | tee "$out"; [ "${PIPESTATUS[0]}" = 0 ]; then echo "ok: $label"
+  else echo "::error::FAILED: $label"; { echo "== $label"; tail -n 12 "$out" | cut -c1-300; } >> "$FAILS"; fi
   echo "::endgroup::"
 }
 sh_step(){ step "$1" bash -c "$2"; }
