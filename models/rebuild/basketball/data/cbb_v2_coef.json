@@ -13,5 +13,11 @@
   "rt": 0.44311,
   "poss_hat": 0.46483
  },
- "note": "tm/tt = today's models/cbb margin/total; rm/rt/poss_hat = rebuild full stack (prior + avail); x_av = home minus away continuing absences value (models/cbb abs_val_cont)"
+ "note": "tm/tt = today's models/cbb margin/total; rm/rt/poss_hat = rebuild full stack (prior + avail); x_av = home minus away continuing absences value (models/cbb abs_val_cont)",
+ "week1": {
+  "total_offset": 5.22,
+  "season_start": "2026-11-02",
+  "days": 7,
+  "note": "v2 totals run low in a season's first 7 days (12 of 13 seasons, 2026 -7.1, live 2027 -4.5 over 138 games). Offset = minus mean week-1 bias of the last 3 seasons (2024-26), walk-forward tested 2017-26: week-1 total MAE 14.41 -> 14.34 (cbb_gap/cbb_wk1c.py)."
+ }
 }

@@ -1,0 +1,4 @@
+{
+  "note": "Manual starting-QB overrides (J). Used when the ESPN depth chart lags a trade or signing. Applied by qb_change.py depth_starters and rebuild/shadow/shadow.py. Entry format: \"BAL\": {\"id\": \"00-0033119\", \"name\": \"Jacoby Brissett\", \"until\": \"YYYY-MM-DD\", \"why\": \"...\"}; it stops applying after 'until'.",
+  "teams": {}
+}

@@ -76,6 +76,10 @@ def nfl():
     LN = load("live_nfl", f"{RB}/football/live_nfl.py")
     dc = pd.read_parquet(f"{SP}/nfl/depth_charts_2026.parquet"); dc["dt"] = pd.to_datetime(dc.dt)
     dc = dc[dc.pos_abb.eq("QB") & dc.pos_rank.eq(1)].sort_values("dt").groupby("team").tail(1).set_index("team").gsis_id.to_dict()
+    fo = f"{RB}/../team-strength/nfl/qb_overrides.json"   # manual starting-QB overrides (J 2026-11-05, BAL Brissett)
+    if os.path.exists(fo):
+        today = pd.Timestamp.now(tz="America/Denver").strftime("%Y-%m-%d")
+        dc.update({t: o["id"] for t, o in json.load(open(fo)).get("teams", {}).items() if o.get("until", "9999") >= today})
     up = up[up.home_team.isin(R.idx) & up.away_team.isin(R.idx)].reset_index(drop=True)
     U = pd.DataFrame({"home": up.home_team, "away": up.away_team, "h_qb": up.home_team.map(dc), "a_qb": up.away_team.map(dc)})
     qsh, _ = LN.qb_terms(U)

@@ -845,7 +845,9 @@ function slateDays(sp){
 let NFL_W = null;
 const nflWeeks = () => [...new Set(gsGames('NFL').map(x => +x.w).filter(Boolean))].sort((a,b) => a-b);
 const nflPropsWk = () => S.slates.NFL ? +S.slates.NFL.week : null;
-const nflWk = () => NFL_W ?? nflPropsWk() ?? nflWeeks()[0] ?? null;
+// 2026-11-05: a props file left on an old week (props not built yet) no longer pins the desk to that week; the first week with games still to play wins
+const nflCurWk = () => { const w = gsGames('NFL').filter(x => !x.k || Date.parse(x.k) > Date.now()).map(x => +x.w).filter(Boolean); return w.length ? Math.min(...w) : null; };
+const nflWk = () => { if (NFL_W != null) return NFL_W; const p = nflPropsWk(), c = nflCurWk(); return p != null && (c == null || p >= c) ? p : c ?? p ?? nflWeeks()[0] ?? null; };
 const nflPropsOn = () => nflPropsWk() == null || nflWk() === nflPropsWk();
 const nflLegWk = l => { const g = gsGames('NFL').find(x => `${x.a} @ ${x.h}` === l.game); return g ? +g.w : null; };
 const dayOk = p => (S.sport !== 'NFL' || nflPropsOn()) && (!S.day || !p.d || p.d === S.day);
@@ -3321,6 +3323,9 @@ window.BD_FLAGS = () => ({made:new Date().toISOString(), rows:PO_SP.flatMap(sp =
 // the sharp fair price (ltGame ev, 2%+), game and prop middles, arbs, and promo picks. Check rows go last.
 let BB_SP = lsGet('betdesk.bbsp', 'All'), BB_KIND = lsGet('betdesk.bbkind', 'all'), BB_SORT = lsGet('betdesk.bbsort', 'time'), BB_ALL = false;
 const BB_KINDS = [['all', 'All'], ['props', 'Props'], ['games', 'Games'], ['mid', 'Middles'], ['promo', 'Promo']];
+const ltOff = (g, x) => { if (x.mk === 'ml' || x.pt == null) return false;
+  const v = Object.values(g.bk || {}).map(a => x.mk === 'total' ? a[3] : a[0] == null ? null : x.s === 'H' ? a[0] : -a[0]).filter(n => n != null).sort((a, b) => a - b);
+  return v.length >= 3 && Math.abs(x.pt - v[v.length >> 1]) >= 3; };
 const BB_TAG = {...PF_TAG, game:'<span class="tag t-flag">Game</span>', price:'<span class="tag t-flag">Beats fair</span>', mid:'<span class="tag t-flag">Middle</span>',
   arb:'<span class="tag t-check">Arb</span>', verify:'<span class="tag t-check">Verify</span>', promo:'<span class="tag t-proven">Promo</span>'};
 const BB_RANK = {proven:0, flag:1, game:1, price:2, mid:3, arb:3, promo:4, verify:5, check:6};
@@ -3342,7 +3347,7 @@ function bbRows(){
             sub:`${poBk(o.b)} o${o.L} ${amS(o.o)} · ${poBk(u.b)} u${u.L} ${amS(u.u)}`, note:`${pct(m.both)} both`, go:() => { bbGo(sp); poOpen(p, k, o); }}); })); }); }); });
   if (LT && LAND) LT_SP.forEach(sp => ((LT.sports || {})[sp] || []).filter(g => live(g.k)).forEach(g => {
     const t = ltGame(sp, g), thr = PF_THR, go = () => { bbGo(sp); ltOpen(sp, g); }, gm = `${g.a} @ ${g.h}`;
-    t.best.forEach(x => {
+    t.best.forEach(x => { if (ltOff(g, x)) return;   // 2026-11-05: one book 3+ points off every other book's line is a stale or wrong line, not a bet (Caesars ARI@SEA 44.5 vs 39.5)
       if (x.mev != null && x.mev >= thr && x.bev >= thr) R.push({type:'games', sp, kind:'game', k:g.k, ev:x.bev, title:sideLbl(g, x.mk, x.s, x.pt), sub:`${gm} · ${bkName(x.b)} ${amS(x.pr)}`, note:`ours ${sgn(x.mev)}`, go});
       else if (x.ev >= 0.02) R.push({type:'games', sp, kind:'price', k:g.k, ev:x.ev, title:sideLbl(g, x.mk, x.s, x.pt), sub:`${gm} · ${bkName(x.b)} ${amS(x.pr)}`, note:`fair ${amS(x.fair)}`, go}); });
     t.mid.filter(m => (m.kind === 'middle' || m.kind === 'push' || m.kind === 'arb') && m.ev > 0).forEach(m => R.push({type:'mid', sp, kind:m.check ? 'verify' : m.kind === 'arb' ? 'arb' : 'mid', k:g.k, ev:m.ev,
@@ -3411,7 +3416,7 @@ let MA = null, TEN = null, TENM = null, SHEET = null;
 const AB_DESK = sp => sp === 'CBB' ? 'A' : 'B';
 const AB_SD = {NFL:13.5, CFB:15.5, NBA:12, CBB:10.5};
 const AB_GAP = {NFL:[3, 4], CFB:[4, 6], NBA:[4, 6], CBB:[3, 5], NHL:[0.6, 0.8]};   // margin, total: a gap this big opens the why box
-const AB_LAB = sp => sp === 'CBB' ? ['Scores · v2 + sim', 'Bets · tier'] : sp === 'CFB' ? ['Rebuild v4', cfVer === 'v2' ? 'CFB v2 (yours)' : 'Desk v3'] : ['Rebuild', 'Desk model'];
+const AB_LAB = sp => sp === 'CBB' ? ['Scores · v2 + sim', 'Bets · tier'] : sp === 'NFL' ? ['Scores · rebuild + key numbers', 'Bets · tier'] : sp === 'NBA' && cabOn('NBA') ? ['Scores · rebuild + sim', 'Bets · tier'] : sp === 'CFB' ? ['Rebuild v4', cfVer === 'v2' ? 'CFB v2 (yours)' : 'Desk v3'] : ['Rebuild', 'Desk model'];
 function maGame(sp, x){
   const M = MA && MA.sports && MA.sports[sp]; if (!M) return null;
   const id = String(x.g ?? x.id ?? ''), h = x.home ?? x.h, a = x.away ?? x.a;
@@ -3426,6 +3431,8 @@ const abWin = (sp, hs, as) => sp === 'NHL' ? poisWin(hs, as) : ncdf((hs - as)/(A
 // both models for one game: {A, B, gapM, gapT, big}; each model {hs, as, p (home win), est (chance from the score, not the card)}
 function abOf(sp, x, r){
   const desk = r ? {hs:r.raw.hs, as:r.raw.as, p:r.pml ?? abWin(sp, r.raw.hs, r.raw.as), est:r.pml == null} : null;
+  if ((sp === 'NFL' || sp === 'NBA') && cabOn(sp)){ const G = cabGame(x, sp), m = maGame(sp, x);   // NFL, NBA (J 2026-11-05): Model A = {nfl,nba}_ab.json scores, Model B = its bet engine; the desk model stays in the full card below
+    return {A:G && G.A ? {hs:G.A.hs, as:G.A.as, p:G.A.p_home, est:false, g:G} : m ? {hs:m.hs, as:m.as, p:abWin(sp, m.hs, m.as), est:true, g:m} : null, B:null}; }
   const m = sp === 'CBB' ? null : maGame(sp, x), other = m ? {hs:m.hs, as:m.as, p:abWin(sp, m.hs, m.as), est:true, g:m} : null;   // CBB: Model B is the bet engine (cbb_ab.json), not a second score
   const [A, B] = AB_DESK(sp) === 'A' ? [desk, other] : [other, desk], o = {A, B};
   if (A && B){ o.gapM = (A.hs - A.as) - (B.hs - B.as); o.gapT = (A.hs + A.as) - (B.hs + B.as);
@@ -3437,34 +3444,45 @@ const abTm = (x, m) => Math.abs(m) < 0.05 ? 'even' : m > 0 ? `${x.home} by ${m.t
 // ---------- CBB Model A + Model B (J 2026-11-02: CBB is first on the two-model system; models/cbb_ab/live.py -> cbb_ab.json) ----------
 // A = projected scores (CBB v2 means + possession sim ranges). B = bets built on A: devigged sharp-weighted market number, the share of
 // our gap that has been real (confidence), line age, EV at Colorado books, tier A = bet, B = lean (tracked, not a bet), C = pass.
-let CAB = null;
-function cabLoad(){ if (CAB !== null) return; CAB = false;
-  fetch('cbb_ab.json', {cache:'no-cache'}).then(r => r.ok ? r.json() : null).then(j => { if (j && j.games){ CAB = j; try { renderGameList(); renderHome(); renderBest(); } catch(e){} } }).catch(() => {}); }
-const cabGame = x => { if (!CAB || !CAB.games) return null; const id = String(x.g ?? x.id ?? '');
-  return CAB.games[id] || Object.values(CAB.games).find(g => g.h === (x.home ?? x.h) && g.a === (x.away ?? x.a)) || null; };
+// NFL joined 2026-11-05 (models/nfl_ab/live.py -> nfl_ab.json): same boxes and tiers; NFL game tiers max B (lean) until live tracking proves them.
+// NBA joined 2026-11-05 (models/nba_ab/live.py -> nba_ab.json): rebuild + component fix + possession sim; tiers from the opener tests.
+const CAB_F = {CBB:'cbb_ab.json', NFL:'nfl_ab.json', NBA:'nba_ab.json'}, CABS = {};
+const AB2 = sp => sp in CAB_F, cabOn = sp => !!(CABS[sp] && CABS[sp].games);
+function cabLoad(sp){ (sp ? [sp] : Object.keys(CAB_F)).forEach(s => { if (CABS[s] !== undefined) return; CABS[s] = false;
+  fetch(CAB_F[s], {cache:'no-cache'}).then(r => r.ok ? r.json() : null).then(j => { if (j && j.games){ CABS[s] = j; try { renderGameList(); renderHome(); renderBest(); } catch(e){} } }).catch(() => {}); }); }
+const cabGame = (x, sp = 'CBB') => { const C = CABS[sp]; if (!C || !C.games) return null; const id = String(x.g ?? x.id ?? '');
+  return C.games[id] || Object.values(C.games).find(g => g.h === (x.home ?? x.h) && g.a === (x.away ?? x.a)) || null; };
 const CAB_T = {A:'Bet', B:'Lean', C:'Pass'};
 const cabPick = (k, z) => !z || !z.bet ? '' : k === 'ml' ? `${z.side} ML` : k === 'total' ? `${z.side} ${z.bet.pt}` : `${z.side} ${sgnPts(z.bet.pt)}`;
 const cabBets = G => G && G.B ? ['spread', 'total', 'ml'].map(k => [k, G.B[k]]).filter(([k, z]) => z && z.bet && z.tier !== 'C') : [];
-function cabBox(x){
-  const G = cabGame(x), B = G && G.B;
+function cabBox(sp, x){
+  const G = cabGame(x, sp), B = G && G.B;
   if (!B) return `<div class="abx b"><span class="lab">Model B · bets</span><p class="small muted">No lines posted for this game yet.</p></div>`;
   const row = (k, z) => !z ? '' : `<div class="small">${{spread:'Spread', total:'Total', ml:'Moneyline'}[k]} <span class="chip ${z.tier === 'A' ? '' : z.tier === 'B' ? 'y' : 'b'}">${z.tier} · ${CAB_T[z.tier]}</span></div><b style="font:400 19px var(--f-display)">${esc(cabPick(k, z) || '–')}</b>
     <p class="small">${z.bet ? `${esc(z.bet.book_name)} ${amS(z.bet.price)} · our chance ${pct(z.bet.p, 0)} · EV ${sgn(z.bet.ev)}` : 'No price posted yet'}</p>
-    <p class="small muted">Market ${k !== 'total' ? esc(abTm(x, z.market)) : z.market.toFixed(1)} · gap ${Math.abs(z.gap).toFixed(1)}, ${Math.abs(z.real).toFixed(1)} of it trusted · ${z.fresh ? 'new line' : 'older line'}</p>`;
+    <p class="small muted">Market ${k !== 'total' ? esc(abTm(x, z.market)) : z.market.toFixed(1)} · gap ${Math.abs(z.gap).toFixed(1)}, ${Math.abs(z.real).toFixed(1)} of it trusted · ${sp === 'NFL' ? (z.fresh ? 'look-ahead line' : 'game-week line') : z.fresh ? 'new line' : 'older line'}</p>`;
   return `<div class="abx b"><span class="lab">Model B · bets</span>${row('spread', B.spread)}${row('total', B.total)}${B.ml && B.ml.tier !== 'C' ? row('ml', B.ml) : ''}</div>`;
 }
-function cabRange(x){
-  const G = cabGame(x), A = G && G.A; if (!A) return '';
+function cabRange(sp, x){
+  const G = cabGame(x, sp), A = G && G.A; if (!A) return '';
+  if (sp === 'NFL') return `<p class="small muted">80% range: ${esc(x.away)} ${A.a10}–${A.a90}, ${esc(x.home)} ${A.h10}–${A.h90} · total ${A.t10}–${A.t90} · lands on 3: ${pct(A.p3, 0)}, on 7: ${pct(A.p7, 0)}</p>`;
   return `<p class="small muted">80% of sims: ${esc(x.away)} ${A.a10}–${A.a90}, ${esc(x.home)} ${A.h10}–${A.h90} · total ${A.t10}–${A.t90} · OT ${pct(A.p_ot, 0)}</p>`;
 }
-function cabWhy(x){
-  const G = cabGame(x), B = G && G.B; if (!B) return '';
+function cabWhy(sp, x){
+  const G = cabGame(x, sp), B = G && G.B; if (!B) return '';
   const L = [], gd = {'+':'pos', '-':'neg', '·':'muted'};
   [['spread', 'Spread'], ['total', 'Total'], ['ml', 'Moneyline']].forEach(([k, n]) => { const z = B[k]; if (!z || (k === 'ml' && z.tier === 'C')) return;
     L.push(`<p class="small"><b>${n}: tier ${z.tier} (${CAB_T[z.tier]})</b> · Model A ${k !== 'total' ? esc(abTm(x, z.ours)) : z.ours.toFixed(1)}, market ${k !== 'total' ? esc(abTm(x, z.market)) : z.market.toFixed(1)} (devigged, sharp books weighted up to 1.5x).${z.share != null ? ` Trusted share of the gap here ${Math.round(z.share*100)}%.` : ''}</p>`);
     (z.reasons || []).forEach(r => L.push(`<p class="small"><span class="${gd[r[0]] || 'muted'}">${esc(r[0] === '·' ? '•' : r[0])}</span> ${esc(r[1])}</p>`)); });
   const A = G.A; if (A && A.today && A.today[0] != null) L.push(`<p class="small muted">Shadow: previous CBB model ${esc(x.home)} ${(+A.today[0]).toFixed(1)}, ${esc(x.away)} ${(+A.today[1]).toFixed(1)}; rebuild ${(+A.rb[0]).toFixed(1)}–${(+A.rb[1]).toFixed(1)}. Model A blends both.</p>`);
-  L.push(`<p class="small muted">Tested on the 2026 DK opener: tier A won 60% against the spread (556 bets), tier B 51%, C 51%. Older lines are judged on closing-line results, where only big gaps held up.</p>`);
+  if (sp === 'NFL'){ const N = S.games && S.games.NFL, QG = N && N.qb && N.qb.games && N.qb.games[x.home + '@' + x.away];
+    if (G.desk_m != null) L.push(`<p class="small muted">Desk model (the full card below): ${esc(abTm(x, G.desk_m))}${QG ? `; its starting QBs ${esc(x.home)} ${esc(QG.hq)}, ${esc(x.away)} ${esc(QG.aq)}` : ''}. Model A prices the depth-chart QB and missing regulars with the drive engine's own sizes.</p>`);
+    L.push(`<p class="small muted">Tested: Model A team scores miss by 7.4 pts vs the closing line's 7.3 (2018-26). 2026 openers (106 games): our spread gaps of 3+ saw the line move our way 82-86% of the time but covered only 49-56%, so NFL game bets stay leans until live tracking proves them. Player props are where NFL bets come from (unders and receptions at 5%+ EV).</p>`); }
+  else if (sp === 'NBA'){ const A = G.A;
+    if (A && A.base) L.push(`<p class="small muted">Model A: rebuild ${esc(x.home)} ${(+A.base[0]).toFixed(1)}, ${esc(x.away)} ${(+A.base[1]).toFixed(1)} (${A.src === 'stack' ? "ratings plus tonight's projected lineup" : 'ratings only, no projected lineup yet'}), then the shooting-mix fix ${sgn1(A.fix[0])} / ${sgn1(A.fix[1])} (our 3-point % and free-throw terms were overweighted). Ratings alone: ${(+A.ratings[0]).toFixed(1)}–${(+A.ratings[1]).toFixed(1)}.</p>`);
+    if (G.desk_m != null) L.push(`<p class="small muted">Desk team model (the full card below, full rosters): ${esc(abTm(x, G.desk_m))}.</p>`);
+    L.push(`<p class="small muted">Tested on openers: spread tier A won 57% (SBR 2021-22, 255) and 62% (2026 DraftKings, 42); tier B 48-52%. Totals with a gap of 4+ at the opener hit 56% (2021-22) and 63% (2026 DraftKings). Close-like lines lost at every gap size, so they are passes.</p>`); }
+  else L.push(`<p class="small muted">Tested on the 2026 DK opener: tier A won 60% against the spread (556 bets), tier B 51%, C 51%. Older lines are judged on closing-line results, where only big gaps held up.</p>`);
   const open = cabBets(G).some(([k, z]) => z.tier === 'A');
   return `<details class="dis panel"${open ? ' open' : ''}><summary><b>Why Model B likes it</b> <span class="small muted">${cabBets(G).map(([k, z]) => `${z.tier} ${esc(cabPick(k, z))}`).join(' · ') || 'no bet'}</span></summary>${L.join('')}</details>`;
 }
@@ -3487,7 +3505,7 @@ const whenOf = x => [x.d && x.d !== localDay() ? dayName(x.d) : '', kick(x)].fil
 // ---------- game rows (Games tab and Home) ----------
 function abLegend(sp){
   const [la, lb] = AB_LAB(sp);
-  if (sp === 'CBB') return `<p class="small muted ablg"><b class="ka">A</b> ${esc(la)} <b class="kb">B</b> ${esc(lb)} (A bet, B lean)${!(CAB && CAB.games) ? ' · Model B file not loaded yet' : ''}</p>`;
+  if (AB2(sp)) return `<p class="small muted ablg"><b class="ka">A</b> ${esc(la)} <b class="kb">B</b> ${esc(lb)} (A bet, B lean)${!cabOn(sp) ? ' · Model B file not loaded yet' : ''}</p>`;
   return `<p class="small muted ablg"><b class="ka">A</b> ${esc(la)} <b class="kb">B</b> ${esc(lb)}${!(MA && MA.sports && MA.sports[sp]) ? ` · Model ${AB_DESK(sp) === 'A' ? 'B' : 'A'} has no ${esc(sp)} file yet` : ''}</p>`;
 }
 function eRow(sp, x, r, i){
@@ -3495,16 +3513,16 @@ function eRow(sp, x, r, i){
   const fav = M ? (M.p >= 0.5 ? [x.home, M.p] : [x.away, 1 - M.p]) : null;
   const e = r && r.edges && r.edges[0] && !started(x) ? {t:r.edges[0].name, ev:r.edges[0].ev} : null, g = ltFor(sp, x), b = !e && g ? ltTop(sp, g) : null;
   const bet = e || (b && b.mev >= PF_THR && b.bev >= PF_THR ? {t:sideLbl(g, b.mk, b.s, b.pt), ev:b.bev} : null);
-  const cb = sp === 'CBB' ? cabGame(x) : null, cs = cb && cb.B && cb.B.spread && cb.B.spread.tier !== 'C' ? cb.B.spread : null, cbt = cabBets(cb).filter(([k, z]) => z.tier === 'A')[0] || cabBets(cb)[0];
-  if (sp === 'CBB'){ B.as = undefined; B.hs = undefined; }
+  const cb = AB2(sp) ? cabGame(x, sp) : null, cs = cb && cb.B && cb.B.spread && cb.B.spread.tier !== 'C' ? cb.B.spread : null, cbt = cabBets(cb).filter(([k, z]) => z.tier === 'A')[0] || cabBets(cb)[0];
+  if (AB2(sp)){ B.as = undefined; B.hs = undefined; }
   const star = bet && sp === 'CFB' && cfbStars(x.home, x.away).length ? ' <span class="chip y">star out</span>' : '';
   return `<button type="button" class="erow" data-i="${i}">
-    <span class="t">${tLogo(sp, x.away)}${esc(x.away)}</span><span class="sc">${abF(sp, A.as)}</span><span class="sb">${sp === 'CBB' ? (cs && cs.side === x.away ? cs.tier : '') : abF(sp, B.as)}</span>
-    <span class="t">${tLogo(sp, x.home)}${esc(x.home)}</span><span class="sc">${abF(sp, A.hs)}</span><span class="sb">${sp === 'CBB' ? (cs && cs.side === x.home ? cs.tier : '') : abF(sp, B.hs)}</span>
-    <span class="meta"><span>${esc(whenOf(x))}${fav ? ` · ${esc(fav[0])} ${pct(fav[1], 0)}` : ''}</span><span>${ab.big ? `<span class="chip y">A/B gap</span> ` : ''}${sp === 'CBB' ? (cbt ? `<span class="chip${cbt[1].tier === 'A' ? '' : ' y'}">${CAB_T[cbt[1].tier]}: ${esc(cabPick(cbt[0], cbt[1]))}${cbt[1].tier === 'A' ? ' ' + sgn(cbt[1].bet.ev) : ''}</span>` : '') : bet ? `<span class="chip">${esc(bet.t)} ${sgn(bet.ev)}</span>` : ''}${star}</span></span></button>`;
+    <span class="t">${tLogo(sp, x.away)}${esc(x.away)}</span><span class="sc">${abF(sp, A.as)}</span><span class="sb">${AB2(sp) ? (cs && cs.side === x.away ? cs.tier : '') : abF(sp, B.as)}</span>
+    <span class="t">${tLogo(sp, x.home)}${esc(x.home)}</span><span class="sc">${abF(sp, A.hs)}</span><span class="sb">${AB2(sp) ? (cs && cs.side === x.home ? cs.tier : '') : abF(sp, B.hs)}</span>
+    <span class="meta"><span>${esc(whenOf(x))}${fav ? ` · ${esc(fav[0])} ${pct(fav[1], 0)}` : ''}</span><span>${ab.big ? `<span class="chip y">A/B gap</span> ` : ''}${AB2(sp) ? (cbt ? `<span class="chip${cbt[1].tier === 'A' ? '' : ' y'}">${CAB_T[cbt[1].tier]}: ${esc(cabPick(cbt[0], cbt[1]))}${cbt[1].tier === 'A' ? ' ' + sgn(cbt[1].bet.ev) : ''}</span>` : '') : bet ? `<span class="chip">${esc(bet.t)} ${sgn(bet.ev)}</span>` : ''}${star}</span></span></button>`;
 }
 function renderGameListE(){
-  const sp = S.sport, box = $('#gameListE'), C = GCFG[sp]; if (!box) return; if (sp === 'CBB') cabLoad();
+  const sp = S.sport, box = $('#gameListE'), C = GCFG[sp]; if (!box) return; if (AB2(sp)) cabLoad(sp);
   const gs = C ? slateGames(sp).filter(x => !started(x)) : [];
   if (!gs.length){ box.innerHTML = ''; return; }
   const pr0 = probeGames(sp, gs), keep = gs.map((x, i) => { const ab = abOf(sp, x, pr0[i]); return !!(ab.A || ab.B); });
@@ -3536,8 +3554,8 @@ function drawSheet(){
   const mk = ln ? [ln.L != null ? `${x.home} ${sgnPts(ln.L)}` : '', ln.T != null ? `o/u ${ln.T}` : ''].filter(Boolean).join(' · ') : '';
   el.innerHTML = `<div class="row" style="justify-content:space-between"><button class="btn ghost sm" type="button" id="shBack">‹ All ${esc(sp)} games</button><span class="small muted">${esc(whenOf(x))}${x.n ? ' · neutral' : ''}</span></div>
     <h2 class="gt">${tLogo(sp, x.away)}${esc(x.away)} <span class="muted">@</span> ${tLogo(sp, x.home)}${esc(x.home)}</h2>${mk ? `<p class="small muted">Market ${esc(mk)}</p>` : ''}
-    <div class="abrow">${sp === 'CBB' ? abBox(sp, x, 'A', ab.A) + cabBox(x) : ['A', 'B'].map(k => abBox(sp, x, k, ab[k])).join('')}</div>
-    ${sp === 'CBB' ? cabWhy(x) : whyBox(sp, x, ab, ln)}${gameBets(sp, x, r, g)}${propLeans(sp, x)}${bookGrid(sp, g)}${cfbV2Line(sp, x)}
+    <div class="abrow">${AB2(sp) ? abBox(sp, x, 'A', ab.A) + cabBox(sp, x) : ['A', 'B'].map(k => abBox(sp, x, k, ab[k])).join('')}</div>
+    ${AB2(sp) ? cabWhy(sp, x) : whyBox(sp, x, ab, ln)}${gameBets(sp, x, r, g)}${propLeans(sp, x)}${bookGrid(sp, g)}${cfbV2Line(sp, x)}
     <h3 class="cardh">Full model card · explanation, edges and your own prices</h3>`;
   $('#shBack').onclick = closeGame;
   el.querySelectorAll('[data-lean]').forEach(t => t.onclick = () => { const z = LEANS[+t.dataset.lean]; if (z) poOpen(z.p, z.k, z.r); });
@@ -3551,7 +3569,7 @@ function abBox(sp, x, k, M){
     <div class="abs"><span>${esc(x.away)}</span><b>${abF(sp, M.as)}</b></div><div class="abs"><span>${esc(x.home)}</span><b>${abF(sp, M.hs)}</b></div>
     <div class="bar"><i style="width:${(M.p*100).toFixed(0)}%"></i></div>
     <p class="small">${esc(x.home)} ${pct(M.p, 0)} <span class="muted">${amS(+am(M.p))}</span> · ${esc(x.away)} ${pct(1 - M.p, 0)} <span class="muted">${amS(+am(1 - M.p))}</span>${M.est ? ' <span class="muted" title="Win chance worked out from the projected score">≈</span>' : ''}</p>
-    <p class="small muted">${esc(abTm(x, m))} · total ${(M.hs + M.as).toFixed(1)}</p>${sp === 'CBB' && k === 'A' ? cabRange(x) : ''}</div>`;
+    <p class="small muted">${esc(abTm(x, m))} · total ${(M.hs + M.as).toFixed(1)}</p>${AB2(sp) && k === 'A' ? cabRange(sp, x) : ''}</div>`;
 }
 // "Why the models disagree" (J 2026-10-29: the information J wanted most from concept A; open by default on a big gap)
 function whyBox(sp, x, ab, ln){
@@ -3589,9 +3607,10 @@ function abGrade(sp){
 }
 // this game's bets: every market's best price at Colorado books by our model's EV (even when nothing clears the minimum), and prop flags
 function gameBets(sp, x, r, g){
-  if (sp === 'CBB' && CAB && CAB.games) return '';   // CBB: Model B's box and 'Why Model B likes it' carry the bets (shrunk EV); the unshrunk table would contradict them
-  const it = [];
-  if (g) ltGame(sp, g).best.filter(b => b.mev != null).sort((p, q) => q.mev - p.mev).slice(0, 4).forEach(b =>
+  if (sp === 'CBB' && cabOn('CBB')) return '';   // CBB: Model B's box and 'Why Model B likes it' carry the bets (shrunk EV); the unshrunk table would contradict them
+  const it = [], mb = AB2(sp) && cabOn(sp);      // NFL: same for the game lines, but the prop flags stay
+  if (mb);
+  else if (g) ltGame(sp, g).best.filter(b => b.mev != null).sort((p, q) => q.mev - p.mev).slice(0, 4).forEach(b =>
     it.push({t:sideLbl(g, b.mk, b.s, b.pt), s:`${bkName(b.b)} ${amS(b.pr)}`, ev:b.mev, ev2:b.bev, n:'ours · blended'}));
   else (r && r.edges || []).forEach(e => it.push({t:e.name, s:e.assumed ? 'at -110' : amS(e.odds), ev:e.ev, n:'blended'}));
   if (PO_SP.includes(sp) && PO[sp]) pfAll(sp, true).rows.filter(z => z.kind !== 'check' && String(z.p.g) === String(x.g)).slice(0, 6).forEach(z =>
@@ -3612,7 +3631,7 @@ function propLeans(sp, x){
   if (!PO_SP.includes(sp) || !PO[sp] || !S.slates[sp]) return '';
   const T = [x.home, x.away], L = [];
   S.slates[sp].players.filter(p => upcoming(p) && (x.d == null || p.d == null || p.d === x.d) && ((x.g != null && String(p.g) === String(x.g)) || (T.includes(p.t) && T.includes(p.o)))).forEach(p =>
-    Object.entries(p.s).forEach(([k, s]) => {
+    Object.entries(p.s).forEach(([k, s]) => { if (sp === 'NBA' && NBA_PC.includes(k)) return;   // NBA blocks / steals: lost as bets, left out of the leans too
       const all = poRows(sp, p, k, true), ml = all.filter(r => r.main && !r.odd).map(r => r.L).sort((a, b) => a - b); if (!ml.length) return;
       const ln = ml[ml.length >> 1], c = pfCond(k, s, ln).c, mk = pfMarket(k, s, all, ln), O = c >= 0.5;
       const mine = poRows(sp, p, k).filter(r => r.L === ln && (O ? r.o : r.u) != null && !r.odd);
@@ -3644,33 +3663,53 @@ function cfbV2Line(sp, x){
 // ---------- Home ----------
 function lookAhead(){
   const R = new Map(), now = Date.now(), H = 24*36e5, put = (k, x) => { if (!R.has(k) || R.get(k).ev < x.ev) R.set(k, x); };
-  if (LT) LT_SP.filter(sp => sp !== 'CBB' || !(CAB && CAB.games)).forEach(sp => ((LT.sports || {})[sp] || []).forEach(g => { if (ltStarted(g)) return;
+  if (LT) LT_SP.filter(sp => !AB2(sp) || !cabOn(sp)).forEach(sp => ((LT.sports || {})[sp] || []).forEach(g => { if (ltStarted(g)) return;
     (g.la || []).forEach(x => { const t = Date.parse(x.po); if (!(now - t <= H) || !myBook(x.b) || !(x.mev >= PF_THR) || !(x.bev >= PF_THR)) return;   // our model and the blend both beat it, like Best bets
       put(sp + g.id + x.mk + x.s, {sp, ev:x.bev, t, b:x.b, title:sideLbl(g, x.mk, x.s, x.pt), sub:`${g.a} @ ${g.h} · ${amS(x.pr)}`, go:() => { bbGo(sp); ltOpen(sp, g); }}); }); }));
   PO_SP.forEach(sp => { if (!PO[sp] || !S.slates[sp]) return;
-    pfAll(sp, true).rows.forEach(z => { if (z.kind === 'check') return; const f = poFind(sp, z.p); if (!f || ltStarted(f.g)) return;
+    pfAll(sp, true).rows.forEach(z => { if (z.kind === 'check' || z.kind === 'lean') return; const f = poFind(sp, z.p); if (!f || ltStarted(f.g)) return;
       const post = f.g.posted && f.g.posted[f.n]; if (!post) return; let ts = null;
       Object.keys(post).forEach(n => { if ((PO_MAP[sp] || {})[n] !== z.k) return; const q = post[n][String(z.L)] || post[n][(+z.L).toFixed(1)]; if (q && q[z.b]) ts = q[z.b]; });
       const t = Date.parse(ts); if (!(now - t <= H)) return;
       put(sp + z.p.n + z.k + z.side, {sp, ev:z.kind === 'proven' ? z.ev : z.evb, t, b:z.b, title:`${z.p.n} ${z.side.toLowerCase()} ${z.L} ${STAT[z.k] || z.k}`, avg:avgTag(sp, z.p, z.k), sub:amS(z.pr), go:() => { bbGo(sp); poOpen(z.p, z.k, z.r); }}); }); });
-  cabRows().filter(r => r.fresh).forEach(r => put('CBB' + r.key, r));
+  Object.keys(CAB_F).forEach(s => cabRows(s).filter(r => r.fresh).forEach(r => put(s + r.key, r)));
   return [...R.values()].sort((a, b) => b.ev - a.ev);
 }
 // Model B tier A CBB bets as Best bets / Look ahead rows (they replace the old CBB game-line flags once cbb_ab.json is loaded)
-function cabRows(){
-  if (!CAB || !CAB.games) return [];
-  const now = Date.now(), R = [], ls = ((LT && LT.sports) || {}).CBB || [];
-  Object.entries(CAB.games).forEach(([id, G]) => { const sl = (gsGames('CBB') || []).find(y => String(y.id) === id); if (sl && sl.k && Date.parse(sl.k) <= now) return;
+function cabRows(sp = 'CBB'){
+  if (!cabOn(sp)) return [];
+  const now = Date.now(), R = [], ls = ((LT && LT.sports) || {})[sp] || [];
+  Object.entries(CABS[sp].games).forEach(([id, G]) => { const sl = (gsGames(sp) || []).find(y => String(y.id) === id); if (sl && sl.k && Date.parse(sl.k) <= now) return;
     cabBets(G).filter(([k, z]) => z.tier === 'A' && z.bet.ev >= PF_THR).forEach(([k, z]) => { const lg = ls.find(g => String(g.id) === id);
-      R.push({type:'games', sp:'CBB', kind:'mb', key:id + k, k:sl && sl.k, ev:z.bet.ev, fresh:z.fresh, t:z.bet.age_h != null ? now - z.bet.age_h*36e5 : now, b:z.bet.book,
+      R.push({type:'games', sp, kind:'mb', key:id + k, k:sl && sl.k, ev:z.bet.ev, fresh:z.fresh, t:z.bet.age_h != null ? now - z.bet.age_h*36e5 : now, b:z.bet.book,
         title:cabPick(k, z), sub:`${G.a} @ ${G.h} · ${z.bet.book_name} ${amS(z.bet.price)}`, note:`Model B tier A`,
-        go:() => { if (sl){ homeOpen('CBB', {g:sl.id, d:sl.d, k:sl.k, home:sl.h, away:sl.a, n:sl.n || 0}); } else if (lg){ bbGo('CBB'); ltOpen('CBB', lg); } }}); }); });
+        go:() => { if (sl){ homeOpen(sp, {g:sl.id, d:sl.d, k:sl.k, w:sl.w, home:sl.h, away:sl.a, n:sl.n || 0}); } else if (lg){ bbGo(sp); ltOpen(sp, lg); } }}); }); });
   return R;
 }
 BB_TAG.mb = '<span class="tag t-flag">Model B · A</span>'; BB_RANK.mb = 1;
 const _bbRows = bbRows;
-bbRows = function(){ const R = _bbRows(); if (!(CAB && CAB.games)) return R;
-  return R.filter(r => !(r.sp === 'CBB' && r.kind === 'game')).concat(cabRows()); };
+bbRows = function(){ const R = _bbRows().filter(r => r.kind !== 'lean'), on = Object.keys(CAB_F).filter(cabOn);   // NFL prop leans (Model B tier B) are not bets
+  return R.filter(r => !(on.includes(r.sp) && r.kind === 'game')).concat(...on.map(s => cabRows(s))); };
+// NFL player props, Model B tiers (J 2026-11-05; rules in models/nfl_ab/live.py PROPS, from model-b-confidence props.json, desk projections vs
+// OddsPapi Oct 2026): A = 5%+ EV under, or receptions either side (unders 61.8%, receptions 66.6% at 5%+ EV) -> stays a Flag;
+// B = an over of another stat (53.5% at the opener, 43% at the close) -> Lean, not a bet; C = pass attempts / rushing yards / carries (lost) -> dropped.
+const NFL_PC = ['pass_att', 'rush_yds', 'carries'];
+PF_TAG.lean = '<span class="tag t-check">Lean</span>'; BB_TAG.lean = PF_TAG.lean; BB_RANK.lean = 3;
+const _pfAll = pfAll;
+pfAll = function(sp, everyDay = false){ const o = _pfAll(sp, everyDay); if (sp !== 'NFL' || o.nflB) return o;
+  o.rows = o.rows.filter(x => x.kind === 'check' || !NFL_PC.includes(x.k)).map(x => { if (x.kind === 'check') return x;
+    const t = x.side === 'Under' || x.k === 'rec' ? 'A' : 'B'; if (t === 'B') x.kind = 'lean'; x.tier = t; return x; });
+  o.nflB = true; return o; };
+// NBA player props, Model B tiers (J 2026-11-05; rules in models/nba_ab/live.py PROPS, model-b-confidence props.json NBA_live_open = desk
+// projections vs OddsPapi 2026 openers at 5%+ EV): A = Proven (DK/FD overs 12%+ on our model alone) and other overs on points, threes,
+// assists, PRA (threes 58.6%, points 55.8%, assists 55.1%) -> stay Proven / Flag; B = overs on rebounds or turnovers (rebounds 48.8%, -7.9%)
+// -> Lean, off Best bets and Look ahead; C = blocks and steals (41% / -11%) -> dropped. Unders stay held back (prop_odds.js).
+const NBA_PB = ['reb', 'tov'], NBA_PC = ['blk', 'stl'];
+const _pfAllN = pfAll;
+pfAll = function(sp, everyDay = false){ const o = _pfAllN(sp, everyDay); if (sp !== 'NBA' || o.nbaB) return o;
+  o.rows = o.rows.filter(x => x.kind === 'check' || !NBA_PC.includes(x.k)).map(x => { if (x.kind === 'check') return x;
+    const t = x.kind === 'proven' || !NBA_PB.includes(x.k) ? 'A' : 'B'; if (t === 'B') x.kind = 'lean'; x.tier = t; return x; });
+  o.nbaB = true; return o; };
 const agoTxt = t => { const h = (Date.now() - t)/36e5; return h < 1 ? `${Math.max(1, Math.round(h*60))}m ago` : `${Math.round(h)}h ago`; };
 function homeGames(){
   const today = localDay(), sps = ['NFL', 'NBA', 'CFB', 'CBB'].filter(sp => GCFG[sp] && gReady(sp));
@@ -3688,7 +3727,7 @@ function homeOpen(sp, x){
   openGame(sp, slateGames(sp).find(y => y.home === x.home && y.away === x.away) || x);
 }
 function renderHome(){
-  const out = $('#homeOut'); if (!out) return; cabLoad();
+  const out = $('#homeOut'); if (!out) return; cabLoad();   // every two-model sport (CBB, NFL)
   if (!LT && !PO_SP.some(sp => PO[sp])){ out.innerHTML = '<p class="small muted">Loading odds…</p>'; return; }
   const bb = bbRows().filter(r => r.kind !== 'check' && r.kind !== 'verify' && r.type !== 'promo' && r.type !== 'mid').sort((a, b) => b.ev - a.ev).slice(0, 6);
   const la = lookAhead(), LA = la.slice(0, 8), G = homeGames();

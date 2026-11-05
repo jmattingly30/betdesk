@@ -8,7 +8,7 @@ let MA = null, TEN = null, TENM = null, SHEET = null;
 const AB_DESK = sp => sp === 'CBB' ? 'A' : 'B';
 const AB_SD = {NFL:13.5, CFB:15.5, NBA:12, CBB:10.5};
 const AB_GAP = {NFL:[3, 4], CFB:[4, 6], NBA:[4, 6], CBB:[3, 5], NHL:[0.6, 0.8]};   // margin, total: a gap this big opens the why box
-const AB_LAB = sp => sp === 'CBB' ? ['Scores · v2 + sim', 'Bets · tier'] : sp === 'NFL' ? ['Scores · rebuild + key numbers', 'Bets · tier'] : sp === 'CFB' ? ['Rebuild v4', cfVer === 'v2' ? 'CFB v2 (yours)' : 'Desk v3'] : ['Rebuild', 'Desk model'];
+const AB_LAB = sp => sp === 'CBB' ? ['Scores · v2 + sim', 'Bets · tier'] : sp === 'NFL' ? ['Scores · rebuild + key numbers', 'Bets · tier'] : sp === 'NBA' && cabOn('NBA') ? ['Scores · rebuild + sim', 'Bets · tier'] : sp === 'CFB' ? ['Rebuild v4', cfVer === 'v2' ? 'CFB v2 (yours)' : 'Desk v3'] : ['Rebuild', 'Desk model'];
 function maGame(sp, x){
   const M = MA && MA.sports && MA.sports[sp]; if (!M) return null;
   const id = String(x.g ?? x.id ?? ''), h = x.home ?? x.h, a = x.away ?? x.a;
@@ -23,7 +23,7 @@ const abWin = (sp, hs, as) => sp === 'NHL' ? poisWin(hs, as) : ncdf((hs - as)/(A
 // both models for one game: {A, B, gapM, gapT, big}; each model {hs, as, p (home win), est (chance from the score, not the card)}
 function abOf(sp, x, r){
   const desk = r ? {hs:r.raw.hs, as:r.raw.as, p:r.pml ?? abWin(sp, r.raw.hs, r.raw.as), est:r.pml == null} : null;
-  if (sp === 'NFL' && cabOn('NFL')){ const G = cabGame(x, 'NFL'), m = maGame(sp, x);   // NFL (J 2026-11-05): Model A = nfl_ab.json scores, Model B = its bet engine; the desk model stays in the full card below
+  if ((sp === 'NFL' || sp === 'NBA') && cabOn(sp)){ const G = cabGame(x, sp), m = maGame(sp, x);   // NFL, NBA (J 2026-11-05): Model A = {nfl,nba}_ab.json scores, Model B = its bet engine; the desk model stays in the full card below
     return {A:G && G.A ? {hs:G.A.hs, as:G.A.as, p:G.A.p_home, est:false, g:G} : m ? {hs:m.hs, as:m.as, p:abWin(sp, m.hs, m.as), est:true, g:m} : null, B:null}; }
   const m = sp === 'CBB' ? null : maGame(sp, x), other = m ? {hs:m.hs, as:m.as, p:abWin(sp, m.hs, m.as), est:true, g:m} : null;   // CBB: Model B is the bet engine (cbb_ab.json), not a second score
   const [A, B] = AB_DESK(sp) === 'A' ? [desk, other] : [other, desk], o = {A, B};
@@ -37,7 +37,8 @@ const abTm = (x, m) => Math.abs(m) < 0.05 ? 'even' : m > 0 ? `${x.home} by ${m.t
 // A = projected scores (CBB v2 means + possession sim ranges). B = bets built on A: devigged sharp-weighted market number, the share of
 // our gap that has been real (confidence), line age, EV at Colorado books, tier A = bet, B = lean (tracked, not a bet), C = pass.
 // NFL joined 2026-11-05 (models/nfl_ab/live.py -> nfl_ab.json): same boxes and tiers; NFL game tiers max B (lean) until live tracking proves them.
-const CAB_F = {CBB:'cbb_ab.json', NFL:'nfl_ab.json'}, CABS = {};
+// NBA joined 2026-11-05 (models/nba_ab/live.py -> nba_ab.json): rebuild + component fix + possession sim; tiers from the opener tests.
+const CAB_F = {CBB:'cbb_ab.json', NFL:'nfl_ab.json', NBA:'nba_ab.json'}, CABS = {};
 const AB2 = sp => sp in CAB_F, cabOn = sp => !!(CABS[sp] && CABS[sp].games);
 function cabLoad(sp){ (sp ? [sp] : Object.keys(CAB_F)).forEach(s => { if (CABS[s] !== undefined) return; CABS[s] = false;
   fetch(CAB_F[s], {cache:'no-cache'}).then(r => r.ok ? r.json() : null).then(j => { if (j && j.games){ CABS[s] = j; try { renderGameList(); renderHome(); renderBest(); } catch(e){} } }).catch(() => {}); }); }
@@ -69,6 +70,10 @@ function cabWhy(sp, x){
   if (sp === 'NFL'){ const N = S.games && S.games.NFL, QG = N && N.qb && N.qb.games && N.qb.games[x.home + '@' + x.away];
     if (G.desk_m != null) L.push(`<p class="small muted">Desk model (the full card below): ${esc(abTm(x, G.desk_m))}${QG ? `; its starting QBs ${esc(x.home)} ${esc(QG.hq)}, ${esc(x.away)} ${esc(QG.aq)}` : ''}. Model A prices the depth-chart QB and missing regulars with the drive engine's own sizes.</p>`);
     L.push(`<p class="small muted">Tested: Model A team scores miss by 7.4 pts vs the closing line's 7.3 (2018-26). 2026 openers (106 games): our spread gaps of 3+ saw the line move our way 82-86% of the time but covered only 49-56%, so NFL game bets stay leans until live tracking proves them. Player props are where NFL bets come from (unders and receptions at 5%+ EV).</p>`); }
+  else if (sp === 'NBA'){ const A = G.A;
+    if (A && A.base) L.push(`<p class="small muted">Model A: rebuild ${esc(x.home)} ${(+A.base[0]).toFixed(1)}, ${esc(x.away)} ${(+A.base[1]).toFixed(1)} (${A.src === 'stack' ? "ratings plus tonight's projected lineup" : 'ratings only, no projected lineup yet'}), then the shooting-mix fix ${sgn1(A.fix[0])} / ${sgn1(A.fix[1])} (our 3-point % and free-throw terms were overweighted). Ratings alone: ${(+A.ratings[0]).toFixed(1)}–${(+A.ratings[1]).toFixed(1)}.</p>`);
+    if (G.desk_m != null) L.push(`<p class="small muted">Desk team model (the full card below, full rosters): ${esc(abTm(x, G.desk_m))}.</p>`);
+    L.push(`<p class="small muted">Tested on openers: spread tier A won 57% (SBR 2021-22, 255) and 62% (2026 DraftKings, 42); tier B 48-52%. Totals with a gap of 4+ at the opener hit 56% (2021-22) and 63% (2026 DraftKings). Close-like lines lost at every gap size, so they are passes.</p>`); }
   else L.push(`<p class="small muted">Tested on the 2026 DK opener: tier A won 60% against the spread (556 bets), tier B 51%, C 51%. Older lines are judged on closing-line results, where only big gaps held up.</p>`);
   const open = cabBets(G).some(([k, z]) => z.tier === 'A');
   return `<details class="dis panel"${open ? ' open' : ''}><summary><b>Why Model B likes it</b> <span class="small muted">${cabBets(G).map(([k, z]) => `${z.tier} ${esc(cabPick(k, z))}`).join(' · ') || 'no bet'}</span></summary>${L.join('')}</details>`;
@@ -218,7 +223,7 @@ function propLeans(sp, x){
   if (!PO_SP.includes(sp) || !PO[sp] || !S.slates[sp]) return '';
   const T = [x.home, x.away], L = [];
   S.slates[sp].players.filter(p => upcoming(p) && (x.d == null || p.d == null || p.d === x.d) && ((x.g != null && String(p.g) === String(x.g)) || (T.includes(p.t) && T.includes(p.o)))).forEach(p =>
-    Object.entries(p.s).forEach(([k, s]) => {
+    Object.entries(p.s).forEach(([k, s]) => { if (sp === 'NBA' && NBA_PC.includes(k)) return;   // NBA blocks / steals: lost as bets, left out of the leans too
       const all = poRows(sp, p, k, true), ml = all.filter(r => r.main && !r.odd).map(r => r.L).sort((a, b) => a - b); if (!ml.length) return;
       const ln = ml[ml.length >> 1], c = pfCond(k, s, ln).c, mk = pfMarket(k, s, all, ln), O = c >= 0.5;
       const mine = poRows(sp, p, k).filter(r => r.L === ln && (O ? r.o : r.u) != null && !r.odd);
@@ -287,6 +292,16 @@ pfAll = function(sp, everyDay = false){ const o = _pfAll(sp, everyDay); if (sp !
   o.rows = o.rows.filter(x => x.kind === 'check' || !NFL_PC.includes(x.k)).map(x => { if (x.kind === 'check') return x;
     const t = x.side === 'Under' || x.k === 'rec' ? 'A' : 'B'; if (t === 'B') x.kind = 'lean'; x.tier = t; return x; });
   o.nflB = true; return o; };
+// NBA player props, Model B tiers (J 2026-11-05; rules in models/nba_ab/live.py PROPS, model-b-confidence props.json NBA_live_open = desk
+// projections vs OddsPapi 2026 openers at 5%+ EV): A = Proven (DK/FD overs 12%+ on our model alone) and other overs on points, threes,
+// assists, PRA (threes 58.6%, points 55.8%, assists 55.1%) -> stay Proven / Flag; B = overs on rebounds or turnovers (rebounds 48.8%, -7.9%)
+// -> Lean, off Best bets and Look ahead; C = blocks and steals (41% / -11%) -> dropped. Unders stay held back (prop_odds.js).
+const NBA_PB = ['reb', 'tov'], NBA_PC = ['blk', 'stl'];
+const _pfAllN = pfAll;
+pfAll = function(sp, everyDay = false){ const o = _pfAllN(sp, everyDay); if (sp !== 'NBA' || o.nbaB) return o;
+  o.rows = o.rows.filter(x => x.kind === 'check' || !NBA_PC.includes(x.k)).map(x => { if (x.kind === 'check') return x;
+    const t = x.kind === 'proven' || !NBA_PB.includes(x.k) ? 'A' : 'B'; if (t === 'B') x.kind = 'lean'; x.tier = t; return x; });
+  o.nbaB = true; return o; };
 const agoTxt = t => { const h = (Date.now() - t)/36e5; return h < 1 ? `${Math.max(1, Math.round(h*60))}m ago` : `${Math.round(h)}h ago`; };
 function homeGames(){
   const today = localDay(), sps = ['NFL', 'NBA', 'CFB', 'CBB'].filter(sp => GCFG[sp] && gReady(sp));

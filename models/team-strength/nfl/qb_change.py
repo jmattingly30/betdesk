@@ -116,6 +116,12 @@ def depth_starters(n, pbp_dir):
     for t, x in dc.groupby('team'):
         x = x.sort_values('pos_rank'); q1 = x.iloc[0]
         pick[t] = (q1.gsis_id, q1.player_name) if q1.gsis_id not in out else last.get(t, (q1.gsis_id, q1.player_name))
+    # manual overrides (J 2026-11-05: BAL traded for Brissett, ESPN depth chart lagged) from qb_overrides.json
+    fo = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'qb_overrides.json')
+    if os.path.exists(fo):
+        today = pd.Timestamp.now(tz='America/Denver').strftime('%Y-%m-%d')
+        for t, o in json.load(open(fo)).get('teams', {}).items():
+            if o.get('until', '9999') >= today: pick[t] = (o['id'], o['name']); print('QB override:', t, o['name'])
     up = ~n.done & n.season.eq(season)
     for side in ('home', 'away'):
         tm = n.loc[up, f'{side}_team']

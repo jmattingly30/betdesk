@@ -1,0 +1,22 @@
+{
+ "model": "Poisson GLM on team runs per game, 2015-2025 excl. 2020",
+ "coefficients": {
+  "const": -1.59471,
+  "lineup": 0.06465,
+  "opp_sp": 0.01321,
+  "opp_sp_kbb": -0.01625,
+  "opp_bp": 0.02503,
+  "home": 0.02144,
+  "ln_pf": 1.03358
+ },
+ "inputs": {
+  "lineup": "mean of 9 starters shrunk wOBA x100 (prior 220 PA of league avg; last two seasons weighted 0.6, 0.36)",
+  "opp_sp": "starter shrunk wOBA allowed x100 (prior 250 PA)",
+  "opp_sp_kbb": "starter shrunk (K-BB)/PA x100",
+  "opp_bp": "team bullpen shrunk wOBA allowed x100 (prior 600 PA)",
+  "home": "1 if batting team is home",
+  "ln_pf": "ln(3-yr shrunk park run factor)"
+ },
+ "overdispersion": 2.25355237741335,
+ "note": "Use a negative binomial or the hierarchical MC with stage-1 sd ~0.4-0.5 runs to match the observed spread; then blend 85/15 with the market price."
+}

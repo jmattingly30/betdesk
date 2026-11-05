@@ -19,7 +19,8 @@ T_A = json.load(open(f"{HERE}/model_a_test.json")); T_B = json.load(open(f"{HERE
 SD_M, SD_T = T_A["sd_margin_fit"], T_A["sd_total_fit"]
 LV = T_B["live"]; Q90 = LV["q90"]
 FRESH_H = 24            # a price posted within 24 h is treated as an opener (Look ahead uses the same window)
-B_CLOSE, B_TOT_OPEN = 0.13, 0.505   # share of our gap that is real: spread at the close (research), total at the opener
+B_CLOSE, B_TOT_OPEN = 0.13, 0.505
+SHARE_CAP = 0.85   # share of our gap that is real: spread at the close (research), total at the opener
 NOW = dt.datetime.now(dt.timezone.utc)
 tier_csv = pd.read_csv(f"{ROOT}/models/cbb/data/cbb_team_tier.csv")
 TIER = {r.name.lower(): ({"high": 2, "mid": 1, "low": 0}[r.tier], r.conf_id) for r in tier_csv.itertuples()}
@@ -146,7 +147,9 @@ def main():
                 feat = dict(we_like_dog=float(np.sign(gap) != np.sign(mu_m) and abs(mu_m) > 0), neu=float(bool(v.get("n"))),
                             nonconf=float(th is not None and ta is not None and th[1] != ta[1]), tier_min=float(min(th[0] if th else 1, ta[0] if ta else 1)),
                             engines_same_side=float(np.sign(tm_) == np.sign(rm_)), av_abs=0.0, nov=float(v["d"][5:7] == "11"), fav_size=abs(mu_m))
-                share = conf_share(feat); bp = best_price(bk, po, side_home, "m", mu_m)
+                # cap (2026-11-05: Michigan +5.5 had share 1.31 -> trusted more than the whole gap, EV +59%). Linear fit extrapolates;
+                # 2026 opener buckets plateau at b ~.82-.83 for predicted .6-1.0, and >1 means trusting a move past our own number.
+                share = min(max(conf_share(feat), 0.0), SHARE_CAP); bp = best_price(bk, po, side_home, "m", mu_m)
                 fresh = bp is not None and bp["age_h"] is not None and bp["age_h"] <= FRESH_H
                 real = gap * share if fresh else gap * B_CLOSE
                 if np.sign(real) != np.sign(gap): real = 0.0          # never bet against our own number (flipped sides lost: 43%)

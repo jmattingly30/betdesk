@@ -1,0 +1,42 @@
+{
+ "pts": {
+  "slope": 0.796,
+  "intercept": -0.084,
+  "n": 10000
+ },
+ "reb": {
+  "slope": 0.913,
+  "intercept": -0.111,
+  "n": 10000
+ },
+ "ast": {
+  "slope": 0.827,
+  "intercept": -0.103,
+  "n": 10000
+ },
+ "fg3m": {
+  "slope": 1.176,
+  "intercept": -0.059,
+  "n": 10000
+ },
+ "stl": {
+  "slope": 1.011,
+  "intercept": 0.031,
+  "n": 10000
+ },
+ "blk": {
+  "slope": 0.928,
+  "intercept": -0.1,
+  "n": 10000
+ },
+ "tov": {
+  "slope": 0.948,
+  "intercept": 0.003,
+  "n": 10000
+ },
+ "pra": {
+  "slope": 0.741,
+  "intercept": -0.107,
+  "n": 10000
+ }
+}

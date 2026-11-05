@@ -310,7 +310,14 @@ if __name__ == '__main__':
         sys.exit()
     M = json.load(gzip.open(f'{D}/op_markets.json.gz', 'rt'))   # marketId -> [sportId, name, handicap, period, prop, {outcomeId: name}]
     todo = [s for s in sys.argv[1:] if s in SPORTS or s == 'TENNIS'] or list(SPORTS) + ['TENNIS']   # tennis in the default (morning + night pulls) since the 2026-10-30 desk redesign
-    lock(90)
+    # 2026-11-05: several pull sessions resumed at once after a usage-limit pause; two live sweeps on one key collide.
+    # A live lock held by another op_live run means a sweep is already running: stop (OP_FORCE=1 overrides).
+    try:
+        L = json.load(open(LOCK))
+        if L.get('owner') == 'op_live' and dt.datetime.fromisoformat(L['until']) > dt.datetime.now(dt.timezone.utc) and not os.environ.get('OP_FORCE'):
+            sys.exit(f"another op_live sweep holds the key until {L['until'][:16]} UTC; not starting a second one (OP_FORCE=1 to override)")
+    except (FileNotFoundError, ValueError, KeyError): pass
+    lock(30)   # re-written after every game, so a killed run frees the key within 30 min
     try:
         for sp in todo:
             try: sweep_tennis() if sp == 'TENNIS' else sweep(sp, M)

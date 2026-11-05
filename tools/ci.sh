@@ -4,7 +4,7 @@
 # routine step from app/routines/*.md runs unchanged. A failed step is recorded and the job carries on,
 # so whatever did refresh still gets published; `finish` then fails the job (GitHub emails you).
 set -u
-export SA=/mnt/project-files/sports-analytics TZ_LOCAL=America/Denver
+export SA="${SA:-/mnt/project-files/sports-analytics}" TZ_LOCAL=America/Denver
 FAILS="${RUNNER_TEMP:-/tmp}/betdesk_fails.txt"; : > "$FAILS"
 
 setup_paths(){
@@ -24,14 +24,11 @@ sh_step(){ step "$1" bash -c "$2"; }
 
 # Copy the data files the page reads from app/data into public/ (replaces the Artifact publish).
 publish(){
-  local D="$SA/app/data" P="$SA/public" n=0
-  for f in past_props.json nhl_props.json nba_props.json nfl_props.json games_models.json cbb_v2.json cfb_model.json cfb_v2.json \
-           game_slates.json line_tools.json parlay_suggestions.json promo_picks.json scorecard.json player_results.json \
-           cfb_usage.json model_a.json cbb_ab.json nfl_ab.json nba_ab.json tennis_model.json props_vs_close.json landing.json; do
-    [ -f "$D/$f" ] && ! cmp -s "$D/$f" "$P/$f" && cp "$D/$f" "$P/$f" && n=$((n+1))
-  done
-  for f in props_NFL.json props_NBA.json props_NHL.json tennis.json; do
-    [ -f "$D/odds/$f" ] && ! cmp -s "$D/odds/$f" "$P/$f" && cp "$D/odds/$f" "$P/$f" && n=$((n+1))
+  local D="$SA/app/data" P="$SA/public" n=0 f b
+  for f in "$D"/*.json "$D"/odds/props_NFL.json "$D"/odds/props_NBA.json "$D"/odds/props_NHL.json "$D"/odds/tennis.json; do
+    b=$(basename "$f")
+    case "$b" in line_history.json|mlb_slate*.json|odds_test_*.json) continue ;; esac
+    [ -f "$f" ] && ! cmp -s "$f" "$P/$b" && cp "$f" "$P/$b" && n=$((n+1))
   done
   echo "published $n changed data files to public/"
 }

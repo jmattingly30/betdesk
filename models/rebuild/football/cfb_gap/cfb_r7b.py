@@ -1,0 +1,6 @@
+exec(open('cfb_r7a.py').read().split('\nOFF = {}')[0])
+import pickle; OFF = pickle.load(open("cfb_oip.pkl", "rb"))
+exec(open('cfb_r7a.py').read().split('import pickle; pickle.dump(OFF, open("cfb_oip.pkl", "wb"))')[1].split('vs("tempo total (raw')[0])
+for d in (fit, te): d["x_oip4"] = np.where(d.wk > 3, d.x_oip - d.x_ip, 0.0)
+p = run(['model_total', 'x_ip', 'x_oip4'], y='at', lam=1e-4); vs("hybrid: raw early, + opp-adjusted wk4+", p)
+P2 = np.where(w, T1, run(['model_total', 'x_ip', 'x_oip'], y='at')); vs("split: raw wk1-3, both wk4+", P2)

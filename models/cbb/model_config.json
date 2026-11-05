@@ -1,0 +1,52 @@
+{
+ "params": {
+  "prior_games": 8,
+  "carry": 1.0,
+  "tempo_carry": 0.75,
+  "half_life": 1000,
+  "cap": null,
+  "cap_slope": 0.5
+ },
+ "near_home_neutral": 0.0,
+ "sigma_margin": 10.9878436120616,
+ "sigma_by_month": {
+  "1": 11.575,
+  "2": 11.105,
+  "3": 10.812,
+  "4": 10.679,
+  "5": 10.744
+ },
+ "sigma_pace_exp": 0.5,
+ "availability": {
+  "k_margin": 0.445,
+  "k_total": -0.3063
+ },
+ "blend_close": {
+  "b_spread": 0.1093,
+  "sd_ats": 10.953,
+  "b_total": 0.1222,
+  "sd_total": 16.7085
+ },
+ "blend_open": {
+  "b_spread_open": 0.2884,
+  "sd_ats_open": 11.2888,
+  "b_total_open": 0.2329,
+  "sd_total_open": 17.0266,
+  "in_sample_b_spread": 0.4668,
+  "in_sample_b_total": 0.3445
+ },
+ "season": 2026,
+ "blend_open_tier": {
+  "high": 0.4396,
+  "mid": 0.2735,
+  "low": 0.2126
+ },
+ "shooting_luck": {
+  "def": 0.173,
+  "off": -0.103,
+  "tot": -0.124,
+  "window": 10,
+  "min_games": 5,
+  "note": "luck.py; fit 2013-2023 seasons, walk-forward tested 2015-2026"
+ }
+}

@@ -64,6 +64,8 @@ def main():
         cm, ct = co["margin"], co["total"]
         m = cm["const"] + cm["tm"] * tm + cm["rm"] * rm + cm["x_av"] * 0.0
         tot = ct["const"] + ct["tt"] * tt + ct["rt"] * rt + ct["poss_hat"] * float(poss)
+        w1 = co.get("week1")
+        if w1 and 0 <= (pd.Timestamp(x["d"]) - pd.Timestamp(w1["season_start"])).days < w1["days"]: tot += w1["total_offset"]   # opening-week totals fix
         out["games"][x["id"]] = {"h": x["h"], "a": x["a"], "d": x["d"], "n": int(n), "hs": round((tot + m) / 2, 2), "as": round((tot - m) / 2, 2),
                                  "today_hs": t["home_pts"], "today_as": t["away_pts"], "rb_hs": round(rb_h, 2), "rb_as": round(rb_a, 2), "poss": round(float(poss), 1)}
     json.dump(out, open(f"{ROOT}/app/data/cbb_v2.json", "w"), separators=(",", ":"))
