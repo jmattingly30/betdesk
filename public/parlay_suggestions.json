@@ -1,5 +1,5 @@
 {
- "made": "2026-11-05 15:17 UTC",
+ "made": "2026-11-05 19:07 UTC",
  "note": "Correlated same-game stacks from our projections. Lines are our guess at the book line (recent and season average, nearest .5): type the real line and the book SGP price before betting. fair_odds = our true price; bet only at bet_if_at_least or longer (+5% EV). ev_est = edge if the book hangs each leg at -110 and prices only the obvious links (same player, QB with his receivers). hidden_mult = how much the links books ignore add. line_type fair = our projection rounded to .5; flag = the leg passes the Bet Desk flag rule and the line is set at the player average.",
  "sports": {
   "NBA": {
@@ -78,7 +78,7 @@
      "fair_joint": 0.327,
      "corr_mult": 1.072,
      "hidden_mult": 1.029,
-     "ev_est": 2.873,
+     "ev_est": 2.872,
      "book_proxy_odds": "+1084",
      "fair_odds": "+206",
      "bet_if_at_least": "+221",
@@ -918,7 +918,7 @@
    ]
   },
   "NFL": {
-   "made_from": "2026-11-05 14:04 UTC",
+   "made_from": "2026-11-05 17:32 UTC",
    "week": 9,
    "correlation": [],
    "flag": [
@@ -2242,7 +2242,7 @@
    ]
   },
   "NHL": {
-   "made_from": "2026-11-05 13:56 UTC",
+   "made_from": "2026-11-05 17:31 UTC",
    "week": "2026-11-05 to 2026-11-07",
    "correlation": [
     {
