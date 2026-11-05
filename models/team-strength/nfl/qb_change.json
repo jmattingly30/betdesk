@@ -5,7 +5,7 @@
    "new_se": 5.85,
    "cont_per_epa": 11.33,
    "cont_se": 4.85,
-   "rmse": 12.961,
+   "rmse": 12.96,
    "rmse_without": 13.078
   },
   "line": {
@@ -18,26 +18,19 @@
   }
  },
  "upcoming": {
-  "2026_08_CHI_SEA": [
-   2,
-   0,
-   "Sam Darnold",
-   "Caleb Williams",
-   0.055
-  ],
   "2026_09_JAX_BAL": [
+   1,
    0,
-   0,
-   "Lamar Jackson",
+   "Joe Fagnano",
    "Trevor Lawrence",
-   0.0
+   -0.237
   ],
   "2026_09_ARI_SEA": [
-   2,
    0,
+   1,
    "Sam Darnold",
-   "Jacoby Brissett",
-   0.055
+   "Gardner Minshew II",
+   -0.005
   ],
   "2026_09_CIN_ATL": [
    0,
@@ -105,9 +98,9 @@
   "2026_09_NYG_PHI": [
    2,
    2,
-   "Tanner McKee",
+   "Joe Milton III",
    "J.J. McCarthy",
-   -0.098
+   -0.066
   ],
   "2026_09_NYJ_KC": [
    0,
@@ -173,11 +166,11 @@
    0.0
   ],
   "2026_10_LA_ARI": [
+   1,
    0,
-   0,
-   "Jacoby Brissett",
+   "Gardner Minshew II",
    "Matthew Stafford",
-   0.0
+   0.005
   ],
   "2026_10_MIA_IND": [
    0,
@@ -209,10 +202,10 @@
   ],
   "2026_10_SEA_LV": [
    0,
-   2,
+   0,
    "Kirk Cousins",
    "Sam Darnold",
-   -0.055
+   0.0
   ],
   "2026_10_SF_DAL": [
    0,
@@ -222,11 +215,11 @@
    0.0
   ],
   "2026_10_LAC_BAL": [
+   1,
    0,
-   0,
-   "Lamar Jackson",
+   "Joe Fagnano",
    "Justin Herbert",
-   0.0
+   -0.237
   ],
   "2026_11_IND_HOU": [
    0,
@@ -237,17 +230,17 @@
   ],
   "2026_11_ARI_KC": [
    0,
-   0,
+   1,
    "Patrick Mahomes",
-   "Jacoby Brissett",
-   0.0
+   "Gardner Minshew II",
+   -0.005
   ],
   "2026_11_BAL_CAR": [
    0,
-   0,
+   1,
    "Bryce Young",
-   "Lamar Jackson",
-   0.0
+   "Joe Fagnano",
+   0.237
   ],
   "2026_11_JAX_NYG": [
    2,
@@ -294,9 +287,9 @@
   "2026_11_PIT_PHI": [
    2,
    0,
-   "Tanner McKee",
+   "Joe Milton III",
    "Aaron Rodgers",
-   -0.147
+   -0.115
   ],
   "2026_11_TB_DET": [
    0,
@@ -344,8 +337,8 @@
    0,
    2,
    "Dak Prescott",
-   "Tanner McKee",
-   0.147
+   "Joe Milton III",
+   0.115
   ],
   "2026_12_DEN_PIT": [
    0,
@@ -363,10 +356,10 @@
   ],
   "2026_12_BAL_HOU": [
    0,
-   0,
+   1,
    "C.J. Stroud",
-   "Lamar Jackson",
-   0.0
+   "Joe Fagnano",
+   0.237
   ],
   "2026_12_LV_CLE": [
    0,
@@ -405,10 +398,10 @@
   ],
   "2026_12_SEA_SF": [
    0,
-   2,
+   0,
    "Brock Purdy",
    "Sam Darnold",
-   -0.055
+   0.0
   ],
   "2026_12_TEN_JAX": [
    0,
@@ -418,11 +411,11 @@
    0.0
   ],
   "2026_12_WAS_ARI": [
+   1,
    0,
-   0,
-   "Jacoby Brissett",
+   "Gardner Minshew II",
    "Jayden Daniels",
-   0.0
+   0.005
   ],
   "2026_12_CAR_TB": [
    0,
@@ -502,11 +495,11 @@
    0.0
   ],
   "2026_13_PHI_ARI": [
-   0,
+   1,
    2,
-   "Jacoby Brissett",
-   "Tanner McKee",
-   0.147
+   "Gardner Minshew II",
+   "Joe Milton III",
+   0.0
   ],
   "2026_13_SF_NYG": [
    2,
@@ -523,11 +516,11 @@
    0.0
   ],
   "2026_13_DAL_SEA": [
-   2,
+   0,
    0,
    "Sam Darnold",
    "Dak Prescott",
-   0.055
+   0.0
   ],
   "2026_14_MIN_NE": [
    0,
@@ -574,9 +567,9 @@
   "2026_14_IND_PHI": [
    2,
    0,
-   "Tanner McKee",
+   "Joe Milton III",
    "Daniel Jones",
-   -0.147
+   -0.115
   ],
   "2026_14_KC_CIN": [
    0,
@@ -607,18 +600,18 @@
    0.0
   ],
   "2026_14_NYG_SEA": [
-   2,
+   0,
    2,
    "Sam Darnold",
    "J.J. McCarthy",
-   0.104
+   0.05
   ],
   "2026_14_TB_BAL": [
+   1,
    0,
-   0,
-   "Lamar Jackson",
+   "Joe Fagnano",
    "Baker Mayfield",
-   0.0
+   -0.237
   ],
   "2026_14_TEN_DET": [
    0,
@@ -650,10 +643,10 @@
   ],
   "2026_15_SEA_PHI": [
    2,
-   2,
-   "Tanner McKee",
+   0,
+   "Joe Milton III",
    "Sam Darnold",
-   -0.202
+   -0.115
   ],
   "2026_15_ATL_WAS": [
    0,
@@ -664,10 +657,10 @@
   ],
   "2026_15_BAL_PIT": [
    0,
-   0,
+   1,
    "Aaron Rodgers",
-   "Lamar Jackson",
-   0.0
+   "Joe Fagnano",
+   0.237
   ],
   "2026_15_CIN_CAR": [
    0,
@@ -733,11 +726,11 @@
    0.0
   ],
   "2026_15_NYJ_ARI": [
+   1,
    0,
-   0,
-   "Jacoby Brissett",
+   "Gardner Minshew II",
    "Geno Smith",
-   0.0
+   0.005
   ],
   "2026_15_NE_KC": [
    0,
@@ -749,9 +742,9 @@
   "2026_16_HOU_PHI": [
    2,
    0,
-   "Tanner McKee",
+   "Joe Milton III",
    "C.J. Stroud",
-   -0.147
+   -0.115
   ],
   "2026_16_BUF_DEN": [
    0,
@@ -768,18 +761,18 @@
    0.0
   ],
   "2026_16_LA_SEA": [
-   2,
+   0,
    0,
    "Sam Darnold",
    "Matthew Stafford",
-   0.055
+   0.0
   ],
   "2026_16_ARI_NO": [
    0,
-   0,
+   1,
    "Tyler Shough",
-   "Jacoby Brissett",
-   0.0
+   "Gardner Minshew II",
+   -0.005
   ],
   "2026_16_CAR_PIT": [
    0,
@@ -796,11 +789,11 @@
    0.0
   ],
   "2026_16_CLE_BAL": [
+   1,
    0,
-   0,
-   "Lamar Jackson",
+   "Joe Fagnano",
    "Deshaun Watson",
-   0.0
+   -0.237
   ],
   "2026_16_JAX_DAL": [
    0,
@@ -860,10 +853,10 @@
   ],
   "2026_17_BAL_CIN": [
    0,
-   0,
+   1,
    "Joe Burrow",
-   "Lamar Jackson",
-   0.0
+   "Joe Fagnano",
+   0.237
   ],
   "2026_17_BUF_MIA": [
    0,
@@ -908,11 +901,11 @@
    0.0
   ],
   "2026_17_LV_ARI": [
+   1,
    0,
-   0,
-   "Jacoby Brissett",
+   "Gardner Minshew II",
    "Kirk Cousins",
-   0.0
+   0.005
   ],
   "2026_17_MIN_NYJ": [
    0,
@@ -939,8 +932,8 @@
    0,
    2,
    "Brock Purdy",
-   "Tanner McKee",
-   0.147
+   "Joe Milton III",
+   0.115
   ],
   "2026_17_PIT_TEN": [
    0,
@@ -951,10 +944,10 @@
   ],
   "2026_17_SEA_CAR": [
    0,
-   2,
+   0,
    "Bryce Young",
    "Sam Darnold",
-   -0.055
+   0.0
   ],
   "2026_17_WAS_JAX": [
    0,
@@ -1044,29 +1037,29 @@
    2,
    2,
    "J.J. McCarthy",
-   "Tanner McKee",
-   0.098
+   "Joe Milton III",
+   0.066
   ],
   "2026_18_PIT_BAL": [
+   1,
    0,
-   0,
-   "Lamar Jackson",
+   "Joe Fagnano",
    "Aaron Rodgers",
-   0.0
+   -0.237
   ],
   "2026_18_SEA_LA": [
    0,
-   2,
+   0,
    "Matthew Stafford",
    "Sam Darnold",
-   -0.055
+   0.0
   ],
   "2026_18_SF_ARI": [
+   1,
    0,
-   0,
-   "Jacoby Brissett",
+   "Gardner Minshew II",
    "Brock Purdy",
-   0.0
+   0.005
   ],
   "2026_18_TB_NO": [
    0,
@@ -1104,7 +1097,7 @@
   "NO": "Tyler Shough",
   "BAL": "Lamar Jackson",
   "CHI": "Caleb Williams",
-  "SEA": "Drew Lock",
+  "SEA": "Sam Darnold",
   "SF": "Brock Purdy",
   "PHI": "Jalen Hurts",
   "GB": "Jordan Love",
