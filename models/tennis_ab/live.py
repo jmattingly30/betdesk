@@ -60,7 +60,8 @@ def main():
         # fair lines: total where over ~= under, handicap for p1 where cover ~= 50%
         k = np.arange(len(r['tg'])); cdf = np.cumsum(r['tg']); tot_fair = float(k[np.searchsorted(cdf, .5)]) + 0.5
         mg = r['mg']; mm = np.arange(len(mg)) - lib.GMAX; c = np.cumsum(mg)
-        hcp_fair = -(float(mm[np.searchsorted(c, .5)]) + 0.5)   # p1 line: p1 margin > -hcp half the time
+        hs = np.arange(-15.5, 16, 1.0)   # p1 half-lines; pick the one whose cover chance is closest to 50%
+        hcp_fair = float(hs[np.argmin([abs(mg[mm + h > 0].sum() - .5) for h in hs])])
         A = dict(win_p1=round(p, 3), tot_med=r['tot_med'], tot_range=[r['tot_lo'], r['tot_hi']], tot_mean=round(r['tot_mean'], 1),
                  games_p1=round(g1, 1), games_p2=round(g2, 1), margin_p1=round(r['mar_mean'], 1), sets=sc,
                  p_straight=round(float(r['ss'][0] + r['ss'][len(r['ss']) // 2]), 3), tot_line_fair=tot_fair, hcp_p1_fair=hcp_fair,
