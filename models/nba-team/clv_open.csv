@@ -1,0 +1,28 @@
+games,model,n,move_on_gap_b,t,min_gap,bets,avg_clv_pts,t_clv,beat_close,worse
+all,"spread, lineup model",6784,0.208,29.017,2,2599,0.706,21.508,0.576,0.289
+all,"spread, lineup model",6784,0.208,29.017,3,1399,0.956,19.647,0.628,0.254
+all,"spread, lineup model",6784,0.208,29.017,4,687,1.289,16.925,0.686,0.223
+all,"spread, team-only",6784,0.001,0.177,2,3072,-0.028,-0.988,0.411,0.445
+all,"spread, team-only",6784,0.001,0.177,3,1819,-0.032,-0.868,0.408,0.452
+all,"spread, team-only",6784,0.001,0.177,4,1031,0.055,1.091,0.431,0.437
+all,total,6774,0.174,21.926,2,4158,0.81,18.434,0.566,0.362
+all,total,6774,0.174,21.926,3,3025,0.939,17.897,0.582,0.348
+all,total,6774,0.174,21.926,4,2105,1.139,17.829,0.607,0.328
+no regular missing either side,"spread, lineup model",3895,0.085,9.957,2,1368,0.265,7.751,0.488,0.337
+no regular missing either side,"spread, lineup model",3895,0.085,9.957,3,680,0.314,6.243,0.503,0.326
+no regular missing either side,"spread, lineup model",3895,0.085,9.957,4,305,0.495,5.836,0.551,0.308
+no regular missing either side,"spread, team-only",3895,0.011,1.48,2,1689,0.026,0.851,0.421,0.407
+no regular missing either side,"spread, team-only",3895,0.011,1.48,3,946,0.038,0.924,0.419,0.41
+no regular missing either side,"spread, team-only",3895,0.011,1.48,4,481,0.122,1.979,0.445,0.38
+no regular missing either side,total,3891,0.125,13.189,2,2396,0.576,10.733,0.539,0.39
+no regular missing either side,total,3891,0.125,13.189,3,1765,0.664,10.443,0.552,0.379
+no regular missing either side,total,3891,0.125,13.189,4,1221,0.801,10.357,0.575,0.363
+a regular missing,"spread, lineup model",2889,0.328,28.474,2,1231,1.197,21.872,0.674,0.236
+a regular missing,"spread, lineup model",2889,0.328,28.474,3,719,1.563,20.794,0.745,0.186
+a regular missing,"spread, lineup model",2889,0.328,28.474,4,382,1.923,17.685,0.793,0.154
+a regular missing,"spread, team-only",2889,-0.008,-0.695,2,1383,-0.095,-1.857,0.4,0.491
+a regular missing,"spread, team-only",2889,-0.008,-0.695,3,873,-0.108,-1.688,0.397,0.497
+a regular missing,"spread, team-only",2889,-0.008,-0.695,4,550,-0.004,-0.047,0.418,0.487
+a regular missing,total,2883,0.236,17.615,2,1762,1.129,15.451,0.603,0.323
+a regular missing,total,2883,0.236,17.615,3,1260,1.324,15.056,0.625,0.306
+a regular missing,total,2883,0.236,17.615,4,884,1.605,15.098,0.652,0.281

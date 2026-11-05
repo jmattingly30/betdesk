@@ -1,0 +1,9 @@
+                 SA    NY  margin (home)  total  P(home win)  P(home covers -3.5)  P(over 226.5)
+with absences 110.4 113.8           -3.3  224.2        0.401                0.460          0.489
+full strength 112.0 110.9            1.2  222.9        0.535                0.486          0.482
+
+SA expected rotation: Devin Vassell 39, De'Aaron Fox 37, Stephon Castle 36, Julian Champagnie 34, Dylan Harper 31, Keldon Johnson 20, Luke Kornet 13, Harrison Barnes 12, Carter Bryant 10, David Jones Garcia 8
+
+NY expected rotation: Jalen Brunson 37, OG Anunoby 34, Mikal Bridges 33, Josh Hart 31, Karl-Anthony Towns 30, Landry Shamet 20, Miles McBride 17, Mitchell Robinson 15, Jose Alvarado 12, Mohamed Diawara 11
+
+Cover / over probabilities are market-anchored: only part of the model-minus-line gap is treated as real (open weights from the backtest).
