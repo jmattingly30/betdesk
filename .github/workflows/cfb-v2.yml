@@ -1,7 +1,8 @@
 name: CFB v2 weekly refresh
 on:
   schedule:
-    - cron: "0 15,16 * * 1,4"   # UTC; two hours cover MDT and MST, the first step keeps the one at 09:00 Denver time
+    - cron: "0 15 * * 1,4"   # daylight time (MDT)
+    - cron: "0 16 * * 1,4"   # standard time (MST)
   workflow_dispatch: {}
 concurrency: { group: betdesk-data, cancel-in-progress: false }
 permissions: { contents: write }
@@ -15,11 +16,12 @@ jobs:
       CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
     steps:
       - id: win
-        env: { TZ: America/Denver }
+        env: { TZ: America/Denver, SCHED: "${{ github.event.schedule }}" }
         run: |
-          d=$(( $(date +%s) - $(date -d "today 09:00" +%s) ))
-          if [ "$GITHUB_EVENT_NAME" != schedule ] || { [ $d -ge 0 ] && [ $d -lt 3300 ]; }; then echo go=1 >> "$GITHUB_OUTPUT"
-          else echo "not 09:00 in Denver (this is the other daylight-saving cron); skipping"; fi
+          # run the MDT cron in daylight time and the MST cron in standard time (a queued run can start late, so go by cron, not clock)
+          if [ "$(date +%z)" = "-0600" ]; then want="0 15 * * 1,4"; else want="0 16 * * 1,4"; fi
+          if [ "$GITHUB_EVENT_NAME" != schedule ] || [ "$SCHED" = "$want" ]; then echo go=1 >> "$GITHUB_OUTPUT"
+          else echo "this is the other daylight-saving cron; skipping"; fi
       - if: steps.win.outputs.go == '1'
         uses: actions/checkout@v4
         with: { fetch-depth: 1 }

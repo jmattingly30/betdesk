@@ -1,7 +1,8 @@
 name: Bet Desk NFL Tuesday pull
 on:
   schedule:
-    - cron: "30 21,22 * * 2"   # UTC; two hours cover MDT and MST, the first step keeps the one at 15:30 Denver time
+    - cron: "30 21 * * 2"   # daylight time (MDT)
+    - cron: "30 22 * * 2"   # standard time (MST)
   workflow_dispatch: {}
 concurrency: { group: betdesk-data, cancel-in-progress: false }
 permissions: { contents: write }
@@ -15,11 +16,12 @@ jobs:
       CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
     steps:
       - id: win
-        env: { TZ: America/Denver }
+        env: { TZ: America/Denver, SCHED: "${{ github.event.schedule }}" }
         run: |
-          d=$(( $(date +%s) - $(date -d "today 15:30" +%s) ))
-          if [ "$GITHUB_EVENT_NAME" != schedule ] || { [ $d -ge 0 ] && [ $d -lt 3300 ]; }; then echo go=1 >> "$GITHUB_OUTPUT"
-          else echo "not 15:30 in Denver (this is the other daylight-saving cron); skipping"; fi
+          # run the MDT cron in daylight time and the MST cron in standard time (a queued run can start late, so go by cron, not clock)
+          if [ "$(date +%z)" = "-0600" ]; then want="30 21 * * 2"; else want="30 22 * * 2"; fi
+          if [ "$GITHUB_EVENT_NAME" != schedule ] || [ "$SCHED" = "$want" ]; then echo go=1 >> "$GITHUB_OUTPUT"
+          else echo "this is the other daylight-saving cron; skipping"; fi
       - if: steps.win.outputs.go == '1'
         uses: actions/checkout@v4
         with: { fetch-depth: 1 }
@@ -31,7 +33,7 @@ jobs:
       - if: steps.win.outputs.go == '1'
         run: |
           npm install -g playwright@1.49.1
-          npx playwright install --with-deps chromium
+          npx playwright install chromium
           echo "NODE_PATH=$(npm root -g)" >> "$GITHUB_ENV"
       - if: steps.win.outputs.go == '1'
         run: bash tools/pull.sh nfl
