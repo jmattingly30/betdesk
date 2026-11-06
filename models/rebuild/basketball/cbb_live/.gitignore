@@ -1,0 +1,3 @@
+# generated each run by refresh_cbb.sh (copy of models/cbb rebuilt through the season in progress)
+cbb/
+teamgames_cbb.parquet

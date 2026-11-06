@@ -20,7 +20,7 @@ if [ "$DOW" != 1 ]; then
 fi
 step "B3a NFL shadow grading" python3 models/nfl-player/shadow.py
 step "B4 NFL team games" python3 app/export_games.py $DL/nfldl/games.csv
-step "B5 CBB v2 (live_cbb)" python3 models/rebuild/basketball/live_cbb.py
+step "B5 CBB v2 (in-season ratings refresh + live_cbb)" bash models/rebuild/basketball/cbb_live/refresh_cbb.sh
 if [ "$DOW" = 7 ]; then
   sh_step "B6 CFB v3 weekly rebuild" "cd models/cfb-v3 && curl -sSfL -o pbp_2026.parquet https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_cfb_pbp/play_by_play_2026.parquet && curl -sSfL -o sched_2026.csv https://raw.githubusercontent.com/sportsdataverse/cfbfastR-data/main/schedules/csv/cfb_schedules_2026.csv && D=../team-strength/data && python3 build.py \$D/cfb_games.parquet \$D/cfb_team_games_epa.csv \$D/cfb_returning.csv . pbp_2026.parquet sched_2026.csv --roster roster_prior.csv && python3 export_app.py"
 fi
