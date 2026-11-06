@@ -1,7 +1,9 @@
 """NBA full stack (lineup + schedule) for UPCOMING games, for the shadow run.
 The lineup known before an upcoming game follows the backtest's 'known' rule: players from the team's last game plus
 regulars who missed only that game are expected to play (latest state); regulars out two or more games running are out. 'Full' adds back regulars from the last five games who are missing.
-No injury feed reaches the cloud, so news since the last game is not seen.
+Injury news (J 2026-11-06): players Out or Doubtful on the ESPN injury scan (models/injuries/scan.py ->
+app/data/injuries.json, p_play <= 0.25) are dropped from the known lineup even if they played the last game. If the scan
+is missing the lineup rule above stands alone (the old behaviour).
 project(slate) -> {game_id: (home_pts, away_pts)}; needs data/live/{current_players,lineup_agg}.parquet fresh
 (live_lineup.py) and data/teamgames_nba.parquet."""
 import sys, os, json, numpy as np, pandas as pd
@@ -18,6 +20,17 @@ def agg(df):
     w = df.min_proj.to_numpy(); w = w / w.sum() * 5
     return pd.Series(np.r_[w @ df[RC].to_numpy(), len(df)], index=RC + ['n'])
 
+def injury_outs():
+    """{team: {pid or name: name}} of players the injury scan has at p_play <= 0.25; {} if no scan."""
+    try: d = json.load(open(os.path.normpath(f"{HERE}/../../../app/data/injuries.json")))
+    except Exception: return {}
+    o = {}
+    for t, rows in (d.get("NBA") or {}).items():
+        for r in rows:
+            if r.get("p") is not None and r["p"] <= 0.25: o.setdefault(t, {})[r.get("pid") or str(r["n"]).lower()] = r["n"]
+    return o
+INJ = injury_outs()
+
 def future_lineups(cur, tg, team, gid):
     tt = tg[tg.team == team]; tdates = np.sort(tt[tt.season == tt.season.max()].date.unique())   # this season only
     if not len(tdates): return None
@@ -28,6 +41,10 @@ def future_lineups(cur, tg, team, gid):
     # back; one who has missed two or more in a row is out
     back = regs[regs.date == tdates[-2]] if len(tdates) > 1 else regs.iloc[:0]
     known = pd.concat([c[c.date == last], back]); regs = regs.drop(back.index)
+    io = INJ.get(team, {})
+    hurt = known[known.pid.isin([k for k in io if isinstance(k, int)]) | known.name.str.lower().isin([k for k in io if isinstance(k, str)])]
+    if len(hurt):   # injury report: out tonight although he played recently; counted as missing like the regulars
+        known = known.drop(hurt.index); regs = pd.concat([regs, hurt[hurt.min_proj >= 12]])
     if len(known) < 5: return None
     k = agg(known); f = agg(pd.concat([known, regs]))
     row = {"game_id": gid, "team": team, **{x: k[x] for x in RC}, "n": k["n"],

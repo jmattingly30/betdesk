@@ -1,0 +1,128 @@
+{
+ "m": {
+  "w_all": 0.142,
+  "seasons_blend_better": 5,
+  "n_seasons": 9,
+  "mse_line": 158.698,
+  "mse_blend": 158.873,
+  "by_season": [
+   {
+    "season": 2018,
+    "w": 0.095,
+    "mse_line": 163.08,
+    "mse_blend": 162.44
+   },
+   {
+    "season": 2019,
+    "w": 0.122,
+    "mse_line": 163.19,
+    "mse_blend": 162.76
+   },
+   {
+    "season": 2020,
+    "w": 0.073,
+    "mse_line": 164.95,
+    "mse_blend": 164.27
+   },
+   {
+    "season": 2021,
+    "w": 0.165,
+    "mse_line": 178.61,
+    "mse_blend": 178.82
+   },
+   {
+    "season": 2022,
+    "w": 0.169,
+    "mse_line": 133.19,
+    "mse_blend": 133.55
+   },
+   {
+    "season": 2023,
+    "w": 0.146,
+    "mse_line": 170.89,
+    "mse_blend": 170.81
+   },
+   {
+    "season": 2024,
+    "w": 0.114,
+    "mse_line": 161.69,
+    "mse_blend": 161.18
+   },
+   {
+    "season": 2025,
+    "w": 0.23,
+    "mse_line": 154.57,
+    "mse_blend": 156.6
+   },
+   {
+    "season": 2026,
+    "w": 0.167,
+    "mse_line": 138.11,
+    "mse_blend": 139.43
+   }
+  ]
+ },
+ "t": {
+  "w_all": 0.084,
+  "seasons_blend_better": 3,
+  "n_seasons": 9,
+  "mse_line": 171.77,
+  "mse_blend": 172.063,
+  "by_season": [
+   {
+    "season": 2018,
+    "w": 0.152,
+    "mse_line": 184.32,
+    "mse_blend": 185.44
+   },
+   {
+    "season": 2019,
+    "w": 0.095,
+    "mse_line": 178.23,
+    "mse_blend": 178.31
+   },
+   {
+    "season": 2020,
+    "w": 0.065,
+    "mse_line": 173.1,
+    "mse_blend": 172.93
+   },
+   {
+    "season": 2021,
+    "w": 0.068,
+    "mse_line": 180.66,
+    "mse_blend": 180.51
+   },
+   {
+    "season": 2022,
+    "w": 0.118,
+    "mse_line": 174.18,
+    "mse_blend": 174.56
+   },
+   {
+    "season": 2023,
+    "w": 0.126,
+    "mse_line": 174.22,
+    "mse_blend": 174.77
+   },
+   {
+    "season": 2024,
+    "w": 0.007,
+    "mse_line": 160.74,
+    "mse_blend": 160.68
+   },
+   {
+    "season": 2025,
+    "w": -0.001,
+    "mse_line": 172.39,
+    "mse_blend": 172.41
+   },
+   {
+    "season": 2026,
+    "w": 0.11,
+    "mse_line": 148.09,
+    "mse_blend": 148.96
+   }
+  ]
+ }
+}

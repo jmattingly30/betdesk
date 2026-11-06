@@ -11,12 +11,18 @@ SWEEP=$!
 
 # B. projections
 step "B0 past props" python3 app/past_props.py
+# injury news (J 2026-11-06): ESPN injury feed -> outs/questionable for NBA props, NBA Model A, NFL props. Never fails the
+# chain; with no scan the exporters run without injury input as before.
+rm -f "$SA"/models/injuries/nba_games.csv "$SA"/models/injuries/nfl_overrides.csv
+step "B0a injury scan" python3 models/injuries/scan.py
+NBA_INJ=""; [ -s "$SA"/models/injuries/nba_games.csv ] && NBA_INJ="--games models/injuries/nba_games.csv"
+NFL_OV=models/nfl-player/overrides.csv; [ -s "$SA"/models/injuries/nfl_overrides.csv ] && NFL_OV=models/injuries/nfl_overrides.csv
 sh_step "B1 NHL props" "cd models/nhl-player && python3 fetch_data.py $DL/nhldl 2027 2027 && curl -sSfL -o $DL/nhldl/sched_2027.parquet https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_schedules/nhl_schedule_2027.parquet && python3 project.py $DL/nhldl $DL/nhl_props.json 2 && cd $SA && python3 app/add_recent.py NHL $DL/nhl_props.json && cp $DL/nhl_props.json app/data/nhl_props.json"
-sh_step "B2 NBA props" "for y in \$(seq 2015 2027); do curl -sSfL -o $DL/nbadl/pb_\$y.parquet https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_nba_player_boxscores/player_box_\$y.parquet || exit 1; done; (cd models/nba-player && python3 build_dataset.py $DL/nbadl .) && python3 app/export_nba_props.py $TODAY $DL/nba_props.json && (python3 app/add_recent.py NBA $DL/nba_props.json || python3 app/add_recent.py NBA $DL/nba_props.json) && cp $DL/nba_props.json app/data/nba_props.json"
+sh_step "B2 NBA props" "for y in \$(seq 2015 2027); do curl -sSfL -o $DL/nbadl/pb_\$y.parquet https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_nba_player_boxscores/player_box_\$y.parquet || exit 1; done; (cd models/nba-player && python3 build_dataset.py $DL/nbadl .) && python3 app/export_nba_props.py $TODAY $DL/nba_props.json $NBA_INJ && (python3 app/add_recent.py NBA $DL/nba_props.json || python3 app/add_recent.py NBA $DL/nba_props.json) && cp $DL/nba_props.json app/data/nba_props.json"
 curl -sSfL -o $DL/nfldl/games.csv https://raw.githubusercontent.com/nflverse/nfldata/master/data/games.csv || echo "nflverse games.csv" >> "$FAILS"
 if [ "$DOW" != 1 ]; then
   WEEK=$(python3 -c "import pandas as p;g=p.read_csv('$DL/nfldl/games.csv');g=g[(g.season==2026)&(g.game_type=='REG')&g.result.isna()];print(int(g.week.min()))")
-  sh_step "B3 NFL props (week $WEEK)" "(cd models/nfl-player && python3 fetch_data.py $DL/nfldl 2026 && python3 build_dataset.py $DL/nfldl .) && python3 app/export_nfl_props.py $DL/nfldl 2026 $WEEK $DL/nfl_props.json --overrides models/nfl-player/overrides.csv && (python3 app/add_recent.py NFL $DL/nfl_props.json || python3 app/add_recent.py NFL $DL/nfl_props.json) && cp $DL/nfl_props.json app/data/nfl_props.json"
+  sh_step "B3 NFL props (week $WEEK)" "(cd models/nfl-player && python3 fetch_data.py $DL/nfldl 2026 && python3 build_dataset.py $DL/nfldl .) && python3 app/export_nfl_props.py $DL/nfldl 2026 $WEEK $DL/nfl_props.json --overrides $NFL_OV && (python3 app/add_recent.py NFL $DL/nfl_props.json || python3 app/add_recent.py NFL $DL/nfl_props.json) && cp $DL/nfl_props.json app/data/nfl_props.json"
 fi
 step "B3a NFL shadow grading" python3 models/nfl-player/shadow.py
 step "B4 NFL team games" python3 app/export_games.py $DL/nfldl/games.csv

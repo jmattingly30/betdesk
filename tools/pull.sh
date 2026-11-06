@@ -8,6 +8,7 @@ case "$T" in
   nfl)   step "op_live NFL (all books)"           bash -c "cd app && python3 op_live.py NFL" ;;
   *) echo "unknown pull $T"; exit 2 ;;
 esac
+step "injury scan (NBA Model A sees news since the morning)" python3 models/injuries/scan.py
 if [ "$T" = noon ]; then step "slates (Odds API college lines)" bash -c "cd app && ODDS_FORCE=CFB,CBB python3 export_slates.py"
 else step "slates (no Odds API credits)" bash -c "cd app && env -u ODDS_API_KEY python3 export_slates.py"; fi
 step "line tools" bash -c "cd app && python3 line_tools.py"

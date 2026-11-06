@@ -21,6 +21,12 @@ Do part B while it runs. Never poll with sleep; you are woken when it exits.
 
 ## B. Projections (no odds needed), while the sweep runs
 B0. `python3 app/past_props.py` FIRST, before any props file is replaced (last 3 days of NHL/NBA players). Publish past_props.json.
+B0a. Injury scan (J 2026-11-06): `python3 models/injuries/scan.py` (ESPN injury feed, free, ~5 s) -> app/data/injuries.json
+    (publish it), models/injuries/nba_games.csv and models/injuries/nfl_overrides.csv; status changes appended to
+    models/injuries/log.jsonl. Then B2 adds `--games models/injuries/nba_games.csv` to export_nba_props.py and B3 uses
+    `--overrides models/injuries/nfl_overrides.csv` (J's manual rows + ESPN outs) instead of models/nfl-player/overrides.csv;
+    if either file is missing or empty, run B2/B3 as before. NBA Model A (live_future_nba.py) reads injuries.json itself.
+    Manual calls: models/injuries/manual.json (expire after 'until'). The scan never fails the chain.
 B1. NHL: models/nhl-player fetch_data.py /tmp/claude-0/nhldl 2027 2027; re-download sched_2027.parquet
     (curl -L -o /tmp/claude-0/nhldl/sched_2027.parquet https://github.com/sportsdataverse/sportsdataverse-data/releases/download/nhl_schedules/nhl_schedule_2027.parquet);
     project.py /tmp/claude-0/nhldl <json> 2; app/add_recent.py NHL <json>; copy to app/data/nhl_props.json.
