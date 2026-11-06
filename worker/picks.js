@@ -26,7 +26,7 @@ function buildTennis(d, now) {
   const out = [];
   for (const m of d.matches || []) {
     const B = m.B || {}, A = m.A || {};
-    if (!B.price || !B.pick || (m.start && Date.parse(m.start) <= now)) continue;
+    if (!B.price || !B.pick || m.pre || (m.start && Date.parse(m.start) <= now)) continue;
     const tier = B.tier === 'A' || B.tier === 'B' ? B.tier : B.u && B.u.rec === 'play' ? 'C' : null;
     if (!tier) continue;
     const pA = A.win_p1 == null ? null : B.side === 1 ? A.win_p1 : 1 - A.win_p1;
@@ -92,7 +92,7 @@ function why(market, z, g) {
 function build(sport, d, today, now) {
   const out = [];
   for (const [gid, g] of Object.entries(d.games || {})) {
-    if (!g.B || (g.d && g.d < today)) continue;
+    if (!g.B || g.pre || (g.d && g.d < today)) continue;   // pre = frozen pre-game record of a started game (pregame.keep)
     if (g.k && Date.parse(g.k) <= now) continue;
     for (const [k, market] of Object.entries(MARKETS)) {
       const z = g.B[k];
