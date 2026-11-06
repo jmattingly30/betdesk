@@ -4,6 +4,7 @@ time a pick reached its tier (what J could have bet) -> win rate, ROI at the sho
 python3 models/cbb_ab/grade.py  -> models/cbb_ab/history/grade.json"""
 import json, os, sys, urllib.request, datetime as dt, collections
 HERE = os.path.dirname(os.path.abspath(__file__)); H = f"{HERE}/history"
+import sys; sys.path.insert(0, f"{HERE}/../model-b"); import unproven   # tier C passes graded by their unproven rec (J 2026-11-06)
 runs = [json.loads(l) for l in open(f"{H}/runs.jsonl")] if os.path.exists(f"{H}/runs.jsonl") else []
 fin_p = f"{H}/finals.json"; fin = json.load(open(fin_p)) if os.path.exists(fin_p) else {}
 today = dt.date.today().isoformat()
@@ -18,16 +19,17 @@ for d in sorted({r["d"] for r in runs if r["d"] < today}):
         sc = {x["homeAway"]: float(x["score"]) for x in c["competitors"]}
         fin[ev["id"]] = {"d": d, "h": sc.get("home"), "a": sc.get("away")}
 json.dump(fin, open(fin_p, "w"))
-first, last = {}, {}
+first, firstU, last = {}, {}, {}
 for r in runs:
     last[r["id"]] = r
     for k, z in r["B"].items():
         if z["tier"] in "AB" and z.get("bet") and (r["id"], k) not in first: first[(r["id"], k)] = (r, z)
+        elif z["tier"] == "C" and z.get("bet") and (r["id"], k) not in firstU and (u := unproven.grade_tier("CBB", k, z)): firstU[(r["id"], k)] = (r, dict(z, tier=u))
 out = {"made": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), "A": {}, "B": {}}
 e = [abs(last[i]["A"][0] - f["h"]) + 0 for i, f in fin.items() if i in last] + [abs(last[i]["A"][1] - f["a"]) for i, f in fin.items() if i in last]
 if e: out["A"] = {"team_scores": len(e), "MAE": round(sum(e) / len(e), 2)}
 T = collections.defaultdict(lambda: {"n": 0, "w": 0, "pnl": 0.0, "clv": 0.0})
-for (gid, k), (r, z) in first.items():
+for (gid, k), (r, z) in [*first.items(), *firstU.items()]:
     f = fin.get(gid)
     if not f: continue
     b = z["bet"]; pt = b["pt"]; dec = 1 + (b["price"] / 100 if b["price"] > 0 else 100 / -b["price"])
