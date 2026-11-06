@@ -14,7 +14,7 @@ cd cbb
 CBB_LAST=2027 python3 prep_cbb.py $H data
 CBB_LAST=2027 python3 prep_availability.py $H data
 rm -rf $H
-python3 game_model.py > run_log_live.txt 2>&1
+python3 game_model.py > run_log_live.txt 2>&1 || { tail -n 30 run_log_live.txt; exit 1; }
 cd ..
 python3 build_tg.py
 python3 ../live_cbb.py
