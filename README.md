@@ -27,7 +27,8 @@ Every push to `main` redeploys the site.
   in `directory`. The person always comes from the cookie, never from the request, so bets cannot mix. J's desk
   (`public/index.html` + `public/account.js`) now saves to J's account and copies the bets on a phone up once.
 - **What each person can load.** J: everything in `public/`, as before. Guests: only `public/guest/` (a simple pick
-  sheet built by `worker/picks.js` from the Model B files), icons, and `/api/*` for their own data. Raw model files,
+  sheet built by `worker/picks.js` from the Model B files, `tennis_ab.json` and `prop_picks.json`, the desk's own prop flags
+  written by `models/grading/snap_flags.js` each morning and `--picks-only` on every pull), icons, and `/api/*` for their own data. Raw model files,
   J's page and J's bets are never served to guests.
 - **Honcho** (`worker/honcho.js`, guests only): bets, results, passes and "tell the desk" notes are sent as the guest's
   messages; once a day (and every 6 actions) Honcho's answer sets their sport order, detail level (1 Simple,

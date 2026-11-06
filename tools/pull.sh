@@ -19,5 +19,6 @@ if [ "$T" = night ]; then step "CFB usage" bash -c "cd models/oddspapi && python
 if [ "$T" != nfl ]; then step "CFB Model B (cfb_ab live)" python3 models/cfb_ab/live.py; fi
 if [ "$T" != nfl ]; then step "Tennis Model A+B (tennis_ab live)" python3 models/tennis_ab/live.py; fi
 if [ "$T" = night ]; then step "Tennis grade" python3 models/tennis_ab/grade.py; fi
+step "Guest prop picks (headless desk)" node models/grading/snap_flags.js --picks-only
 if [ "$T" = nfl ]; then step "Watch the sim (NFL)" python3 models/sims/build.py NFL; else step "Watch the sim" python3 models/sims/build.py; fi
 publish; commit "$T pull" || echo "commit" >> "$FAILS"; finish
