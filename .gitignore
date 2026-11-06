@@ -10,3 +10,5 @@ betdesk-backup-*.json
 bets-export*.json
 node_modules/
 package-lock.json
+.dev.vars
+.wrangler/

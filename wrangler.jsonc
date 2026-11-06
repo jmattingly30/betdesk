@@ -1,0 +1,23 @@
+// Cloudflare Worker for the Bet Desk site (deployed by Workers Builds on every push to main).
+// The Worker runs before every request: it signs people in with their invite link, keeps each
+// person's bets in their own Durable Object, and only then serves files from public/.
+// Secrets (Cloudflare dashboard > Workers > betdesk > Settings > Variables and secrets):
+//   SESSION_SECRET, OWNER_TOKEN, HONCHO_API_KEY. Until SESSION_SECRET and OWNER_TOKEN are set the
+//   Worker serves public/ exactly as before (no login), so merging this is safe.
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "betdesk",
+  "main": "worker/index.js",
+  "compatibility_date": "2025-09-01",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  "durable_objects": {
+    "bindings": [{ "name": "DESK", "class_name": "Desk" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Desk"] }],
+  "vars": { "HONCHO_WORKSPACE": "betdesk" },
+  "observability": { "enabled": true }
+}

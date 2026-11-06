@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Bet Desk</title>
+<link rel="manifest" href="/guest/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Bet Desk">
+<meta name="theme-color" content="#0f1115">
+<style>
+:root{color-scheme:light;--bg:#f5f4f0;--card:#fff;--fg:#15171c;--mute:#606775;--line:#e3e1db;--acc:#1f6f4a;--acc-bg:#e5f3ec;--warn:#8a5a00;--warn-bg:#fbf0d9;--bad:#a23b2a;--chip:#ecebe6}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#0f1115;--card:#181b21;--fg:#eceef2;--mute:#9aa1ad;--line:#2a2e36;--acc:#5fd19a;--acc-bg:#16321f;--warn:#f0c060;--warn-bg:#352a12;--bad:#f08a78;--chip:#232730}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+header{padding:18px 16px 6px;max-width:640px;margin:0 auto}
+h1{font-size:24px;margin:0}
+.note{margin:10px 0 0;padding:10px 12px;border-radius:12px;background:var(--acc-bg);color:var(--fg);font-size:15px}
+main{max-width:640px;margin:0 auto;padding:0 16px}
+h2{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);margin:22px 0 8px}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:8px 0 2px;scrollbar-width:none}
+.chip{border:0;background:var(--chip);color:var(--fg);padding:7px 13px;border-radius:999px;font:inherit;font-size:14px;white-space:nowrap;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--fg);color:var(--bg)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:10px 0}
+.top{display:flex;justify-content:space-between;gap:8px;font-size:13px;color:var(--mute)}
+.pick{font-size:20px;font-weight:700;margin:6px 0 2px}
+.tag{display:inline-block;font-size:13px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--acc-bg);color:var(--acc)}
+.tag.c{background:var(--warn-bg);color:var(--warn)}
+.stars{letter-spacing:1px}
+.why{margin:8px 0 0;font-size:15px}
+ul.r{margin:8px 0 0;padding-left:18px;font-size:14px;color:var(--mute)}
+ul.r li.p{color:var(--fg)}
+.nums{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:8px;font-size:13px;color:var(--mute)}
+.nums b{color:var(--fg);font-weight:600}
+.acts{display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap}
+button.b{border:0;border-radius:10px;padding:9px 14px;font:inherit;font-size:15px;font-weight:600;background:var(--fg);color:var(--bg);cursor:pointer}
+button.g{background:var(--chip);color:var(--fg);font-weight:500}
+button.b:disabled{opacity:.5}
+select,textarea{font:inherit;font-size:15px;color:var(--fg);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px}
+textarea{width:100%;min-height:80px}
+.muted{color:var(--mute)}.small{font-size:13px}
+.empty{color:var(--mute);padding:20px 0;text-align:center}
+.rec{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.rec div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}
+.rec b{display:block;font-size:20px}
+.won{color:var(--acc)}.lost{color:var(--bad)}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:4px;padding:8px 8px calc(8px + env(safe-area-inset-bottom));background:var(--card);border-top:1px solid var(--line)}
+nav button{flex:1;max-width:160px;border:0;background:none;color:var(--mute);font:inherit;font-size:15px;padding:8px;border-radius:10px;cursor:pointer}
+nav button[aria-current=true]{color:var(--fg);background:var(--chip);font-weight:600}
+.lv{display:block;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0;cursor:pointer;background:var(--card)}
+.lv input{margin-right:8px}
+#toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:9px 14px;border-radius:10px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none}
+#toast.on{opacity:1}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="hello">Bet Desk</h1>
+  <div id="note" class="note" hidden></div>
+</header>
+<main>
+  <section id="v-picks"></section>
+  <section id="v-bets" hidden></section>
+  <section id="v-me" hidden></section>
+</main>
+<nav>
+  <button type="button" data-v="picks" aria-current="true">Picks</button>
+  <button type="button" data-v="bets">My bets</button>
+  <button type="button" data-v="me">Me</button>
+</nav>
+<div id="toast" role="status"></div>
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const H = {'content-type':'application/json','x-desk':'1'};
+  const api = async (m, p, body) => {
+    const r = await fetch('/api/' + p, {method:m, headers:H, credentials:'same-origin', body: body === undefined ? undefined : JSON.stringify(body)});
+    if (r.status === 401) { location.reload(); throw new Error('signed out'); }
+    if (!r.ok) throw new Error('server ' + r.status);
+    return r.json();
+  };
+  const toast = t => { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('on'), 2200); };
+  const S = {me:null, picks:[], bets:[], sport:'All', hidden:new Set(), preview:false};
+  try { S.hidden = new Set(JSON.parse(localStorage.getItem('guest.hidden') || '[]')); } catch(e){}
+  const price = p => p == null ? '' : (p > 0 ? '+' + p : String(p));
+  const won = (u, p) => p > 0 ? u * p / 100 : u * 100 / Math.abs(p || 100);
+  const when = p => {
+    if (p.kickoff) return new Date(p.kickoff).toLocaleString([], {weekday:'short', hour:'numeric', minute:'2-digit'});
+    if (p.date) return new Date(p.date + 'T12:00').toLocaleDateString([], {weekday:'short', month:'short', day:'numeric'});
+    return '';
+  };
+  const level = () => S.me ? S.me.level : 1;
+  const SPORT_NAME = {NFL:'NFL', NBA:'NBA', CFB:'College football', CBB:'College basketball'};
+
+  // ---------- picks ----------
+  function pickCard(p){
+    const lv = level(), b = S.bets.find(x => x.pickId === p.id);
+    const reasons = lv >= 3 ? p.reasons : p.reasons.filter(r => r.s === '+').slice(0, 3);
+    return `<div class="card" data-id="${esc(p.id)}">
+      <div class="top"><span>${esc(SPORT_NAME[p.sport] || p.sport)} · ${esc(p.away)} at ${esc(p.home)}</span><span>${esc(when(p))}</span></div>
+      <div class="pick">${esc(p.pick)}</div>
+      <span class="tag ${p.tier === 'C' ? 'c' : ''}">${esc(p.label)} <span class="stars">${'★'.repeat(p.stars)}${'☆'.repeat(3 - p.stars)}</span></span>
+      <span class="small muted">&nbsp;${esc(p.book)} ${esc(price(p.price))}</span>
+      <p class="why">${esc(p.why)}</p>
+      ${lv >= 2 && reasons.length ? `<ul class="r">${reasons.map(r => `<li class="${r.s === '+' ? 'p' : ''}">${esc(r.t)}</li>`).join('')}</ul>` : ''}
+      ${lv >= 2 ? `<div class="nums">${p.chance != null ? `<span>Our chance it wins: <b>${Math.round(p.chance * 100)}%</b></span>` : ''}${lv >= 3 ? `<span>Edge: <b>${p.ev > 0 ? '+' : ''}${p.ev}%</b></span>${p.score != null ? `<span>Unproven score: <b>${p.score}/100</b></span>` : ''}${p.model ? `<span>Our score: <b>${esc(p.away)} ${p.model.away}, ${esc(p.home)} ${p.model.home}</b></span>` : ''}` : ''}</div>` : ''}
+      ${S.preview ? '' : `<div class="acts">${b ? `<span class="small"><b>You bet this</b> · ${b.units} unit${b.units == 1 ? '' : 's'}</span>` :
+        `<select aria-label="Units" data-u><option value="0.5">½ unit</option><option value="1" selected>1 unit</option><option value="2">2 units</option></select>
+         <button class="b" type="button" data-bet>I bet this</button><button class="b g" type="button" data-hide>Not for me</button>`}</div>`}
+    </div>`;
+  }
+  function renderPicks(){
+    const lv = level(), order = (S.me && S.me.profile && S.me.profile.sports) || [];
+    let ps = S.picks.filter(p => !S.hidden.has(p.id));
+    const sports = [...new Set(ps.map(p => p.sport))].sort((a, b) => (order.indexOf(a) + 1 || 9) - (order.indexOf(b) + 1 || 9));
+    if (S.sport !== 'All' && !sports.includes(S.sport)) S.sport = 'All';
+    if (S.sport !== 'All') ps = ps.filter(p => p.sport === S.sport);
+    const strong = ps.filter(p => p.tier !== 'C'), long = ps.filter(p => p.tier === 'C');
+    $('#v-picks').innerHTML = `<div class="chips">${['All', ...sports].map(s => `<button class="chip" type="button" data-sport="${s}" aria-pressed="${s === S.sport}">${esc(SPORT_NAME[s] || s)}</button>`).join('')}</div>
+      <h2>Our picks</h2>
+      ${strong.map(pickCard).join('') || '<p class="empty">No strong picks or leans right now. New lines come in through the day, so check back later.</p>'}
+      ${lv >= 2 ? `<h2>Long shots</h2><p class="small muted">Our model likes these, but this kind of bet hasn't been proven as well. Smaller bets make sense here.</p>${long.slice(0, 15).map(pickCard).join('') || '<p class="empty">None right now.</p>'}` :
+        long.length ? `<p class="small muted" style="margin-top:18px">There are ${long.length} less proven long shots too. Switch to level 2 under Me to see them.</p>` : ''}`;
+  }
+
+  // ---------- my bets ----------
+  function renderBets(){
+    const open = S.bets.filter(b => b.status === 'open').sort((a, b) => (a.kickoff || a.date || '').localeCompare(b.kickoff || b.date || ''));
+    const done = S.bets.filter(b => b.status !== 'open').sort((a, b) => (b.settled || '').localeCompare(a.settled || ''));
+    const w = done.filter(b => b.status === 'won').length, l = done.filter(b => b.status === 'lost').length, pu = done.filter(b => b.status === 'push').length;
+    const units = done.reduce((s, b) => s + (b.status === 'won' ? won(b.units, b.price) : b.status === 'lost' ? -b.units : 0), 0);
+    const row = b => `<div class="card" data-bid="${esc(b.id)}">
+      <div class="top"><span>${esc(SPORT_NAME[b.sport] || b.sport)} · ${esc(b.matchup)}</span><span>${esc(when(b))}</span></div>
+      <div class="pick">${esc(b.pick)}</div>
+      <span class="small muted">${esc(b.label)} · ${b.units} unit${b.units == 1 ? '' : 's'} at ${esc(b.book)} ${esc(price(b.price))}</span>
+      <div class="acts">${b.status === 'open' ? `<button class="b" type="button" data-st="won">Won</button><button class="b g" type="button" data-st="lost">Lost</button><button class="b g" type="button" data-st="push">Push</button><button class="b g" type="button" data-del>Remove</button>` :
+        `<b class="${b.status}">${b.status === 'won' ? 'Won +' + won(b.units, b.price).toFixed(2) : b.status === 'lost' ? 'Lost −' + b.units : 'Push'}</b><button class="b g" type="button" data-st="open">Undo</button>`}</div></div>`;
+    $('#v-bets').innerHTML = `<div class="rec"><div><b>${w}-${l}${pu ? '-' + pu : ''}</b><span class="small muted">Record</span></div>
+      <div><b class="${units >= 0 ? 'won' : 'lost'}">${units >= 0 ? '+' : '−'}${Math.abs(units).toFixed(1)}</b><span class="small muted">Units</span></div>
+      <div><b>${open.length}</b><span class="small muted">Open</span></div></div>
+      <h2>Open</h2>${open.map(row).join('') || '<p class="empty">No open bets. Tap “I bet this” on a pick to track it.</p>'}
+      ${done.length ? `<h2>Finished</h2>${done.slice(0, 50).map(row).join('')}` : ''}`;
+  }
+
+  // ---------- me ----------
+  const LEVELS = [[1, 'Simple', 'Just the picks, how confident we are, and one plain reason.'],
+                  [2, 'Guided', 'Adds our win chance, a few reasons, and the less proven long shots.'],
+                  [3, 'Full', 'Every number: edge, our projected score, and all the pros and cons.']];
+  function renderMe(){
+    const m = S.me, cur = m.level_auto ? 'auto' : String(m.level);
+    $('#v-me').innerHTML = `<h2>How much detail</h2>
+      <label class="lv"><input type="radio" name="lv" value="auto" ${cur === 'auto' ? 'checked' : ''}><b>Let the desk decide</b> <span class="small muted">(now ${esc(LEVELS[m.level - 1][1])}) It adds detail as you use it.</span></label>
+      ${LEVELS.map(([n, t, d]) => `<label class="lv"><input type="radio" name="lv" value="${n}" ${cur === String(n) ? 'checked' : ''}><b>${t}</b> <span class="small muted">${d}</span></label>`).join('')}
+      ${m.honcho ? `<h2>Tell the desk about you</h2><p class="small muted">What sports or bets you like, how much you usually bet, anything you want more or less of. The desk uses this to tailor your picks.</p>
+      <p class="small muted">Your bets, passes and notes are shared with Honcho (an outside personalization service) so the desk can learn what you like. Nothing else about you is sent.</p>
+      <textarea id="tell" maxlength="600" placeholder="e.g. I mostly watch the NBA and like overs"></textarea>
+      <div class="acts"><button class="b" type="button" id="send">Send</button></div>` : ''}
+      <h2>How the picks work</h2>
+      <p class="small">Our models project the score of every game and compare it with the sportsbooks' lines. <b>Strong picks</b> are the kind of bet that has won most often when we tested it on past games. <b>Leans</b> are good but less sure. <b>Long shots</b> are bets our model likes that haven't been tested as well. No pick is a sure thing, so bet amounts you're fine losing.</p>
+      <p class="small muted" style="margin-top:22px"><a href="/logout">Sign out on this device</a></p>`;
+  }
+
+  // ---------- actions ----------
+  const show = v => { ['picks', 'bets', 'me'].forEach(x => { $('#v-' + x).hidden = x !== v; }); document.querySelectorAll('nav button').forEach(b => b.setAttribute('aria-current', b.dataset.v === v)); scrollTo(0, 0); };
+  const renderAll = () => { renderPicks(); renderBets(); if (S.me) renderMe(); };
+  document.querySelector('nav').addEventListener('click', e => { const b = e.target.closest('button'); if (b) show(b.dataset.v); });
+  document.addEventListener('click', async e => {
+    const t = e.target.closest('button'); if (!t) return;
+    if (t.dataset.sport) { S.sport = t.dataset.sport; renderPicks(); return; }
+    const card = t.closest('.card');
+    try {
+      if (t.hasAttribute('data-bet')) {
+        const p = S.picks.find(x => x.id === card.dataset.id); if (!p) return;
+        const units = Number(card.querySelector('[data-u]').value) || 1;
+        const b = {id:'g' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), pickId:p.id, sport:p.sport, market:p.market, pick:p.pick,
+          matchup:`${p.away} at ${p.home}`, date:p.date, kickoff:p.kickoff, label:p.label, tier:p.tier, book:p.book, price:p.price, units, status:'open', created:new Date().toISOString()};
+        t.disabled = true; await api('PUT', 'db/bets/' + b.id, b); S.bets.push(b); renderAll(); toast('Tracking it in My bets');
+      } else if (t.hasAttribute('data-hide')) {
+        const p = S.picks.find(x => x.id === card.dataset.id); if (!p) return;
+        S.hidden.add(p.id); try { localStorage.setItem('guest.hidden', JSON.stringify([...S.hidden].slice(-300))); } catch(e){}
+        renderPicks();
+        api('POST', 'note', {text:`I passed on this pick: ${p.pick} (${p.sport} ${p.market}, ${p.label}).`}).catch(() => {});
+      } else if (t.dataset.st) {
+        const b = S.bets.find(x => x.id === card.dataset.bid); if (!b) return;
+        const nb = {...b, status:t.dataset.st, settled:t.dataset.st === 'open' ? null : new Date().toISOString()};
+        await api('PUT', 'db/bets/' + b.id, nb); Object.assign(b, nb); renderAll();
+      } else if (t.hasAttribute('data-del')) {
+        if (!confirm('Remove this bet?')) return;
+        await api('DELETE', 'db/bets/' + card.dataset.bid); S.bets = S.bets.filter(x => x.id !== card.dataset.bid); renderAll();
+      } else if (t.id === 'send') {
+        const v = $('#tell').value.trim(); if (!v) return;
+        await api('POST', 'note', {text:v}); $('#tell').value = ''; toast('Thanks, the desk will use that');
+      }
+    } catch(err){ t.disabled = false; toast('That did not save. Try again.'); }
+  });
+  document.addEventListener('change', async e => {
+    if (e.target.name !== 'lv') return;
+    const v = e.target.value;
+    if (S.preview) { S.me = {...S.me, level: v === 'auto' ? 1 : Number(v), level_auto: v === 'auto'}; renderAll(); return; }
+    try { await api('POST', 'level', {level: v === 'auto' ? null : Number(v)}); S.me = await api('GET', 'me'); renderAll(); toast('Saved'); }
+    catch(err){ toast('That did not save. Try again.'); }
+  });
+
+  async function boot(){
+    try {
+      const [me, picks] = await Promise.all([api('GET', 'me'), api('GET', 'picks')]);
+      S.me = me; S.picks = picks.picks || [];
+      S.preview = me.role !== 'guest';   // J looking at the guest view: read only, never touches J's own bets
+      if (S.preview) S.me = {...me, level:1, level_auto:true};
+      else S.bets = ((await api('GET', 'db/bets')).docs || []).map(d => ({...d.data, id:d.id}));
+      $('#hello').textContent = S.preview ? 'Guest desk preview' : `Hi ${me.name}`;
+      const note = me.profile && me.profile.note;
+      if (note) { $('#note').textContent = note; $('#note').hidden = false; }
+      renderAll();
+    } catch(e){ $('#v-picks').innerHTML = '<p class="empty">Could not load your desk. Pull down to try again.</p>'; }
+  }
+  boot();
+})();
+</script>
+</body>
+</html>
