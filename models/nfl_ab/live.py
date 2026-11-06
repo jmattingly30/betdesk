@@ -22,7 +22,10 @@ TA = json.load(open(f"{HERE}/model_a_test.json")); TO = json.load(open(f"{HERE}/
 SDM, SDT, SDTEAM = TA["sd_margin"], TA["sd_total"], TA["sd_team"]
 WM, WT = np.array(TA["w_margin"]), np.array(TA["w_total"]); MG, TG = np.arange(-60, 61), np.arange(0, 121)
 EARLY_H = 96            # kickoff 4+ days away = look-ahead line (before the Wednesday injury report), opener-like
-B_EARLY, B_LATE = 0.35, 0.0   # share of our spread gap trusted: early from the 2026 opener CLV (moved ~1/3 of a 3+ gap), at the close 0 (2018+ gaps lost)
+TB = json.load(open(f"{HERE}/blend_test.json"))
+# J 2026-11-06: every NFL chance carries our model = the best blend of Model A and the line (blend_test.py, least squares vs results 2018-26):
+# game-week lines = line + 14% of our spread gap / 8% of our total gap (the desk's old blend used 8%); look-ahead spreads 35% (2026 opener CLV)
+B_EARLY, B_LATE = 0.35, TB["m"]["w_all"]; W_TOT = TB["t"]["w_all"]
 NOW = dt.datetime.now(dt.timezone.utc)
 dec = DV.dec_from_am
 # PROPS (desk applies these in prop_odds.js; numbers = model-b-confidence props.json NFL_live, desk projections vs OddsPapi, Oct 2026):
@@ -136,7 +139,7 @@ def main():
                 share = B_EARLY if early else B_LATE; real = gap * share
                 bp = best_price(bk, po, side_home, "m", mu_m + real)
                 tier = "B" if early and abs(gap) >= 3 and agree else "C"
-                R = [["+" if early else "-", f"Kickoff in {kick_h / 24:.1f} days: " + ("look-ahead line; in the 2026 opener test lines moved our way 82-86% of the time at gaps of 3+" if early else "late line; our NFL spread gaps have not held up at the close (2018-26)")],
+                R = [["+" if early else "-", f"Kickoff in {kick_h / 24:.1f} days: " + ("look-ahead line, so the blend counts 35% of our gap (2026 openers moved our way 82-86% of the time at gaps of 3+)" if early else f"game-week line, so the blend counts {share:.0%} of our gap (best fit of our model plus the line on 2018-26 results); our NFL spread gaps have not held up at the close (2018-26)")],
                      ["+" if agree else "-", "The desk model is on the same side of the line" if agree else "The desk model is on the other side of the line"],
                      ["·", "NFL spreads are a lean at most: the 2026 openers covered 49-56% (27-35 games) and the backtest knew the starting QB, which an opener often does not"]]
                 if abs(gap) >= 3: R.append(["·", f"Key numbers: Model A puts {A['p3']:.0%} on a 3-point margin and {A['p7']:.0%} on 7"])
@@ -144,10 +147,10 @@ def main():
                                    tier=tier, side=v["h"] if side_home else v["a"], bet=bp, reasons=R)
             mu_t, used_t = market(bk, "t")
             if mu_t is not None:
-                gap_t = tA - mu_t - TSHIFT; ov = gap_t > 0
-                bp = best_price(bk, po, ov, "t", mu_t)
-                B["total"] = dict(market=round(mu_t, 2), books=used_t, ours=round(tA, 2), gap=round(gap_t, 2), real=0.0, fresh=early, tier="C", side="Over" if ov else "Under", bet=bp,
-                                  reasons=[["·", f"Measured against this slate: Model A sits {TSHIFT:+.1f} pts vs the market's totals on the median game, so only the part beyond that counts"],
+                gap_t = tA - mu_t - TSHIFT; ov = gap_t > 0; real_t = gap_t * W_TOT
+                bp = best_price(bk, po, ov, "t", mu_t + real_t)
+                B["total"] = dict(market=round(mu_t, 2), books=used_t, ours=round(tA, 2), gap=round(gap_t, 2), real=round(real_t, 2), share=W_TOT, fresh=early, tier="C", side="Over" if ov else "Under", bet=bp,
+                                  reasons=[["·", f"Chance = the line plus {W_TOT:.0%} of our gap (best fit on 2018-26 results)"], ["·", f"Measured against this slate: Model A sits {TSHIFT:+.1f} pts vs the market's totals on the median game, so only the part beyond that counts"],
                                            ["-", "NFL total gaps have lost: 2026 openers 3+ hit 39-44%, 2026 closes 43-48%. Shown for the number only, never a bet"]])
             sp_ = B.get("spread")
             if sp_:
