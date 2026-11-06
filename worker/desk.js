@@ -36,10 +36,6 @@ export class Desk extends DurableObject {
   // ----- directory instance only -----
   async users() { return [...(await this.ctx.storage.list({ prefix: 'user:' })).values()]; }
   async user(id) { return (await this.ctx.storage.get(`user:${id}`)) ?? null; }
-  async userByToken(hash) {
-    const id = await this.ctx.storage.get(`tok:${hash}`);
-    return id ? this.user(id) : null;
-  }
   async addUser(u, hash) {
     await this.ctx.storage.put({ [`user:${u.id}`]: u, [`tok:${hash}`]: u.id });
     return u;
@@ -51,15 +47,32 @@ export class Desk extends DurableObject {
     await this.ctx.storage.put(`user:${id}`, next);
     return next;
   }
-  // New invite link: drop the old token hash and bump ver so cookies from the old link stop working.
-  async rotateToken(id, hash) {
+  // Invite links work once: signing in deletes the token hash, so a forwarded or reused link does nothing.
+  async consumeToken(hash) {
+    const id = await this.ctx.storage.get(`tok:${hash}`);
+    if (!id) return null;
+    await this.ctx.storage.delete(`tok:${hash}`);
+    return this.user(id);
+  }
+  // New link (another device, or a lost link): replaces any unused link; devices already signed in stay in.
+  async newToken(id, hash) {
     const u = await this.user(id);
     if (!u) return null;
-    const old = await this.ctx.storage.list({ prefix: 'tok:' });
-    for (const [k, v] of old) if (v === id) await this.ctx.storage.delete(k);
+    await this.dropTokens(id);
+    await this.ctx.storage.put(`tok:${hash}`, id);
+    return u;
+  }
+  // Sign out everywhere: bump ver so every cookie for this person stops working, and drop unused links.
+  async signOutAll(id) {
+    const u = await this.user(id);
+    if (!u) return null;
+    await this.dropTokens(id);
     const next = { ...u, ver: (u.ver || 1) + 1 };
-    await this.ctx.storage.put({ [`user:${id}`]: next, [`tok:${hash}`]: id });
+    await this.ctx.storage.put(`user:${id}`, next);
     return next;
+  }
+  async dropTokens(id) {
+    for (const [k, v] of await this.ctx.storage.list({ prefix: 'tok:' })) if (v === id) await this.ctx.storage.delete(k);
   }
   async touch(id, when) {
     const u = await this.user(id);

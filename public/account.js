@@ -49,6 +49,11 @@
     let l = null; try { if (localStorage.getItem(MOVED)) return; l = JSON.parse(localStorage.getItem(LS) || 'null'); } catch (e) { return; }
     if (!l) { try { localStorage.setItem(MOVED, new Date().toISOString()); } catch (e) {} return; }
     const bets = (l.bets || []).filter(b => b && b.id).map(b => ({ id: String(b.id), data: b }));
+    // Ask first: this device may hold someone else's old bets.
+    if ((bets.length || l.lines) && !confirm(`This device has ${bets.length} bet${bets.length === 1 ? '' : 's'} saved on it from before you signed in. Copy them into your account?`)) {
+      try { localStorage.setItem(MOVED, 'declined ' + new Date().toISOString()); } catch (e) {}
+      return;
+    }
     if (bets.length) await call('POST', 'db/bets/_bulk', { docs: bets }); // same id = same bet, so a second device cannot double them
     const srv = await call('GET', 'db/settings');
     if (l.settings && !srv.docs.length) await call('PUT', 'db/settings/main', l.settings);
@@ -88,12 +93,13 @@
         ${g.map(u => `<div class="row" style="justify-content:space-between;align-items:center;gap:8px;margin:6px 0">
           <span><b>${esc(u.name)}</b> <span class="small muted">${u.bets} bets · seen ${ago(u.last_seen)}${u.active ? '' : ' · <b>off</b>'}</span></span>
           <span class="row" style="gap:6px"><button class="btn ghost" type="button" data-link="${esc(u.id)}">New link</button>
+          <button class="btn ghost" type="button" data-signout="${esc(u.id)}">Sign out everywhere</button>
           <button class="btn ghost" type="button" data-active="${esc(u.id)}" data-on="${u.active ? 0 : 1}">${u.active ? 'Turn off' : 'Turn on'}</button></span></div>`).join('') || '<p class="small muted">No one yet.</p>'}
         <div class="row" style="gap:6px;margin-top:8px"><input id="newGuest" placeholder="Name" maxlength="40" style="flex:1"><button class="btn" type="button" id="addGuest">Make invite link</button></div>
         <div id="guestMsg" class="small" style="margin-top:8px;word-break:break-all">${msg}</div>
-        <p class="small muted" style="margin-top:8px"><a href="/guest/" target="_blank" rel="noopener">See what guests see</a> · A new link signs that person out of the old one.</p>`;
+        <p class="small muted" style="margin-top:8px"><a href="/guest/" target="_blank" rel="noopener">See what guests see</a> · Each link works once. Guests' bets and notes go to Honcho to tailor their desk; yours never do.</p>`;
     };
-    const showLink = (name, link) => draw(`Send this to ${esc(name)} (works until you make a new one):<br><b>${esc(link)}</b> <button class="btn ghost" type="button" data-copy="${esc(link)}">Copy</button>`);
+    const showLink = (name, link) => draw(`Send this to ${esc(name)}. It works once, on one device (make another for a second device):<br><b>${esc(link)}</b> <button class="btn ghost" type="button" data-copy="${esc(link)}">Copy</button>`);
     card.addEventListener('click', async e => {
       const t = e.target.closest('button'); if (!t) return;
       try {
@@ -101,8 +107,10 @@
           const name = document.getElementById('newGuest').value.trim(); if (!name) return;
           const r = await call('POST', 'admin/guests', { name }); showLink(name, r.link);
         } else if (t.dataset.link) {
-          if (!confirm('Make a new link? The old link and anyone signed in with it stop working.')) return;
           const r = await call('POST', `admin/guests/${t.dataset.link}/link`, {}); showLink(t.closest('.row').querySelector('b').textContent, r.link);
+        } else if (t.dataset.signout) {
+          if (!confirm('Sign this person out on every device? They will need a new link to get back in.')) return;
+          await call('POST', `admin/guests/${t.dataset.signout}/signout`, {}); draw('Signed out everywhere. Make a new link when they should get back in.');
         } else if (t.dataset.active) {
           await call('POST', `admin/guests/${t.dataset.active}/active`, { active: t.dataset.on === '1' }); draw();
         } else if (t.dataset.copy) {

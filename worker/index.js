@@ -216,8 +216,12 @@ async function api(req, env, ctx, who, url) {
     const gid = path[2];
     if (path[1] === 'guests' && gid && method === 'POST' && path[3] === 'link') {
       const token = randomToken();
-      const u = await D.rotateToken(gid, await sha256(token));
+      const u = await D.newToken(gid, await sha256(token));
       return u ? json({ link: `${url.origin}/join/${token}` }) : err(404, 'no such guest');
+    }
+    if (path[1] === 'guests' && gid && method === 'POST' && path[3] === 'signout') {
+      const u = await D.signOutAll(gid);
+      return u ? json({ ok: true }) : err(404, 'no such guest');
     }
     if (path[1] === 'guests' && gid && method === 'POST' && path[3] === 'active') {
       const { active } = await body();
@@ -243,10 +247,10 @@ export default {
       let cookie = null;
       if (same(token, env.OWNER_TOKEN)) cookie = await issue(env, 'owner', await ownerVer(env));
       else if (/^[A-Za-z0-9_-]{20,80}$/.test(token)) {
-        const u = await dir(env).userByToken(await sha256(token));
+        const u = await dir(env).consumeToken(await sha256(token));
         if (u && u.active) cookie = await issue(env, u.id, String(u.ver));
       }
-      if (!cookie) return PAGE('Bet Desk', '<h1>That link has expired</h1><p>Ask for a new invite link.</p>');
+      if (!cookie) return PAGE('Bet Desk', '<h1>That link has already been used</h1><p>Each invite link works once, on one device. Ask for a new link to sign in on another device.</p>');
       return withHeaders(new Response(null, { status: 302, headers: { location: '/', 'set-cookie': cookie } }), { 'cache-control': 'no-store' });
     }
     if (url.pathname === '/logout') {

@@ -1,7 +1,9 @@
 // Guest pick sheet: turns the Model B files (cbb_ab.json, nfl_ab.json, nba_ab.json, cfb_ab.json) into a short,
 // plain-language list. Guests get this list, never the raw model files.
 //   tier A -> "Strong pick" (3 stars, tested)   tier B -> "Lean" (2 stars)
-//   tier C with 3%+ expected value -> "Long shot" (1 star, less proven: shown from level 2)
+//   tier C rated "play" by the unproven rating (z.u, models/model-b/unproven.py) -> "Long shot" (1 star, less
+//   proven: shown from level 2). Moneylines are never long shots: their chance is converted from the spread and
+//   that conversion makes big underdogs look +EV on its own. Files from before z.u existed fall back to 3%+ EV.
 
 const FILES = { CBB: 'cbb_ab.json', NFL: 'nfl_ab.json', NBA: 'nba_ab.json', CFB: 'cfb_ab.json' };
 const MARKETS = { spread: 'spread', total: 'total', ml: 'moneyline' };
@@ -33,7 +35,8 @@ function build(sport, d, today, now) {
       const z = g.B[k];
       if (!z || !z.bet || !z.side) continue;
       const ev = z.bet.ev ?? 0;
-      const tier = z.tier === 'A' || z.tier === 'B' ? z.tier : ev >= LONG_SHOT_EV ? 'C' : null;
+      const longShot = k !== 'ml' && (z.u ? z.u.rec === 'play' : ev >= LONG_SHOT_EV);
+      const tier = z.tier === 'A' || z.tier === 'B' ? z.tier : longShot ? 'C' : null;
       if (!tier) continue;
       const pick = market === 'moneyline' ? `${z.side} to win` : market === 'total' ? `${z.side} ${z.bet.pt}` : `${z.side} ${sgn(z.bet.pt)}`;
       out.push({
@@ -42,7 +45,8 @@ function build(sport, d, today, now) {
         tier, label: { A: 'Strong pick', B: 'Lean', C: 'Long shot' }[tier], stars: { A: 3, B: 2, C: 1 }[tier], proven: tier !== 'C',
         book: z.bet.book_name || z.bet.book, price: z.bet.price, chance: z.bet.p ?? null, ev: Math.round(ev * 1000) / 10,
         why: why(market, z, g),
-        reasons: (z.reasons || []).map(([s, t]) => ({ s, t })),
+        reasons: [...(tier === 'C' && z.u && z.u.why ? [{ s: '·', t: `Less proven: ${z.u.why}` }] : []), ...(z.reasons || []).map(([s, t]) => ({ s, t }))],
+        score: tier === 'C' && z.u ? z.u.score : null,
         model: g.A ? { home: r1(g.A.hs), away: r1(g.A.as) } : null,
       });
     }
