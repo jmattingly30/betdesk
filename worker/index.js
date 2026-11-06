@@ -79,7 +79,11 @@ const PAGE = (title, body, status = 401) => withHeaders(new Response(`<!doctype 
 body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--fg);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 main{max-width:360px;padding:24px 16px;text-align:center}button{margin-top:18px;border:0;border-radius:12px;padding:12px 20px;font:inherit;font-weight:600;background:var(--fg);color:var(--bg);cursor:pointer}h1{font-size:22px;margin:0 0 8px}p{color:var(--mute);margin:0}</style></head>
 <body><main>${body}</main></body></html>`, { status, headers: { 'content-type': 'text/html; charset=utf-8' } }), { 'cache-control': 'no-store' });
-const lockedPage = () => PAGE('Bet Desk', '<h1>This Bet Desk is private</h1><p>Open the invite link you were sent to get in. If it stopped working, ask for a new one.</p>');
+// The paste box matters for the iPhone home-screen app: it has no address bar and its own cookies, so an
+// invite link opened in Safari never signs the app in. Pasting the link here does.
+const lockedPage = () => PAGE('Bet Desk', `<h1>This Bet Desk is private</h1><p>Open the invite link you were sent, or paste it here. If it stopped working, ask for a new one.</p>
+<form method="post" action="/signin"><input name="link" type="url" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Paste your sign-in link" aria-label="Sign-in link" required
+style="margin-top:18px;width:100%;box-sizing:border-box;border:1px solid var(--mute);border-radius:12px;padding:12px;font:inherit;background:transparent;color:var(--fg)"><button type="submit">Sign in</button></form>`);
 
 // ---------- guest activity -> Honcho ----------
 const fmtBet = b => `${b.pick || '?'} (${b.sport || ''} ${b.market || ''}, ${b.label || 'own pick'}, ${b.units || 1} unit${(b.units || 1) == 1 ? '' : 's'} at ${b.price ?? '?'})`;
@@ -242,8 +246,14 @@ export default {
       return env.ASSETS.fetch(req);
     }
 
-    if (url.pathname.startsWith('/join/')) {
-      const token = url.pathname.slice(6);
+    let pasted = null;
+    if (url.pathname === '/signin' && req.method === 'POST') {
+      const f = await req.formData().catch(() => null), v = String((f && f.get('link')) || '').trim();
+      pasted = (v.match(/\/join\/([A-Za-z0-9_-]+)/) || v.match(/^([A-Za-z0-9_-]{20,200})$/) || [])[1] || '';
+      if (!pasted) return lockedPage();
+    }
+    if (pasted !== null || url.pathname.startsWith('/join/')) {
+      const token = pasted !== null ? pasted : url.pathname.slice(6);
       // GET only shows a button: message apps (iMessage, WhatsApp, Slack) fetch links to build previews, and a GET
       // that used up the one-time token would spend it before the person ever tapped it. The POST signs in.
       if (req.method !== 'POST') {
