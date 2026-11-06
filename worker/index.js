@@ -72,13 +72,13 @@ async function whoIs(req, env) {
 }
 
 // ---------- pages ----------
-const PAGE = (title, body) => withHeaders(new Response(`<!doctype html><html lang="en"><head><meta charset="utf-8">
+const PAGE = (title, body, status = 401) => withHeaders(new Response(`<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title><meta name="robots" content="noindex">
 <style>:root{color-scheme:light dark;--bg:#f6f5f2;--fg:#16181d;--mute:#5d6470}
 @media (prefers-color-scheme:dark){:root{--bg:#0f1115;--fg:#eceef2;--mute:#9aa1ad}}
 body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--fg);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-main{max-width:360px;padding:24px 16px;text-align:center}h1{font-size:22px;margin:0 0 8px}p{color:var(--mute);margin:0}</style></head>
-<body><main>${body}</main></body></html>`, { status: 401, headers: { 'content-type': 'text/html; charset=utf-8' } }), { 'cache-control': 'no-store' });
+main{max-width:360px;padding:24px 16px;text-align:center}button{margin-top:18px;border:0;border-radius:12px;padding:12px 20px;font:inherit;font-weight:600;background:var(--fg);color:var(--bg);cursor:pointer}h1{font-size:22px;margin:0 0 8px}p{color:var(--mute);margin:0}</style></head>
+<body><main>${body}</main></body></html>`, { status, headers: { 'content-type': 'text/html; charset=utf-8' } }), { 'cache-control': 'no-store' });
 const lockedPage = () => PAGE('Bet Desk', '<h1>This Bet Desk is private</h1><p>Open the invite link you were sent to get in. If it stopped working, ask for a new one.</p>');
 
 // ---------- guest activity -> Honcho ----------
@@ -244,6 +244,16 @@ export default {
 
     if (url.pathname.startsWith('/join/')) {
       const token = url.pathname.slice(6);
+      // GET only shows a button: message apps (iMessage, WhatsApp, Slack) fetch links to build previews, and a GET
+      // that used up the one-time token would spend it before the person ever tapped it. The POST signs in.
+      if (req.method !== 'POST') {
+        if (!/^[A-Za-z0-9_-]{20,200}$/.test(token)) return lockedPage();
+        return PAGE('Bet Desk', `<h1>Your Bet Desk</h1><p>Tap to open your desk on this device. The link works once.</p>
+<form method="post" action="/join/${token}"><button type="submit">Open my Bet Desk</button></form>`, 200);
+      }
+      // Our pages send no referrer, so a same-site form post arrives with Origin "null"; refuse only another real site.
+      const origin = req.headers.get('origin');
+      if (origin && origin !== 'null' && origin !== url.origin) return err(403, 'bad origin');
       let cookie = null;
       if (same(token, env.OWNER_TOKEN)) cookie = await issue(env, 'owner', await ownerVer(env));
       else if (/^[A-Za-z0-9_-]{20,80}$/.test(token)) {
@@ -251,7 +261,7 @@ export default {
         if (u && u.active) cookie = await issue(env, u.id, String(u.ver));
       }
       if (!cookie) return PAGE('Bet Desk', '<h1>That link has already been used</h1><p>Each invite link works once, on one device. Ask for a new link to sign in on another device.</p>');
-      return withHeaders(new Response(null, { status: 302, headers: { location: '/', 'set-cookie': cookie } }), { 'cache-control': 'no-store' });
+      return withHeaders(new Response(null, { status: 303, headers: { location: '/', 'set-cookie': cookie } }), { 'cache-control': 'no-store' });
     }
     if (url.pathname === '/logout') {
       return withHeaders(new Response(null, { status: 302, headers: { location: '/', 'set-cookie': `${COOKIE}=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=Lax` } }));

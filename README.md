@@ -18,7 +18,7 @@ Every push to `main` redeploys the site.
 
 `wrangler.jsonc` + `worker/` put a Cloudflare Worker in front of every request:
 
-- **Sign-in by invite link.** `/join/<token>` sets a signed, HttpOnly cookie (400 days). J's link uses the
+- **Sign-in by invite link.** `/join/<token>` shows an "Open my Bet Desk" button (so link previews in message apps do not use the link up); tapping it sets a signed, HttpOnly cookie (400 days). J's link uses the
   `OWNER_TOKEN` secret; each guest's link is made in J's desk (Settings > People), works once (one device), and only its
   SHA-256 hash is stored. "New link" is for another device; "Sign out everywhere" and "Turn off" block that person. Anyone else gets a "this desk is private" page.
 - **Separate storage.** Each person's bets and settings live in their own Durable Object (`u:<id>`); the guest list is
