@@ -1,6 +1,6 @@
 """Build the standalone page: python3 tools/standalone_patch.py app/bet-desk.html public/index.html
 Adds only what running outside Claude needs (same as the 2026-11-02 standalone page): doctype, home-screen
-manifest/icon tags, Settings > Backup card (Export / Import bets), 'Saved on this phone' label. No model or design change."""
+manifest/icon tags, account.js (bets saved to J's account on the shared site + People card), Settings > Backup card (Export / Import bets), 'Saved on this phone' label. No model or design change."""
 import sys
 src, dst = sys.argv[1], sys.argv[2]
 h = open(src, encoding='utf-8').read()
@@ -10,6 +10,7 @@ def sub(old, new):
     h = h.replace(old, new)
 HEAD = '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>\n'
 sub("<title>J's Bet Desk</title>\n", '''<title>J's Bet Desk</title>
+<script src="account.js"></script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
