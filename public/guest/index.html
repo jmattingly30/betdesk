@@ -71,7 +71,19 @@ nav button[aria-current=true]{color:var(--accent);border-top-color:var(--accent)
 .lv input{margin-right:8px;accent-color:var(--accent)}
 #toast{position:fixed;left:50%;bottom:calc(80px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--accent);color:var(--accent-ink);padding:9px 14px;border-radius:8px;font-size:11px;opacity:0;transition:opacity .2s;pointer-events:none}
 #toast.on{opacity:1}
-@media (max-width:380px){.pick{font-size:13px}}
+.sprow{display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;gap:2px 10px;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:8px 0;color:var(--ink);cursor:pointer;font:inherit}
+.sprow .spn{font:400 20px var(--f-display)}.sprow .spc{grid-column:1;font-size:10px;color:var(--muted)}.sprow .go{grid-row:1/3;grid-column:2;align-self:center;font:400 24px var(--f-display);color:var(--accent)}
+.back{background:none;border:0;color:var(--accent);font:600 11px var(--f-body);letter-spacing:.04em;padding:12px 0 0;cursor:pointer}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--sunk);border:1px solid var(--line);border-radius:10px;padding:4px;margin:4px 0 10px}
+.seg button{border:0;border-radius:7px;background:none;color:var(--muted);font:600 11px var(--f-body);letter-spacing:.06em;text-transform:uppercase;padding:9px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink)}
+.grow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1px 10px;width:100%;text-align:left;background:none;border:0;padding:0;color:var(--ink);font:inherit;cursor:pointer;align-items:center}
+.gname{font:400 16px var(--f-display);line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gsc{font:400 19px var(--f-display);color:var(--ink);text-align:right}
+.pc{color:var(--accent);font-weight:600}
+.gbody{margin-top:6px;padding-left:10px;border-left:2px solid var(--accent)}
+.gbody .card{border-top:1px solid var(--line)}
+@media (max-width:380px){.pick{font-size:13px}.gname{font-size:15px}}
 </style>
 </head>
 <body>
@@ -102,7 +114,7 @@ nav button[aria-current=true]{color:var(--accent);border-top-color:var(--accent)
     return r.json();
   };
   const toast = t => { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('on'), 2200); };
-  const S = {me:null, picks:[], bets:[], sport:'All', hidden:new Set(), preview:false};
+  const S = {me:null, picks:[], games:[], bets:[], sport:null, sub:'best', open:null, hidden:new Set(), preview:false};
   try { S.hidden = new Set(JSON.parse(localStorage.getItem('guest.hidden') || '[]')); } catch(e){}
   const price = p => p == null ? '' : (p > 0 ? '+' + p : String(p));
   const won = (u, p) => p > 0 ? u * p / 100 : u * 100 / Math.abs(p || 100);
@@ -131,31 +143,62 @@ nav button[aria-current=true]{color:var(--accent);border-top-color:var(--accent)
          <button class="b" type="button" data-bet>I bet this</button><button class="b g" type="button" data-hide>Not for me</button>`}</div>`}
     </div>`;
   }
-  const PER = 5;   // picks shown per sport on the All view before "See all"
   function section(title, sub, list, cls = ''){
     return `<div class="panel ${cls}"><div class="hd"><h3>${title}</h3>${sub ? `<span class="small muted">${sub}</span>` : ''}</div>${list}</div>`;
   }
+  const ALL_SP = ['NFL', 'NBA', 'CFB', 'CBB', 'NHL', 'TENNIS'];
+  const visible = () => S.picks.filter(p => !S.hidden.has(p.id) && (level() >= 2 || p.tier !== 'C'));
+  const spOrder = () => { const order = (S.me && S.me.profile && S.me.profile.sports) || [];
+    return s => { const i = order.indexOf(s); return i >= 0 ? i : 10 + ALL_SP.indexOf(s); }; };
+  const dayLabel = d => d ? new Date(d + 'T12:00').toLocaleDateString([], {weekday:'long', month:'short', day:'numeric'}) : 'Upcoming';
+  const tStr = g => g.kickoff ? new Date(g.kickoff).toLocaleTimeString([], {hour:'numeric', minute:'2-digit'}) : '';
+  const pct = x => Math.round(x * 100) + '%';
+  function gameLine(g){   // our projection in plain words
+    if (g.sport === 'TENNIS'){ const p1 = g.p1_win >= 0.5, w = p1 ? g.home : g.away, p = p1 ? g.p1_win : 1 - g.p1_win;
+      return `We have ${w} winning ${pct(p)} of the time${g.sets ? `, most often ${g.sets}` : ''}${g.games ? `, about ${Math.round(g.games)} games` : ''}.`; }
+    const hw = g.hs >= g.as, w = hw ? g.home : g.away, m = Math.abs(g.hs - g.as);
+    return `We have ${w} winning by ${Math.round(m * 10) / 10}${g.p_home != null ? ` (${pct(hw ? g.p_home : 1 - g.p_home)} to win)` : ''}, about ${Math.round(g.hs + g.as)} total points.`;
+  }
+  function gameRow(g){
+    const ps = visible().filter(p => p.game === g.key), open = S.open === g.key, lv = level();
+    const score = g.sport === 'TENNIS' ? `${pct(g.p1_win)} – ${pct(1 - g.p1_win)}` : `${Math.round(g.as)}–${Math.round(g.hs)}`;
+    const best = ps.length ? Math.max(...ps.map(p => p.stars)) : 0;
+    return `<div class="card game${open ? ' open' : ''}">
+      <button type="button" class="grow" data-game="${esc(g.key)}">
+        <span class="gname">${esc(g.away)} <span class="muted">${g.sport === 'TENNIS' ? 'vs' : 'at'}</span> ${esc(g.home)}</span>
+        <span class="gsc">${score}</span>
+        <span class="meta" style="grid-column:1/-1">${esc(tStr(g))}${g.event ? ' · ' + esc(g.event) : ''}${ps.length ? ` · <b class="pc">${ps.length} pick${ps.length === 1 ? '' : 's'}${best === 3 ? ' ★' : ''}</b>` : ''}</span>
+      </button>
+      ${open ? `<div class="gbody"><p class="why">${esc(gameLine(g))}</p>
+        ${lv >= 2 && g.spread != null ? `<div class="nums"><span>Books: <b>${esc(g.home)} ${g.spread > 0 ? '−' : '+'}${Math.abs(g.spread)}</b></span>${g.total != null ? `<span>Total <b>${g.total}</b></span>` : ''}</div>` : ''}
+        ${ps.length ? ps.map(pickCard).join('') : '<p class="small muted" style="margin:8px 0">No picks in this game. Our number is close to the books’ here.</p>'}</div>` : ''}
+    </div>`;
+  }
   function renderPicks(){
-    const lv = level(), order = (S.me && S.me.profile && S.me.profile.sports) || [];
-    let ps = S.picks.filter(p => !S.hidden.has(p.id) && (lv >= 2 || p.tier !== 'C'));
-    const ALL = ['NFL', 'NBA', 'CFB', 'CBB', 'NHL', 'TENNIS'];
-    const rank = s => { const i = order.indexOf(s); return i >= 0 ? i : 10 + ALL.indexOf(s); };
-    const sports = [...new Set(ps.map(p => p.sport))].sort((a, b) => rank(a) - rank(b));
-    if (S.sport !== 'All' && !sports.includes(S.sport)) S.sport = 'All';
-    const chips = `<div class="chips">${['All', ...sports].map(s => `<button type="button" data-sport="${s}" aria-pressed="${s === S.sport}">${esc(SPORT_NAME[s] || s)}</button>`).join('')}</div>`;
-    const block = (sp, list) => {
+    const rank = spOrder(), ps = visible();
+    const sports = ALL_SP.filter(sp => ps.some(p => p.sport === sp) || S.games.some(g => g.sport === sp)).sort((a, b) => rank(a) - rank(b));
+    if (!S.sport || !sports.includes(S.sport)){
+      $('#v-picks').innerHTML = `<h2>Sports</h2>${sports.map(sp => { const n = ps.filter(p => p.sport === sp), gs = S.games.filter(g => g.sport === sp), st = n.filter(p => p.tier === 'A').length;
+        return `<button type="button" class="sprow" data-sport="${sp}"><span class="spn">${esc(SPORT_NAME[sp] || sp)}</span><span class="spc">${n.length} pick${n.length === 1 ? '' : 's'}${st ? ` · ${st} strong` : ''}${gs.length ? ` · ${gs.length} game${gs.length === 1 ? '' : 's'}` : ''}</span><span class="go">›</span></button>`; }).join('') || '<p class="empty">No games or picks right now. Check back later.</p>'}
+        ${level() < 2 && S.picks.some(p => p.tier === 'C') ? `<p class="small muted" style="margin-top:14px">Less proven long shots are hidden. Switch to Guided under Me to see them.</p>` : ''}`;
+      return;
+    }
+    const sp = S.sport, list = ps.filter(p => p.sport === sp), gs = S.games.filter(g => g.sport === sp);
+    const sub = S.sub === 'games' ? 'games' : 'best';
+    const seg = `<div class="seg"><button type="button" data-sub="best" aria-pressed="${sub === 'best'}">Best bets</button><button type="button" data-sub="games" aria-pressed="${sub === 'games'}">Games</button></div>`;
+    let body;
+    if (sub === 'best'){
       const games = list.filter(p => p.market !== 'prop'), props = list.filter(p => p.market === 'prop');
-      const all = S.sport !== 'All', cut = x => all ? x : x.slice(0, PER);
-      const more = !all && list.length > PER * 2 ? `<button class="more" type="button" data-sport="${sp}">See all ${list.length} ${esc(SPORT_NAME[sp] || sp)} picks</button>` : '';
-      return `<h2>${esc(SPORT_NAME[sp] || sp)}<span class="sub">${list.length} pick${list.length === 1 ? '' : 's'}</span></h2>
-        ${games.length ? section(sp === 'TENNIS' ? 'Matches' : 'Games', '', cut(games).map(pickCard).join('')) : ''}
-        ${props.length ? section('Player props', '', cut(props).map(pickCard).join('')) : ''}${more}`;
-    };
-    const shown = S.sport === 'All' ? sports : [S.sport];
-    const body = shown.map(sp => block(sp, ps.filter(p => p.sport === sp))).join('');
-    const hiddenLong = lv < 2 ? S.picks.filter(p => p.tier === 'C' && !S.hidden.has(p.id)).length : 0;
-    $('#v-picks').innerHTML = chips + (body || '<p class="empty">No picks right now. New lines come in through the day, so check back later.</p>') +
-      (hiddenLong ? `<p class="small muted" style="margin-top:14px">${hiddenLong} less proven long shots are hidden. Switch to Guided under Me to see them.</p>` : '');
+      body = (games.length ? section(sp === 'TENNIS' ? 'Matches' : 'Games', '', games.map(pickCard).join('')) : '') +
+             (props.length ? section('Player props', '', props.map(pickCard).join('')) : '') ||
+             '<p class="empty">No picks right now. New lines come in through the day.</p>';
+    } else if (!gs.length){
+      body = `<p class="empty">${sp === 'NHL' ? 'We don’t project NHL game scores yet, only player props. See Best bets.' : 'No upcoming games right now.'}</p>`;
+    } else {
+      const days = [...new Set(gs.map(g => g.date))];
+      body = days.map(d => section(esc(dayLabel(d)), `${sp === 'TENNIS' ? 'win chance' : 'our score'}`, gs.filter(g => g.date === d).map(gameRow).join(''))).join('');
+    }
+    $('#v-picks').innerHTML = `<button type="button" class="back" data-sport="">‹ All sports</button><h2>${esc(SPORT_NAME[sp] || sp)}</h2>${seg}${body}`;
   }
 
   // ---------- my bets ----------
@@ -200,7 +243,9 @@ nav button[aria-current=true]{color:var(--accent);border-top-color:var(--accent)
   document.querySelector('nav').addEventListener('click', e => { const b = e.target.closest('button'); if (b) show(b.dataset.v); });
   document.addEventListener('click', async e => {
     const t = e.target.closest('button'); if (!t) return;
-    if (t.dataset.sport) { S.sport = t.dataset.sport; renderPicks(); return; }
+    if (t.dataset.sport !== undefined) { S.sport = t.dataset.sport || null; S.sub = 'best'; S.open = null; renderPicks(); scrollTo(0, 0); return; }
+    if (t.dataset.sub) { S.sub = t.dataset.sub; S.open = null; renderPicks(); return; }
+    if (t.dataset.game) { S.open = S.open === t.dataset.game ? null : t.dataset.game; renderPicks(); return; }
     const card = t.closest('.card');
     try {
       if (t.hasAttribute('data-bet')) {
@@ -238,7 +283,7 @@ nav button[aria-current=true]{color:var(--accent);border-top-color:var(--accent)
   async function boot(){
     try {
       const [me, picks] = await Promise.all([api('GET', 'me'), api('GET', 'picks')]);
-      S.me = me; S.picks = picks.picks || [];
+      S.me = me; S.picks = picks.picks || []; S.games = picks.games || [];
       S.preview = me.role !== 'guest';   // J looking at the guest view: read only, never touches J's own bets
       if (S.preview) S.me = {...me, level:1, level_auto:true};
       else S.bets = ((await api('GET', 'db/bets')).docs || []).map(d => ({...d.data, id:d.id}));

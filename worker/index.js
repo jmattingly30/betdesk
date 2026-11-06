@@ -146,7 +146,8 @@ async function api(req, env, ctx, who, url) {
 
   if (path[0] === 'picks' && method === 'GET') {
     if (who.role !== 'guest' && who.role !== 'owner') return err(403, 'no');
-    return json({ picks: await loadPicks(env, url.origin), today: denverDate() });
+    const { picks, games } = await loadPicks(env, url.origin);
+    return json({ picks, games, today: denverDate() });
   }
 
   if (path[0] === 'level' && method === 'POST' && who.role === 'guest') {
