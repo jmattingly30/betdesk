@@ -9,6 +9,11 @@ HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE); sys
 import engine as E, ctx, m_prior
 ROOT = os.path.normpath(f"{HERE}/../../..")
 CBB = f"{ROOT}/models/cbb"
+# in-season (2026-11-06): cbb_live/ holds a copy of models/cbb rebuilt through the season in progress (refresh_cbb.sh);
+# when it is there, both halves of v2 walk through this season's games instead of using preseason ratings
+LIVE = f"{HERE}/cbb_live"
+IN_SEASON = os.path.exists(f"{LIVE}/teamgames_cbb.parquet") and os.path.exists(f"{LIVE}/cbb/ratings_cbb.csv")
+if IN_SEASON: CBB = f"{LIVE}/cbb"
 FIT_TO = 2016
 
 def clip_new_season(season):
@@ -21,8 +26,20 @@ def clip_new_season(season):
     Z.loc[season] = Z.loc[season].clip(past.min(), past.max(), axis=1).values
     return int((Z.index.get_level_values(0) == season).sum())
 
+def load_tg_live():
+    """ctx.load_tg("cbb") on the live copy."""
+    tg = pd.read_parquet(f"{LIVE}/teamgames_cbb.parquet")
+    G = pd.read_parquet(f"{LIVE}/cbb/data/cbb_games.parquet")[["game_id", "home", "away", "home_conference_id", "away_conference_id"]]
+    cf = pd.concat([G[["game_id", "home", "home_conference_id"]].set_axis(["game_id", "team", "c"], axis=1),
+                    G[["game_id", "away", "away_conference_id"]].set_axis(["game_id", "team", "c"], axis=1)]).dropna()
+    cf["team"] = cf.team.astype(int); cf["game_id"] = cf.game_id.astype(tg.game_id.dtype)
+    codes = {c: i for i, c in enumerate(sorted(cf.c.unique()))}; cf["conf"] = cf.c.map(codes)
+    tg = tg.merge(cf[["game_id", "team", "conf"]].drop_duplicates(["game_id", "team"]), on=["game_id", "team"], how="left")
+    tg["conf"] = tg.conf.fillna(-1).astype(int)
+    return tg, len(codes)
+
 def rebuild_state():
-    tg, nc = ctx.load_tg("cbb"); prm = ctx.stack_params("cbb", nc)
+    tg, nc = load_tg_live() if IN_SEASON else ctx.load_tg("cbb"); prm = ctx.stack_params("cbb", nc)
     g = E.games_from_teamgames(tg)
     start = m_prior.prior_hook(tg, prm, FIT_TO=FIT_TO); hooks = {"season_start": start}
     p0 = E.run(tg, prm, hooks=hooks)[0]
@@ -41,11 +58,13 @@ def main():
     co = json.load(open(f"{HERE}/data/cbb_v2_coef.json"))
     cwd = os.getcwd(); os.chdir(CBB); sys.path.insert(0, CBB)
     import predict as PR
-    rs = PR.preseason_ratings(); os.chdir(cwd)
+    rs = PR.apply_luck(pd.read_csv(f"{CBB}/ratings_cbb.csv")) if IN_SEASON else PR.preseason_ratings(); os.chdir(cwd)
+    if IN_SEASON: print("this-season roster rows clipped:", clip_new_season(int(pd.read_parquet(f"{LIVE}/teamgames_cbb.parquet", columns=["season"]).season.max())))
     R, start, last_season, day0, sh0, conf = rebuild_state()
-    season = last_season + 1
-    print("next-season roster rows:", clip_new_season(season))
-    R.new_season(); start(R, season)   # next season's start (roster prior applies when its features exist)
+    season = pd.Timestamp(min(x["d"] for x in games)).year + (pd.Timestamp(min(x["d"] for x in games)).month >= 8)
+    if last_season < season:   # preseason: start the new season (roster prior applies when its features exist)
+        print("next-season roster rows:", clip_new_season(season)); R.new_season(); start(R, season)
+    print("in-season" if IN_SEASON else "preseason", "| season", season, "| rebuild walked through season", last_season)
     out = {"made": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), "season": season, "coef": co,
            "note": "hs/as = CBB v2 (main model). today_hs/today_as = previous CBB model (shadow).", "games": {}}
     miss = []

@@ -44,6 +44,8 @@ g = g.rename(columns={'home_id': 'home', 'away_id': 'away'})
 # Division I proxy: team plays >= 15 games in the season against teams that themselves play >= 15 games
 cnt = pd.concat([g[['season', 'home']].rename(columns={'home': 't'}), g[['season', 'away']].rename(columns={'away': 't'})]).value_counts()
 d1 = set(cnt[cnt >= 15].index)
+# in-progress season (CBB_LAST beyond the last finished one): last season's D1 teams count as D1 until 15 games are in
+if LAST > 2026: d1 |= {(LAST, t) for (s_, t) in list(d1) if s_ == LAST - 1}
 g['d1'] = [((s_, h) in d1) and ((s_, a) in d1) for s_, h, a in zip(g.season, g.home, g.away)]
 poss = o.groupby('game_id').poss.first()
 g['poss'] = g.game_id.map(poss)
