@@ -23,6 +23,8 @@ after a cd). Never print or store API keys. Edit no file except what the scripts
    It holds data/odds/oddspapi.lock while running (one loop per key).
 2b. Night only, when step 2 exits: `python3 op_live.py TENNIS` with run_in_background (timeout 3600000, ~45 min) -> data/odds/tennis.json.
    Do steps 3-4a while it runs; wait for it to exit before step 5 (2026-11-02: one combined sweep hit the 2-hour limit in tennis).
+2c. Every pull: `python3 /mnt/project-files/sports-analytics/models/injuries/scan.py` (injury news since the morning, J 2026-11-06;
+    NBA Model B/Model A in 4d drop players now listed Out or Doubtful). Publish app/data/injuries.json.
 3. Slates:
    - Noon: `ODDS_FORCE=CFB,CBB python3 export_slates.py` (college game lines from The Odds API; CBB skipped before 2026-11-02)
    - All others: `env -u ODDS_API_KEY python3 export_slates.py` (no Odds API credits; reuses saved replies)

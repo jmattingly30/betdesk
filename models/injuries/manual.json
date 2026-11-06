@@ -1,0 +1,5 @@
+{
+ "note": "Manual injury calls (J). Win over the ESPN feed and stop applying after 'until' (YYYY-MM-DD, the game day). status: out | q (with p = chance he plays) | in (counts as playing even if ESPN lists him). Example: {\"name\": \"Anthony Edwards\", \"team\": \"MIN\", \"status\": \"out\", \"until\": \"2026-11-10\", \"why\": \"...\"}. NFL starting QBs stay in models/nfl-player/overrides.csv + models/team-strength/nfl/qb_overrides.json.",
+ "NBA": [],
+ "NFL": []
+}
