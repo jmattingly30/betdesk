@@ -1,5 +1,30 @@
 {
- "made": "2026-11-06 00:54 UTC",
- "A": {},
- "B": {}
+ "made": "2026-11-06 17:29 UTC",
+ "A": {
+  "team_scores": 2,
+  "MAE": 6.71,
+  "line_team_scores": 2,
+  "line_MAE": 6.6,
+  "A_closer_share": 0.5
+ },
+ "B": {
+  "spread_U_watch": {
+   "n": 1,
+   "win": 0.0,
+   "roi": -1.0,
+   "clv_pts": 0.04
+  },
+  "total_U_watch": {
+   "n": 1,
+   "win": 1.0,
+   "roi": 0.952,
+   "clv_pts": 0.0
+  },
+  "ml_U_watch": {
+   "n": 1,
+   "win": 0.0,
+   "roi": -1.0,
+   "clv_pts": 0.0
+  }
+ }
 }

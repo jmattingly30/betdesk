@@ -1,5 +1,55 @@
 {
- "made": "2026-11-06 00:54 UTC",
- "A": {},
- "B": {}
+ "made": "2026-11-06 17:30 UTC",
+ "A": {
+  "team_scores": 4,
+  "MAE": 7.17,
+  "base_MAE": 6.86,
+  "line_team_scores": 4,
+  "line_MAE": 6.6,
+  "A_closer_share": 0.5
+ },
+ "B": {
+  "spread_B": {
+   "n": 2,
+   "win": 0.5,
+   "roi": -0.041,
+   "clv_pts": -0.13
+  },
+  "total_A": {
+   "n": 2,
+   "win": 1.0,
+   "roi": 0.927,
+   "clv_pts": 1.12
+  },
+  "ml_B": {
+   "n": 2,
+   "win": 0.5,
+   "roi": -0.037,
+   "clv_pts": 0.0
+  },
+  "ml_U_watch": {
+   "n": 2,
+   "win": 0.5,
+   "roi": -0.045,
+   "clv_pts": 0.0
+  },
+  "spread_U_watch": {
+   "n": 2,
+   "win": 0.5,
+   "roi": -0.115,
+   "clv_pts": 0.09
+  },
+  "total_U_watch": {
+   "n": 1,
+   "win": 1.0,
+   "roi": 0.87,
+   "clv_pts": 0.53
+  },
+  "total_U_skip": {
+   "n": 1,
+   "win": 1.0,
+   "roi": 0.909,
+   "clv_pts": 1.05
+  }
+ }
 }
