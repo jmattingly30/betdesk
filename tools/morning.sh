@@ -39,6 +39,7 @@ step "C4a CFB usage" bash -c "cd models/oddspapi && python3 cfb_usage.py"
 step "C4b CFB Model A" bash models/rebuild/football/cfb_gap/live/run_live.sh
 step "C4g CFB Model A+B" bash -c "python3 models/cfb_ab/live.py && python3 models/cfb_ab/grade.py"
 step "C4c Model A export" python3 app/export_model_a.py
+step "C4h Watch the sim" python3 models/sims/build.py
 step "C6 parlays + promo" bash -c "python3 models/parlay/suggest.py && python3 models/promo/promo.py"
 step "C7 snapshots" bash -c "node models/grading/snap_games.js && node models/grading/snap_flags.js"
 step "C8 grade" python3 models/grading/grade.py

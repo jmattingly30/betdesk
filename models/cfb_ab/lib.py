@@ -51,7 +51,9 @@ class Sim:
         p = self.PO[b].copy(); p[:, 0] *= np.exp(th); p[:, 1] *= np.exp(0.6 * th); p /= p.sum(1, keepdims=True)
         return (self.rng.random(len(b))[:, None] > np.cumsum(p, 1)).sum(1).clip(0, 5)
 
-    def game(self, th_h, th_a, tempo=1.0):
+    def game(self, th_h, th_a, tempo=1.0, rec=None):
+        """rec: optional list; each drive step appends its arrays (for the Watch-the-sim replays, models/sims/build.py).
+        Recording draws no random numbers, so results are the same with or without it."""
         r = self.rng; n = len(th_h); hs = np.zeros(n); as_ = np.zeros(n)
         for half in (1, 2):
             poss = (r.random(n) < 0.5).astype(int) if half == 1 else np.ones(n, int)
@@ -65,15 +67,16 @@ class Sim:
                 pts = np.where(c == 0, r.choice(PAT, n, p=PATP), np.where(c == 1, 3, 0)).astype(float)
                 ret = (r.random(n) < self.ret_rate) & ((c == 4) | (c == 2))
                 add_off = pts * live; add_def = (ret * 7.0 + (c == 5) * 2) * live; oh = poss == 0
+                if rec is not None: rec.append(dict(half=half, live=live.copy(), poss=poss.copy(), y=y.copy(), c=c.copy(), done=done.copy(), ret=ret.copy(), off=add_off, dfn=add_def, sec=np.minimum(sec, clock)))
                 hs += np.where(oh, add_off, add_def); as_ += np.where(oh, add_def, add_off)
                 clock = clock - sec; live = live & (clock > 0)
                 y = np.where(ret, r.choice(self.ko, n), np.choose(c, [r.choice(self.NS[k], n) for k in range(6)]).astype(float)); poss = 1 - poss
         return hs, as_
 
-    def run(self, hs, as_, n=2000, shrink=1.0):
+    def run(self, hs, as_, n=2000, shrink=1.0, rec=None):
         """score sims for one game whose Model A means are hs/as_ (margin shrunk around the mid by `shrink`)"""
         mid, hm = (hs + as_) / 2, (hs - as_) / 2 * shrink
         c = self.rng.normal(0, SIGC, n)
         th = np.interp(mid + hm - BIAS + c + self.rng.normal(0, SIGI, n), self.look, self.grid)
         ta = np.interp(mid - hm - BIAS + c + self.rng.normal(0, SIGI, n), self.look, self.grid)
-        return self.game(th, ta)
+        return self.game(th, ta, rec=rec)

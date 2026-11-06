@@ -32,6 +32,7 @@ publish(){
     case "$b" in line_history.json|mlb_slate*.json|odds_test_*.json) continue ;; esac
     [ -f "$f" ] && ! cmp -s "$f" "$P/$b" && cp "$f" "$P/$b" && n=$((n+1))
   done
+  cmp -s "$SA/app/sim.js" "$P/sim.js" || { cp "$SA/app/sim.js" "$P/sim.js"; n=$((n+1)); }   # Watch the sim viewer (loaded on tap)
   echo "published $n changed data files to public/"
 }
 
