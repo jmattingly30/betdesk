@@ -31,6 +31,8 @@ GitHub emails you, after whatever did refresh is published.
 | Bet Desk NFL Tuesday pull | Tue 15:30 |
 | CFB v2 weekly refresh | Mon + Thu 9:00 |
 
+Each workflow file only sets its schedule and script; the shared job is `.github/workflows/run.yml`. Before every publish
+`tools/check_data.py` checks that games, teams and players line up across the data files (a crossed game fails the job).
 GitHub cron is UTC, so each has two crons (daylight and standard time) and the first step skips the one that is off
 by an hour. Each has a Run workflow button on the Actions tab. Secrets (Settings > Secrets and variables > Actions):
 `ODDSPAPI_API_KEY`, `ODDS_API_KEY`, `CFBD_API_KEY`.

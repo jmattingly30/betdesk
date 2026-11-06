@@ -18,6 +18,7 @@ for d in $dirs; do
   [ -d "$P/$d" ] || continue
   find "$P/$d" -maxdepth 1 -type f \( -name '*.py' -o -name '*.js' -o -name '*.sh' -o -name '*.md' -o -name '*.json' \) -size -5M | while read -r s; do
     f="${s#$P/}"; case "$f" in app/data/*|*.lock) continue ;; esac
+    [ -e "archive/applied-patches/$(basename "$f")" ] && [ "${f%/*}" = app ] && continue   # applied one-shot patches, archived
     [ -e "$f" ] || { mkdir -p "$(dirname "$f")"; cp "$s" "$f"; echo "added $f"; }
   done
 done

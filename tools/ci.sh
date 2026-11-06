@@ -27,9 +27,11 @@ sh_step(){ step "$1" bash -c "$2"; }
 # Copy the data files the page reads from app/data into public/ (replaces the Artifact publish).
 publish(){
   local D="$SA/app/data" P="$SA/public" n=0 f b
+  # crossed games/teams/players fail the job (GitHub emails you); the files still publish, as with any failed step
+  step "data check (games, teams, players line up)" python3 tools/check_data.py app/data
   for f in "$D"/*.json "$D"/odds/props_NFL.json "$D"/odds/props_NBA.json "$D"/odds/props_NHL.json "$D"/odds/tennis.json; do
     b=$(basename "$f")
-    case "$b" in line_history.json|mlb_slate*.json|odds_test_*.json) continue ;; esac
+    case "$b" in line_history.json|mlb_slate*.json|odds_test_*.json|cfb_live.json) continue ;; esac   # inputs the page never reads
     [ -f "$f" ] && ! cmp -s "$f" "$P/$b" && cp "$f" "$P/$b" && n=$((n+1))
   done
   cmp -s "$SA/app/sim.js" "$P/sim.js" || { cp "$SA/app/sim.js" "$P/sim.js"; n=$((n+1)); }   # Watch the sim viewer (loaded on tap)

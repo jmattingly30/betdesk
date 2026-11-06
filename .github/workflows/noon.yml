@@ -5,35 +5,9 @@ on:
     - cron: "0 19 * * *"   # standard time (MST)
   workflow_dispatch: {}
 concurrency: { group: betdesk-data, cancel-in-progress: false }
-permissions: { contents: write }
 jobs:
   run:
-    runs-on: ubuntu-latest
-    timeout-minutes: 90
-    env:
-      ODDSPAPI_API_KEY: ${{ secrets.ODDSPAPI_API_KEY }}
-      ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
-      CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
-    steps:
-      - id: win
-        env: { TZ: America/Denver, SCHED: "${{ github.event.schedule }}" }
-        run: |
-          # run the MDT cron in daylight time and the MST cron in standard time (a queued run can start late, so go by cron, not clock)
-          if [ "$(date +%z)" = "-0600" ]; then want="0 18 * * *"; else want="0 19 * * *"; fi
-          if [ "$GITHUB_EVENT_NAME" != schedule ] || [ "$SCHED" = "$want" ]; then echo go=1 >> "$GITHUB_OUTPUT"
-          else echo "this is the other daylight-saving cron; skipping"; fi
-      - if: steps.win.outputs.go == '1'
-        uses: actions/checkout@v4
-        with: { fetch-depth: 1 }
-      - if: steps.win.outputs.go == '1'
-        uses: actions/setup-python@v5
-        with: { python-version: "3.13", cache: pip }
-      - if: steps.win.outputs.go == '1'
-        run: python3 -m pip install -q -r requirements.txt
-      - if: steps.win.outputs.go == '1'
-        run: |
-          npm install -g playwright@1.49.1
-          npx playwright install chromium
-          echo "NODE_PATH=$(npm root -g)" >> "$GITHUB_ENV"
-      - if: steps.win.outputs.go == '1'
-        run: bash tools/pull.sh noon
+    uses: ./.github/workflows/run.yml
+    permissions: { contents: write }
+    secrets: inherit
+    with: { script: "tools/pull.sh noon", cron_mdt: "0 18 * * *", cron_mst: "0 19 * * *", timeout: 90, playwright: true }

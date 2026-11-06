@@ -1,0 +1,43 @@
+# Shared job for every Bet Desk data workflow (called by the files beside it; they only set the schedule and the script).
+# GitHub cron is UTC, so each caller has two crons (daylight and standard time) and this job skips the one that is off
+# by an hour. A queued run can start late, so it goes by which cron fired, not the clock.
+name: run (shared)
+on:
+  workflow_call:
+    inputs:
+      script:     { type: string,  required: true }    # e.g. "tools/pull.sh noon"
+      cron_mdt:   { type: string,  required: true }    # the caller's daylight-time cron, exactly as written there
+      cron_mst:   { type: string,  required: true }    # the caller's standard-time cron
+      timeout:    { type: number,  required: true }    # minutes
+      playwright: { type: boolean, default: true }     # headless desk for the snapshots / Model A page reads
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ inputs.timeout }}
+    permissions: { contents: write }
+    env:
+      ODDSPAPI_API_KEY: ${{ secrets.ODDSPAPI_API_KEY }}
+      ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+      CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
+    steps:
+      - id: win
+        env: { TZ: America/Denver, SCHED: "${{ github.event.schedule }}", MDT: "${{ inputs.cron_mdt }}", MST: "${{ inputs.cron_mst }}" }
+        run: |
+          if [ "$(date +%z)" = "-0600" ]; then want="$MDT"; else want="$MST"; fi
+          if [ "$GITHUB_EVENT_NAME" != schedule ] || [ "$SCHED" = "$want" ]; then echo go=1 >> "$GITHUB_OUTPUT"
+          else echo "this is the other daylight-saving cron; skipping"; fi
+      - if: steps.win.outputs.go == '1'
+        uses: actions/checkout@v4
+        with: { fetch-depth: 1 }
+      - if: steps.win.outputs.go == '1'
+        uses: actions/setup-python@v5
+        with: { python-version: "3.13", cache: pip }
+      - if: steps.win.outputs.go == '1'
+        run: python3 -m pip install -q -r requirements.txt
+      - if: steps.win.outputs.go == '1' && inputs.playwright
+        run: |
+          npm install -g playwright@1.49.1
+          npx playwright install chromium
+          echo "NODE_PATH=$(npm root -g)" >> "$GITHUB_ENV"
+      - if: steps.win.outputs.go == '1'
+        run: bash ${{ inputs.script }}
