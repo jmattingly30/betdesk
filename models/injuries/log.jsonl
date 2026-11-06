@@ -195,13 +195,26 @@
 {"t": "2026-11-06 18:13 UTC", "lg": "NFL", "team": "WAS", "n": "Jeremy McNichols", "from": "absent", "to": 0.0}
 {"t": "2026-11-06 18:13 UTC", "lg": "NFL", "team": "WAS", "n": "Laremy Tunsil", "from": "absent", "to": 0.0}
 {"t": "2026-11-06 18:13 UTC", "lg": "NFL", "team": "WAS", "n": "Terry McLaurin", "from": "absent", "to": 0.0}
-{"t": "2026-11-06 19:37 UTC", "lg": "NBA", "team": "CHA", "n": "Dennis Schroder", "from": 0.5, "to": 0.0}
-{"t": "2026-11-06 19:37 UTC", "lg": "NBA", "team": "DAL", "n": "Kyrie Irving", "from": "absent", "to": 0.9}
-{"t": "2026-11-06 19:37 UTC", "lg": "NBA", "team": "NO", "n": "Trey Murphy III", "from": null, "to": "absent"}
-{"t": "2026-11-06 19:37 UTC", "lg": "NFL", "team": "ARI", "n": "Jayden Williams", "from": "absent", "to": 0.0}
-{"t": "2026-11-06 19:37 UTC", "lg": "NFL", "team": "ARI", "n": "Jon Gaines II", "from": "absent", "to": 0.0}
-{"t": "2026-11-06 19:37 UTC", "lg": "NFL", "team": "KC", "n": "Mansoor Delane", "from": "absent", "to": 0.0}
-{"t": "2026-11-06 19:37 UTC", "lg": "NFL", "team": "KC", "n": "Peter Woods", "from": "absent", "to": 0.0}
-{"t": "2026-11-06 19:37 UTC", "lg": "NFL", "team": "NE", "n": "A.J. Brown", "from": "absent", "to": 0.0}
-{"t": "2026-11-06 19:37 UTC", "lg": "NFL", "team": "NE", "n": "TreVeyon Henderson", "from": "absent", "to": 0.0}
-{"t": "2026-11-06 19:37 UTC", "lg": "NFL", "team": "NO", "n": "CJ Donaldson", "from": "absent", "to": 0.0}
+{"t": "2026-11-06 21:28 UTC", "lg": "NBA", "team": "BKN", "n": "Noah Clowney", "from": null, "to": "absent"}
+{"t": "2026-11-06 21:28 UTC", "lg": "NBA", "team": "CHA", "n": "Dennis Schroder", "from": 0.5, "to": 0.0}
+{"t": "2026-11-06 21:28 UTC", "lg": "NBA", "team": "DAL", "n": "Kyrie Irving", "from": "absent", "to": 0.9}
+{"t": "2026-11-06 21:28 UTC", "lg": "NBA", "team": "GS", "n": "Gui Santos", "from": 0.0, "to": 0.5}
+{"t": "2026-11-06 21:28 UTC", "lg": "NBA", "team": "LAL", "n": "Sandro Mamukelashvili", "from": 0.5, "to": "absent"}
+{"t": "2026-11-06 21:28 UTC", "lg": "NBA", "team": "NO", "n": "Trey Murphy III", "from": null, "to": "absent"}
+{"t": "2026-11-06 21:28 UTC", "lg": "NBA", "team": "SAC", "n": "De'Andre Hunter", "from": "absent", "to": 0.5}
+{"t": "2026-11-06 21:28 UTC", "lg": "NFL", "team": "ARI", "n": "Jayden Williams", "from": "absent", "to": 0.0}
+{"t": "2026-11-06 21:28 UTC", "lg": "NFL", "team": "ARI", "n": "Jon Gaines II", "from": "absent", "to": 0.0}
+{"t": "2026-11-06 21:28 UTC", "lg": "NFL", "team": "CLE", "n": "Maliek Collins", "from": "absent", "to": 0.0}
+{"t": "2026-11-06 21:28 UTC", "lg": "NFL", "team": "DAL", "n": "KaVontae Turpin", "from": "absent", "to": 0.0}
+{"t": "2026-11-06 21:28 UTC", "lg": "NFL", "team": "DAL", "n": "Malachi Lawrence", "from": "absent", "to": 0.0}
+{"t": "2026-11-06 21:28 UTC", "lg": "NFL", "team": "KC", "n": "Mansoor Delane", "from": "absent", "to": 0.0}
+{"t": "2026-11-06 21:28 UTC", "lg": "NFL", "team": "KC", "n": "Peter Woods", "from": "absent", "to": 0.0}
+{"t": "2026-11-06 21:28 UTC", "lg": "NFL", "team": "NE", "n": "A.J. Brown", "from": "absent", "to": 0.0}
+{"t": "2026-11-06 21:28 UTC", "lg": "NFL", "team": "NE", "n": "TreVeyon Henderson", "from": "absent", "to": 0.0}
+{"t": "2026-11-06 21:28 UTC", "lg": "NFL", "team": "NO", "n": "CJ Donaldson", "from": "absent", "to": 0.0}
+{"t": "2026-11-06 21:28 UTC", "lg": "NFL", "team": "NYG", "n": "Cam Skattebo", "from": "absent", "to": 0.25}
+{"t": "2026-11-06 21:28 UTC", "lg": "NFL", "team": "PHI", "n": "Britain Covey", "from": "absent", "to": 0.0}
+{"t": "2026-11-06 21:28 UTC", "lg": "NFL", "team": "PHI", "n": "DeVonta Smith", "from": "absent", "to": 0.0}
+{"t": "2026-11-06 21:28 UTC", "lg": "NFL", "team": "PHI", "n": "Dontayvion Wicks", "from": "absent", "to": 0.0}
+{"t": "2026-11-06 21:28 UTC", "lg": "NFL", "team": "WAS", "n": "Dyami Brown", "from": "absent", "to": 0.0}
+{"t": "2026-11-06 21:28 UTC", "lg": "NFL", "team": "WAS", "n": "Treylon Burks", "from": "absent", "to": 0.0}
