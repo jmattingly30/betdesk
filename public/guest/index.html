@@ -48,6 +48,7 @@ ul.r li.p{color:var(--ink)}
 .nums{display:flex;flex-wrap:wrap;gap:3px 14px;margin-top:6px;font-size:10px;color:var(--muted)}
 .nums b{color:var(--ink);font-weight:600}
 .acts{display:flex;gap:8px;margin-top:8px;align-items:center;flex-wrap:wrap}
+button.b:disabled{opacity:.45;cursor:default}
 button.b{font:600 11px var(--f-body);letter-spacing:.06em;text-transform:uppercase;border-radius:8px;padding:9px 12px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer}
 button.g{background:none;color:var(--ink);border-color:var(--line)}
 button.b:disabled{opacity:.5}
@@ -138,7 +139,9 @@ nav button[aria-current=true]{color:var(--accent);border-top-color:var(--accent)
       <p class="why">${esc(p.why)}</p>
       ${lv >= 2 && reasons.length ? `<ul class="r">${reasons.map(r => `<li class="${r.s === '+' ? 'p' : ''}">${esc(r.t)}</li>`).join('')}</ul>` : ''}
       ${lv >= 2 ? `<div class="nums">${p.chance != null ? `<span>Our chance it hits: <b>${Math.round(p.chance * 100)}%</b></span>` : ''}${lv >= 3 ? `${p.score != null ? `<span>Unproven score: <b>${p.score}/100</b></span>` : ''}${p.model ? `<span>Our score: <b>${esc(p.away)} ${p.model.away}, ${esc(p.home)} ${p.model.home}</b></span>` : ''}` : ''}</div>` : ''}
-      ${S.preview ? '' : `<div class="acts">${b ? `<span class="small"><b>You bet this</b> · ${b.units} unit${b.units == 1 ? '' : 's'}</span>` :
+      ${S.preview ? `<div class="acts"><select aria-label="Units" disabled><option>1 unit</option></select>
+         <button class="b" type="button" disabled>I bet this</button><button class="b g" type="button" disabled>Not for me</button>
+         <span class="small muted">Preview: guests can tap these</span></div>` : `<div class="acts">${b ? `<span class="small"><b>You bet this</b> · ${b.units} unit${b.units == 1 ? '' : 's'}</span>` :
         `<select aria-label="Units" data-u><option value="0.5">½ unit</option><option value="1" selected>1 unit</option><option value="2">2 units</option></select>
          <button class="b" type="button" data-bet>I bet this</button><button class="b g" type="button" data-hide>Not for me</button>`}</div>`}
     </div>`;
