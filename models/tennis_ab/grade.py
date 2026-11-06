@@ -47,5 +47,11 @@ if rows:
     bets = [z for z in rows if z['B'].get('tier') == 'B' and z['B'].get('price')]
     pnl = [(z['B']['price'] - 1) if ((z['B']['side'] == 1) == z['p1_won']) else -1 for z in bets]
     out['model_b_leans'] = dict(n=len(bets), units=round(float(sum(pnl)), 2), roi=round(float(np.mean(pnl)) * 100, 1) if pnl else None)
+    # tier C passes by their unproven rec (J 2026-11-06), paper at the logged price
+    sys.path.insert(0, os.path.join(HERE, '..', 'model-b')); import unproven
+    for rec in ('play', 'watch', 'skip'):
+        U = [z for z in rows if (z['B'].get('u') or unproven.rate_tennis(dict(A=z['A'], B=z['B'], sex=z['level'][0])) or {}).get('rec') == rec]
+        pu = [(z['B']['price'] - 1) if ((z['B']['side'] == 1) == z['p1_won']) else -1 for z in U]
+        out[f'unproven_{rec}'] = dict(n=len(U), units=round(float(sum(pu)), 2), roi=round(float(np.mean(pu)) * 100, 1) if pu else None)
 json.dump(out, open(f'{HERE}/history/grade.json', 'w'), indent=1)
 print(json.dumps(out))

@@ -104,7 +104,11 @@ def main():
     res = dict(made=dt.datetime.now(dt.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'), src_made=TM.get('made'),
                note='Tennis Model A (point sim on our win %) + Model B (paper). Totals/handicaps are numbers only: no lines in our feed and '
                     'Kaggle 2021-25 tests found no edge. No tier A in tennis.', matches=out)
-    json.dump(res, open(f'{D}/tennis_ab.json', 'w'), separators=(',', ':'))
+    import sys; sys.path.insert(0, os.path.join(lib.HERE, '..', 'model-b')); import unproven
+    unproven.annotate('TENNIS', res)   # unproven rating on passes (J 2026-11-06)
+    # J 2026-11-06: a started match keeps its last pre-match record (frozen) so the desk can list the whole day (model-b/pregame.py)
+    from pregame import keep
+    json.dump(dict(res, matches=keep(f'{D}/tennis_ab.json', res['matches'], kick=lambda i, r: r.get('start'), key='fid', field='matches')), open(f'{D}/tennis_ab.json', 'w'), separators=(',', ':'))
     os.makedirs(f'{lib.HERE}/history', exist_ok=True)
     with open(f'{lib.HERE}/history/runs.jsonl', 'a') as f:
         for x in out: f.write(json.dumps(dict(made=res['made'], **{k: x[k] for k in ('p1', 'p2', 'start', 'tex_mid', 'fid', 'sex', 'level')}, A={k: x['A'][k] for k in ('win_p1', 'tot_med', 'tot_mean', 'games_p1', 'games_p2', 'tot_line_fair', 'hcp_p1_fair', 'p_straight')}, B=x['B'])) + '\n')

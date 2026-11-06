@@ -167,7 +167,11 @@ const _renderGameList = renderGameList;
 renderGameList = function(){ _renderGameList(); renderGameListE(); drawSheet(); };
 // Watch the sim (J 2026-11-06): sim.js + sims_{sport}.json (models/sims/build.py), loaded on the first tap so the page stays the same size
 const SIM_SP = ['NBA', 'CBB', 'NFL', 'CFB', 'Tennis'];
-const simBtn = sp => SIM_SP.includes(sp) ? `<div class="row"><button class="btn ghost sm" type="button" data-sim>&#9654; Watch the sim</button><span class="small muted">a simulated game from Model A, not a prediction</span></div>` : '';
+const simBtn = sp => SIM_SP.includes(sp) ? `<div class="row" data-simrow hidden><button class="btn ghost sm" type="button" data-sim>&#9654; Watch the sim</button><span class="small muted">a simulated game from Model A, not a prediction</span></div>` : '';
+const SIMOK = {};   // sport -> promise: does sims_{sport}.json exist (asked once per visit)
+function simShow(sp, root){ const k = String(sp).toLowerCase();
+  (SIMOK[k] = SIMOK[k] || fetch(`sims_${k}.json`, {cache:'no-cache'}).then(r => r.ok).catch(() => false))
+    .then(ok => { if (ok) root.querySelectorAll('[data-simrow]').forEach(r => r.hidden = false); }); }
 function simOpen(sp, x){
   const go = () => window.BDSim.open(sp, x);
   if (window.BDSim) return go();
@@ -202,6 +206,7 @@ function drawSheet(){
     <h3 class="cardh">Full model card · explanation, edges and your own prices</h3>`;
   $('#shBack').onclick = closeGame;
   el.querySelectorAll('[data-sim]').forEach(b => b.onclick = () => simOpen(sp, {...x, _A:(AB2(sp) && cabGame(x, sp) || {}).A}));
+  simShow(sp, el);
   el.querySelectorAll('[data-lean]').forEach(t => t.onclick = () => { const z = LEANS[+t.dataset.lean]; if (z) poOpen(z.p, z.k, z.r); });
   if (gc){ el.appendChild(gc); gc.hidden = false; }
 }
@@ -503,6 +508,7 @@ function tenTile(out, m){
       <p class="small muted">Lit = best price at Colorado books. Prices from the ${esc(String((bk[0] && bk[0][1].now || [''])[0]).slice(11, 16))} UTC pull; check the book before betting.</p></div>`;
   $('#tnBack').onclick = () => { TSHEET = null; renderTennis(); };
   out.querySelectorAll('[data-sim]').forEach(b => b.onclick = () => simOpen('TENNIS', {id:q.fid, p1:q.p1, p2:q.p2, home:N[0], away:N[1]}));
+  simShow('TENNIS', out);
   out.querySelectorAll('[data-log]').forEach(b => b.onclick = () => { const k = +b.dataset.log, x = best[k]; if (!x) return;
     openBet({sport:'Tennis', market:'Moneyline', model:'Tennis model', desc:`${N[k]} ML vs ${N[1 - k]}`, side:'Side', line:'', odds:amOf(x[1]), push:0, units:'', book:bkName(x[0]),
       pm:pm != null ? (k ? 1 - pm : pm) : '', pf:nv != null ? (k ? 1 - nv : nv) : '', pb:pb != null ? (k ? 1 - pb : pb) : '', gm:{h:N[0], a:N[1]}, why:'Own read'}); });

@@ -69,10 +69,7 @@ for p in doc['players']:
     d = by.get(norm(p['n']))
     if d is None: miss += 1; continue
     if d.id.nunique() > 1:      # two players with the same (abbreviated) name: take the one whose latest team is this team
-        lastteam = d.groupby('id').tm.last(); ids = list(lastteam[lastteam == p['t']].index)
-        if len(ids) > 1 and 'position' in d:   # both on this team (NHL: Elias and Elias Pettersson, VAN C and D): match position
-            pos = d.groupby('id').position.last(); same = [i for i in ids if str(pos[i])[:1] == str(p.get('p', ''))[:1]]
-            ids = same or ids
+        lastteam = d.groupby('id').tm.last(); ids = lastteam[lastteam == p['t']].index
         d = d[d.id == (ids[0] if len(ids) else d.id.iloc[-1])]
     d = d[d.season > d.season.max() - SEASONS]
     E = expected(p, d)
