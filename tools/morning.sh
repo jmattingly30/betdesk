@@ -16,7 +16,7 @@ sh_step "B2 NBA props" "for y in \$(seq 2015 2027); do curl -sSfL -o $DL/nbadl/p
 curl -sSfL -o $DL/nfldl/games.csv https://raw.githubusercontent.com/nflverse/nfldata/master/data/games.csv || echo "nflverse games.csv" >> "$FAILS"
 if [ "$DOW" != 1 ]; then
   WEEK=$(python3 -c "import pandas as p;g=p.read_csv('$DL/nfldl/games.csv');g=g[(g.season==2026)&(g.game_type=='REG')&g.result.isna()];print(int(g.week.min()))")
-  sh_step "B3 NFL props (week $WEEK)" "(cd models/nfl-player && python3 fetch_data.py $DL/nfldl 2026 && python3 build_dataset.py $DL/nfldl .) && python3 app/export_nfl_props.py $DL/nfldl 2026 $WEEK $DL/nfl_props.json && (python3 app/add_recent.py NFL $DL/nfl_props.json || python3 app/add_recent.py NFL $DL/nfl_props.json) && cp $DL/nfl_props.json app/data/nfl_props.json"
+  sh_step "B3 NFL props (week $WEEK)" "(cd models/nfl-player && python3 fetch_data.py $DL/nfldl 2026 && python3 build_dataset.py $DL/nfldl .) && python3 app/export_nfl_props.py $DL/nfldl 2026 $WEEK $DL/nfl_props.json --overrides models/nfl-player/overrides.csv && (python3 app/add_recent.py NFL $DL/nfl_props.json || python3 app/add_recent.py NFL $DL/nfl_props.json) && cp $DL/nfl_props.json app/data/nfl_props.json"
 fi
 step "B3a NFL shadow grading" python3 models/nfl-player/shadow.py
 step "B4 NFL team games" python3 app/export_games.py $DL/nfldl/games.csv
