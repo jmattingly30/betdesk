@@ -18,6 +18,7 @@ Run after run_live.sh (cfb_live.json), cfb_usage.py and export_slates.py:  pytho
 import json, os, sys, math, datetime as dt, numpy as np, pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE); sys.path.insert(0, f"{HERE}/../model-b")
 import devig as DV
+import ml_anchor as MLA
 from lib import Sim
 ROOT = os.path.normpath(f"{HERE}/../.."); APP = f"{ROOT}/app/data"
 MY_BOOKS = ['draftkings', 'fanduel', 'betmgm', 'williamhill_us', 'espnbet', 'fanatics', 'betrivers', 'ballybet', 'bet365', 'hardrockbet', 'circasports']   # J: every CO-legal book
@@ -181,7 +182,9 @@ def main():
                                   fresh=early, tier=tier, side="Over" if ov else "Under", bet=bp, reasons=RT)
             sp_ = B.get("spread")
             if sp_:
-                mu_B = sp_["market"] + sp_["real"]; PB = pmf(mu_B); ph = float(PB[MG > 0].sum()); best = None
+                mu_B = sp_["market"] + sp_["real"]; best = None
+                F = lambda mu: float(pmf(mu)[MG > 0].sum())
+                ph, pm = MLA.home_chance(bk, "CFB", F, mu_B, sp_["market"])   # anchored on the books' moneyline (J 2026-11-06)
                 for b in MY_BOOKS:
                     r = bk.get(b)
                     if not r or not r[6] or not r[7]: continue
@@ -191,8 +194,8 @@ def main():
                         if best is None or ev > best["ev"]: best = dict(book=b, book_name=NAMES.get(b, b), pt=None, price=pr, p=round(p, 4), ev=round(ev, 4), age_h=None)
                 if best:
                     tier = "B" if sp_["tier"] in "AB" and best["ev"] >= 0.03 and abs(mu_B) <= 7 else "C"
-                    B["ml"] = dict(market=sp_["market"], ours=sp_["ours"], gap=sp_["gap"], real=sp_["real"], fresh=sp_["fresh"], tier=tier, side=sp_["side"], bet=best,
-                                   reasons=[["·", "Moneyline prices the spread's trusted edge as a win chance (key-number margin curve); untested on prices, a lean at most, only near pick'em"]])
+                    B["ml"] = dict(mkt_p=None if pm is None else round(pm if sp_["gap"] > 0 else 1 - pm, 4), market=sp_["market"], ours=sp_["ours"], gap=sp_["gap"], real=sp_["real"], fresh=sp_["fresh"], tier=tier, side=sp_["side"], bet=best,
+                                   reasons=[["·", "Moneyline prices the spread's trusted edge as a win chance (key-number margin curve); untested on prices, a lean at most, only near pick'em. Win chance = the books' no-vig moneyline moved only by that trusted edge"]])
             ts = [z for z in B.values() if z["tier"] != "C" and z["bet"]]
             B["best"] = min(ts, key=lambda z: ("AB".index(z["tier"]), -z["bet"]["ev"]))["tier"] if ts else "C"
             rec["B"] = B
@@ -206,7 +209,9 @@ def main():
             if z: z["gap"] = round(z["gap"] - med, 2); z["tier"] = "C"; z["reasons"].append(["-", f"Whole slate sits {med:+.1f} pts off the market on totals: a level problem, so totals pass today"])
     clean = lambda o: {k: clean(x) for k, x in o.items()} if isinstance(o, dict) else [clean(x) for x in o] if isinstance(o, list) else (None if isinstance(o, float) and o != o else o)
     import unproven; unproven.annotate("CFB", out)   # unproven rating on tier C passes (J 2026-11-06)
-    json.dump(clean(out), open(f"{APP}/cfb_ab.json", "w"), separators=(",", ":"), allow_nan=False)
+    # J 2026-11-06: a started game keeps its last pre-game record (frozen) so the desk can list the whole day (models/model-b/pregame.py)
+    from pregame import keep
+    json.dump(clean(dict(out, games=keep(f"{APP}/cfb_ab.json", out["games"], kick=lambda i, r: r.get("k")))), open(f"{APP}/cfb_ab.json", "w"), separators=(",", ":"), allow_nan=False)
     os.makedirs(f"{HERE}/history", exist_ok=True)
     with open(f"{HERE}/history/runs.jsonl", "a") as fh:
         for gid, g in out["games"].items():

@@ -9,6 +9,7 @@ import json, os, sys, math, datetime as dt, numpy as np, pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE); sys.path.insert(0, f"{HERE}/../model-b")
 from lib import sim_game, ncdf
 import devig as DV
+import ml_anchor as MLA
 ROOT = os.path.normpath(f"{HERE}/../..")
 APP = f"{ROOT}/app/data"
 # J 2026-11-02: every Colorado-legal book counts (no 'my books' subset)
@@ -173,7 +174,8 @@ def main():
                                             "Price is close-like: our total gaps have lost at the close at every size")] if bp and bp["age_h"] is not None else ["·", "No post time for this price"]])
             sp_ = B.get("spread")
             if sp_:
-                mu_B = sp_["market"] + sp_["real"]; sd = sd_m_for(mu_B); ph = 1 - ncdf((0 - mu_B) / sd)
+                mu_B = sp_["market"] + sp_["real"]
+                ph, pm = MLA.home_chance(bk, "CBB", lambda mu: 1 - ncdf((0 - mu) / sd_m_for(mu)), mu_B, sp_["market"])   # anchored on the books' moneyline (J 2026-11-06)
                 best = None
                 for b in MY_BOOKS:
                     r = bk.get(b)
@@ -185,14 +187,16 @@ def main():
                 if best:
                     # ML is the spread's edge priced as a win; never tested on CBB openers -> lean at most, and only near pick'em
                     tier = "B" if sp_["tier"] in "AB" and best["ev"] >= 0.03 and abs(mu_B) <= 7 else "C"
-                    B["ml"] = dict(market=sp_["market"], ours=sp_["ours"], gap=sp_["gap"], real=sp_["real"], fresh=sp_["fresh"], tier=tier, side=sp_["side"], bet=best,
-                                   reasons=[["·", "Moneyline uses the spread's trusted edge as a win chance; not yet tested on CBB openers, so it is a lean at most"]])
+                    B["ml"] = dict(mkt_p=None if pm is None else round(pm if sp_["gap"] > 0 else 1 - pm, 4), market=sp_["market"], ours=sp_["ours"], gap=sp_["gap"], real=sp_["real"], fresh=sp_["fresh"], tier=tier, side=sp_["side"], bet=best,
+                                   reasons=[["·", "Moneyline uses the spread's trusted edge as a win chance; not yet tested on CBB openers, so it is a lean at most. Win chance = the books' no-vig moneyline moved only by that trusted edge"]])
             ts = [z for z in B.values() if z["tier"] != "C" and z["bet"]]
             B["best"] = min(ts, key=lambda z: ("AB".index(z["tier"]), -z["bet"]["ev"]))["tier"] if ts else "C"
             rec["B"] = B
         out["games"][gid] = rec
     import unproven; unproven.annotate("CBB", out)   # unproven rating on tier C passes (J 2026-11-06)
-    json.dump(out, open(f"{APP}/cbb_ab.json", "w"), separators=(",", ":"))
+    # J 2026-11-06: a started game keeps its last pre-game record (frozen) so the desk can list the whole day (models/model-b/pregame.py)
+    from pregame import keep
+    json.dump(dict(out, games=keep(f"{APP}/cbb_ab.json", out["games"], kick=lambda i, r: r.get("k") or (slate.get(i) or {}).get("k"))), open(f"{APP}/cbb_ab.json", "w"), separators=(",", ":"))
     # tracking (J model-tracking rule): every run's Model A scores + Model B picks, first and latest seen, graded by grade.py
     os.makedirs(f"{HERE}/history", exist_ok=True)
     with open(f"{HERE}/history/runs.jsonl", "a") as fh:

@@ -23,6 +23,12 @@ ET = ZoneInfo('America/New_York')
 NOW = dt.datetime.now(dt.timezone.utc)
 TODAY = NOW.astimezone(ET).date().isoformat()
 SV = 'https://github.com/sportsdataverse/sportsdataverse-data/releases/download'
+# J 2026-11-06: the desk lists the whole day's games after they start (log a missed bet, review the data). Games that
+# started in the last KEEP_H hours stay on the slate: finished ones from the schedule with their final score (fs = [home, away]),
+# and every started game keeps its last pre-game line from the previous file (models/model-b/pregame.py).
+sys.path.insert(0, f"{HERE}/../models/model-b")
+from pregame import keep as keep_pregame, KEEP_H
+RECENT = NOW - dt.timedelta(hours=KEEP_H)
 SEASON_CFB, SEASON_CBB, SEASON_NBA = 2026, 2027, 2027
 # J 2026-10-27 (line shopping): up to 10 named books cost the same credits as one region, so Pinnacle and BetOnline (the sharp
 # prices that set fair odds in line_tools.py) come free. The other 8 are the books J can bet in Colorado (free feed only).
@@ -52,11 +58,12 @@ def nfl(path):
     g = g[g.season == g.season.max()].copy()
     g['k'] = [pd.Timestamp(f'{d} {t if t == t else "13:00"}', tz=ET).tz_convert('UTC') for d, t in zip(g.gameday, g.gametime)]
     # done = final score posted, or kicked off 5+ hours ago (nflverse can lag hours on a Monday night score)
-    g = g[g.home_score.isna() & (g.k > NOW - pd.Timedelta(hours=5))]
+    fin = g.home_score.notna() & (g.k >= RECENT) & (g.k <= NOW)   # finished in the last KEEP_H hours: kept with the score
+    g = g[(g.home_score.isna() & (g.k > NOW - pd.Timedelta(hours=5))) | fin]
     if not len(g): return None
     # J 2026-10-20 (be as early as possible on lines): this week's remaining games plus all of next week, so next week's
     # games and market lines are on the slate from Sunday night on, not only after Monday night's game
-    wk = int(g.week.min()); g = g[g.week.isin([wk, wk + 1])]
+    fin = g.home_score.notna(); wk = int(g[~fin].week.min()) if (~fin).any() else int(g.week.max()); g = g[g.week.isin([wk, wk + 1]) | fin]
     out = []
     for r in g.itertuples():
         k = r.k
@@ -67,18 +74,20 @@ def nfl(path):
                       oH=f(r.home_spread_odds), oA=f(r.away_spread_odds), oO=f(r.over_odds), oU=f(r.under_odds),
                       mlH=f(r.home_moneyline), mlA=f(r.away_moneyline))
         out.append(dict(id=r.game_id, k=k.isoformat().replace('+00:00', 'Z'), d=et_day(k), h=r.home_team, a=r.away_team,
-                        n=int(getattr(r, 'location', 'Home') == 'Neutral'), ln=ln, w=int(r.week)))
+                        n=int(getattr(r, 'location', 'Home') == 'Neutral'), ln=ln, w=int(r.week),
+                        **({'fs': [int(r.home_score), int(r.away_score)]} if r.home_score == r.home_score else {})))
     return dict(week=wk, src='nflverse games.csv (consensus line)', games=out)
 
 def cfb():
     s = pd.read_csv(io.BytesIO(get(f'https://raw.githubusercontent.com/sportsdataverse/cfbfastR-data/main/schedules/csv/cfb_schedules_{SEASON_CFB}.csv')))
     s['k'] = pd.to_datetime(s.start_date, utc=True); s['d'] = s.k.map(et_day)
-    up = s[s.d >= TODAY]
+    up = s[(s.d >= TODAY) | ((s.k >= RECENT) & (s.k <= NOW))]
     if not len(up): return None
-    wk = int(up.week.min()); up = up[up.week == wk].sort_values('k')
+    wk = int(up[up.d >= TODAY].week.min()) if (up.d >= TODAY).any() else int(up.week.max()); up = up[(up.week == wk) | (up.d < TODAY)].sort_values('k')
     names = {t: [t] for t in set(s.home_team) | set(s.away_team)}
+    fs = lambda r: {'fs': [int(r.home_points), int(r.away_points)]} if str(getattr(r, 'completed', '')).lower() == 'true' and r.home_points == r.home_points else {}
     return dict(week=wk, names=names, games=[dict(id=str(r.game_id), k=r.k.isoformat().replace('+00:00', 'Z'), d=r.d, h=r.home_team, a=r.away_team,
-                                     n=int(bool(r.neutral_site))) for r in up.itertuples()])
+                                     n=int(bool(r.neutral_site)), **fs(r)) for r in up.itertuples()])
 
 def odds_events(sp):
     """The Odds API reply for one sport: pulled now when the key is set, else a saved reply under 30 hours old.
@@ -174,15 +183,17 @@ def espn(url, days, name_col, mascot=False):
     s = pd.read_parquet(io.BytesIO(get(url)))
     s['k'] = pd.to_datetime(s.date, utc=True); s['d'] = s.k.map(et_day)
     end = (NOW.astimezone(ET).date() + dt.timedelta(days=days)).isoformat()
-    up = s[(s.d >= TODAY) & (s.d <= end) & ~s.status_type_completed.astype(bool)].sort_values('k')
+    done = s.status_type_completed.astype(bool)
+    up = s[((s.d >= TODAY) & (s.d <= end) & ~done) | (done & (s.k >= RECENT) & (s.k <= NOW))].sort_values('k')
     if not len(up): return None
     names = {}
     for r in s.to_dict('records'):
         for side in ('home_', 'away_'):
             names.setdefault(r[side + name_col], {r[side + 'display_name'], r[side + 'location'] + ' ' + r[side + 'name']} |
                              ({'~' + r[side + 'name']} if mascot else set()))   # ~ = match on the nickname (NBA: "LA" vs "Los Angeles")
+    fs = lambda r: {'fs': [int(r['home_score']), int(r['away_score'])]} if r['status_type_completed'] and r.get('home_score') == r.get('home_score') and r.get('home_score') is not None else {}
     return dict(games=[dict(id=str(r['game_id']), k=r['k'].isoformat().replace('+00:00', 'Z'), d=r['d'], h=r['home_' + name_col],
-                            a=r['away_' + name_col], n=int(bool(r['neutral_site']))) for r in up.to_dict('records')], names=names)
+                            a=r['away_' + name_col], n=int(bool(r['neutral_site'])), **fs(r)) for r in up.to_dict('records')], names=names)
 
 if __name__ == '__main__':
     J = dict(made=NOW.strftime('%Y-%m-%d %H:%M UTC'))
@@ -195,7 +206,11 @@ if __name__ == '__main__':
         try:   # NFL games the odds reply misses keep their nflverse line
             if x: add_lines(sp, x, x.get('names', {}))
         except Exception as e: print(sp, 'odds failed:', e)
-        if x: x.pop('names', None); J[sp] = x
+        if x:   # started games keep their last pre-game line (the odds feed drops it at kickoff) and come back if the feed dropped them
+            x.pop('names', None)
+            x['games'] = keep_pregame(OUT, x['games'], kick=lambda i, r: r.get('k'), field=f'{sp}.games',
+                                      merge=lambda o, n: {**n, **({'ln': o['ln']} if o.get('ln') and not n.get('ln') else {})})
+            J[sp] = x
         print(sp, len(x['games']) if x else 0, 'games', f"week {x['week']}" if x and 'week' in x else '')
     json.dump(J, open(OUT, 'w'), separators=(',', ':'))
     print('wrote', OUT)
