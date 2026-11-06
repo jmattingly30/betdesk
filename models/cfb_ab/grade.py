@@ -5,16 +5,18 @@ a pick reached tier A/B -> win rate, ROI at the shown price, CLV in points vs th
 python3 models/cfb_ab/grade.py [schedule csv] -> models/cfb_ab/history/grade.json"""
 import json, os, sys, datetime as dt, collections, pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__)); H = f"{HERE}/history"
+import sys; sys.path.insert(0, f"{HERE}/../model-b"); import unproven   # tier C passes graded by their unproven rec (J 2026-11-06)
 runs = [json.loads(l) for l in open(f"{H}/runs.jsonl")] if os.path.exists(f"{H}/runs.jsonl") else []
 src = sys.argv[1] if len(sys.argv) > 1 else f"{HERE}/../rebuild/football/cfb_gap/live/cfbros/s_2026.csv"
 S = pd.read_csv(src, usecols=["game_id", "completed", "home_points", "away_points"]); S = S[S.completed == True].dropna(subset=["home_points"])
 fin = {str(r.game_id): {"h": float(r.home_points), "a": float(r.away_points)} for r in S.itertuples()}
-first, last = {}, {}
+first, firstU, last = {}, {}, {}
 for r in runs:
     if r.get("k") and r["t"][:16] > r["k"][:16].replace("T", " "): continue   # only pre-kickoff runs
     last[r["id"]] = r
     for k, z in r["B"].items():
         if z["tier"] in "AB" and z.get("bet") and (r["id"], k) not in first: first[(r["id"], k)] = (r, z)
+        elif z["tier"] == "C" and z.get("bet") and (r["id"], k) not in firstU and (u := unproven.grade_tier("CFB", k, z)): firstU[(r["id"], k)] = (r, dict(z, tier=u))
 out = {"made": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), "A": {}, "B": {}}
 E = collections.defaultdict(list)
 for i, f in fin.items():
@@ -30,7 +32,7 @@ for i, f in fin.items():
 for k, v in E.items():
     if v: out["A"][k] = {"n": len(v), ("share" if k == "closer" else "MAE"): round(sum(v) / len(v), 3)}
 T = collections.defaultdict(lambda: {"n": 0, "w": 0, "pnl": 0.0, "clv": 0.0})
-for (gid, k), (r, z) in first.items():
+for (gid, k), (r, z) in [*first.items(), *firstU.items()]:
     f = fin.get(gid)
     if not f: continue
     b = z["bet"]; pt = b["pt"]; d = 1 + (b["price"] / 100 if b["price"] > 0 else 100 / -b["price"])

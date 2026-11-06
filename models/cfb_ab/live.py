@@ -205,6 +205,7 @@ def main():
             z = g["B"] and g["B"].get("total")
             if z: z["gap"] = round(z["gap"] - med, 2); z["tier"] = "C"; z["reasons"].append(["-", f"Whole slate sits {med:+.1f} pts off the market on totals: a level problem, so totals pass today"])
     clean = lambda o: {k: clean(x) for k, x in o.items()} if isinstance(o, dict) else [clean(x) for x in o] if isinstance(o, list) else (None if isinstance(o, float) and o != o else o)
+    import unproven; unproven.annotate("CFB", out)   # unproven rating on tier C passes (J 2026-11-06)
     json.dump(clean(out), open(f"{APP}/cfb_ab.json", "w"), separators=(",", ":"), allow_nan=False)
     os.makedirs(f"{HERE}/history", exist_ok=True)
     with open(f"{HERE}/history/runs.jsonl", "a") as fh:
