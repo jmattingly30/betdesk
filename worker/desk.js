@@ -74,6 +74,16 @@ export class Desk extends DurableObject {
   async dropTokens(id) {
     for (const [k, v] of await this.ctx.storage.list({ prefix: 'tok:' })) if (v === id) await this.ctx.storage.delete(k);
   }
+  // Shared invite link (one link J can send to several people; each opener gets a new desk).
+  async invite() { return (await this.ctx.storage.get('invite')) ?? null; }
+  async setInvite(inv) { await this.ctx.storage.put('invite', inv); return inv; }
+  // Checks and counts one use in a single step, so two people tapping at once cannot pass the limit.
+  async useInvite(hash, user) {
+    const inv = await this.ctx.storage.get('invite');
+    if (!inv || !inv.active || inv.hash !== hash || inv.used >= inv.max) return null;
+    await this.ctx.storage.put({ invite: { ...inv, used: inv.used + 1 }, [`user:${user.id}`]: user });
+    return user;
+  }
   async touch(id, when) {
     const u = await this.user(id);
     if (u && (u.last_seen || '').slice(0, 13) !== when.slice(0, 13)) await this.ctx.storage.put(`user:${id}`, { ...u, last_seen: when });
