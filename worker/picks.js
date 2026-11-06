@@ -9,7 +9,7 @@
 const FILES = { CBB: 'cbb_ab.json', NFL: 'nfl_ab.json', NBA: 'nba_ab.json', CFB: 'cfb_ab.json' };
 const MARKETS = { spread: 'spread', total: 'total', ml: 'moneyline' };
 const LONG_SHOT_EV = 0.03;
-let memo = { at: 0, picks: null };
+let memo = { at: 0, picks: null, games: null };
 const LABEL = { A: 'Strong pick', B: 'Lean', C: 'Long shot' }, STARS = { A: 3, B: 2, C: 1 };
 const BOOKS = { draftkings: 'DraftKings', fanduel: 'FanDuel', betmgm: 'BetMGM', williamhill_us: 'Caesars', caesars: 'Caesars', espnbet: 'ESPN BET',
   bet365: 'bet365', betrivers: 'BetRivers', fanatics: 'Fanatics', ballybet: 'Bally Bet', pinnacle: 'Pinnacle', hardrockbet: 'Hard Rock', circasports: 'Circa', betonlineag: 'BetOnline' };
@@ -22,6 +22,30 @@ const STAT = { pass_att: 'pass attempts', cmp: 'completions', pass_yds: 'passing
 // Desk prop kinds -> guest tiers. NHL flags are a lean at most: that model has not beaten the closing line yet.
 const PROP_TIER = (sp, kind) => (kind === 'proven' || kind === 'flag' ? (sp === 'NHL' ? 'B' : 'A') : kind === 'lean' ? 'B' : kind === 'unproven' ? 'C' : null);
 
+// Every upcoming game with Model A's projected score (the Games list on the guest desk), and the market numbers.
+function buildGames(sport, d, today, now) {
+  const out = [];
+  for (const [gid, g] of Object.entries(d.games || {})) {
+    if (!g.A || g.pre || (g.d && g.d < today) || (g.k && Date.parse(g.k) <= now)) continue;
+    const B = g.B || {};
+    out.push({ key: `${sport}:${gid}`, sport, home: g.h, away: g.a, date: g.d || null, kickoff: g.k || null,
+      hs: r1(g.A.hs), as: r1(g.A.as), p_home: g.A.p_home ?? null,
+      spread: B.spread && B.spread.market != null ? r1(B.spread.market) : null, total: B.total && B.total.market != null ? r1(B.total.market) : null });
+  }
+  return out;
+}
+function buildTennisGames(d, now) {
+  const out = [];
+  for (const m of d.matches || []) {
+    const A = m.A || {};
+    if (A.win_p1 == null || m.pre || (m.start && Date.parse(m.start) <= now)) continue;
+    out.push({ key: `TENNIS:${m.tex_mid || m.fid || m.p1 + m.p2}`, sport: 'TENNIS', home: m.p1, away: m.p2, date: (m.start || '').slice(0, 10) || null,
+      kickoff: m.start || null, event: m.tournament || m.cat || '', p1_win: A.win_p1, games: A.tot_med ?? null,
+      sets: A.sets ? Object.entries(A.sets).sort((a, b) => b[1] - a[1])[0][0] : null });
+  }
+  return out.sort((a, b) => (a.kickoff || '9').localeCompare(b.kickoff || '9')).slice(0, 80);
+}
+
 function buildTennis(d, now) {
   const out = [];
   for (const m of d.matches || []) {
@@ -32,7 +56,7 @@ function buildTennis(d, now) {
     const pA = A.win_p1 == null ? null : B.side === 1 ? A.win_p1 : 1 - A.win_p1;
     const opp = B.side === 1 ? m.p2 : m.p1;
     out.push({
-      id: `TENNIS:${m.tex_mid || m.fid || m.p1 + m.p2}:ml`, sport: 'TENNIS', date: (m.start || '').slice(0, 10) || null, kickoff: m.start || null,
+      id: `TENNIS:${m.tex_mid || m.fid || m.p1 + m.p2}:ml`, game: `TENNIS:${m.tex_mid || m.fid || m.p1 + m.p2}`, sport: 'TENNIS', date: (m.start || '').slice(0, 10) || null, kickoff: m.start || null,
       home: m.p1, away: m.p2, matchup: `${m.p1} vs ${m.p2}`, event: m.tournament || m.cat || '', market: 'moneyline', pick: `${B.pick} to win`,
       tier, label: LABEL[tier], stars: STARS[tier], proven: tier !== 'C', book: bookName(B.book), price: amer(B.price),
       chance: pA, ev: Math.round(((B.u && B.u.evU) ?? B.edge ?? 0) * 1000) / 10,
@@ -60,7 +84,7 @@ function buildProps(d, today, now) {
     if (!tier || (r.kick && Date.parse(r.kick) <= now) || (!r.kick && r.d && r.d < today)) continue;
     const stat = STAT[r.k] || r.k, yes = ['td', 'goal', 'assist', 'ga'].includes(r.k) && r.line <= 0.5;
     out.push({
-      id: `${r.sp}:prop:${r.g}:${r.n}:${r.k}:${r.side}`, sport: r.sp, date: r.d || null, kickoff: r.kick || null,
+      id: `${r.sp}:prop:${r.g}:${r.n}:${r.k}:${r.side}`, teams: [r.t, r.o], gref: r.g, sport: r.sp, date: r.d || null, kickoff: r.kick || null,
       home: r.t, away: r.o, matchup: `${r.n} (${r.t} vs ${r.o})`, market: 'prop', player: r.n,
       pick: yes ? (r.side === 'Under' ? `${r.n} no ${stat}` : `${r.n} ${stat}`) : `${r.n} ${r.side} ${r.line} ${stat}`,
       tier, label: LABEL[tier], stars: STARS[tier], proven: tier !== 'C', book: bookName(r.book), price: r.price,
@@ -103,7 +127,7 @@ function build(sport, d, today, now) {
       if (!tier) continue;
       const pick = market === 'moneyline' ? `${z.side} to win` : market === 'total' ? `${z.side} ${z.bet.pt}` : `${z.side} ${sgn(z.bet.pt)}`;
       out.push({
-        id: `${sport}:${gid}:${k}`,
+        id: `${sport}:${gid}:${k}`, game: `${sport}:${gid}`,
         sport, date: g.d || null, kickoff: g.k || null, home: g.h, away: g.a, market, pick,
         tier, label: { A: 'Strong pick', B: 'Lean', C: 'Long shot' }[tier], stars: { A: 3, B: 2, C: 1 }[tier], proven: tier !== 'C',
         book: z.bet.book_name || z.bet.book, price: z.bet.price, chance: z.bet.p ?? null, ev: Math.round(ev * 1000) / 10,
@@ -119,15 +143,21 @@ function build(sport, d, today, now) {
 
 export async function loadPicks(env, origin) {
   const now = Date.now();
-  if (memo.picks && now - memo.at < 5 * 60e3) return memo.picks;
+  if (memo.picks && now - memo.at < 5 * 60e3) return memo;
   const today = denverDate();
   const all = [];
   const get = async f => { try { const r = await env.ASSETS.fetch(new Request(`${origin}/${f}`)); return r.ok ? await r.json() : null; } catch (e) { return null; } };
   // one bad or missing file should not empty the sheet
-  for (const [sport, f] of Object.entries(FILES)) { const d = await get(f); if (d) all.push(...build(sport, d, today, now)); }
-  const t = await get('tennis_ab.json'); if (t) all.push(...buildTennis(t, now));
-  const pp = await get('prop_picks.json'); if (pp) all.push(...buildProps(pp, today, now));
+  const games = [];
+  for (const [sport, f] of Object.entries(FILES)) { const d = await get(f); if (d) { all.push(...build(sport, d, today, now)); games.push(...buildGames(sport, d, today, now)); } }
+  const t = await get('tennis_ab.json'); if (t) { all.push(...buildTennis(t, now)); games.push(...buildTennisGames(t, now)); }
+  const pp = await get('prop_picks.json');
+  if (pp) for (const x of buildProps(pp, today, now)) {   // tie each prop to its game: NFL by game id, others by the two teams
+    const gm = games.find(g => g.sport === x.sport && (g.key === `${x.sport}:${x.gref}` || (x.teams.includes(g.home) && x.teams.includes(g.away))));
+    const { teams, gref, ...rest } = x; all.push({ ...rest, game: gm ? gm.key : null });
+  }
+  games.sort((a, b) => (a.kickoff || a.date || '').localeCompare(b.kickoff || b.date || ''));
   all.sort((a, b) => b.stars - a.stars || (a.kickoff || a.date || '').localeCompare(b.kickoff || b.date || '') || b.ev - a.ev);
-  memo = { at: now, picks: all };
-  return all;
+  memo = { at: now, picks: all, games };
+  return memo;
 }
