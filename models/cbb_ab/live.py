@@ -191,7 +191,9 @@ def main():
             B["best"] = min(ts, key=lambda z: ("AB".index(z["tier"]), -z["bet"]["ev"]))["tier"] if ts else "C"
             rec["B"] = B
         out["games"][gid] = rec
-    json.dump(out, open(f"{APP}/cbb_ab.json", "w"), separators=(",", ":"))
+    # J 2026-11-06: a started game keeps its last pre-game record (frozen) so the desk can list the whole day (models/model-b/pregame.py)
+    from pregame import keep
+    json.dump(dict(out, games=keep(f"{APP}/cbb_ab.json", out["games"], kick=lambda i, r: r.get("k") or (slate.get(i) or {}).get("k"))), open(f"{APP}/cbb_ab.json", "w"), separators=(",", ":"))
     # tracking (J model-tracking rule): every run's Model A scores + Model B picks, first and latest seen, graded by grade.py
     os.makedirs(f"{HERE}/history", exist_ok=True)
     with open(f"{HERE}/history/runs.jsonl", "a") as fh:

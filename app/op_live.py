@@ -300,6 +300,9 @@ def sweep_tennis():
         if r['books']: rows.append(r)
         lock(30, first=False)
     if not rows: print('TENNIS no priced matches; leaving', out_f); return
+    # J 2026-11-06: matches that started keep their last pre-match prices so the desk can list the whole day (models/model-b/pregame.py)
+    sys.path.insert(0, f'{HERE}/../models/model-b'); from pregame import keep
+    rows = keep(out_f, rows, kick=lambda i, r: r.get('start'), key='fid', field=None)
     json.dump(rows, open(out_f, 'w'), separators=(',', ':'))
     print('TENNIS', len(rows), 'matches priced of', len(fx), '| by category', {c: sum(r['cat'] == c for r in rows) for c in TENNIS_CATS})
 

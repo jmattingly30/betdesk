@@ -205,7 +205,9 @@ def main():
             z = g["B"] and g["B"].get("total")
             if z: z["gap"] = round(z["gap"] - med, 2); z["tier"] = "C"; z["reasons"].append(["-", f"Whole slate sits {med:+.1f} pts off the market on totals: a level problem, so totals pass today"])
     clean = lambda o: {k: clean(x) for k, x in o.items()} if isinstance(o, dict) else [clean(x) for x in o] if isinstance(o, list) else (None if isinstance(o, float) and o != o else o)
-    json.dump(clean(out), open(f"{APP}/cfb_ab.json", "w"), separators=(",", ":"), allow_nan=False)
+    # J 2026-11-06: a started game keeps its last pre-game record (frozen) so the desk can list the whole day (models/model-b/pregame.py)
+    from pregame import keep
+    json.dump(clean(dict(out, games=keep(f"{APP}/cfb_ab.json", out["games"], kick=lambda i, r: r.get("k")))), open(f"{APP}/cfb_ab.json", "w"), separators=(",", ":"), allow_nan=False)
     os.makedirs(f"{HERE}/history", exist_ok=True)
     with open(f"{HERE}/history/runs.jsonl", "a") as fh:
         for gid, g in out["games"].items():
