@@ -1,30 +1,95 @@
 {
- "made": "2026-11-05 17:29 UTC",
+ "made": "2026-11-06 19:50 UTC",
  "sports": {
-  "NFL": {
+  "CBB": {
    "rebuild_all": {
-    "n": 15,
-    "team_mae": 8.23,
-    "margin_mae": 11.13,
-    "total_mae": 11.39
+    "n": 191,
+    "team_mae": 9.35,
+    "margin_mae": 11.93,
+    "total_mae": 14.3
    },
    "rebuild_same_games": {
-    "n": 15,
-    "team_mae": 8.23,
-    "margin_mae": 11.13,
-    "total_mae": 11.39
+    "n": 189,
+    "team_mae": 9.28,
+    "margin_mae": 11.79,
+    "total_mae": 14.34
    },
    "today_same_games": {
-    "n": 15,
-    "team_mae": 8.18,
-    "margin_mae": 10.63,
-    "total_mae": 11.73
+    "n": 189,
+    "team_mae": 9.12,
+    "margin_mae": 11.03,
+    "total_mae": 14.87
    },
    "line_same_games": {
-    "n": 15,
-    "margin_mae": 11.0,
-    "total_mae": 11.57
+    "n": 42,
+    "margin_mae": 7.92,
+    "total_mae": 14.21
    }
+  },
+  "NBA": {
+   "rebuild_all": {
+    "n": 80,
+    "team_mae": 9.63,
+    "margin_mae": 11.34,
+    "total_mae": 14.9
+   },
+   "rebuild_same_games": {
+    "n": 80,
+    "team_mae": 9.63,
+    "margin_mae": 11.34,
+    "total_mae": 14.9
+   },
+   "today_same_games": {
+    "n": 80,
+    "team_mae": 10.2,
+    "margin_mae": 11.59,
+    "total_mae": 16.22
+   },
+   "line_same_games": {
+    "n": 48,
+    "margin_mae": 10.42,
+    "total_mae": 14.91
+   }
+  },
+  "NFL": {
+   "rebuild_all": {
+    "n": 16,
+    "team_mae": 8.13,
+    "margin_mae": 11.27,
+    "total_mae": 10.8
+   },
+   "rebuild_same_games": {
+    "n": 16,
+    "team_mae": 8.13,
+    "margin_mae": 11.27,
+    "total_mae": 10.8
+   },
+   "today_same_games": {
+    "n": 16,
+    "team_mae": 7.9,
+    "margin_mae": 10.43,
+    "total_mae": 11.21
+   },
+   "line_same_games": {
+    "n": 16,
+    "margin_mae": 11.12,
+    "total_mae": 11.06
+   }
+  },
+  "NHL": {
+   "rebuild_all": {
+    "n": 77,
+    "team_mae": 1.38,
+    "margin_mae": 1.96,
+    "total_mae": 1.91
+   },
+   "rebuild_same_games": {
+    "n": 0,
+    "team_mae": NaN,
+    "margin_mae": NaN,
+    "total_mae": NaN
+   },
+   "today_same_games": null
   }
  }
 }
