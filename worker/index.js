@@ -208,7 +208,17 @@ async function api(req, env, ctx, who, url) {
     if (path[1] === 'guests' && method === 'GET') {
       const users = await D.users();
       const counts = await Promise.all(users.map(u => desk(env, `u:${u.id}`).count('bets').catch(() => 0)));
-      return json({ guests: users.map((u, i) => ({ id: u.id, name: u.name, active: u.active, created: u.created, last_seen: u.last_seen || null, level: u.level || null, bets: counts[i] })) });
+      const inv = await D.invite();
+      return json({ guests: users.map((u, i) => ({ id: u.id, name: u.name, active: u.active, created: u.created, last_seen: u.last_seen || null, level: u.level || null, bets: counts[i] })),
+        invite: inv ? { active: inv.active, used: inv.used, max: inv.max, created: inv.created } : null });
+    }
+    if (path[1] === 'invite' && method === 'POST') { // {max} makes a new shared link (the old one stops); {off:true} closes it
+      const b = await body();
+      if (b.off) { const inv = await D.invite(); if (inv) await D.setInvite({ ...inv, active: false }); return json({ ok: true }); }
+      const max = Math.min(50, Math.max(1, Math.round(Number(b.max) || 5)));
+      const token = randomToken();
+      await D.setInvite({ hash: await sha256(token), max, used: 0, active: true, created: new Date().toISOString() });
+      return json({ link: `${url.origin}/invite/${token}`, max });
     }
     if (path[1] === 'guests' && method === 'POST' && !path[2]) {
       const name = String((await body()).name || '').trim().slice(0, 40);
@@ -242,7 +252,7 @@ export default {
     const url = new URL(req.url);
     // Not set up yet (no secrets): serve the site exactly as before so a merge never locks J out.
     if (!env.SESSION_SECRET || !env.OWNER_TOKEN) {
-      if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/join/') || url.pathname.startsWith('/guest')) return err(404, 'sign-in is not set up yet');
+      if (/^\/(api|join|invite|guest)(\/|$)/.test(url.pathname)) return err(404, 'sign-in is not set up yet');
       return env.ASSETS.fetch(req);
     }
 
@@ -272,6 +282,29 @@ export default {
       }
       if (!cookie) return PAGE('Bet Desk', '<h1>That link has already been used</h1><p>Each invite link works once, on one device. Ask for a new link to sign in on another device.</p>');
       return withHeaders(new Response(null, { status: 303, headers: { location: '/', 'set-cookie': cookie } }), { 'cache-control': 'no-store' });
+    }
+    if (url.pathname.startsWith('/invite/')) { // shared invite: each person who opens it gets their own new desk
+      const token = url.pathname.slice(8);
+      if (!/^[A-Za-z0-9_-]{20,80}$/.test(token)) return lockedPage();
+      const D = dir(env), inv = await D.invite(), hash = await sha256(token);
+      const open = inv && inv.active && inv.hash === hash && inv.used < inv.max;
+      const closed = PAGE('Bet Desk', '<h1>This invite is closed</h1><p>Ask the person who sent it for a new link.</p>');
+      if (req.method !== 'POST') {
+        if (!open) return closed;
+        const me = await whoIs(req, env);
+        if (me) return withHeaders(new Response(null, { status: 302, headers: { location: '/' } }), { 'cache-control': 'no-store' });
+        return PAGE('Bet Desk', `<h1>Your own Bet Desk</h1><p>Type your first name to set up your desk on this device. Your bets stay private to you.</p>
+<form method="post" action="/invite/${token}"><input name="name" maxlength="40" required autocomplete="given-name" placeholder="First name"
+ style="margin-top:16px;width:100%;font:inherit;padding:10px;border-radius:10px;border:1px solid #8888"><button type="submit">Open my Bet Desk</button></form>`, 200);
+      }
+      const origin = req.headers.get('origin');
+      if (origin && origin !== 'null' && origin !== url.origin) return err(403, 'bad origin');
+      const f = await req.formData().catch(() => null);
+      const name = String((f && f.get('name')) || '').replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, 40);
+      if (!name) return PAGE('Bet Desk', '<h1>Add your name</h1><p>Go back and type your first name.</p>', 400);
+      const u = await D.useInvite(hash, { id: 'g' + randomToken().slice(0, 12).replace(/[-_]/g, 'x'), name, ver: 1, active: true, created: new Date().toISOString(), level: null, via: 'shared' });
+      if (!u) return closed;
+      return withHeaders(new Response(null, { status: 303, headers: { location: '/', 'set-cookie': await issue(env, u.id, '1') } }), { 'cache-control': 'no-store' });
     }
     if (url.pathname === '/logout') {
       return withHeaders(new Response(null, { status: 302, headers: { location: '/', 'set-cookie': `${COOKIE}=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=Lax` } }));

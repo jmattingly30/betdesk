@@ -86,8 +86,8 @@
     card.className = 'card'; card.id = 'peopleCard';
     anchor.parentNode.insertBefore(card, anchor);
     const draw = async (msg = '') => {
-      let g = [];
-      try { g = (await call('GET', 'admin/guests')).guests; } catch (e) { msg = 'Could not load the guest list'; }
+      let g = [], inv = null;
+      try { const r = await call('GET', 'admin/guests'); g = r.guests; inv = r.invite; } catch (e) { msg = 'Could not load the guest list'; }
       card.innerHTML = `<h3>People</h3>
         <p class="small muted">Each person gets their own desk with their own bets and a simpler pick sheet that grows with them. Only people with a link can get in. Your desk and bets stay yours.</p>
         ${g.map(u => `<div class="row" style="justify-content:space-between;align-items:center;gap:8px;margin:6px 0">
@@ -96,6 +96,10 @@
           <button class="btn ghost" type="button" data-signout="${esc(u.id)}">Sign out everywhere</button>
           <button class="btn ghost" type="button" data-active="${esc(u.id)}" data-on="${u.active ? 0 : 1}">${u.active ? 'Turn off' : 'Turn on'}</button></span></div>`).join('') || '<p class="small muted">No one yet.</p>'}
         <div class="row" style="gap:6px;margin-top:8px"><input id="newGuest" placeholder="Name" maxlength="40" style="flex:1"><button class="btn" type="button" id="addGuest">Make invite link</button></div>
+        <h3 style="margin-top:16px">One link for several people</h3>
+        <p class="small muted">Send one link to a group. Each person who opens it types their name and gets their own desk. It stops after the number of people you pick, or when you turn it off.${inv && inv.active ? ` <b>Open: ${inv.used} of ${inv.max} used.</b>` : inv ? ` Closed (${inv.used} joined).` : ''}</p>
+        <div class="row" style="gap:6px;margin-top:6px"><select id="invMax">${[1, 2, 3, 5, 10, 20].map(n => `<option value="${n}"${n === 5 ? ' selected' : ''}>up to ${n} ${n === 1 ? 'person' : 'people'}</option>`).join('')}</select>
+          <button class="btn" type="button" id="makeInvite">Make shared link</button>${inv && inv.active ? '<button class="btn ghost" type="button" id="closeInvite">Turn off</button>' : ''}</div>
         <div id="guestMsg" class="small" style="margin-top:8px;word-break:break-all">${msg}</div>
         <p class="small muted" style="margin-top:8px"><a href="/guest/" target="_blank" rel="noopener">See what guests see</a> · Each link works once. Guests' bets and notes go to Honcho to tailor their desk; yours never do.</p>`;
     };
@@ -108,6 +112,11 @@
           const r = await call('POST', 'admin/guests', { name }); showLink(name, r.link);
         } else if (t.dataset.link) {
           const r = await call('POST', `admin/guests/${t.dataset.link}/link`, {}); showLink(t.closest('.row').querySelector('b').textContent, r.link);
+        } else if (t.id === 'makeInvite') {
+          const r = await call('POST', 'admin/invite', { max: Number(document.getElementById('invMax').value) });
+          draw(`Shared link for up to ${r.max} ${r.max === 1 ? 'person' : 'people'} (any older shared link stopped working):<br><b>${esc(r.link)}</b> <button class="btn ghost" type="button" data-copy="${esc(r.link)}">Copy</button>`);
+        } else if (t.id === 'closeInvite') {
+          await call('POST', 'admin/invite', { off: true }); draw('Shared link turned off. People who already joined keep their desks.');
         } else if (t.dataset.signout) {
           if (!confirm('Sign this person out on every device? They will need a new link to get back in.')) return;
           await call('POST', `admin/guests/${t.dataset.signout}/signout`, {}); draw('Signed out everywhere. Make a new link when they should get back in.');
