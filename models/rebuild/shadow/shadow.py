@@ -9,7 +9,17 @@ CBB is the reverse: Bet Desk runs CBB v2 and the previous models/cbb model is th
 NBA: full stack (lineup + schedule) when basketball/live_lineup.py has been run since the last game, else ratings only;
 NFL uses ratings + depth-chart starting QB + missing regulars (injury report) + dome (live_nfl.py); weather not wired."""
 import sys, os, json, gzip, datetime as dt, subprocess, urllib.request
-import numpy as np, pandas as pd
+import numpy as np, pandas as pd, time
+
+def fetch(url, path, tries=4):
+    """urlretrieve with retries (2026-11-06: an nflverse 500 failed the whole B8 step). After the last try, an existing
+    copy of the file is kept with a warning; with no copy the error is raised."""
+    for i in range(tries):
+        try: return urllib.request.urlretrieve(url, path)
+        except Exception as e:
+            if i < tries - 1: print(f"download failed ({e}), retry in {2 ** (i + 1)} s:", url, flush=True); time.sleep(2 ** (i + 1))
+            elif os.path.exists(path): print(f"::warning::download failed ({e}); using the existing copy:", path, flush=True)
+            else: raise
 HERE = os.path.dirname(os.path.abspath(__file__)); RB = os.path.dirname(HERE); ROOT = os.path.normpath(f"{RB}/../..")
 sys.path.insert(0, RB)
 HIST = f"{HERE}/history.json"; REPORT = f"{HERE}/report.json"
@@ -59,8 +69,8 @@ def nfl():
     os.makedirs(f"{SP}/nfl", exist_ok=True); B = "https://github.com/nflverse/nflverse-data/releases/download"
     for y in range(2006, 2027):
         f = f"{SP}/nfl/pbp_{y}.parquet"
-        if y == 2026 or not os.path.exists(f): urllib.request.urlretrieve(f"{B}/pbp/play_by_play_{y}.parquet", f)
-    urllib.request.urlretrieve("https://raw.githubusercontent.com/nflverse/nfldata/master/data/games.csv", f"{SP}/nfl/games.csv")
+        if y == 2026 or not os.path.exists(f): fetch(f"{B}/pbp/play_by_play_{y}.parquet", f)
+    fetch("https://raw.githubusercontent.com/nflverse/nfldata/master/data/games.csv", f"{SP}/nfl/games.csv")
     subprocess.run([sys.executable, f"{RB}/football/prep_drives.py", f"{SP}/nfl"], check=True, capture_output=True)
     subprocess.run([sys.executable, f"{RB}/football/prep_qb.py", f"{SP}/nfl"], check=True, capture_output=True)
     E = load("fb_engine", f"{RB}/football/engine.py")
@@ -70,9 +80,9 @@ def nfl():
     up = G[G.result.isna()].sort_values("gameday"); wk = up.week.min(); up = up[up.week <= wk + 1]
     # live inputs (live_nfl.py): depth-chart QB1 and missing regulars from snaps + this week's injury report
     for f in ("depth_charts/depth_charts_2026", "injuries/injuries_2026", "snap_counts/snap_counts_2026"):
-        urllib.request.urlretrieve(f"{B}/{f}.parquet", f"{SP}/nfl/" + ("snaps_2026" if "snap" in f else f.split("/")[1]) + ".parquet")
+        fetch(f"{B}/{f}.parquet", f"{SP}/nfl/" + ("snaps_2026" if "snap" in f else f.split("/")[1]) + ".parquet")
     for y in range(2013, 2026):
-        if not os.path.exists(f"{SP}/nfl/snaps_{y}.parquet"): urllib.request.urlretrieve(f"{B}/snap_counts/snap_counts_{y}.parquet", f"{SP}/nfl/snaps_{y}.parquet")
+        if not os.path.exists(f"{SP}/nfl/snaps_{y}.parquet"): fetch(f"{B}/snap_counts/snap_counts_{y}.parquet", f"{SP}/nfl/snaps_{y}.parquet")
     LN = load("live_nfl", f"{RB}/football/live_nfl.py")
     dc = pd.read_parquet(f"{SP}/nfl/depth_charts_2026.parquet"); dc["dt"] = pd.to_datetime(dc.dt)
     dc = dc[dc.pos_abb.eq("QB") & dc.pos_rank.eq(1)].sort_values("dt").groupby("team").tail(1).set_index("team").gsis_id.to_dict()
@@ -102,8 +112,8 @@ def nhl():
     """NHL: refresh this season from play-by-play, frame ratings with the usual starting goalie (goalie used for the
     margin only, as kept), schedule terms (back-to-back, 3-in-4, rest); lineup term not wired for future games."""
     os.makedirs(f"{SP}/nhl", exist_ok=True); B = "https://github.com/sportsdataverse/sportsdataverse-data/releases/download"
-    urllib.request.urlretrieve(f"{B}/nhl_pbp_full/play_by_play_2027.parquet", f"{SP}/nhl/pbp_2027.parquet")
-    urllib.request.urlretrieve(f"{B}/nhl_schedules/nhl_schedule_2027.parquet", f"{SP}/nhl/nhl_schedule_2027.parquet")
+    fetch(f"{B}/nhl_pbp_full/play_by_play_2027.parquet", f"{SP}/nhl/pbp_2027.parquet")
+    fetch(f"{B}/nhl_schedules/nhl_schedule_2027.parquet", f"{SP}/nhl/nhl_schedule_2027.parquet")
     tmp = f"{SP}/nhl/tg_2027.parquet"
     subprocess.run([sys.executable, f"{RB}/hockey/prep_pbp.py", f"{SP}/nhl", "2027"], check=True, capture_output=True, env={**os.environ, "OUT": tmp})
     path = f"{RB}/hockey/data/teamgames_nhl.parquet"
@@ -192,7 +202,12 @@ def grade(finals):
 
 if __name__ == "__main__":
     want = [a.upper() for a in sys.argv[1:]] or ["NBA", "NFL", "NHL", "CBB"]; finals = {}
+    failed = []
     for sp in want:
-        n, fin = {"NBA": nba, "NFL": nfl, "NHL": nhl, "CBB": cbb}[sp](); finals[sp] = fin; print(sp, "projected", n, "games", flush=True)
+        try:
+            n, fin = {"NBA": nba, "NFL": nfl, "NHL": nhl, "CBB": cbb}[sp](); finals[sp] = fin; print(sp, "projected", n, "games", flush=True)
+        except Exception as e:   # one sport's feed being down no longer drops the others (2026-11-06)
+            import traceback; traceback.print_exc(); failed.append(sp); print(f"::error::shadow {sp} failed: {e}", flush=True)
     json.dump(hist, open(HIST, "w"), indent=0)
     rep = grade(finals); json.dump(rep, open(REPORT, "w"), indent=1); print(json.dumps(rep, indent=1))
+    if failed: sys.exit(f"shadow failed for {failed} (other sports saved)")
