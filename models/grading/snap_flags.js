@@ -1,5 +1,6 @@
 // Snapshot Bet Desk's line-based prop flags (J 2026-10-28) so they can be graded: did the flagged side win, and did the
 // price beat the close. node snap_flags.js   (after the props files and app/data/odds/props_*.json are fresh)
+// Also writes app/data/prop_picks.json (current flags for the guest desk). --picks-only skips the history.
 // Serves app/bet-desk.html + app/data/*.json (+ app/data/odds/props_*.json) headless, calls window.BD_FLAGS() and merges the
 // rows into history/FLAGS.json.gz keyed sp|game|player|stat|side. A flag is only (re)written before its kickoff, so the
 // stored price is the last pregame flag the desk showed. Rows: sp, n, t, o, g, d, k, side, line, book, price, proj, ours
@@ -22,6 +23,12 @@ srv.listen(0, '127.0.0.1', async () => {
     await p.waitForFunction(() => window.BD_FLAGS && document.querySelector('#flagOut'), null, { timeout: 30000 });
     await p.waitForTimeout(3000);
     const snap = await p.evaluate(() => window.BD_FLAGS());
+    // Guest pick sheet (worker/picks.js): the desk's current prop flags with their Model B kinds, upcoming only, no checks.
+    const now0 = Date.now(), PICKS = path.join(APP, 'data', 'prop_picks.json');
+    const live = snap.rows.filter(r => r.kind !== 'check' && (!r.kick || Date.parse(r.kick) > now0));
+    fs.writeFileSync(PICKS, JSON.stringify({ made: snap.made, rows: live }));
+    console.log('prop picks for guests', live.length);
+    if (process.argv.includes('--picks-only')) return;   // noon/night pulls: refresh the guest picks, leave the graded history to the morning run
     const H = fs.existsSync(HIST) ? JSON.parse(zlib.gunzipSync(fs.readFileSync(HIST))) : {};
     const now = Date.now(); let n = 0;
     snap.rows.forEach(r => { if (!r.kick || Date.parse(r.kick) > now) { H[[r.sp, r.g, r.n, r.k, r.side].join('|')] = { ...r, made: snap.made }; n++; } });
