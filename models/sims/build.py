@@ -100,17 +100,21 @@ def _asum(A, extra=()):
 # result codes: 0 TD, 1 FG, 2 punt, 3 downs / missed FG, 4 turnover, 5 return TD (defense scores), 6 safety, 7 end of half, 8 OT FG;
 # labels per sport go in the file (NFL tables count downs and missed FGs as turnovers)
 def nfl(G, rng, NP=800):
-    import pandas as pd
-    F = f"{ROOT}/models/rebuild/football"; sys.path.insert(0, F)
-    import sim as S, trace as TR
+    F = f"{ROOT}/models/rebuild/football"
+    TR = _mod("football_trace", f"{F}/trace.py")   # not the stdlib trace module
     KW = dict(k_score=0.1, k_late=0.6, th_sd=0.3)    # build_drive_viewer.py / simtest settings
     R = {"Touchdown": 0, "Field goal": 1, "Punt": 2, "Turnover": 4, "Return TD": 5, "Safety": 6, "Field goal (OT)": 8}
     out = {}; ids = [k for k, g in G.items() if (g.get("A") or {}).get("m10") is not None]
     if not ids: return out, {}
-    q, _ = S.simulate(pd.DataFrame({"pred_h": [G[k]["A"]["hs"] for k in ids], "pred_a": [G[k]["A"]["as"] for k in ids]}), nsim=2000, **KW)
     for j, gid in enumerate(ids):
         g, A = G[gid], G[gid]["A"]
-        pool = [TR.trace_game(q.th_h.iat[j], q.th_a.iat[j], seed=int(rng.integers(1 << 30)), **KW) for _ in range(NP)]
+        # scoring odds solved with trace.py itself (same rules as sim.simulate, no numba needed): sim.py's start + update
+        th = [math.log(min(max(A["hs"], 3), 60) / 21.9) * 1.6, math.log(min(max(A["as"], 3), 60) / 21.9) * 1.6]
+        for _ in range(4):
+            t = [TR.trace_game(th[0], th[1], seed=int(rng.integers(1 << 30)), **KW) for _ in range(400)]
+            th[0] += math.log(min(max(A["hs"], 3), 60) / max(np.mean([x["home"] for x in t]), 1)) * 1.6
+            th[1] += math.log(min(max(A["as"], 3), 60) / max(np.mean([x["away"] for x in t]), 1)) * 1.6
+        pool = [TR.trace_game(th[0], th[1], seed=int(rng.integers(1 << 30)), **KW) for _ in range(NP)]
         H = np.array([s["home"] for s in pool], float); Aw = np.array([s["away"] for s in pool], float)
         idx, audit = draw(H, Aw, target(A), K_KEEP["NFL"], rng)
         S_ = [{"f": [pool[i]["home"], pool[i]["away"]], "ot": pool[i]["ot"],

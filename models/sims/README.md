@@ -10,7 +10,7 @@ simulator played, not a prediction of the real game.
   - NBA / CBB: possession outcome shares from `models/{nba,cbb}_ab/lib.py` (`_tilt`) at Model A's points per trip and pace,
     overtime on a tie. A rating / pace shock keeps the pool a bit wider than Model A before reweighting.
   - NFL: `models/rebuild/football/trace.py` (same rules and tables as the tested drive simulator, `sim.py`), scoring odds solved
-    to Model A's means.
+    to Model A's means with trace.py itself (no numba needed; sim.py's numba import is optional now).
   - CFB: `models/cfb_ab/lib.py` `Sim` (the engine behind CFB Model A's ranges), recorded drive by drive through `rec=`.
     Recording draws no random numbers, so CFB Model A's own results are unchanged (checked: identical arrays with and without it).
   - Tennis: point by point with Model A's serve-point odds, the match-day form sd and pressure shifts from `models/tennis_ab/lib.py`.

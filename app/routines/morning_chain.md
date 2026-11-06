@@ -72,6 +72,8 @@ C4g. CFB Model A + Model B (J 2026-11-05 rollout, after C4a and C4b): `python3 m
     usage matches and every missing starter it priced ('OUT ...'); report if it errors or prints 0 games with lines while CFB has lines. Manual absences live in
     models/cfb_ab/absences.json (team, player, kind qb/skill, until date). Then `python3 models/cfb_ab/grade.py` (-> models/cfb_ab/history/grade.json).
 C4c. `python3 app/export_model_a.py` (after B8 and C4b) -> app/data/model_a.json.
+C4h. Watch the sim (J 2026-11-06, after C4d-C4g): `python3 models/sims/build.py` (about 1 min; no numba needed) -> app/data/sims_{nba,cbb,nfl,cfb,tennis}.json.
+    It prints one audit line per sport; report a sport that errors or says 'off Model A' for more than a few games.
 C5. Props files: for each app/data/odds/props_{NFL,NBA,NHL}.json made in the last 30 hours, count players and named players
     (ids look like "id1222502"); under half named is worth reporting.
 C6. `python3 models/parlay/suggest.py`, then `python3 models/promo/promo.py`.
@@ -82,7 +84,8 @@ C8. `python3 models/grading/grade.py` (last).
 Copy app/bet-desk.html to <scratchpad>/betdesk/index.html (never edit bet-desk.html; it already holds the 2026-10-30 Concept E redesign, never rerun app/redesign_patch.py) and every file below that changed this run into
 <scratchpad>/betdesk/ at its bare name: past_props.json, nhl_props.json, nba_props.json, nfl_props.json, games_models.json, cbb_v2.json,
 cfb_model.json, game_slates.json, line_tools.json, props_NFL.json, props_NBA.json, props_NHL.json, parlay_suggestions.json,
-promo_picks.json, scorecard.json, player_results.json, cfb_usage.json, model_a.json, cbb_ab.json, nfl_ab.json, nba_ab.json, cfb_ab.json, tennis_model.json (file time in the last 30 h),
+promo_picks.json, scorecard.json, player_results.json, cfb_usage.json, model_a.json, cbb_ab.json, nfl_ab.json, nba_ab.json, cfb_ab.json, sims_nba.json, sims_cbb.json, sims_nfl.json, sims_cfb.json, sims_tennis.json, tennis_model.json and tennis_ab.json (file time in the last 30 h),
+sim.js (from app/sim.js, the Watch-the-sim viewer; always include it),
 tennis.json (from app/data/odds/tennis.json, a bare array: use its file time, last 30 h), and props_vs_close.json if its "made" is newer than the published copy.
 Publish with the Artifact tool: url https://claude.ai/artifact/Pdq3m2UxoriBf2gBdzgBp4, file_path <scratchpad>/betdesk/index.html,
 root <scratchpad>/betdesk, files map of those names. Data files go at the ROOT path (the page fetches nhl_props.json, not data/...).

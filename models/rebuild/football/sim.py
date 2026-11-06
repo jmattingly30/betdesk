@@ -9,7 +9,9 @@ The next drive's start is drawn from what actually followed that outcome in the 
 drawn per outcome. Overtime: one possession each, then sudden death (simplified).
 """
 import os, numpy as np, pandas as pd
-from numba import njit
+try: from numba import njit
+except ImportError:   # no numba (e.g. a container without it): plain Python; trace.py and models/sims/build.py only need the tables
+    njit = lambda *a, **k: (lambda f: f)
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = ["TD", "FG", "PUNT", "TO", "OPPTD", "SAF"]
 BINS = np.arange(0, 101, 5)
