@@ -6,7 +6,8 @@ DL=/tmp/claude-0; mkdir -p $DL/nhldl $DL/nbadl $DL/nfldl
 SW="${RUNNER_TEMP:-/tmp}/sweep.log"
 
 # A. odds sweep (then tennis) in the background; B runs meanwhile
-( cd "$SA/app" && python3 op_live.py NFL CFB NBA CBB NHL && python3 op_live.py TENNIS ) > "$SW" 2>&1 &
+# CFB last + OP_DEADLINE_MIN=110 (2026-11-07: the Saturday CFB sweep ran 1h50m and starved CBB/NBA/NHL); unreached CFB games keep old lines, noon Odds API covers CFB
+( cd "$SA/app" && OP_DEADLINE_MIN=110 python3 op_live.py NFL NBA CBB NHL CFB && python3 op_live.py TENNIS ) > "$SW" 2>&1 &
 SWEEP=$!
 
 # B. projections

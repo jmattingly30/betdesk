@@ -12,9 +12,11 @@ No model math changes, no MLB model changes. Today = the date in America/Denver.
 
 ## A. Start the odds sweep in the background (about 100 min with CBB in season; the key is free during it)
 Setup first: `python3 -m pip install -q pyarrow pandas numpy scipy statsmodels scikit-learn lightgbm requests`.
-A1. `cd /mnt/project-files/sports-analytics/app && python3 op_live.py NFL CFB NBA CBB NHL` with run_in_background (timeout 7200000).
+A1. `cd /mnt/project-files/sports-analytics/app && OP_DEADLINE_MIN=110 python3 op_live.py NFL NBA CBB NHL CFB` with run_in_background (timeout 7200000).
+    CFB goes last and OP_DEADLINE_MIN=110 stops it cleanly before the 2-hour kill (2026-11-07: the Saturday CFB sweep ran 1h50m and the kill lost CBB/NBA/NHL);
+    unreached CFB games keep the previous file's lines and the noon Odds API pull covers CFB.
     All 12 books, NFL/CFB/NBA/CBB/NHL game lines plus NFL/NBA/NHL props; it holds data/odds/oddspapi.lock. Took ~100 min on 11-01 (CFB + CBB).
-A2. When A1 exits: `cd /mnt/project-files/sports-analytics/app && python3 op_live.py TENNIS` with run_in_background (timeout 3600000)
+A2. When A1 exits: `cd /mnt/project-files/sports-analytics/app && python3 op_live.py TENNIS` with run_in_background (timeout 5400000; can pass 60 min)
     -> app/data/odds/tennis.json (about 45 min on 11-01, 164 matches; its own call so a long team sweep can't cut it off). Start part C while it runs;
     it must finish before D (publish tennis.json). The tennis thread rebuilds tennis_model.json at 16:30 UTC from it.
 Do part B while it runs. Never poll with sleep; you are woken when it exits.
