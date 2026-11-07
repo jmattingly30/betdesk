@@ -1,16 +1,16 @@
 {
- "made": "2026-11-06T08:07:42Z",
- "n": 89,
+ "made": "2026-11-07T07:56:44Z",
+ "n": 199,
  "model_a": {
-  "tot_mae": 5.35,
-  "tot_mae_mean": 5.59,
-  "games_mae": 3.12,
-  "winner_right": 0.753,
+  "tot_mae": 5.21,
+  "tot_mae_mean": 5.4,
+  "games_mae": 3.28,
+  "winner_right": 0.688,
   "by_level": {
-   "m|Challenger": 14,
-   "m|Tour": 14,
-   "w|ITF": 34,
-   "w|Tour": 27
+   "m|Challenger": 30,
+   "m|Tour": 33,
+   "w|ITF": 72,
+   "w|Tour": 64
   }
  },
  "model_b_leans": {
@@ -19,18 +19,18 @@
   "roi": null
  },
  "unproven_play": {
-  "n": 3,
-  "units": -1.18,
-  "roi": -39.3
+  "n": 5,
+  "units": -3.18,
+  "roi": -63.6
  },
  "unproven_watch": {
-  "n": 8,
-  "units": 3.64,
-  "roi": 45.5
+  "n": 10,
+  "units": 3.52,
+  "roi": 35.2
  },
  "unproven_skip": {
-  "n": 22,
-  "units": -5.19,
-  "roi": -23.6
+  "n": 31,
+  "units": -6.43,
+  "roi": -20.8
  }
 }
