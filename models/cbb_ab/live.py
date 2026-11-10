@@ -21,7 +21,13 @@ SD_M, SD_T = T_A["sd_margin_fit"], T_A["sd_total_fit"]
 LV = T_B["live"]; Q90 = LV["q90"]
 FRESH_H = 24            # a price posted within 24 h is treated as an opener (Look ahead uses the same window)
 B_CLOSE, B_TOT_OPEN = 0.13, 0.505
-SHARE_CAP = 0.85   # share of our gap that is real: spread at the close (research), total at the opener
+SHARE_CAP = 0.85
+# BIG-DOG FIX (J 2026-11-09, models/cbb_ab/bigdog_2026-11-09): v2 comes up short on blowouts (closes 2013-23: ours minus line
+# toward the favorite 0 under 20, -0.5 at 22, -0.87 at 27, -2.1 at 33), so every huge favorite made a fake gap on the dog.
+# Gap is measured after that usual shortfall; dogs of 20+ are capped at lean (B) until live grading proves them.
+TAIL_X = [2.8, 7.1, 12.0, 16.9, 21.8, 26.8, 32.8, 42.5]; TAIL_Y = [0, 0, 0, 0, -0.5, -0.87, -2.11, -1.92]
+tail = lambda mu: float(np.sign(mu) * np.interp(abs(mu), TAIL_X, TAIL_Y))
+BIG_DOG = 20   # share of our gap that is real: spread at the close (research), total at the opener
 NOW = dt.datetime.now(dt.timezone.utc)
 tier_csv = pd.read_csv(f"{ROOT}/models/cbb/data/cbb_team_tier.csv")
 TIER = {r.name.lower(): ({"high": 2, "mid": 1, "low": 0}[r.tier], r.conf_id) for r in tier_csv.itertuples()}
@@ -99,10 +105,16 @@ def level_guard(V, slate, min_n=12):
         if m is not None: mg.append(v["hs"] - v["as"] - m); mm.append(m)
         if t is not None: tg.append(v["hs"] + v["as"] - t)
     G = {"n_spread": len(mg), "n_total": len(tg), "total_shift": 0.0, "spread_a": 0.0, "spread_b": 0.0}
-    if len(tg) >= min_n: G["total_shift"] = round(float(np.median(tg)), 2)
+    # 2026-11-06: v2 moved to in-season ratings (score rebuild thread) and the squeeze is gone, so the guard is now a SAFETY NET:
+    # it acts only when the slate departs clearly from history (v2 totals ~+0.9 vs line 2018-26; margins .954 x line + .51).
+    G["raw_total_median"] = round(float(np.median(tg)), 2) if tg else None
+    if len(tg) >= min_n and abs(np.median(tg) - 0.9) >= 2.5: G["total_shift"] = round(float(np.median(tg) - 0.9), 2)
     if len(mg) >= min_n:
         b, a = np.polyfit(mm, mg, 1)          # live gap = a + b * market margin
-        G["spread_b"] = round(float(b - (-0.046)), 3); G["spread_a"] = round(float(a - 0.514), 2)   # excess over history
+        eb, ea = b - (-0.046), a - 0.514      # excess over history
+        G["raw_spread_b"], G["raw_spread_a"] = round(float(eb), 3), round(float(ea), 2)
+        if abs(eb) >= 0.10 or abs(ea) >= 1.5: G["spread_b"], G["spread_a"] = round(float(eb), 3), round(float(ea), 2)
+    G["on"] = bool(G["total_shift"] or G["spread_b"] or G["spread_a"])
     return G
 
 def main():
@@ -142,9 +154,10 @@ def main():
             B = {}
             mu_m, used_m = market(bk, "m")
             if mu_m is not None:
-                ours = hs - as_; gap = ours - mu_m - LG["spread_a"] - LG["spread_b"] * mu_m; side_home = gap > 0
-                tm_ = (v["today_hs"] - v["today_as"]) - mu_m - LG["spread_a"] - LG["spread_b"] * mu_m if v.get("today_hs") is not None else gap
-                rm_ = (v["rb_hs"] - v["rb_as"]) - mu_m - LG["spread_a"] - LG["spread_b"] * mu_m if v.get("rb_hs") is not None else gap
+                adj = LG["spread_a"] + LG["spread_b"] * mu_m + tail(mu_m)
+                ours = hs - as_; gap = ours - mu_m - adj; side_home = gap > 0
+                tm_ = (v["today_hs"] - v["today_as"]) - mu_m - adj if v.get("today_hs") is not None else gap
+                rm_ = (v["rb_hs"] - v["rb_as"]) - mu_m - adj if v.get("rb_hs") is not None else gap
                 feat = dict(we_like_dog=float(np.sign(gap) != np.sign(mu_m) and abs(mu_m) > 0), neu=float(bool(v.get("n"))),
                             nonconf=float(th is not None and ta is not None and th[1] != ta[1]), tier_min=float(min(th[0] if th else 1, ta[0] if ta else 1)),
                             engines_same_side=float(np.sign(tm_) == np.sign(rm_)), av_abs=0.0, nov=float(v["d"][5:7] == "11"), fav_size=abs(mu_m))
@@ -157,9 +170,14 @@ def main():
                 bp = best_price(bk, po, side_home, "m", mu_m + real)
                 if fresh: tier = "A" if (abs(real) >= Q90 or abs(gap) >= 4) else "B" if abs(gap) >= 3 else "C"
                 else: tier = "A" if abs(gap) >= 6 else "B" if abs(gap) >= 4 else "C"
+                big_dog = bool(feat["we_like_dog"]) and abs(mu_m) >= BIG_DOG
+                why = reasons(feat, fresh, bp and bp["age_h"])
+                if big_dog:
+                    if tier == "A": tier = "B"
+                    why.insert(0, ["-", f"Underdog getting {abs(mu_m):.1f}: capped at lean (dogs of 20+). Big-dog gaps were coin flips at closes 2013-26 (50%) and the market did not move toward them"])
                 B["spread"] = dict(market=round(mu_m, 2), books=used_m, ours=round(ours, 2), gap=round(gap, 2), share=round(share if fresh else B_CLOSE, 3),
                                    real=round(real, 2), fresh=fresh, tier=tier, side=v["h"] if side_home else v["a"], bet=bp,
-                                   reasons=reasons(feat, fresh, bp and bp["age_h"]))
+                                   tail_adj=round(tail(mu_m), 2), big_dog=big_dog, reasons=why)
             mu_t, used_t = market(bk, "t")
             if mu_t is not None:
                 ours_t = hs + as_; gap_t = ours_t - mu_t - LG["total_shift"]; over = gap_t > 0

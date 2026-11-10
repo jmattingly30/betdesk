@@ -3,7 +3,7 @@
 source "$(dirname "$0")/ci.sh"; T="$1"; setup_paths
 case "$T" in
   noon)  step "op_live NFL NBA NHL (groups 1-3)" bash -c "cd app && OP_GROUPS=3 python3 op_live.py NFL NBA NHL" ;;
-  night) step "op_live all sports (groups 1-3)"  bash -c "cd app && OP_GROUPS=3 python3 op_live.py NFL CFB NBA CBB NHL"
+  night) step "op_live all sports (groups 1-3, CFB last, 110 min cap)" bash -c "cd app && OP_GROUPS=3 OP_DEADLINE_MIN=110 python3 op_live.py NFL NBA CBB NHL CFB"
          step "op_live TENNIS"                    bash -c "cd app && python3 op_live.py TENNIS" ;;
   nfl)   step "op_live NFL (all books)"           bash -c "cd app && python3 op_live.py NFL" ;;
   *) echo "unknown pull $T"; exit 2 ;;

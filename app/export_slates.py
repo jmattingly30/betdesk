@@ -195,6 +195,28 @@ def espn(url, days, name_col, mascot=False):
     return dict(games=[dict(id=str(r['game_id']), k=r['k'].isoformat().replace('+00:00', 'Z'), d=r['d'], h=r['home_' + name_col],
                             a=r['away_' + name_col], n=int(bool(r['neutral_site'])), **fs(r)) for r in up.to_dict('records')], names=names)
 
+def carry_posted(sp, x, old_path=OUT):
+    """Keep each book's post times when the new source has none (J 2026-11-09). The noon pull takes college lines from
+    The Odds API, which has no post times; Model B then read every price as a closing line and the noon CBB tiers collapsed
+    (Syracuse +5.5 A -> C). A time carries only while that book's point is unchanged (moneyline: always)."""
+    try: old = {g['id']: g.get('ln') or {} for g in (json.load(open(old_path)).get(sp) or {}).get('games', [])}
+    except Exception: return 0
+    n = 0
+    for g in x.get('games', []):
+        ln, o = g.get('ln'), old.get(g['id'])
+        if not ln or not o or not o.get('po'): continue
+        po = ln.setdefault('po', {})
+        for b, r in (ln.get('bk') or {}).items():
+            op, orow = o['po'].get(b), (o.get('bk') or {}).get(b)
+            if not op or not orow: continue
+            cur = po.get(b) or [None] * 3
+            same = [r[0] == orow[0], r[3] == orow[3], True]
+            new = [cur[i] or (op[i] if same[i] else None) for i in range(3)]
+            if new != cur: po[b] = new; n += 1
+        if not po: ln.pop('po')
+    if n: print(sp, 'post times carried for', n, 'book rows')
+    return n
+
 if __name__ == '__main__':
     J = dict(made=NOW.strftime('%Y-%m-%d %H:%M UTC'))
     jobs = dict(NFL=lambda: nfl(sys.argv[1] if len(sys.argv) > 1 else '/tmp/claude-0/nfldl/games.csv'), CFB=cfb,
@@ -208,6 +230,8 @@ if __name__ == '__main__':
         except Exception as e: print(sp, 'odds failed:', e)
         if x:   # started games keep their last pre-game line (the odds feed drops it at kickoff) and come back if the feed dropped them
             x.pop('names', None)
+            try: carry_posted(sp, x)
+            except Exception as e: print(sp, 'post-time carry failed:', e)
             x['games'] = keep_pregame(OUT, x['games'], kick=lambda i, r: r.get('k'), field=f'{sp}.games',
                                       merge=lambda o, n: {**n, **({'ln': o['ln']} if o.get('ln') and not n.get('ln') else {})})
             J[sp] = x

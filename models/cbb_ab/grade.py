@@ -43,7 +43,8 @@ for (gid, k), (r, z) in [*first.items(), *firstU.items()]:
         res = (f["h"] - f["a"]) if z["side"] == r["h"] else (f["a"] - f["h"]); clv = None
     if res == 0: continue
     dog = (z["market"] > 0) != (z["side"] == r["h"])   # side is the market underdog (J 2026-11-02: watch the dog lean)
-    for key in [f"{k}_{z['tier']}"] + ([f"{k}_{z['tier']}_{'dog' if dog else 'fav'}"] if k != "total" else []):
+    big = k == "spread" and dog and abs(z["market"]) >= 20     # J 2026-11-09: big dogs (20+) graded as their own bucket
+    for key in [f"{k}_{z['tier']}"] + ([f"{k}_{z['tier']}_{'dog' if dog else 'fav'}"] if k != "total" else []) + ([f"{k}_{z['tier']}_bigdog20"] if big else []):
         s2 = T[key]; s2["n"] += 1; s2["w"] += res > 0; s2["pnl"] += (dec - 1) if res > 0 else -1; s2["clv"] += clv or 0
 for k, s in T.items(): out["B"][k] = {"n": s["n"], "win": round(s["w"] / s["n"], 3), "roi": round(s["pnl"] / s["n"], 3), "clv_pts": round(s["clv"] / s["n"], 2)}
 json.dump(out, open(f"{H}/grade.json", "w"), indent=1); print(json.dumps(out, indent=1))

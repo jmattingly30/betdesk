@@ -82,5 +82,35 @@
   "used": 152,
   "left": 348,
   "note": "no Odds API call this run; carried forward"
+ },
+ {
+  "date": "2026-11-06",
+  "used": 152,
+  "left": 348,
+  "note": "no Odds API call this run; carried forward"
+ },
+ {
+  "date": "2026-11-07",
+  "used": 60,
+  "left": 440,
+  "note": "Nov month (reset); 9 credits this run for CFB/CBB/NBA after OddsPapi sweep stopped after NFL"
+ },
+ {
+  "date": "2026-11-08",
+  "used": 60,
+  "left": 440,
+  "note": "no Odds API call this run; carried forward"
+ },
+ {
+  "date": "2026-11-09",
+  "used": 60,
+  "left": 440,
+  "note": "no Odds API call this run; carried forward"
+ },
+ {
+  "date": "2026-11-10",
+  "used": 60,
+  "left": 440,
+  "note": "no Odds API call this run; odds files carry no credit fields (OddsPapi sweep); carried forward"
  }
 ]

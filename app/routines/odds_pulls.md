@@ -18,10 +18,11 @@ after a cd). Never print or store API keys. Edit no file except what the scripts
 1. Setup if missing: `python3 -m pip install -q pyarrow pandas numpy requests`.
 2. Sweep with run_in_background and wait for it to exit (never poll with sleep):
    - Noon: `OP_GROUPS=3 python3 op_live.py NFL NBA NHL`
-   - Night: `OP_GROUPS=3 python3 op_live.py NFL CFB NBA CBB NHL` (timeout 7200000; ~85 min with CBB in season)
+   - Night: `OP_GROUPS=3 OP_DEADLINE_MIN=110 python3 op_live.py NFL NBA CBB NHL CFB` (timeout 7200000; ~85 min with CBB in season; CFB last and the deadline
+     stops it before the 2-hour kill, 2026-11-07)
    - NFL Sunday / Tuesday: `python3 op_live.py NFL`
    It holds data/odds/oddspapi.lock while running (one loop per key).
-2b. Night only, when step 2 exits: `python3 op_live.py TENNIS` with run_in_background (timeout 3600000, ~45 min) -> data/odds/tennis.json.
+2b. Night only, when step 2 exits: `python3 op_live.py TENNIS` with run_in_background (timeout 5400000; 45-60+ min, the 11-06 night run passed 60 min) -> data/odds/tennis.json.
    Do steps 3-4a while it runs; wait for it to exit before step 5 (2026-11-02: one combined sweep hit the 2-hour limit in tennis).
 2c. Every pull: `python3 /mnt/project-files/sports-analytics/models/injuries/scan.py` (injury news since the morning, J 2026-11-06;
     NBA Model B/Model A in 4d drop players now listed Out or Doubtful). Publish app/data/injuries.json.
