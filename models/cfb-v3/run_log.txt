@@ -35,19 +35,19 @@ spread close    8   242 0.508 0.711      NaN    NaN
 total MAE holdout: open 12.62 close 12.48 model 12.89
 win chance curve a 0.0687 b -0.0162; holdout log loss bell (sd 15.6) 0.4847, curve 0.4850
 
-current ratings (2026, through 2026-11-01):
+current ratings (2026, through 2026-11-07):
       team   power       m      o      d
-Notre Dame 21.8291 49.9643 0.1675 0.1277
-Ohio State 21.4915 48.7211 0.0998 0.1162
-   Alabama 21.2810 48.0488 0.0711 0.1119
-   Georgia 21.0504 47.6587 0.0735 0.1282
-     Miami 20.7976 48.5424 0.3200 0.1101
-       LSU 20.7961 47.1412 0.0874 0.1211
-   Indiana 20.3733 46.5082 0.0941 0.1617
-      Utah 20.0386 46.0024 0.1730 0.1196
-     Texas 19.7594 44.5208 0.0687 0.0865
-  Ole Miss 19.6827 44.6782 0.1302 0.0768
-    Oregon 18.1035 41.3376 0.0935 0.1356
-Texas Tech 18.0444 41.1529 0.0507 0.1697
+Notre Dame 21.8995 50.1193 0.1675 0.1277
+Ohio State 21.6865 49.1509 0.0999 0.1162
+   Alabama 21.3617 48.2268 0.0711 0.1119
+   Georgia 21.1002 47.7683 0.0735 0.1282
+     Miami 21.0077 49.0053 0.3200 0.1101
+       LSU 20.8251 47.2052 0.0874 0.1211
+   Indiana 20.4213 46.6139 0.0941 0.1617
+     Texas 20.0773 45.2213 0.0687 0.0865
+      Utah 19.9145 45.7291 0.1730 0.1196
+  Ole Miss 19.6016 44.4995 0.1302 0.0768
+    Oregon 18.3723 41.9299 0.0935 0.1356
+Texas Tech 18.0582 41.1833 0.0507 0.1697
 
-2026 so far (622 games with ESPN spread): MAE ESPN line 11.61 model 12.69
+2026 so far (624 games with ESPN spread): MAE ESPN line 11.60 model 12.67

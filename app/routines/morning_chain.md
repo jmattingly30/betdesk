@@ -12,9 +12,11 @@ No model math changes, no MLB model changes. Today = the date in America/Denver.
 
 ## A. Start the odds sweep in the background (about 100 min with CBB in season; the key is free during it)
 Setup first: `python3 -m pip install -q pyarrow pandas numpy scipy statsmodels scikit-learn lightgbm requests`.
-A1. `cd /mnt/project-files/sports-analytics/app && python3 op_live.py NFL CFB NBA CBB NHL` with run_in_background (timeout 7200000).
+A1. `cd /mnt/project-files/sports-analytics/app && OP_DEADLINE_MIN=110 python3 op_live.py NFL NBA CBB NHL CFB` with run_in_background (timeout 7200000).
+    CFB goes last and OP_DEADLINE_MIN=110 stops it cleanly before the 2-hour kill (2026-11-07: the Saturday CFB sweep ran 1h50m and the kill lost CBB/NBA/NHL);
+    unreached CFB games keep the previous file's lines and the noon Odds API pull covers CFB.
     All 12 books, NFL/CFB/NBA/CBB/NHL game lines plus NFL/NBA/NHL props; it holds data/odds/oddspapi.lock. Took ~100 min on 11-01 (CFB + CBB).
-A2. When A1 exits: `cd /mnt/project-files/sports-analytics/app && python3 op_live.py TENNIS` with run_in_background (timeout 3600000)
+A2. When A1 exits: `cd /mnt/project-files/sports-analytics/app && python3 op_live.py TENNIS` with run_in_background (timeout 5400000; can pass 60 min)
     -> app/data/odds/tennis.json (about 45 min on 11-01, 164 matches; its own call so a long team sweep can't cut it off). Start part C while it runs;
     it must finish before D (publish tennis.json). The tennis thread rebuilds tennis_model.json at 16:30 UTC from it.
 Do part B while it runs. Never poll with sleep; you are woken when it exits.
@@ -44,7 +46,8 @@ B3. NFL props, Tuesday to Sunday only (J 2026-10-28; skip Mondays): download nfl
 B3a. Every day: python3 models/nfl-player/shadow.py (grading only; needs statsmodels).
 B4. Every day: download games.csv fresh (as in B3) and python3 app/export_games.py /tmp/claude-0/nfldl/games.csv (about 2 min).
     Check its "starters changed from games.csv" and "NFL QB changes" lines look sane (a few teams, each under about 8 points).
-B5. Every day (J 2026-11-02 CBB two-model rollout; was Mon/Thu, daily so every newly posted CBB game gets Model A): python3 models/rebuild/basketball/live_cbb.py (about 20 min, run_in_background) -> app/data/cbb_v2.json.
+B5. Every day (J 2026-11-02 CBB two-model rollout; was Mon/Thu, daily so every newly posted CBB game gets Model A): `bash models/rebuild/basketball/cbb_live/refresh_cbb.sh` (2026-11-06 in-season switch, score rebuild thread: downloads this season's box scores, rebuilds
+    ratings in cbb_live/, then runs live_cbb.py; about 25 min, run_in_background) -> app/data/cbb_v2.json. Without it live_cbb.py uses stale ratings.
 B6. Sundays (and any day pbp_2026.parquet gained a full week since the last rebuild): CFB v3 rebuild per the "Weekly refresh" block
     in models/cfb-v3/README.md (pbp_2026.parquet + cfb_schedules_2026.csv, build.py --roster roster_prior.csv, export_app.py) -> cfb_model.json.
     The CBB ratings rebuild (models/cbb/export_app.py) waits until ~8 games per team (late November).

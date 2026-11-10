@@ -15,6 +15,11 @@ import json, os, sys, time, gzip, http.client, urllib.request, urllib.error, dat
 HERE = os.path.dirname(os.path.abspath(__file__)); D = f'{HERE}/data'; OP = f'{D}/odds/op'
 BASE = 'https://api.oddspapi.io/v4'; KEY = os.environ.get('ODDSPAPI_API_KEY')
 NOW = dt.datetime.now(dt.timezone.utc)
+# 2026-11-07: the Saturday CFB sweep ran 1h50m and the 2-hour background limit killed the whole run before CBB/NBA/NHL.
+# OP_DEADLINE_MIN (minutes from start): a sport still sweeping at the deadline stops after its current game, keeps the
+# games it swept (earliest kickoffs first) plus the previous file's lines for the rest, and later sports are skipped.
+T0, DEADLINE = time.time(), float(os.environ.get('OP_DEADLINE_MIN') or 0) * 60
+late = lambda: DEADLINE and time.time() - T0 > DEADLINE
 GROUPS = [['pinnacle', 'draftkings', 'fanduel'], ['betmgm', 'caesars', 'espnbet'], ['fanatics', 'betrivers', 'bet365'],
           ['ballybet', 'circasports', 'betonline.ag']]
 # J 2026-10-29: noon and night pulls run OP_GROUPS=3 (skip Bally, Circa, BetOnline; the morning pull keeps all 12 books).
@@ -162,8 +167,10 @@ def sweep(sp, M):
     sid, tour, days = SPORTS[sp]
     fx = [f for f in fixtures(sid) if f.get('tournamentName') == tour and f.get('hasOdds') and f.get('statusId') == 0
           and NOW < dt.datetime.fromisoformat(f['startTime'].replace('Z', '+00:00')) < NOW + dt.timedelta(days=days)]
-    ev, P = [], []
-    for f in sorted(fx, key=lambda f: f['startTime']):
+    ev, P, cut = [], [], None
+    if late(): print(sp, 'skipped: OP_DEADLINE_MIN reached before it started; leaving its files'); return
+    for n, f in enumerate(sorted(fx, key=lambda f: f['startTime'])):
+        if late(): cut = n; print(sp, f'deadline: stopped after {n} of {len(fx)} games (earliest first); the rest keep the previous file\'s lines'); break
         pg = dict(id=f['fixtureId'], k=f['startTime'].replace('.000Z', 'Z'), h=f['participant1Name'], a=f['participant2Name'], tid=f['tournamentId'], p={}, t={})
         e = dict(id=f['fixtureId'], sport_key=sp, commence_time=f['startTime'].replace('.000Z', 'Z'), home_team=f['participant1Name'],
                  away_team=f['participant2Name'], bookmakers=[], src='oddspapi')
@@ -182,9 +189,14 @@ def sweep(sp, M):
         lock(30, first=False)
     for g in P: drop_placeholders(g['p'])
     if sp in MODEL_PROPS: write_model_props(sp, P)
-    else: write_props(sp, sid, P)
+    else: write_props(sp, sid, P, keep_old=cut is not None)
     if not ev: print(sp, 'no OddsPapi games; leaving', f'data/odds/{sp}.json'); return   # an empty file would block the Odds API fallback
     carry_books(sp, ev)
+    if cut is not None:   # stopped early: keep the previous file's events for the games not reached
+        try: old = json.load(open(f'{D}/odds/{sp}.json')).get('events', [])
+        except (OSError, ValueError): old = []
+        have = {e['id'] for e in ev}
+        ev += [e for e in old if e['id'] not in have and e.get('commence_time', '') > NOW.isoformat()[:19]]
     json.dump(dict(made=NOW.isoformat(), src='oddspapi', left=None, used=None, events=ev), open(f'{D}/odds/{sp}.json', 'w'), separators=(',', ':'))
     if sp == 'NHL':   # J 2026-10-28: keep every day's NHL lines (no NHL closing-line history yet; desk has no NHL game card until the model is built)
         hf = f'{D}/odds/nhl_line_history.json.gz'
@@ -241,7 +253,7 @@ def write_model_props(sp, P):
               open(f'{D}/odds/model_props_{sp}.json', 'w'), separators=(',', ':'))
     print(sp, 'model props:', sum(len(g['p']) for g in P), 'players in', len(P), 'games')
 
-def write_props(sp, sid, P):
+def write_props(sp, sid, P, keep_old=False):
     """data/odds/props_{SPORT}.json: {made, games: [{id, k, h, a, players: {name: {stat: {line: {book: {Over|Under|Yes|No: American}}}}}}]}"""
     if not P: return
     ids = {pid for g in P for pid in g['p']}; N = {}
@@ -250,6 +262,9 @@ def write_props(sp, sid, P):
     games = [dict(id=g['id'], k=g['k'], h=g['h'], a=g['a'], players={N.get(pid, f'id{pid}'): st for pid, st in g['p'].items()},
                   posted={N.get(pid, f'id{pid}'): st for pid, st in g.get('t', {}).items()}) for g in P]
     carry_props(sp, games)
+    if keep_old:   # deadline cut the sweep: games it did not reach keep the previous file's props
+        try: games += [g for g in json.load(open(f'{D}/odds/props_{sp}.json')).get('games', []) if g['id'] not in {x['id'] for x in games} and g.get('k', '') > NOW.isoformat()[:19]]
+        except (OSError, ValueError): pass
     json.dump(dict(made=NOW.isoformat(), src='oddspapi', games=games), open(f'{D}/odds/props_{sp}.json', 'w'), separators=(',', ':'))
     print(sp, 'props:', sum(len(g['players']) for g in games), 'players,', sum(1 for g in games for v in g['players'].values() for s in v.values() for _ in s), 'lines;',
           sum(1 for pid in ids if pid not in N), 'players without a name')

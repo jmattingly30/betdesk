@@ -18,110 +18,12 @@
   }
  },
  "upcoming": {
-  "2026_09_ARI_SEA": [
-   0,
-   1,
-   "Sam Darnold",
-   "Gardner Minshew II",
-   -0.005
-  ],
-  "2026_09_CIN_ATL": [
-   0,
-   0,
-   "Michael Penix Jr.",
-   "Joe Burrow",
-   0.0
-  ],
-  "2026_09_CLE_NO": [
-   0,
-   1,
-   "Tyler Shough",
-   "Shedeur Sanders",
-   0.106
-  ],
-  "2026_09_DAL_IND": [
-   0,
-   0,
-   "Daniel Jones",
-   "Dak Prescott",
-   0.0
-  ],
-  "2026_09_DEN_CAR": [
-   0,
-   0,
-   "Bryce Young",
-   "Bo Nix",
-   0.0
-  ],
-  "2026_09_DET_MIA": [
-   0,
-   0,
-   "Malik Willis",
-   "Jared Goff",
-   0.0
-  ],
-  "2026_09_GB_NE": [
-   0,
-   0,
-   "Drake Maye",
-   "Jordan Love",
-   0.0
-  ],
-  "2026_09_HOU_LAC": [
-   0,
-   0,
-   "Justin Herbert",
-   "C.J. Stroud",
-   0.0
-  ],
-  "2026_09_LA_WAS": [
-   0,
-   0,
-   "Jayden Daniels",
-   "Matthew Stafford",
-   0.0
-  ],
-  "2026_09_LV_SF": [
-   0,
-   0,
-   "Brock Purdy",
-   "Kirk Cousins",
-   0.0
-  ],
-  "2026_09_NYG_PHI": [
-   2,
-   2,
-   "Joe Milton III",
-   "J.J. McCarthy",
-   -0.066
-  ],
-  "2026_09_NYJ_KC": [
-   0,
-   0,
-   "Patrick Mahomes",
-   "Geno Smith",
-   0.0
-  ],
-  "2026_09_TB_CHI": [
-   0,
-   0,
-   "Caleb Williams",
-   "Baker Mayfield",
-   0.0
-  ],
-  "2026_09_BUF_MIN": [
-   0,
-   0,
-   "Kyler Murray",
-   "Josh Allen",
-   0.0
-  ],
   "2026_10_WAS_NYG": [
    2,
    0,
    "J.J. McCarthy",
    "Jayden Daniels",
-   -0.05
+   -0.054
   ],
   "2026_10_BUF_NYJ": [
    0,
@@ -138,11 +40,11 @@
    0.0
   ],
   "2026_10_HOU_CLE": [
-   1,
    0,
-   "Shedeur Sanders",
+   0,
+   "Deshaun Watson",
    "C.J. Stroud",
-   -0.106
+   0.0
   ],
   "2026_10_JAX_TEN": [
    0,
@@ -159,11 +61,11 @@
    0.0
   ],
   "2026_10_LA_ARI": [
-   1,
+   2,
    0,
    "Gardner Minshew II",
    "Matthew Stafford",
-   0.005
+   -0.003
   ],
   "2026_10_MIA_IND": [
    0,
@@ -174,10 +76,10 @@
   ],
   "2026_10_MIN_GB": [
    0,
-   0,
+   2,
    "Jordan Love",
-   "Kyler Murray",
-   0.0
+   "Carson Wentz",
+   0.081
   ],
   "2026_10_NE_DET": [
    0,
@@ -195,10 +97,10 @@
   ],
   "2026_10_SEA_LV": [
    0,
-   0,
+   2,
    "Kirk Cousins",
-   "Sam Darnold",
-   0.0
+   "Drew Lock",
+   0.035
   ],
   "2026_10_SF_DAL": [
    0,
@@ -223,10 +125,10 @@
   ],
   "2026_11_ARI_KC": [
    0,
-   1,
+   2,
    "Patrick Mahomes",
    "Gardner Minshew II",
-   -0.005
+   0.003
   ],
   "2026_11_BAL_CAR": [
    0,
@@ -240,7 +142,7 @@
    0,
    "J.J. McCarthy",
    "Trevor Lawrence",
-   -0.05
+   -0.054
   ],
   "2026_11_LV_DEN": [
    0,
@@ -258,10 +160,10 @@
   ],
   "2026_11_MIN_SF": [
    0,
-   0,
+   2,
    "Brock Purdy",
-   "Kyler Murray",
-   0.0
+   "Carson Wentz",
+   0.081
   ],
   "2026_11_NO_CHI": [
    0,
@@ -282,7 +184,7 @@
    0,
    "Joe Milton III",
    "Aaron Rodgers",
-   -0.115
+   -0.152
   ],
   "2026_11_TB_DET": [
    0,
@@ -331,7 +233,7 @@
    2,
    "Dak Prescott",
    "Joe Milton III",
-   0.115
+   0.152
   ],
   "2026_12_DEN_PIT": [
    0,
@@ -341,11 +243,11 @@
    0.0
   ],
   "2026_12_ATL_MIN": [
+   2,
    0,
-   0,
-   "Kyler Murray",
+   "Carson Wentz",
    "Michael Penix Jr.",
-   0.0
+   -0.081
   ],
   "2026_12_BAL_HOU": [
    0,
@@ -355,11 +257,11 @@
    0.179
   ],
   "2026_12_LV_CLE": [
-   1,
    0,
-   "Shedeur Sanders",
+   0,
+   "Deshaun Watson",
    "Kirk Cousins",
-   -0.106
+   0.0
   ],
   "2026_12_NE_LAC": [
    0,
@@ -380,7 +282,7 @@
    2,
    "Daniel Jones",
    "J.J. McCarthy",
-   0.05
+   0.054
   ],
   "2026_12_NYJ_MIA": [
    0,
@@ -391,10 +293,10 @@
   ],
   "2026_12_SEA_SF": [
    0,
-   0,
+   2,
    "Brock Purdy",
-   "Sam Darnold",
-   0.0
+   "Drew Lock",
+   0.035
   ],
   "2026_12_TEN_JAX": [
    0,
@@ -404,11 +306,11 @@
    0.0
   ],
   "2026_12_WAS_ARI": [
-   1,
+   2,
    0,
    "Gardner Minshew II",
    "Jayden Daniels",
-   0.005
+   -0.003
   ],
   "2026_12_CAR_TB": [
    0,
@@ -432,18 +334,18 @@
    0.0
   ],
   "2026_13_CAR_MIN": [
+   2,
    0,
-   0,
-   "Kyler Murray",
+   "Carson Wentz",
    "Bryce Young",
-   0.0
+   -0.081
   ],
   "2026_13_CIN_CLE": [
-   1,
    0,
-   "Shedeur Sanders",
+   0,
+   "Deshaun Watson",
    "Joe Burrow",
-   -0.106
+   0.0
   ],
   "2026_13_DET_ATL": [
    0,
@@ -488,18 +390,18 @@
    0.0
   ],
   "2026_13_PHI_ARI": [
-   1,
+   2,
    2,
    "Gardner Minshew II",
    "Joe Milton III",
-   0.0
+   0.149
   ],
   "2026_13_SF_NYG": [
    2,
    0,
    "J.J. McCarthy",
    "Brock Purdy",
-   -0.05
+   -0.054
   ],
   "2026_13_WAS_TEN": [
    0,
@@ -509,25 +411,25 @@
    0.0
   ],
   "2026_13_DAL_SEA": [
+   2,
    0,
-   0,
-   "Sam Darnold",
+   "Drew Lock",
    "Dak Prescott",
-   0.0
+   -0.035
   ],
   "2026_14_MIN_NE": [
    0,
-   0,
+   2,
    "Drake Maye",
-   "Kyler Murray",
-   0.0
+   "Carson Wentz",
+   0.081
   ],
   "2026_14_ATL_CLE": [
-   1,
    0,
-   "Shedeur Sanders",
+   0,
+   "Deshaun Watson",
    "Michael Penix Jr.",
-   -0.106
+   0.0
   ],
   "2026_14_BUF_GB": [
    0,
@@ -562,7 +464,7 @@
    0,
    "Joe Milton III",
    "Daniel Jones",
-   -0.115
+   -0.152
   ],
   "2026_14_KC_CIN": [
    0,
@@ -593,11 +495,11 @@
    0.0
   ],
   "2026_14_NYG_SEA": [
-   0,
    2,
-   "Sam Darnold",
+   2,
+   "Drew Lock",
    "J.J. McCarthy",
-   0.05
+   0.019
   ],
   "2026_14_TB_BAL": [
    2,
@@ -636,10 +538,10 @@
   ],
   "2026_15_SEA_PHI": [
    2,
-   0,
+   2,
    "Joe Milton III",
-   "Sam Darnold",
-   -0.115
+   "Drew Lock",
+   -0.117
   ],
   "2026_15_ATL_WAS": [
    0,
@@ -664,10 +566,10 @@
   ],
   "2026_15_CLE_NYG": [
    2,
-   1,
+   0,
    "J.J. McCarthy",
-   "Shedeur Sanders",
-   0.0
+   "Deshaun Watson",
+   -0.054
   ],
   "2026_15_DAL_LA": [
    0,
@@ -684,11 +586,11 @@
    0.0
   ],
   "2026_15_DET_MIN": [
+   2,
    0,
-   0,
-   "Kyler Murray",
+   "Carson Wentz",
    "Jared Goff",
-   0.0
+   -0.081
   ],
   "2026_15_IND_TEN": [
    0,
@@ -719,11 +621,11 @@
    0.0
   ],
   "2026_15_NYJ_ARI": [
-   1,
+   2,
    0,
    "Gardner Minshew II",
    "Geno Smith",
-   0.005
+   -0.003
   ],
   "2026_15_NE_KC": [
    0,
@@ -737,7 +639,7 @@
    0,
    "Joe Milton III",
    "C.J. Stroud",
-   -0.115
+   -0.152
   ],
   "2026_16_BUF_DEN": [
    0,
@@ -754,18 +656,18 @@
    0.0
   ],
   "2026_16_LA_SEA": [
+   2,
    0,
-   0,
-   "Sam Darnold",
+   "Drew Lock",
    "Matthew Stafford",
-   0.0
+   -0.035
   ],
   "2026_16_ARI_NO": [
    0,
-   1,
+   2,
    "Tyler Shough",
    "Gardner Minshew II",
-   -0.005
+   0.003
   ],
   "2026_16_CAR_PIT": [
    0,
@@ -783,10 +685,10 @@
   ],
   "2026_16_CLE_BAL": [
    2,
-   1,
+   0,
    "Jacoby Brissett",
-   "Shedeur Sanders",
-   0.0
+   "Deshaun Watson",
+   -0.179
   ],
   "2026_16_JAX_DAL": [
    0,
@@ -831,18 +733,18 @@
    0.0
   ],
   "2026_16_WAS_MIN": [
+   2,
    0,
-   0,
-   "Kyler Murray",
+   "Carson Wentz",
    "Jayden Daniels",
-   0.0
+   -0.081
   ],
   "2026_16_NYG_DET": [
    0,
    2,
    "Jared Goff",
    "J.J. McCarthy",
-   0.05
+   0.054
   ],
   "2026_17_BAL_CIN": [
    0,
@@ -873,11 +775,11 @@
    0.0
   ],
   "2026_17_IND_CLE": [
-   1,
    0,
-   "Shedeur Sanders",
+   0,
+   "Deshaun Watson",
    "Daniel Jones",
-   -0.106
+   0.0
   ],
   "2026_17_KC_LAC": [
    0,
@@ -894,18 +796,18 @@
    0.0
   ],
   "2026_17_LV_ARI": [
-   1,
+   2,
    0,
    "Gardner Minshew II",
    "Kirk Cousins",
-   0.005
+   -0.003
   ],
   "2026_17_MIN_NYJ": [
    0,
-   0,
+   2,
    "Geno Smith",
-   "Kyler Murray",
-   0.0
+   "Carson Wentz",
+   0.081
   ],
   "2026_17_NO_ATL": [
    0,
@@ -919,14 +821,14 @@
    2,
    "Dak Prescott",
    "J.J. McCarthy",
-   0.05
+   0.054
   ],
   "2026_17_PHI_SF": [
    0,
    2,
    "Brock Purdy",
    "Joe Milton III",
-   0.115
+   0.152
   ],
   "2026_17_PIT_TEN": [
    0,
@@ -937,10 +839,10 @@
   ],
   "2026_17_SEA_CAR": [
    0,
-   0,
+   2,
    "Bryce Young",
-   "Sam Darnold",
-   0.0
+   "Drew Lock",
+   0.035
   ],
   "2026_17_WAS_JAX": [
    0,
@@ -964,18 +866,18 @@
    0.0
   ],
   "2026_18_CHI_MIN": [
+   2,
    0,
-   0,
-   "Kyler Murray",
+   "Carson Wentz",
    "Caleb Williams",
-   0.0
+   -0.081
   ],
   "2026_18_CLE_CIN": [
    0,
-   1,
+   0,
    "Joe Burrow",
-   "Shedeur Sanders",
-   0.106
+   "Deshaun Watson",
+   0.0
   ],
   "2026_18_DAL_WAS": [
    0,
@@ -1031,7 +933,7 @@
    2,
    "J.J. McCarthy",
    "Joe Milton III",
-   0.066
+   0.098
   ],
   "2026_18_PIT_BAL": [
    2,
@@ -1042,17 +944,17 @@
   ],
   "2026_18_SEA_LA": [
    0,
-   0,
+   2,
    "Matthew Stafford",
-   "Sam Darnold",
-   0.0
+   "Drew Lock",
+   0.035
   ],
   "2026_18_SF_ARI": [
-   1,
+   2,
    0,
    "Gardner Minshew II",
    "Brock Purdy",
-   0.005
+   -0.003
   ],
   "2026_18_TB_NO": [
    0,

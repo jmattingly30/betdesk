@@ -1,5 +1,151 @@
 {
- "made": "2026-11-07 16:16 UTC",
- "A": {},
- "B": {}
+ "made": "2026-11-10 15:10 UTC",
+ "A": {
+  "A": {
+   "n": 116,
+   "MAE": 9.406
+  },
+  "v4": {
+   "n": 116,
+   "MAE": 9.405
+  },
+  "line": {
+   "n": 116,
+   "MAE": 8.92
+  },
+  "closer": {
+   "n": 116,
+   "share": 0.422
+  },
+  "A_abs": {
+   "n": 38,
+   "MAE": 10.003
+  },
+  "v4_abs": {
+   "n": 38,
+   "MAE": 10.123
+  }
+ },
+ "B": {
+  "spread_B": {
+   "n": 12,
+   "win": 0.417,
+   "roi": -0.202,
+   "clv_pts": -0.62
+  },
+  "spread_B_late": {
+   "n": 12,
+   "win": 0.417,
+   "roi": -0.202,
+   "clv_pts": -0.62
+  },
+  "ml_B": {
+   "n": 8,
+   "win": 0.5,
+   "roi": -0.093,
+   "clv_pts": 0.0
+  },
+  "ml_B_late": {
+   "n": 8,
+   "win": 0.5,
+   "roi": -0.093,
+   "clv_pts": 0.0
+  },
+  "spread_U_play": {
+   "n": 16,
+   "win": 0.5,
+   "roi": -0.047,
+   "clv_pts": 0.39
+  },
+  "spread_U_play_late": {
+   "n": 16,
+   "win": 0.5,
+   "roi": -0.047,
+   "clv_pts": 0.39
+  },
+  "total_U_play": {
+   "n": 5,
+   "win": 0.6,
+   "roi": 0.145,
+   "clv_pts": 0.32
+  },
+  "total_U_play_late": {
+   "n": 5,
+   "win": 0.6,
+   "roi": 0.145,
+   "clv_pts": 0.32
+  },
+  "ml_U_watch": {
+   "n": 34,
+   "win": 0.206,
+   "roi": -0.552,
+   "clv_pts": 0.0
+  },
+  "ml_U_watch_late": {
+   "n": 34,
+   "win": 0.206,
+   "roi": -0.552,
+   "clv_pts": 0.0
+  },
+  "spread_U_watch": {
+   "n": 10,
+   "win": 0.3,
+   "roi": -0.419,
+   "clv_pts": -0.14
+  },
+  "spread_U_watch_late": {
+   "n": 10,
+   "win": 0.3,
+   "roi": -0.419,
+   "clv_pts": -0.14
+  },
+  "total_U_skip": {
+   "n": 20,
+   "win": 0.4,
+   "roi": -0.237,
+   "clv_pts": -0.25
+  },
+  "total_U_skip_late": {
+   "n": 20,
+   "win": 0.4,
+   "roi": -0.237,
+   "clv_pts": -0.25
+  },
+  "spread_U_skip": {
+   "n": 25,
+   "win": 0.44,
+   "roi": -0.156,
+   "clv_pts": 0.02
+  },
+  "spread_U_skip_late": {
+   "n": 25,
+   "win": 0.44,
+   "roi": -0.156,
+   "clv_pts": 0.02
+  },
+  "ml_U_skip": {
+   "n": 22,
+   "win": 0.545,
+   "roi": -0.231,
+   "clv_pts": 0.0
+  },
+  "ml_U_skip_late": {
+   "n": 22,
+   "win": 0.545,
+   "roi": -0.231,
+   "clv_pts": 0.0
+  },
+  "total_U_watch": {
+   "n": 32,
+   "win": 0.344,
+   "roi": -0.34,
+   "clv_pts": 0.08
+  },
+  "total_U_watch_late": {
+   "n": 32,
+   "win": 0.344,
+   "roi": -0.34,
+   "clv_pts": 0.08
+  }
+ }
 }
