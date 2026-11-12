@@ -1,8 +1,7 @@
 name: CFB v2 weekly refresh
 on:
-  schedule:
-    - cron: "0 15 * * 1,4"   # daylight time (MDT)
-    - cron: "0 16 * * 1,4"   # standard time (MST)
+  # J 2026-11-11: the morning chain (tools/morning.sh B6a) now runs CFB v2 Mon/Thu or when it is 4+ days old;
+  # this schedule skipped Mon 11-09. Run by hand from the Actions tab if needed.
   workflow_dispatch: {}
 concurrency: { group: betdesk-data, cancel-in-progress: false }
 jobs:

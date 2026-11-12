@@ -385,7 +385,7 @@ function uRows(){
     const sl = (gsGames(sp) || []).find(y => String(y.id) === id); if (!sl || (sl.k && Date.parse(sl.k) <= now)) return;
     cabU(G).forEach(([k, z]) => R.push({sp, u:z.u, title:cabPick(k, z), sub:`${G.a} @ ${G.h} · ${z.bet.book_name} ${amS(z.bet.price)}`,
       go:() => homeOpen(sp, {g:sl.id, d:sl.d, k:sl.k, w:sl.w, home:sl.h, away:sl.a, n:sl.n || 0})})); }));
-  ((TENAB && TENAB.matches) || []).forEach(m => { const u = m.B && m.B.u; if (!u || u.rec === 'skip' || Date.parse(m.start) <= now) return;
+  ((SPORT_LIST.includes('Tennis') && TENAB && TENAB.matches) || [])   /* J 2026-11-11: tennis off the desk */.forEach(m => { const u = m.B && m.B.u; if (!u || u.rec === 'skip' || Date.parse(m.start) <= now) return;
     R.push({sp:'Tennis', u, title:`${tenName(m.B.pick)} ML`, sub:`${tenName(m.p1)} v ${tenName(m.p2)} · ${bkName(m.B.book)} ${amS(amOf(m.B.price))} · paper`, go:() => { TSHEET = m.fid; if (S.sport !== 'Tennis'){ S.sport = 'Tennis'; lsSet('betdesk.sport', 'Tennis'); } S.sub.Tennis = 'matches'; lsSet('betdesk.sub', JSON.stringify(S.sub)); show('slate'); refreshSport(true); renderTennis(); }}); });
   return R.sort((a, b) => b.u.score - a.u.score);
 }
@@ -430,7 +430,7 @@ const tenModel = m => ((TENM && TENM.matches) || []).find(z => z.fid && z.fid ==
 // Tennis Model A + B (models/tennis_ab/live.py -> tennis_ab.json, 2026-11-05): A = point sim on our win % (total games, each
 // player's games, set scores, fair lines); B = blend with the market, tier B lean (women, 6-10% edge, both 30+ rated) or C. No tier A.
 let TENAB = null;
-fetch('tennis_ab.json', {cache:'no-cache'}).then(r => r.ok ? r.json() : null).then(j => { if (j && j.matches){ TENAB = j; try { renderTennis(); } catch(e){} } }).catch(() => {});
+if (SPORT_LIST.includes('Tennis')) fetch('tennis_ab.json', {cache:'no-cache'}).then(r => r.ok ? r.json() : null).then(j => { if (j && j.matches){ TENAB = j; try { renderTennis(); } catch(e){} } }).catch(() => {});
 const tenAB = m => ((TENAB && TENAB.matches) || []).find(z => z.fid && z.fid === m.fid) || null;
 function renderTennis(){
   const out = $('#tennisOut'); if (!out) return;

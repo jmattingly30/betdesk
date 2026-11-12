@@ -864,7 +864,7 @@ function show(v){
 // ---------- props tab ----------
 function fillSelect(el, items, val){ el.innerHTML = items.map(i => `<option${i===val?' selected':''}>${esc(i)}</option>`).join(''); }
 // The sport and day picked in the top bar drive every panel, list and card (audit H1). Each sport shows only the panels it has.
-const SPORT_LIST = ['NFL','NBA','NHL','CFB','CBB','MLB','Soccer','Tennis'];
+const SPORT_LIST = ['NFL','NBA','NHL','CFB','CBB','MLB'];   // J 2026-11-11: Soccer and Tennis held off the desk (code and data kept; add them back here)
 const VIEWS = {NFL:['games','shop','props','flags','parlays','promo'], NBA:['games','shop','props','flags','parlays','promo'], NHL:['props','flags','parlays','promo'],
   CFB:['games','shop','parlays','promo'], CBB:['games','shop','parlays','promo'], MLB:['games'], Soccer:['games','props'], Tennis:['tennis']};
 // sub-tabs (rework step 3): each shows a set of the panels above
@@ -2806,13 +2806,11 @@ function renderData(){
     ['NHL props', S.slates.NHL && S.slates.NHL.made, 1.5, 'daily'],
     ['Suggested parlays', SUG && SUG.made, 1.5, 'daily, after props'],
     ['Game slates and market lines', S.gs && S.gs.made, 1.5, 'daily'],
-    ['NFL and NBA team ratings', S.games && S.games.made, 8, 'by hand'],
-    ['College football v3', S.cfb && S.cfb.through, 8, 'weekly'],
-    ['College football v2', S.cfb2 && ('week '+S.cfb2.week), null, 'your weekly file'],
-    ['College basketball', S.cbb && (S.cbb.made || S.cbb.kind), 30, 'by hand'],
-    ['Soccer match model', S.socMatch && (S.socMatch.made || (S.socMatch.leagues && S.socMatch.leagues.E0 && S.socMatch.leagues.E0.through)), 10, 'source stops Sep 3'],
-    ['NFL coach grades', S.nflCoach && S.nflCoach.made, 35, 'monthly'],
-    ['MLB slate (your app)', MLBF.slate && MLBF.slate.updatedAt, 2/24, 'your app, every 30 min'],
+    ['NFL and NBA team ratings', S.games && S.games.made, 2, 'daily, morning chain'],
+    ['College football v3', S.cfb && S.cfb.through, 8, 'weekly, Sundays'],
+    ['College football v2', S.cfb2 && S.cfb2.made, 8, 'Mon and Thu' + (S.cfb2 && S.cfb2.week ? ', week ' + S.cfb2.week : '')],
+    ['College basketball v2', S.cbb2b && S.cbb2b.made, 1.5, 'daily, morning chain'],
+    ['NFL coach grades', S.nflCoach && S.nflCoach.made, 9, 'daily, through the last game played'],
   ];
   $('#dataPanel').innerHTML = `<h3>Model data</h3><div class="tablewrap"><table class="dtable"><thead><tr><th>Model</th><th>Built</th></tr></thead><tbody>${rows.map(([n,v,lim,how]) => {
     const a = age(v), st = v == null ? '<span class="badge stale">missing</span>' : (lim!=null && a!=null && a > lim) ? '<span class="badge stale">stale</span>' : '<span class="badge ok">fresh</span>';
@@ -2825,11 +2823,9 @@ function renderModels(){
     <li><b>NFL player props</b>: ${nfl?`${nfl.season} week ${nfl.week}, ${nfl.players.length} players, run ${esc(nfl.made)}`:'not loaded'}. Includes the 2026-10-11 upgrades: a separate target model for players new to a team, and play-caller, personnel and coverage terms in targets. Projections assume the player plays; the injury report is applied as of the run.</li>
     <li><b>NBA player props</b>: ${S.slates.NBA?`opening night ${esc(S.slates.NBA.week)}, run ${esc(S.slates.NBA.made)}`:'loads once the regular season slate is out'}. Uses the 2026-10-11 minutes model (better on players returning from absences). Mark injured players on the NBA game card; props refresh on game days.</li>
     <li><b>NHL player props</b>: ${S.slates.NHL?`${S.slates.NHL.week}, ${S.slates.NHL.players.length} players in ${S.slates.NHL.games.length} games, run ${esc(S.slates.NHL.made)}`:'not loaded'}. Shots, points, goals, assists, blocks, hits, goalie saves.</li>
-    <li><b>Soccer player props (EPL)</b>: ${S.socPlayers?`${S.socPlayers.players.length} players, form data through ${esc(S.socPlayers.data_through)}`:'not loaded'}. Pick the match on the Props tab; enter the match odds for the best team-goal inputs.</li>
-    <li><b>Soccer match model</b>: ${S.socMatch?`Premier League, La Liga, Bundesliga, Serie A, Ligue 1 and Elo for cross-league games`:'not loaded'}, on the Games tab. The market beat it in backtests, so its weight is capped at 10%.</li>
     <li><b>MLB player props</b>: built (pitcher strikeouts, batter hits, total bases, HR); loads for 2027 once 2026 game data is published.</li>
     <li><b>CBB card</b> (Games tab): CBB v2${S.cbb2b ? ` (${Object.keys(S.cbb2b.games).length} games, made ${esc(S.cbb2b.made)})` : ''} is the main model: the previous CBB ratings stacked with the rebuild (2020-26 backtest margin error 8.87 vs 8.91, totals 13.24 vs 13.34; 2026 DraftKings openers with a 4+ point gap 63.9% ATS, totals 4+ 54.5% with CLV +1.78). The previous model is shown beside it as Model B. The previous model: preseason ratings built from returning and transfer production. Type the opener: a gap of 3+ points is where the model beat the market (2026 openers, one season), strongest in high-major and non-conference games; each conference tier has its own weight. Not at the close.</li>
-    <li><b>Games</b>: NFL (team ratings ${S.games?'through '+esc(S.games.NFL.made):'not loaded'}), college football v3 (${S.cfb?'games through '+esc(S.cfb.through):'not loaded'}) and your v2 (${S.cfb2?'week '+esc(S.cfb2.week)+' ratings':'waiting on your weekly ratings file'}), college basketball, NBA team model with players out (2026-27 rosters), MLB from your app's Drive slate (or runs you type), and soccer. None has beaten the closing line in backtests; the opener and late injury news are where their edges show up.</li></ul>
+    <li><b>Games</b>: NFL (team ratings ${S.games?'through '+esc(S.games.NFL.made):'not loaded'}), college football v3 (${S.cfb?'games through '+esc(S.cfb.through):'not loaded'}) and your v2 (${S.cfb2?'week '+esc(S.cfb2.week)+' ratings':'waiting on your weekly ratings file'}), college basketball, NBA team model with players out (2026-27 rosters), and MLB from your app's Drive slate (or runs you type). None has beaten the closing line in backtests; the opener and late injury news are where their edges show up.</li></ul>
     <p class="small muted">Prop lines you have checked (line and both prices typed): <b class="num" id="lineCount">${S.lines}</b>. These are saved so the prop models can be scored against real prices.</p>
     <p class="small muted">To refresh: ask Claude in the Sports Analytics project to "refresh Bet Desk props for NFL week N" (best after Friday injury reports) or "refresh NHL props" (any game day).</p>`;
   const st = S.settings;
@@ -3837,7 +3833,7 @@ function uRows(){
     const sl = (gsGames(sp) || []).find(y => String(y.id) === id); if (!sl || (sl.k && Date.parse(sl.k) <= now)) return;
     cabU(G).forEach(([k, z]) => R.push({sp, u:z.u, title:cabPick(k, z), sub:`${G.a} @ ${G.h} · ${z.bet.book_name} ${amS(z.bet.price)}`,
       go:() => homeOpen(sp, {g:sl.id, d:sl.d, k:sl.k, w:sl.w, home:sl.h, away:sl.a, n:sl.n || 0})})); }));
-  ((TENAB && TENAB.matches) || []).forEach(m => { const u = m.B && m.B.u; if (!u || u.rec === 'skip' || Date.parse(m.start) <= now) return;
+  ((SPORT_LIST.includes('Tennis') && TENAB && TENAB.matches) || [])   /* J 2026-11-11: tennis off the desk */.forEach(m => { const u = m.B && m.B.u; if (!u || u.rec === 'skip' || Date.parse(m.start) <= now) return;
     R.push({sp:'Tennis', u, title:`${tenName(m.B.pick)} ML`, sub:`${tenName(m.p1)} v ${tenName(m.p2)} · ${bkName(m.B.book)} ${amS(amOf(m.B.price))} · paper`, go:() => { TSHEET = m.fid; if (S.sport !== 'Tennis'){ S.sport = 'Tennis'; lsSet('betdesk.sport', 'Tennis'); } S.sub.Tennis = 'matches'; lsSet('betdesk.sub', JSON.stringify(S.sub)); show('slate'); refreshSport(true); renderTennis(); }}); });
   return R.sort((a, b) => b.u.score - a.u.score);
 }
@@ -3882,7 +3878,7 @@ const tenModel = m => ((TENM && TENM.matches) || []).find(z => z.fid && z.fid ==
 // Tennis Model A + B (models/tennis_ab/live.py -> tennis_ab.json, 2026-11-05): A = point sim on our win % (total games, each
 // player's games, set scores, fair lines); B = blend with the market, tier B lean (women, 6-10% edge, both 30+ rated) or C. No tier A.
 let TENAB = null;
-fetch('tennis_ab.json', {cache:'no-cache'}).then(r => r.ok ? r.json() : null).then(j => { if (j && j.matches){ TENAB = j; try { renderTennis(); } catch(e){} } }).catch(() => {});
+if (SPORT_LIST.includes('Tennis')) fetch('tennis_ab.json', {cache:'no-cache'}).then(r => r.ok ? r.json() : null).then(j => { if (j && j.matches){ TENAB = j; try { renderTennis(); } catch(e){} } }).catch(() => {});
 const tenAB = m => ((TENAB && TENAB.matches) || []).find(z => z.fid && z.fid === m.fid) || null;
 function renderTennis(){
   const out = $('#tennisOut'); if (!out) return;
@@ -4014,15 +4010,14 @@ document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', 
 // ---------- boot ----------
 const PRE = {};
 const getJ = f => PRE[f] || (PRE[f] = fetch(f, {cache:'no-cache'}).then(r => r.ok ? r.json() : null).catch(() => null));
-const FILES = ['line_tools.json','landing.json','game_slates.json','scorecard.json','nfl_props.json','nba_props.json','nhl_props.json','soccer_match.json','soccer_players.json','cbb_ratings.json','games_models.json','nfl_margin.json','nfl_coaches.json','parlay_corr.json','parlay_suggestions.json','cfb_model.json','cfb_v2.json','props_NFL.json','props_NBA.json','props_NHL.json','cbb_v2.json','model_a.json','cfb_usage.json','tennis.json','tennis_model.json'];
+const FILES = ['line_tools.json','landing.json','game_slates.json','scorecard.json','nfl_props.json','nba_props.json','nhl_props.json','cbb_ratings.json','games_models.json','nfl_margin.json','nfl_coaches.json','parlay_corr.json','parlay_suggestions.json','cfb_model.json','cfb_v2.json','props_NFL.json','props_NBA.json','props_NHL.json','cbb_v2.json','model_a.json','cfb_usage.json'];
 async function loadSlates(){
   FILES.forEach(getJ);   // start every download at once; each is still applied in the order below
   for (const sp of ['NFL','NBA','NHL']){ const j = await getJ(sp.toLowerCase()+'_props.json'); if (j) S.slates[sp] = j; }
   { const j = await getJ('game_slates.json'); if (j) S.gs = j; }
   S.day = slateDays(S.sport)[0] || ''; renderDayBar();
   initFlags(); initParlay();
-  { const j = await getJ('soccer_match.json'); if (j) S.socMatch = j; }
-  { const j = await getJ('soccer_players.json'); if (j) S.socPlayers = j; }
+  if (SPORT_LIST.includes('Soccer')){ const j = await getJ('soccer_match.json'); if (j) S.socMatch = j; const k = await getJ('soccer_players.json'); if (k) S.socPlayers = k; }
   if (S.socMatch){
     const t = S.socMatch.leagues.E0.teams;
     $('#smH').innerHTML = t.map(x=>`<option>${esc(x)}</option>`).join(''); $('#smA').innerHTML = $('#smH').innerHTML; $('#smA').selectedIndex = 1;
@@ -4036,6 +4031,8 @@ async function loadSlates(){
   { const j = await getJ('games_models.json'); if (j) S.games = j; }
   { const j = await getJ('nfl_margin.json'); if (j) S.nflMargin = j; }
   { const j = await getJ('nfl_coaches.json'); if (j) S.nflCoach = j; }
+  { const j = await getJ('cfb_v2.json'); if (j) S.cfb2 = j; }   // J 2026-11-11: loaded before the big line files so the Data tab never shows it missing mid-load
+  renderData();
   { const j = await getJ('parlay_corr.json'); if (j) PL_CORR = j; }
   plCache.key = ''; renderParlay();
   { const j = await getJ('parlay_suggestions.json'); if (j) SUG = j; }
@@ -4047,13 +4044,11 @@ async function loadSlates(){
   for (const sp of PO_SP){ const j = await getJ('props_' + sp + '.json'); if (j && j.games) PO[sp] = j; }
   renderFlags(); renderProp();
   { const j = await getJ('cfb_model.json'); if (j) S.cfb = j; }
-  { const j = await getJ('cfb_v2.json'); if (j) S.cfb2 = j; }
   { const j = await getJ('scorecard.json'); if (j) SCORE = j; }
   { const j = await getJ('nfl_teams.json'); if (j && j.teams) NFLT = j.teams; }
   { const j = await getJ('cfb_usage.json'); if (j) S.cfbUse = j; }
   { const j = await getJ('model_a.json'); if (j) MA = j; }
-  { const j = await getJ('tennis.json'); if (Array.isArray(j)) TEN = j; }
-  { const j = await getJ('tennis_model.json'); if (j) TENM = j; }
+  if (SPORT_LIST.includes('Tennis')){ const j = await getJ('tennis.json'); if (Array.isArray(j)) TEN = j; const k = await getJ('tennis_model.json'); if (k) TENM = k; }
   initGames();
   refreshSport(true); renderModels(); renderBest(); renderHome();
 }

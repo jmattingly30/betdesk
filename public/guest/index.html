@@ -149,7 +149,7 @@ nav button[aria-current=true]{color:var(--accent);border-top-color:var(--accent)
   function section(title, sub, list, cls = ''){
     return `<div class="panel ${cls}"><div class="hd"><h3>${title}</h3>${sub ? `<span class="small muted">${sub}</span>` : ''}</div>${list}</div>`;
   }
-  const ALL_SP = ['NFL', 'NBA', 'CFB', 'CBB', 'NHL', 'TENNIS'];
+  const ALL_SP = ['NFL', 'NBA', 'CFB', 'CBB', 'NHL'];   // TENNIS held off 2026-11-11 (J)
   const visible = () => S.picks.filter(p => !S.hidden.has(p.id) && (level() >= 2 || p.tier !== 'C'));
   const spOrder = () => { const order = (S.me && S.me.profile && S.me.profile.sports) || [];
     return s => { const i = order.indexOf(s); return i >= 0 ? i : 10 + ALL_SP.indexOf(s); }; };

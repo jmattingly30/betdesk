@@ -16,9 +16,8 @@ A1. `cd /mnt/project-files/sports-analytics/app && OP_DEADLINE_MIN=110 python3 o
     CFB goes last and OP_DEADLINE_MIN=110 stops it cleanly before the 2-hour kill (2026-11-07: the Saturday CFB sweep ran 1h50m and the kill lost CBB/NBA/NHL);
     unreached CFB games keep the previous file's lines and the noon Odds API pull covers CFB.
     All 12 books, NFL/CFB/NBA/CBB/NHL game lines plus NFL/NBA/NHL props; it holds data/odds/oddspapi.lock. Took ~100 min on 11-01 (CFB + CBB).
-A2. When A1 exits: `cd /mnt/project-files/sports-analytics/app && python3 op_live.py TENNIS` with run_in_background (timeout 5400000; can pass 60 min)
-    -> app/data/odds/tennis.json (about 45 min on 11-01, 164 matches; its own call so a long team sweep can't cut it off). Start part C while it runs;
-    it must finish before D (publish tennis.json). The tennis thread rebuilds tennis_model.json at 16:30 UTC from it.
+A2. HELD (J 2026-11-11): tennis is off the desk because its pulls kept failing. Do not run `op_live.py TENNIS`; the code and
+    app/data/odds/tennis.json stay for when tennis comes back.
 Do part B while it runs. Never poll with sleep; you are woken when it exits.
 
 ## B. Projections (no odds needed), while the sweep runs
@@ -46,6 +45,8 @@ B3. NFL props, Tuesday to Sunday only (J 2026-10-28; skip Mondays): download nfl
 B3a. Every day: python3 models/nfl-player/shadow.py (grading only; needs statsmodels).
 B4. Every day: download games.csv fresh (as in B3) and python3 app/export_games.py /tmp/claude-0/nfldl/games.csv (about 2 min).
     Check its "starters changed from games.csv" and "NFL QB changes" lines look sane (a few teams, each under about 8 points).
+B4a. Every day (J 2026-11-11, the Data tab showed coach grades stale since Oct 5): `python3 models/team-strength/nfl/export_coach_grades.py /tmp/claude-0/nfldl/games.csv`
+    -> app/data/nfl_coaches.json (seconds; current head coach per team and grades from the same games.csv as B4).
 B5. Every day (J 2026-11-02 CBB two-model rollout; was Mon/Thu, daily so every newly posted CBB game gets Model A): `bash models/rebuild/basketball/cbb_live/refresh_cbb.sh` (2026-11-06 in-season switch, score rebuild thread: downloads this season's box scores, rebuilds
     ratings in cbb_live/, then runs live_cbb.py; about 25 min, run_in_background) -> app/data/cbb_v2.json. Without it live_cbb.py uses stale ratings.
 B6. Sundays (and any day pbp_2026.parquet gained a full week since the last rebuild): CFB v3 rebuild per the "Weekly refresh" block
@@ -93,9 +94,9 @@ C8. `python3 models/grading/grade.py` (last).
 Copy app/bet-desk.html to <scratchpad>/betdesk/index.html (never edit bet-desk.html; it already holds the 2026-10-30 Concept E redesign, never rerun app/redesign_patch.py) and every file below that changed this run into
 <scratchpad>/betdesk/ at its bare name: past_props.json, nhl_props.json, nba_props.json, nfl_props.json, games_models.json, cbb_v2.json,
 cfb_model.json, game_slates.json, line_tools.json, props_NFL.json, props_NBA.json, props_NHL.json, parlay_suggestions.json,
-promo_picks.json, scorecard.json, player_results.json, cfb_usage.json, model_a.json, cbb_ab.json, nfl_ab.json, nba_ab.json, cfb_ab.json, sims_nba.json, sims_cbb.json, sims_nfl.json, sims_cfb.json, sims_tennis.json, tennis_model.json and tennis_ab.json (file time in the last 30 h),
+promo_picks.json, scorecard.json, player_results.json, cfb_usage.json, model_a.json, cbb_ab.json, nfl_ab.json, nba_ab.json, cfb_ab.json, sims_nba.json, sims_cbb.json, sims_nfl.json, sims_cfb.json, nfl_coaches.json and cfb_v2.json (file time in the last 30 h; J 2026-11-11: tennis and soccer files are not published while those sports are off the desk),
 sim.js (from app/sim.js, the Watch-the-sim viewer; always include it),
-tennis.json (from app/data/odds/tennis.json, a bare array: use its file time, last 30 h), and props_vs_close.json if its "made" is newer than the published copy.
+and props_vs_close.json if its "made" is newer than the published copy.
 Publish with the Artifact tool: url https://claude.ai/artifact/Pdq3m2UxoriBf2gBdzgBp4, file_path <scratchpad>/betdesk/index.html,
 root <scratchpad>/betdesk, files map of those names. Data files go at the ROOT path (the page fetches nhl_props.json, not data/...).
 If refused for files you have not read, read them with the Artifact read action (paths) and publish again. Do not pass capabilities.
