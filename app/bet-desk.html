@@ -3995,6 +3995,8 @@ async function loadSlates(){
   { const j = await getJ('games_models.json'); if (j) S.games = j; }
   { const j = await getJ('nfl_margin.json'); if (j) S.nflMargin = j; }
   { const j = await getJ('nfl_coaches.json'); if (j) S.nflCoach = j; }
+  { const j = await getJ('cfb_v2.json'); if (j) S.cfb2 = j; }   // J 2026-11-11: loaded before the big line files so the Data tab never shows it missing mid-load
+  renderData();
   { const j = await getJ('parlay_corr.json'); if (j) PL_CORR = j; }
   plCache.key = ''; renderParlay();
   { const j = await getJ('parlay_suggestions.json'); if (j) SUG = j; }
@@ -4006,7 +4008,6 @@ async function loadSlates(){
   for (const sp of PO_SP){ const j = await getJ('props_' + sp + '.json'); if (j && j.games) PO[sp] = j; }
   renderFlags(); renderProp();
   { const j = await getJ('cfb_model.json'); if (j) S.cfb = j; }
-  { const j = await getJ('cfb_v2.json'); if (j) S.cfb2 = j; }
   { const j = await getJ('scorecard.json'); if (j) SCORE = j; }
   { const j = await getJ('nfl_teams.json'); if (j && j.teams) NFLT = j.teams; }
   { const j = await getJ('cfb_usage.json'); if (j) S.cfbUse = j; }
