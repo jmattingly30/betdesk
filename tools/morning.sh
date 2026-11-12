@@ -5,9 +5,9 @@ TODAY=$(TZ=$TZ_LOCAL date +%F); DOW=$(TZ=$TZ_LOCAL date +%u)   # 1=Mon .. 7=Sun
 DL=/tmp/claude-0; mkdir -p $DL/nhldl $DL/nbadl $DL/nfldl
 SW="${RUNNER_TEMP:-/tmp}/sweep.log"
 
-# A. odds sweep (then tennis) in the background; B runs meanwhile
+# A. odds sweep in the background; B runs meanwhile (tennis sweep held 2026-11-11, J: tennis off the desk)
 # CFB last + OP_DEADLINE_MIN=110 (2026-11-07: the Saturday CFB sweep ran 1h50m and starved CBB/NBA/NHL); unreached CFB games keep old lines, noon Odds API covers CFB
-( cd "$SA/app" && OP_DEADLINE_MIN=110 python3 op_live.py NFL NBA CBB NHL CFB && python3 op_live.py TENNIS ) > "$SW" 2>&1 &
+( cd "$SA/app" && OP_DEADLINE_MIN=110 python3 op_live.py NFL NBA CBB NHL CFB ) > "$SW" 2>&1 &
 SWEEP=$!
 
 # B. projections
@@ -27,9 +27,16 @@ if [ "$DOW" != 1 ]; then
 fi
 step "B3a NFL shadow grading" python3 models/nfl-player/shadow.py
 step "B4 NFL team games" python3 app/export_games.py $DL/nfldl/games.csv
+# B4a coach grades from the same games.csv (J 2026-11-11: the Data tab showed them stale since Oct 5, with 2025 coaches for ARI/ATL/BUF)
+step "B4a NFL coach grades" python3 models/team-strength/nfl/export_coach_grades.py $DL/nfldl/games.csv
 step "B5 CBB v2 (in-season ratings refresh + live_cbb)" bash models/rebuild/basketball/cbb_live/refresh_cbb.sh
 if [ "$DOW" = 7 ]; then
   sh_step "B6 CFB v3 weekly rebuild" "cd models/cfb-v3 && curl -sSfL -o pbp_2026.parquet https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_cfb_pbp/play_by_play_2026.parquet && curl -sSfL -o sched_2026.csv https://raw.githubusercontent.com/sportsdataverse/cfbfastR-data/main/schedules/csv/cfb_schedules_2026.csv && D=../team-strength/data && python3 build.py \$D/cfb_games.parquet \$D/cfb_team_games_epa.csv \$D/cfb_returning.csv . pbp_2026.parquet sched_2026.csv --roster roster_prior.csv && python3 export_app.py"
+fi
+# B6a CFB v2 (CFBD) Mon and Thu, or whenever cfb_v2.json is 4+ days old (J 2026-11-11: the separate cfb-v2 schedule skipped Mon 11-09)
+if [ "$DOW" = 1 ] || [ "$DOW" = 4 ] || python3 -c "import json,sys,datetime as d;m=json.load(open('$SA/app/data/cfb_v2.json'))['made'][:10];sys.exit(0 if (d.date.today()-d.date.fromisoformat(m)).days>=4 else 1)"; then
+  WK=$(python3 -c "import pandas as p;s=p.read_csv('https://raw.githubusercontent.com/sportsdataverse/cfbfastR-data/main/schedules/csv/cfb_schedules_2026.csv');s=s[(s.season_type=='regular')&s.home_points.isna()];print(int(s.week.min()) if len(s) else 0)")
+  sh_step "B6a CFB v2 week $WK" "cd models/cfb-v2 && python3 export_v2_ratings.py 2026 $WK && cp cfb_v2.json $SA/app/data/cfb_v2.json"
 fi
 sh_step "B8 Model A NBA lineups + shadow" "cd models/rebuild/basketball && python3 live_lineup.py && cd ../shadow && DL=${RUNNER_TEMP:-/tmp} python3 shadow.py nba nfl nhl cbb"
 
@@ -46,7 +53,7 @@ step "C4a CFB usage" bash -c "cd models/oddspapi && python3 cfb_usage.py"
 step "C4b CFB Model A" bash models/rebuild/football/cfb_gap/live/run_live.sh
 step "C4g CFB Model A+B" bash -c "python3 models/cfb_ab/live.py && python3 models/cfb_ab/grade.py"
 step "C4c Model A export" python3 app/export_model_a.py
-step "C4h Watch the sim" python3 models/sims/build.py
+step "C4h Watch the sim" python3 models/sims/build.py NBA CBB NFL CFB
 step "C6 parlays + promo" bash -c "python3 models/parlay/suggest.py && python3 models/promo/promo.py"
 step "C7 snapshots" bash -c "node models/grading/snap_games.js && node models/grading/snap_flags.js"
 step "C8 grade" python3 models/grading/grade.py

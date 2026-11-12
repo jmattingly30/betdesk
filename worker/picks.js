@@ -6,6 +6,7 @@
 //   proven: shown from level 2). Moneylines are never long shots: their chance is converted from the spread and
 //   that conversion makes big underdogs look +EV on its own. Files from before z.u existed fall back to 3%+ EV.
 
+const TENNIS_ON = false;   // J 2026-11-11: tennis off the desk (pulls kept failing); set true to bring it back
 const FILES = { CBB: 'cbb_ab.json', NFL: 'nfl_ab.json', NBA: 'nba_ab.json', CFB: 'cfb_ab.json' };
 const MARKETS = { spread: 'spread', total: 'total', ml: 'moneyline' };
 const LONG_SHOT_EV = 0.03;
@@ -150,7 +151,7 @@ export async function loadPicks(env, origin) {
   // one bad or missing file should not empty the sheet
   const games = [];
   for (const [sport, f] of Object.entries(FILES)) { const d = await get(f); if (d) { all.push(...build(sport, d, today, now)); games.push(...buildGames(sport, d, today, now)); } }
-  const t = await get('tennis_ab.json'); if (t) { all.push(...buildTennis(t, now)); games.push(...buildTennisGames(t, now)); }
+  const t = TENNIS_ON ? await get('tennis_ab.json') : null; if (t) { all.push(...buildTennis(t, now)); games.push(...buildTennisGames(t, now)); }
   const pp = await get('prop_picks.json');
   if (pp) for (const x of buildProps(pp, today, now)) {   // tie each prop to its game: NFL by game id, others by the two teams
     const gm = games.find(g => g.sport === x.sport && (g.key === `${x.sport}:${x.gref}` || (x.teams.includes(g.home) && x.teams.includes(g.away))));
