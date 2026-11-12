@@ -548,4 +548,6 @@
 {"t": "2026-11-12 14:26 UTC", "lg": "NFL", "team": "WAS", "n": "Javon Kinlaw", "from": 0.0, "to": "absent"}
 {"t": "2026-11-12 14:26 UTC", "lg": "NFL", "team": "WAS", "n": "Lucas Patrick", "from": 0.25, "to": 0.0}
 {"t": "2026-11-12 14:26 UTC", "lg": "NFL", "team": "WAS", "n": "Treylon Burks", "from": "absent", "to": 0.0}
-{"t": "2026-11-12 15:58 UTC", "lg": "NBA", "team": "UTAH", "n": "Trey Alexander", "from": "absent", "to": 0.0}
+{"t": "2026-11-12 17:18 UTC", "lg": "NBA", "team": "GS", "n": "Stephen Curry", "from": null, "to": 0.0}
+{"t": "2026-11-12 17:18 UTC", "lg": "NBA", "team": "UTAH", "n": "Trey Alexander", "from": "absent", "to": 0.0}
+{"t": "2026-11-12 17:18 UTC", "lg": "NFL", "team": "GB", "n": "Josh Jacobs", "from": 0.0, "to": "absent"}
