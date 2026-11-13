@@ -51,16 +51,20 @@ GitHub emails you, after whatever did refresh is published.
 | workflow | Denver time |
 |---|---|
 | Bet Desk morning chain | daily 6:30 |
-| Bet Desk noon pull | daily 12:00 |
+| Bet Desk noon pull | daily 12:05 |
 | Bet Desk night pull | daily 22:15 |
 | Bet Desk NFL Sunday pull | Sun 20:45 |
 | Bet Desk NFL Tuesday pull | Tue 15:30 |
 | CFB v2 weekly refresh | Mon + Thu 9:00 |
 
 Each workflow file only sets its schedule and script; the shared job is `.github/workflows/run.yml`. Before every publish
+`tools/drop_crossed_games.py` takes off model rows whose game id ESPN has since given to another matchup, then
 `tools/check_data.py` checks that games, teams and players line up across the data files (a crossed game fails the job).
-GitHub cron is UTC, so each has two crons (daylight and standard time) and the first step skips the one that is off
-by an hour. Each has a Run workflow button on the Actions tab. Secrets (Settings > Secrets and variables > Actions):
+Start times: the Cloudflare Worker cron (`worker/schedule.js`, needs the Worker secret `GH_DISPATCH_TOKEN`, a fine-grained
+GitHub token with Actions read/write on this repo) starts each run on time; GitHub's own schedule is the backup, since it
+fired 5-8 h late or not at all in Nov 2026. GitHub cron is UTC, so each has two crons (daylight and standard time); the
+`gate` job in run.yml skips the off-by-an-hour one, a schedule the Worker already ran in the last 3 h, and one GitHub
+fired more than 4 h late (8 h for the morning chain). Each has a Run workflow button on the Actions tab. Secrets (Settings > Secrets and variables > Actions):
 `ODDSPAPI_API_KEY`, `ODDS_API_KEY`, `CFBD_API_KEY`.
 
 Not covered: the MLB slate (Google Drive; type runs by hand) and model files other Claude threads change in the

@@ -16,7 +16,7 @@ Read this instead of re-reading code. Sport-model goals and rules live in projec
   - Player props: `nba-player/`, `nfl-player/`, `nhl-player/`; `injuries/scan.py` (ESPN injury feed).
   - `grading/grade.py` (scorecard.json), `snap_games.js` / `snap_flags.js` (headless desk snapshots), `sims/build.py`, `parlay/`, `promo/`, `oddspapi/`, `team-strength/`, older `cbb/`, `cfb-v2/`, `cfb-v3/`.
 - `tools/` — `ci.sh` (step/publish/commit helpers), `morning.sh`, `pull.sh noon|night|nfl`, `cfb_v2.sh`, `check_data.py` (data check before every publish), `sync_from_project.sh` (copies the Claude project folder over the repo; repo-only changes must be re-applied after it).
-- `.github/workflows/` — `run.yml` is the shared job; `morning.yml`, `noon.yml`, `night.yml`, `nfl-sunday.yml`, `nfl-tuesday.yml`, `cfb-v2.yml` only set schedules. All share concurrency group `betdesk-data`.
+- `.github/workflows/` — `run.yml` is the shared job; `morning.yml`, `noon.yml`, `night.yml`, `nfl-sunday.yml`, `nfl-tuesday.yml`, `cfb-v2.yml` only set schedules. The `run` job in run.yml shares concurrency group `betdesk-data` (its `gate` job decides first, outside the group). `worker/schedule.js` (Cloudflare cron) starts them on time.
 - `docs/audit/`, `docs/research/` — findings from the audit and research rounds.
 
 ## Entry points

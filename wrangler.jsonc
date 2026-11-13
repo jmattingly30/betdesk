@@ -19,5 +19,7 @@
   },
   "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Desk"] }],
   "vars": { "HONCHO_WORKSPACE": "betdesk" },
+  // every 5 minutes: worker/schedule.js starts the GitHub data runs that are due (needs the GH_DISPATCH_TOKEN secret)
+  "triggers": { "crons": ["*/5 * * * *"] },
   "observability": { "enabled": true }
 }

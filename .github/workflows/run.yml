@@ -1,6 +1,18 @@
 # Shared job for every Bet Desk data workflow (called by the files beside it; they only set the schedule and the script).
-# GitHub cron is UTC, so each caller has two crons (daylight and standard time) and this job skips the one that is off
-# by an hour. A queued run can start late, so it goes by which cron fired, not the clock.
+#
+# Two jobs (2026-11-13):
+#   gate  decides whether this run should go. It has no concurrency group, so a run it turns away never waits in
+#         line or bumps a real run out of the queue (GitHub keeps only ONE pending run per concurrency group and
+#         cancels the older one).
+#   run   does the work, one at a time across all Bet Desk workflows (they share the data files and the OddsPapi key).
+#
+# The gate, for scheduled runs only (Run workflow and the Cloudflare trigger always go):
+#   - GitHub cron is UTC, so each caller has two crons (daylight and standard time); skip the one that is off by an hour.
+#     A queued run can start late, so it goes by which cron fired, not the clock.
+#   - skip if this workflow already ran from a dispatch (Cloudflare trigger or Run workflow) in the last 3 hours, so the
+#     GitHub schedule stays as a backup without doubling the pull.
+#   - skip if GitHub fired it more than max_late_h hours after its time (11-12/13 schedules fired 5-8 h late, and a
+#     "night" pull at 6 am just repeats the morning chain's sweep).
 name: run (shared)
 on:
   workflow_call:
@@ -10,34 +22,59 @@ on:
       cron_mst:   { type: string,  required: true }    # the caller's standard-time cron
       timeout:    { type: number,  required: true }    # minutes
       playwright: { type: boolean, default: true }     # headless desk for the snapshots / Model A page reads
+      max_late_h: { type: number,  default: 4 }        # scheduled runs later than this are skipped
 jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: { actions: read }
+    outputs:
+      go: ${{ steps.win.outputs.go }}
+    steps:
+      - id: win
+        env:
+          TZ: America/Denver
+          SCHED: "${{ github.event.schedule }}"
+          MDT: "${{ inputs.cron_mdt }}"
+          MST: "${{ inputs.cron_mst }}"
+          MAX_LATE_H: "${{ inputs.max_late_h }}"
+          WF_REF: "${{ github.workflow_ref }}"
+          GH_TOKEN: "${{ github.token }}"
+        run: |
+          if [ "$GITHUB_EVENT_NAME" != schedule ]; then echo go=1 >> "$GITHUB_OUTPUT"; exit 0; fi
+          if [ "$(date +%z)" = "-0600" ]; then want="$MDT"; else want="$MST"; fi
+          if [ "$SCHED" != "$want" ]; then echo "this is the other daylight-saving cron; skipping"; exit 0; fi
+          # how late did GitHub fire it? (cron is "M H * * dow"; the slot is today's H:M UTC, or yesterday's if that is ahead)
+          read -r M H _ <<< "$SCHED"; now=$(date -u +%s); slot=$(date -u -d "$(date -u +%F) $H:$M" +%s)
+          [ "$slot" -gt "$now" ] && slot=$((slot - 86400))
+          late=$(( (now - slot) / 60 )); echo "GitHub fired this ${late} min after its time"
+          if [ "$late" -gt $((MAX_LATE_H * 60)) ]; then echo "::warning::scheduled run fired ${late} min late; skipping (the next run covers it)"; exit 0; fi
+          # already ran from a dispatch in the last 3 hours? (the Cloudflare trigger, or Run workflow)
+          wf=$(basename "${WF_REF%@*}"); since=$(date -u -d '-3 hours' +%FT%TZ)
+          n=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/$wf/runs?event=workflow_dispatch&created=>=$since" --jq '[.workflow_runs[] | select(.conclusion != "cancelled")] | length' 2>/dev/null || echo 0)
+          if [ "${n:-0}" -gt 0 ]; then echo "$wf already ran from a dispatch since $since; skipping"; exit 0; fi
+          echo go=1 >> "$GITHUB_OUTPUT"
+
   run:
+    needs: gate
+    if: needs.gate.outputs.go == '1'
     runs-on: ubuntu-latest
     timeout-minutes: ${{ inputs.timeout }}
+    concurrency: { group: betdesk-data, cancel-in-progress: false }
     permissions: { contents: write }
     env:
       ODDSPAPI_API_KEY: ${{ secrets.ODDSPAPI_API_KEY }}
       ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
       CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
     steps:
-      - id: win
-        env: { TZ: America/Denver, SCHED: "${{ github.event.schedule }}", MDT: "${{ inputs.cron_mdt }}", MST: "${{ inputs.cron_mst }}" }
-        run: |
-          if [ "$(date +%z)" = "-0600" ]; then want="$MDT"; else want="$MST"; fi
-          if [ "$GITHUB_EVENT_NAME" != schedule ] || [ "$SCHED" = "$want" ]; then echo go=1 >> "$GITHUB_OUTPUT"
-          else echo "this is the other daylight-saving cron; skipping"; fi
-      - if: steps.win.outputs.go == '1'
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: { fetch-depth: 1 }
-      - if: steps.win.outputs.go == '1'
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with: { python-version: "3.13", cache: pip }
-      - if: steps.win.outputs.go == '1'
-        run: python3 -m pip install -q -r requirements.txt
-      - if: steps.win.outputs.go == '1' && inputs.playwright
+      - run: python3 -m pip install -q -r requirements.txt
+      - if: inputs.playwright
         run: |
           npm install -g playwright@1.49.1
           npx playwright install chromium
           echo "NODE_PATH=$(npm root -g)" >> "$GITHUB_ENV"
-      - if: steps.win.outputs.go == '1'
-        run: bash ${{ inputs.script }}
+      - run: bash ${{ inputs.script }}
