@@ -21,6 +21,9 @@ def load(name):
     if not os.path.exists(p): return None
     try: return json.load(open(p))
     except Exception as e: errors.append(f'{name}: unreadable ({e})'); return None
+def started(g):
+    try: return datetime.fromisoformat(g['k'].replace('Z', '+00:00')) <= datetime.now(ZoneInfo('UTC'))
+    except Exception: return False
 def et_day(k): return datetime.fromisoformat(k.replace('Z', '+00:00')).astimezone(ET).date().isoformat()
 
 GS = load('game_slates.json') or {}
@@ -42,6 +45,8 @@ for sp, f in (('CBB', 'cbb_ab.json'), ('NFL', 'nfl_ab.json'), ('NBA', 'nba_ab.js
     for i, a in (J.get('games') or {}).items():
         g = S.get(i)
         if g is None: warns.append(f'{f}: game {i} ({a.get("a")} @ {a.get("h")}) is not on the {sp} slate (stale?)'); continue
+        if (a.get('h'), a.get('a')) == (g['a'], g['h']) and started(g):
+            warns.append(f"{f}: game {i} {g['a']} @ {g['h']} has home and away swapped (neutral site, changed by ESPN after the start)"); continue
         if (a.get('h'), a.get('a')) != (g['h'], g['a']):
             errors.append(f"{f}: game {i} is {a.get('a')} @ {a.get('h')} but the slate has {g['a']} @ {g['h']}"); continue
         if a.get('d') and a['d'] != g['d']: errors.append(f"{f}: game {i} day {a['d']} vs slate {g['d']}")
@@ -55,6 +60,8 @@ for sp, x in (MA.get('sports') or {}).items():
     if not S: continue
     for g in x.get('games') or []:
         s = S.get(str(g.get('id')))
+        if s and (g.get('h'), g.get('a')) == (s['a'], s['h']) and started(s):
+            warns.append(f"model_a.json {sp}: game {g.get('id')} {s['a']} @ {s['h']} has home and away swapped (neutral site, changed after the start)"); continue
         if s and (g.get('h'), g.get('a')) != (s['h'], s['a']):
             errors.append(f"model_a.json {sp}: game {g.get('id')} is {g.get('a')} @ {g.get('h')} but the slate has {s['a']} @ {s['h']}")
 

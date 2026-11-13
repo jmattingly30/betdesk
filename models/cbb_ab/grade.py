@@ -9,7 +9,8 @@ runs = [json.loads(l) for l in open(f"{H}/runs.jsonl")] if os.path.exists(f"{H}/
 fin_p = f"{H}/finals.json"; fin = json.load(open(fin_p)) if os.path.exists(fin_p) else {}
 today = dt.date.today().isoformat()
 for d in sorted({r["d"] for r in runs if r["d"] < today}):
-    if any(v.get("d") == d for v in fin.values()): continue
+    day = [v for v in fin.values() if v.get("d") == d]
+    if day and all("hn" in v for v in day): continue   # days saved before team names were kept are fetched once more
     url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?dates={d.replace('-', '')}&groups=50&limit=400"
     try: J = json.load(urllib.request.urlopen(url, timeout=30))
     except Exception as e: print("finals fetch failed", d, e); continue
@@ -17,8 +18,13 @@ for d in sorted({r["d"] for r in runs if r["d"] < today}):
         c = ev["competitions"][0]
         if not c["status"]["type"].get("completed"): continue
         sc = {x["homeAway"]: float(x["score"]) for x in c["competitors"]}
-        fin[ev["id"]] = {"d": d, "h": sc.get("home"), "a": sc.get("away")}
+        nm = {x["homeAway"]: (x.get("team") or {}).get("location") for x in c["competitors"]}
+        fin[ev["id"]] = {"d": d, "h": sc.get("home"), "a": sc.get("away"), "hn": nm.get("home"), "an": nm.get("away")}
 json.dump(fin, open(fin_p, "w"))
+def sc(f, r):
+    """Final (home, away) score from the side order of run r. ESPN can swap home and away at a neutral site after the run
+    was logged; the names saved with the final tell (finals saved before 2026-11-13 have no names and are used as they are)."""
+    return (f["a"], f["h"]) if f.get("hn") and f["hn"] == r.get("a") and f.get("an") == r.get("h") else (f["h"], f["a"])
 first, firstU, last = {}, {}, {}
 for r in runs:
     last[r["id"]] = r
@@ -26,21 +32,21 @@ for r in runs:
         if z["tier"] in "AB" and z.get("bet") and (r["id"], k) not in first: first[(r["id"], k)] = (r, z)
         elif z["tier"] == "C" and z.get("bet") and (r["id"], k) not in firstU and (u := unproven.grade_tier("CBB", k, z)): firstU[(r["id"], k)] = (r, dict(z, tier=u))
 out = {"made": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), "A": {}, "B": {}}
-e = [abs(last[i]["A"][0] - f["h"]) + 0 for i, f in fin.items() if i in last] + [abs(last[i]["A"][1] - f["a"]) for i, f in fin.items() if i in last]
+e = [abs(last[i]["A"][0] - sc(f, last[i])[0]) for i, f in fin.items() if i in last] + [abs(last[i]["A"][1] - sc(f, last[i])[1]) for i, f in fin.items() if i in last]
 if e: out["A"] = {"team_scores": len(e), "MAE": round(sum(e) / len(e), 2)}
 T = collections.defaultdict(lambda: {"n": 0, "w": 0, "pnl": 0.0, "clv": 0.0})
 for (gid, k), (r, z) in [*first.items(), *firstU.items()]:
     f = fin.get(gid)
     if not f: continue
-    b = z["bet"]; pt = b["pt"]; dec = 1 + (b["price"] / 100 if b["price"] > 0 else 100 / -b["price"])
+    fh, fa = sc(f, r); b = z["bet"]; pt = b["pt"]; dec = 1 + (b["price"] / 100 if b["price"] > 0 else 100 / -b["price"])
     if k == "spread":
-        m = f["h"] - f["a"]; res = (m + pt) if z["side"] == r["h"] else (-m + pt)
+        m = fh - fa; res = (m + pt) if z["side"] == r["h"] else (-m + pt)
         lm = last[gid]["B"].get("spread", {}).get("market"); clv = None if lm is None else ((lm - z["market"]) if z["side"] == r["h"] else (z["market"] - lm))
     elif k == "total":
-        t = f["h"] + f["a"]; res = (t - pt) if z["side"] == "Over" else (pt - t)
+        t = fh + fa; res = (t - pt) if z["side"] == "Over" else (pt - t)
         lm = last[gid]["B"].get("total", {}).get("market"); clv = None if lm is None else ((lm - z["market"]) if z["side"] == "Over" else (z["market"] - lm))
     else:   # moneyline
-        res = (f["h"] - f["a"]) if z["side"] == r["h"] else (f["a"] - f["h"]); clv = None
+        res = (fh - fa) if z["side"] == r["h"] else (fa - fh); clv = None
     if res == 0: continue
     dog = (z["market"] > 0) != (z["side"] == r["h"])   # side is the market underdog (J 2026-11-02: watch the dog lean)
     big = k == "spread" and dog and abs(z["market"]) >= 20     # J 2026-11-09: big dogs (20+) graded as their own bucket

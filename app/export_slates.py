@@ -203,6 +203,20 @@ def real_game(g):
     h, a = str(g.get('h') or '').strip(), str(g.get('a') or '').strip()
     return h.lower() not in PLACEHOLDER and a.lower() not in PLACEHOLDER and h != a
 
+def merge_started(o, n):
+    """A started game present in the old file (o) and the new build (n): the new record with the old pre-game line.
+    ESPN sometimes swaps home and away at a neutral site after tip (2026-11-11 Saint Joseph's vs South Florida). The old
+    line was then carried onto the swapped teams, so the slate showed the wrong favourite and the game graded against a
+    flipped line. A swapped game now keeps its pre-game sides (the ones the line and the frozen model records use) and
+    takes the final score turned to match."""
+    if o.get('h') == n.get('a') and o.get('a') == n.get('h') and o.get('h') != o.get('a'):
+        r = {**n, 'h': o['h'], 'a': o['a'], 'swapped': 1}
+        if n.get('fs'): r['fs'] = list(n['fs'])[::-1]
+        if o.get('ln'): r['ln'] = o['ln']
+        else: r.pop('ln', None)
+        return r
+    return {**n, **({'ln': o['ln']} if o.get('ln') and not n.get('ln') else {})}
+
 def carry_posted(sp, x, old_path=OUT):
     """Keep each book's post times when the new source has none (J 2026-11-09). The noon pull takes college lines from
     The Odds API, which has no post times; Model B then read every price as a closing line and the noon CBB tiers collapsed
@@ -243,8 +257,7 @@ if __name__ == '__main__':
             x.pop('names', None)
             try: carry_posted(sp, x)
             except Exception as e: print(sp, 'post-time carry failed:', e)
-            x['games'] = keep_pregame(OUT, x['games'], kick=lambda i, r: r.get('k'), field=f'{sp}.games',
-                                      merge=lambda o, n: {**n, **({'ln': o['ln']} if o.get('ln') and not n.get('ln') else {})})
+            x['games'] = keep_pregame(OUT, x['games'], kick=lambda i, r: r.get('k'), field=f'{sp}.games', merge=merge_started)
             x['games'] = [g for g in x['games'] if real_game(g)]   # a placeholder kept from the old file must not come back
             J[sp] = x
         print(sp, len(x['games']) if x else 0, 'games', f"week {x['week']}" if x and 'week' in x else '')
