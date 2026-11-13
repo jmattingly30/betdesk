@@ -1,13 +1,15 @@
 name: Bet Desk NFL Tuesday pull
+# Primary trigger: the Cloudflare Worker cron (worker/schedule.js) sends a Run workflow at the Denver time.
+# This GitHub schedule is the backup; run.yml skips it when the Worker already ran it or when GitHub fires it too late.
+# Minutes are off :00/:15/:30/:45, where GitHub's scheduler is busiest and most often late or drops runs.
 on:
   schedule:
-    - cron: "30 21 * * 2"   # daylight time (MDT)
-    - cron: "30 22 * * 2"   # standard time (MST)
+    - cron: "32 21 * * 2"   # daylight time (MDT)
+    - cron: "32 22 * * 2"   # standard time (MST)
   workflow_dispatch: {}
-concurrency: { group: betdesk-data, cancel-in-progress: false }
 jobs:
   run:
     uses: ./.github/workflows/run.yml
-    permissions: { contents: write }
+    permissions: { contents: write, actions: read }
     secrets: inherit
-    with: { script: "tools/pull.sh nfl", cron_mdt: "30 21 * * 2", cron_mst: "30 22 * * 2", timeout: 60, playwright: true }
+    with: { script: "tools/pull.sh nfl", cron_mdt: "32 21 * * 2", cron_mst: "32 22 * * 2", timeout: 60, playwright: true, max_late_h: 4 }

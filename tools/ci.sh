@@ -27,6 +27,8 @@ sh_step(){ step "$1" bash -c "$2"; }
 # Copy the data files the page reads from app/data into public/ (replaces the Artifact publish).
 publish(){
   local D="$SA/app/data" P="$SA/public" n=0 f b
+  # model rows for a game id ESPN has since given to another matchup come off first (2026-11-13: these failed every run)
+  step "drop model rows for games ESPN changed" python3 tools/drop_crossed_games.py app/data
   # crossed games/teams/players fail the job (GitHub emails you); the files still publish, as with any failed step
   step "data check (games, teams, players line up)" python3 tools/check_data.py app/data
   for f in "$D"/*.json "$D"/odds/props_NFL.json "$D"/odds/props_NBA.json "$D"/odds/props_NHL.json; do

@@ -9,6 +9,7 @@
 export { Desk } from './desk.js';
 import { loadPicks, denverDate } from './picks.js';
 import { record, profile, honchoOn } from './honcho.js';
+import { scheduled } from './schedule.js';
 
 const COOKIE = 'bd';
 const DAY = 86400e3;
@@ -249,6 +250,7 @@ async function api(req, env, ctx, who, url) {
 
 // ---------- entry ----------
 export default {
+  scheduled, // Cloudflare cron -> GitHub Actions runs on time (worker/schedule.js)
   async fetch(req, env, ctx) {
     const url = new URL(req.url);
     // Not set up yet (no secrets): serve the site exactly as before so a merge never locks J out.

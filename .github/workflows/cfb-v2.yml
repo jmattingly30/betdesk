@@ -3,10 +3,9 @@ on:
   # J 2026-11-11: the morning chain (tools/morning.sh B6a) now runs CFB v2 Mon/Thu or when it is 4+ days old;
   # this schedule skipped Mon 11-09. Run by hand from the Actions tab if needed.
   workflow_dispatch: {}
-concurrency: { group: betdesk-data, cancel-in-progress: false }
 jobs:
   run:
     uses: ./.github/workflows/run.yml
-    permissions: { contents: write }
+    permissions: { contents: write, actions: read }
     secrets: inherit
     with: { script: "tools/cfb_v2.sh", cron_mdt: "0 15 * * 1,4", cron_mst: "0 16 * * 1,4", timeout: 30, playwright: false }
