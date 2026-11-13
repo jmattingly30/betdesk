@@ -195,6 +195,14 @@ def espn(url, days, name_col, mascot=False):
     return dict(games=[dict(id=str(r['game_id']), k=r['k'].isoformat().replace('+00:00', 'Z'), d=r['d'], h=r['home_' + name_col],
                             a=r['away_' + name_col], n=int(bool(r['neutral_site'])), **fs(r)) for r in up.to_dict('records')], names=names)
 
+PLACEHOLDER = {'', 'tbd', 'tba', 'tbd tbd', 'to be determined', 'to be announced'}
+def real_game(g):
+    """False for a placeholder row: a tournament slot ESPN lists before the teams are known ("TBD" vs "TBD"), or any
+    row with a team playing itself. Such a row has nothing to project or price and failed tools/check_data.py (2026-11-12).
+    The game comes onto the slate on the first pull after ESPN names both teams."""
+    h, a = str(g.get('h') or '').strip(), str(g.get('a') or '').strip()
+    return h.lower() not in PLACEHOLDER and a.lower() not in PLACEHOLDER and h != a
+
 def carry_posted(sp, x, old_path=OUT):
     """Keep each book's post times when the new source has none (J 2026-11-09). The noon pull takes college lines from
     The Odds API, which has no post times; Model B then read every price as a closing line and the noon CBB tiers collapsed
@@ -225,6 +233,9 @@ if __name__ == '__main__':
     for sp, f in jobs.items():
         try: x = f()
         except Exception as e: print(sp, 'failed:', e); x = None
+        if x:
+            n0 = len(x['games']); x['games'] = [g for g in x['games'] if real_game(g)]
+            if len(x['games']) < n0: print(sp, 'dropped', n0 - len(x['games']), 'placeholder game(s) (teams not set yet)')
         try:   # NFL games the odds reply misses keep their nflverse line
             if x: add_lines(sp, x, x.get('names', {}))
         except Exception as e: print(sp, 'odds failed:', e)
@@ -234,6 +245,7 @@ if __name__ == '__main__':
             except Exception as e: print(sp, 'post-time carry failed:', e)
             x['games'] = keep_pregame(OUT, x['games'], kick=lambda i, r: r.get('k'), field=f'{sp}.games',
                                       merge=lambda o, n: {**n, **({'ln': o['ln']} if o.get('ln') and not n.get('ln') else {})})
+            x['games'] = [g for g in x['games'] if real_game(g)]   # a placeholder kept from the old file must not come back
             J[sp] = x
         print(sp, len(x['games']) if x else 0, 'games', f"week {x['week']}" if x and 'week' in x else '')
     json.dump(J, open(OUT, 'w'), separators=(',', ':'))
