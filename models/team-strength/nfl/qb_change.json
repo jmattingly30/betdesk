@@ -18,13 +18,6 @@
   }
  },
  "upcoming": {
-  "2026_10_WAS_NYG": [
-   2,
-   0,
-   "J.J. McCarthy",
-   "Jayden Daniels",
-   -0.054
-  ],
   "2026_10_BUF_NYJ": [
    0,
    0,
@@ -142,7 +135,7 @@
    0,
    "J.J. McCarthy",
    "Trevor Lawrence",
-   -0.054
+   -0.034
   ],
   "2026_11_LV_DEN": [
    0,
@@ -282,7 +275,7 @@
    2,
    "Daniel Jones",
    "J.J. McCarthy",
-   0.054
+   0.034
   ],
   "2026_12_NYJ_MIA": [
    1,
@@ -401,7 +394,7 @@
    0,
    "J.J. McCarthy",
    "Brock Purdy",
-   -0.054
+   -0.034
   ],
   "2026_13_WAS_TEN": [
    0,
@@ -499,7 +492,7 @@
    2,
    "Sam Darnold",
    "J.J. McCarthy",
-   0.054
+   0.034
   ],
   "2026_14_TB_BAL": [
    2,
@@ -569,7 +562,7 @@
    0,
    "J.J. McCarthy",
    "Deshaun Watson",
-   -0.054
+   -0.034
   ],
   "2026_15_DAL_LA": [
    0,
@@ -744,7 +737,7 @@
    2,
    "Jared Goff",
    "J.J. McCarthy",
-   0.054
+   0.034
   ],
   "2026_17_BAL_CIN": [
    0,
@@ -821,7 +814,7 @@
    2,
    "Dak Prescott",
    "J.J. McCarthy",
-   0.054
+   0.034
   ],
   "2026_17_PHI_SF": [
    0,
@@ -933,7 +926,7 @@
    2,
    "J.J. McCarthy",
    "Joe Milton III",
-   0.098
+   0.118
   ],
   "2026_18_PIT_BAL": [
    2,

@@ -1,18 +1,18 @@
 {
- "made": "2026-11-12 20:48 UTC",
+ "made": "2026-11-13 16:38 UTC",
  "A": {
-  "team_scores": 98,
-  "MAE": 9.09,
-  "base_MAE": 9.19,
-  "line_team_scores": 98,
-  "line_MAE": 8.83,
-  "A_closer_share": 0.408
+  "team_scores": 106,
+  "MAE": 9.6,
+  "base_MAE": 9.69,
+  "line_team_scores": 106,
+  "line_MAE": 9.34,
+  "A_closer_share": 0.406
  },
  "B": {
   "spread_B": {
-   "n": 25,
-   "win": 0.56,
-   "roi": 0.075,
+   "n": 26,
+   "win": 0.577,
+   "roi": 0.109,
    "clv_pts": -0.01
   },
   "total_A": {
@@ -28,22 +28,22 @@
    "clv_pts": 0.0
   },
   "total_B": {
-   "n": 7,
-   "win": 0.857,
-   "roi": 0.655,
-   "clv_pts": 0.52
+   "n": 8,
+   "win": 0.75,
+   "roi": 0.448,
+   "clv_pts": 0.45
   },
   "ml_U_watch": {
-   "n": 34,
-   "win": 0.294,
-   "roi": -0.29,
+   "n": 37,
+   "win": 0.27,
+   "roi": -0.347,
    "clv_pts": 0.0
   },
   "spread_U_watch": {
-   "n": 30,
-   "win": 0.533,
-   "roi": 0.016,
-   "clv_pts": 0.11
+   "n": 31,
+   "win": 0.516,
+   "roi": -0.016,
+   "clv_pts": 0.15
   },
   "total_U_watch": {
    "n": 23,
@@ -52,10 +52,10 @@
    "clv_pts": 0.1
   },
   "total_U_skip": {
-   "n": 21,
-   "win": 0.524,
-   "roi": 0.014,
-   "clv_pts": 0.76
+   "n": 25,
+   "win": 0.56,
+   "roi": 0.081,
+   "clv_pts": 0.66
   },
   "total_U_play": {
    "n": 4,
@@ -64,15 +64,15 @@
    "clv_pts": 0.66
   },
   "spread_U_skip": {
-   "n": 18,
-   "win": 0.556,
-   "roi": 0.066,
-   "clv_pts": 0.53
+   "n": 21,
+   "win": 0.619,
+   "roi": 0.189,
+   "clv_pts": 0.46
   },
   "ml_U_skip": {
-   "n": 15,
-   "win": 0.533,
-   "roi": -0.062,
+   "n": 16,
+   "win": 0.562,
+   "roi": -0.029,
    "clv_pts": 0.0
   }
  }
