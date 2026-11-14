@@ -1,11 +1,11 @@
 team,spread,total,out,q
 ATL,,,Mouhamed Gueye;Keshon Gilbert;Asa Newell;Henri Veesaar,
-BKN,,,,Mikel Brown Jr.:0.5;Nolan Traore:0.9
+BKN,,,,Mikel Brown Jr.:0.9;Nolan Traore:0.9
 BOS,,,Paul George,
 CHA,,,Brandon Miller;Kon Knueppel;Dennis Schroder,
-CHI,,,Dailyn Swain;Tobe Awaka;Caleb Wilson,
-CLE,,,Evan Mobley;Sam Merrill;Nae'Qwan Tomlin,
-DAL,,,Dereck Lively II;Tarik Biberovic;Sergio de Larrea,Max Christie:0.5;Morez Johnson Jr.:0.9
+CHI,,,Tobe Awaka;Caleb Wilson,Nic Claxton:0.5;Jalen Smith:0.5;Norman Powell:0.5
+CLE,,,Evan Mobley;Sam Merrill;Nae'Qwan Tomlin,Peyton Watson:0.5;Jarrett Allen:0.5;Donovan Mitchell:0.5;James Harden:0.5
+DAL,,,Dereck Lively II;Tarik Biberovic;Sergio de Larrea,Max Christie:0.25;Morez Johnson Jr.:0.9
 DEN,,,Julian Strawther,
 DET,,,Isaiah Joe;Jalen Duren,
 GS,,,Stephen Curry;Brandon Williams;Kristaps Porzingis;Moses Moody;Jimmy Butler III,
@@ -13,16 +13,16 @@ HOU,,,Marcus Smart;Clint Capela;Steven Adams,
 IND,,,Tyrese Haliburton;Johnny Furphy;Ben Sheppard,
 LAC,,,Brandon Ingram;Yanic Konan Niederhauser;Bradley Beal;Jordan Miller,
 MEM,,,Quinten Post;Zach Edey;Scotty Pippen Jr.;Richie Saunders,
-MIA,,,Klay Thompson;Pelle Larsson,
+MIA,,,,Pelle Larsson:0.25;Klay Thompson:0.9;Giannis Antetokounmpo:0.9
 MIN,,,Anthony Edwards;Donte DiVincenzo,
-NO,,,Dejounte Murray;Bryce McGowens;Yves Missi;Trey Murphy III;Trendon Watford,
+NO,,,Yves Missi;Trendon Watford;Bryce McGowens;Trey Murphy III;Dejounte Murray,
 OKC,,,Ajay Mitchell;Thomas Sorber;Jaylin Williams;Cason Wallace;Chet Holmgren;Jalen Williams,
-ORL,,,Jonathan Isaac;Paolo Banchero;Noah Penda;Izaiyah Nelson,
+ORL,,,Noah Penda;Jonathan Isaac;Paolo Banchero;Izaiyah Nelson,
 PHI,,,LeBron James;Dominick Barlow;Adem Bona;Ariel Hukporti,
 PHX,,,Mark Williams,
 POR,,,Chris Youngblood;Vit Krejci;Ja Morant;Shaedon Sharpe,
 SA,,,Tobias Harris;Jayden Quaintance,
 SAC,,,Precious Achiuwa;Maxime Raynaud;Ben Simmons,
-TOR,,,Trayce Jackson-Davis;Scottie Barnes;Kawhi Leonard;Nate Bittle,
+TOR,,,Scottie Barnes;Trayce Jackson-Davis;Kawhi Leonard;Nate Bittle,
 UTAH,,,Trey Alexander;Lauri Markkanen;Jusuf Nurkic;Jaren Jackson Jr.,
 WSH,,,Bub Carrington;Tristan Vukcevic;Reece Beekman;Justin Champagnie;Jamir Watkins,
