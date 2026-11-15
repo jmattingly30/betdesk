@@ -8,7 +8,7 @@ import sim as S, trace as TR
 hist = json.load(open(f"{HERE}/../shadow/history.json"))
 games = sorted([v for v in hist.values() if v["sp"] == "NFL" and pd.Timestamp(v["k"]) > pd.Timestamp.now(tz="UTC") - pd.Timedelta(hours=4)], key=lambda v: v["k"])
 p = pd.DataFrame({"pred_h": [g["hs"] for g in games], "pred_a": [g["as"] for g in games]})
-KW = dict(k_score=0.1, k_late=0.6, th_sd=0.3)
+KW = dict(th_sd=0.3)   # game-state tables replace k_score / k_late (roadmap step 2)
 q, mh = S.simulate(p, nsim=2000, **KW)
 # key-number curve (keynum.py): normal x weights fit on 2010-2017
 st = pd.read_parquet(f"{HERE}/data/stack_nfl.parquet"); tr = st[(st.season >= 2010) & (st.season <= 2017)]
