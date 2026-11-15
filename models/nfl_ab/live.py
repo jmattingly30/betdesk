@@ -47,6 +47,18 @@ def cover(mu, line):
 def over(mu, line):
     P = pmf(mu, TG, SDT, WT); return float(P[TG > line].sum()), float(P[np.isclose(TG, line)].sum())
 def q(P, grid, x): return int(grid[np.searchsorted(np.cumsum(P), x)])
+RF = np.array(json.load(open(f"{HERE}/score_freq.json"))["freq"])
+def likely_final(hs, as_, Pm, Pt, win=3.5):
+    """DISPLAY ONLY: most likely final within 3.5 pts of each Model A mean and of its margin, same winner, no tie.
+    Score = margin pmf x total pmf x how often each team score happens (2008-18). Test 2019-25 (1,908 games): exact finals
+    0.36% -> 1.02%, rare team scores shown 21% -> 0%, team MAE 7.37 -> 7.46. Grading keeps the unrounded means (hs/as)."""
+    side, best, bp = np.sign(round(hs - as_)), None, -1.0
+    for h in range(max(0, math.ceil(hs - win)), int(hs + win) + 1):
+        for a in range(max(0, math.ceil(as_ - win)), int(as_ + win) + 1):
+            if h == a or h > 70 or a > 70 or (side and np.sign(h - a) != side) or abs(h - a - (hs - as_)) > win: continue
+            p = Pm[h - a + 60] * Pt[h + a] * RF[h] * RF[a]
+            if p > bp: bp, best = p, [h, a]
+    return best or [int(round(hs)), int(round(as_))]
 
 def hours_since(ts):
     if not ts: return None
@@ -125,7 +137,7 @@ def main():
         A = dict(hs=hs, p_home=round(p_home, 4), m10=q(Pm, MG, .1), m90=q(Pm, MG, .9), t10=q(Pt, TG, .1), t90=q(Pt, TG, .9),
                  h10=round(max(0, hs - 1.2816 * SDTEAM)), h90=round(hs + 1.2816 * SDTEAM), a10=round(max(0, as_ - 1.2816 * SDTEAM)), a90=round(as_ + 1.2816 * SDTEAM),
                  p3=round(float(Pm[np.abs(MG) == 3].sum()), 3), p7=round(float(Pm[np.abs(MG) == 7].sum()), 3), made=v.get("made"))
-        A["as"] = as_
+        A["as"] = as_; A["lf"] = likely_final(hs, as_, Pm, Pt)
         x = slate.get(gid); kick_h = -hours_since(v["k"]); early = kick_h >= EARLY_H
         dm = desk_margin(D, v["h"], v["a"], bool(x and x.get("n")))
         rec = {"h": v["h"], "a": v["a"], "d": v["d"], "k": v["k"], "w": x and x.get("w"), "A": A, "desk_m": None if dm is None else round(dm, 2), "B": None}
