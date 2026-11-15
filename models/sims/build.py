@@ -102,8 +102,8 @@ def _asum(A, extra=()):
 def nfl(G, rng, NP=800):
     F = f"{ROOT}/models/rebuild/football"
     TR = _mod("football_trace", f"{F}/trace.py")   # not the stdlib trace module
-    KW = dict(k_score=0.1, k_late=0.6, th_sd=0.3)    # build_drive_viewer.py / simtest settings
-    R = {"Touchdown": 0, "Field goal": 1, "Punt": 2, "Turnover": 4, "Return TD": 5, "Safety": 6, "Field goal (OT)": 8}
+    KW = dict(th_sd=0.3)    # game-state tables (roadmap step 2, 2026-11-15) replace the old k_score / k_late score effects
+    R = {"Touchdown": 0, "Field goal": 1, "Punt": 2, "Turnover": 4, "Return TD": 5, "Safety": 6, "End of half": 7, "Field goal (OT)": 8}
     out = {}; ids = [k for k, g in G.items() if (g.get("A") or {}).get("m10") is not None]
     if not ids: return out, {}
     for j, gid in enumerate(ids):
@@ -122,7 +122,7 @@ def nfl(G, rng, NP=800):
                       int(round(d["dur"] * 60))] for d in pool[i]["drives"]]} for i in idx]
         out[gid] = dict(h=g["h"], a=g["a"], d=g.get("d"), k=g.get("k"), A=_asum(A, ["p3", "p7"]), audit=audit, s=S_)
     return out, dict(unit="drive", reg_min=60, periods=4, labels=["Touchdown", "Field goal", "Punt", "", "Turnover (incl. downs, missed FG)", "Return touchdown", "Safety", "End of half", "Overtime field goal"],
-                     how="Drive by drive: each drive's result (touchdown, field goal, punt, turnover, return score, safety) is drawn from NFL drive tables by starting field position, with each team's scoring odds set so the average matches Model A; drive lengths and the next drive's start come from real drives. Overtime is simplified (first score wins).")
+                     how="Drive by drive: each drive's result (touchdown, field goal, punt, turnover, return score, safety) is drawn from NFL drive tables by starting field position, with each team's scoring odds set so the average matches Model A; drive lengths and the next drive's start come from real drives. Game state counts: late in a half teams kneel, settle for field goals or chase touchdowns, and go for 2 when the score calls for it, as real NFL teams did in 2008-18. Overtime is simplified (first score wins).")
 
 def cfb(G, rng, NP=1500):
     L = _mod("cfb_ab_lib", f"{ROOT}/models/cfb_ab/lib.py"); SIM = L.Sim(); SIM.rng = rng
@@ -144,7 +144,7 @@ def cfb(G, rng, NP=1500):
             S_.append({"f": [int(H[i]), int(Aw[i])], "ot": 0, "d": dr})
         out[gid] = dict(h=g["h"], a=g["a"], d=g.get("d"), k=g.get("k"), n=g.get("n"), A=_asum(A, ["p3", "p7"]), audit=audit, s=S_)
     return out, dict(unit="drive", reg_min=60, periods=4, labels=["Touchdown", "Field goal", "Punt", "Turnover on downs or missed FG", "Interception or fumble", "Return touchdown", "Safety", "End of half", ""],
-                     how="Drive by drive with college drive tables from 2023-25 play-by-play (today's clock rules): touchdown and field-goal odds tilted so each team's average matches Model A, plus a shared game shock and a team shock (the CFB Model A simulator). The simulator does not play college overtime: a tie after four quarters stays a tie here.")
+                     how="Drive by drive with college drive tables from 2023-25 play-by-play (today's clock rules): touchdown and field-goal odds tilted so each team's average matches Model A, plus a shared game shock and a team shock (the CFB Model A simulator). Game state counts: late in a half teams kneel, settle for field goals or chase touchdowns, and go for 2 when the score calls for it, as in real 2023-25 games. The simulator does not play college overtime: a tie after four quarters stays a tie here.")
 
 # ---------------------------------------------------------------- tennis: point by point
 def tennis(M, rng, NP=300):

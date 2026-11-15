@@ -36,13 +36,17 @@ NN = np.array([len(x) for x in ns]); DN = np.array([len(x) for x in du])
 NS = np.full((6, NN.max()), 75.0); DU = np.full((6, DN.max()), 150.0)
 for k in range(6): NS[k, :NN[k]] = ns[k]; DU[k, :DN[k]] = du[k]
 TDP = np.array([0.88, 0.05, 0.07])   # try after a CFB TD: PAT 7, miss/failed 2-pt 6, 2-pt 8 (approximate)
-S._T = (P, NS, NN, DU, DN, TDP)
+# sim.py's state-table layout (roadmap step 2, 2026-11-15): this legacy viewer keeps its single CFB table in every state, no end-of-half outcome
+P7 = np.zeros((S.NST, 20, 7)); P7[:, :, :6] = P
+NS7 = np.vstack([NS, np.full((1, NS.shape[1]), 75.0)]); NN7 = np.r_[NN, 1]
+DU7 = np.full((S.NST, 7, DU.shape[1]), 150.0); DU7[:, :6] = DU; DN7 = np.tile(np.r_[DN, 1], (S.NST, 1))
+S._T = (P7, NS7, NN7, DU7, DN7, np.tile(TDP, (2, 41, 1)))
 print("drive tables:", len(D), "drives; outcome shares", np.round(D.o.value_counts(normalize=True).sort_index().values, 3))
 # league plays per game under today's rules: clock speed for each game = league plays / this game's expected plays
 PG = pd.read_parquet(os.path.join(os.path.dirname(LIVE), "cfb_pace_games.parquet"))
 lg_plays = PG[PG.season.isin([2023, 2024, 2025])].drop_duplicates("game_id").gplays.mean()
 U = pd.DataFrame(json.load(open(LIVE))).sort_values("k").reset_index(drop=True)
-KW = dict(k_score=0.1, k_late=0.6, th_sd=0.3)
+KW = dict(k_score=0.1, k_late=0.6, th_sd=0.3)  # legacy viewer keeps its old score effects
 # key-number curve on CFB lined games 2014-2021 (stack fit set): normal x empirical weights
 F = pd.read_parquet(FIT); mu_m, mu_t = F.model_margin.values, F.model_total.values; am, at = F["am"].values, F["at"].values
 SDM, SDT = np.std(am - mu_m), np.std(at - mu_t); M = np.arange(-90, 91); TT = np.arange(0, 141)
