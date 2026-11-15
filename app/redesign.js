@@ -24,7 +24,7 @@ const abWin = (sp, hs, as) => sp === 'NHL' ? poisWin(hs, as) : ncdf((hs - as)/(A
 function abOf(sp, x, r){
   const desk = r ? {hs:r.raw.hs, as:r.raw.as, p:r.pml ?? abWin(sp, r.raw.hs, r.raw.as), est:r.pml == null} : null;
   if ((sp === 'NFL' || sp === 'NBA' || sp === 'CFB') && cabOn(sp)){ const G = cabGame(x, sp), m = maGame(sp, x);   // NFL, NBA, CFB (J 2026-11-05): Model A = {nfl,nba,cfb}_ab.json scores, Model B = its bet engine; the desk model stays in the full card below
-    return {A:G && G.A ? {hs:G.A.hs, as:G.A.as, p:G.A.p_home, est:false, g:G} : m ? {hs:m.hs, as:m.as, p:abWin(sp, m.hs, m.as), est:true, g:m} : null, B:null}; }
+    return {A:G && G.A ? {hs:G.A.hs, as:G.A.as, lf:G.A.lf, p:G.A.p_home, est:false, g:G} : m ? {hs:m.hs, as:m.as, p:abWin(sp, m.hs, m.as), est:true, g:m} : null, B:null}; }
   const m = sp === 'CBB' ? null : maGame(sp, x), other = m ? {hs:m.hs, as:m.as, p:abWin(sp, m.hs, m.as), est:true, g:m} : null;   // CBB: Model B is the bet engine (cbb_ab.json), not a second score
   const [A, B] = AB_DESK(sp) === 'A' ? [desk, other] : [other, desk], o = {A, B};
   if (A && B){ o.gapM = (A.hs - A.as) - (B.hs - B.as); o.gapT = (A.hs + A.as) - (B.hs + B.as);
@@ -32,6 +32,10 @@ function abOf(sp, x, r){
   return o;
 }
 const abF = (sp, v) => v == null ? '–' : sp === 'NHL' ? v.toFixed(1) : String(Math.round(v));
+// LIKELY FINAL (J 2026-11-15, football sim roadmap step 1): football tiles show the most likely real final near Model A's means
+// (A.lf = [home, away] from {nfl,cfb}_ab.json); the unrounded average stays on the card and is what grading uses. Display only.
+const abF1 = v => v == null ? '–' : (+v).toFixed(1);
+const abL = (sp, M, k) => M && M.lf ? String(M.lf[k === 'h' ? 0 : 1]) : abF(sp, M && (k === 'h' ? M.hs : M.as));
 const abTm = (x, m) => Math.abs(m) < 0.05 ? 'even' : m > 0 ? `${x.home} by ${m.toFixed(1)}` : `${x.away} by ${(-m).toFixed(1)}`;
 // ---------- CBB Model A + Model B (J 2026-11-02: CBB is first on the two-model system; models/cbb_ab/live.py -> cbb_ab.json) ----------
 // A = projected scores (CBB v2 means + possession sim ranges). B = bets built on A: devigged sharp-weighted market number, the share of
@@ -147,8 +151,8 @@ function eRow(sp, x, r, i){
   if (AB2(sp)){ B.as = undefined; B.hs = undefined; }
   const star = bet && sp === 'CFB' && cfbStars(x.home, x.away).length ? ' <span class="chip y">star out</span>' : '';
   return `<button type="button" class="erow${st ? ' past' : ''}" data-i="${i}">
-    <span class="t">${tLogo(sp, x.away)}${esc(x.away)}</span><span class="sc">${abF(sp, A.as)}</span><span class="sb">${AB2(sp) ? (cs && cs.side === x.away ? cs.tier : '') : abF(sp, B.as)}</span>
-    <span class="t">${tLogo(sp, x.home)}${esc(x.home)}</span><span class="sc">${abF(sp, A.hs)}</span><span class="sb">${AB2(sp) ? (cs && cs.side === x.home ? cs.tier : '') : abF(sp, B.hs)}</span>
+    <span class="t">${tLogo(sp, x.away)}${esc(x.away)}</span><span class="sc"${A.lf ? ` title="Likely final; average ${abF1(A.as)}"` : ''}>${abL(sp, A, 'a')}</span><span class="sb">${AB2(sp) ? (cs && cs.side === x.away ? cs.tier : '') : abF(sp, B.as)}</span>
+    <span class="t">${tLogo(sp, x.home)}${esc(x.home)}</span><span class="sc"${A.lf ? ` title="Likely final; average ${abF1(A.hs)}"` : ''}>${abL(sp, A, 'h')}</span><span class="sb">${AB2(sp) ? (cs && cs.side === x.home ? cs.tier : '') : abF(sp, B.hs)}</span>
     <span class="meta"><span>${statChip(st)}${esc(whenOf(x))}${fav ? ` · ${esc(fav[0])} ${pct(fav[1], 0)}` : ''}</span><span>${ab.big ? `<span class="chip y">A/B gap</span> ` : ''}${AB2(sp) ? (cbt ? `<span class="chip${cbt[1].tier === 'A' ? '' : ' y'}">${pre}${CAB_T[cbt[1].tier]}: ${esc(cabPick(cbt[0], cbt[1]))}${cbt[1].tier === 'A' ? ' ' + sgn(cbt[1].bet.ev) : ''}</span>` : (cu => cu ? `<span class="chip u">${pre}Unproven ${cu[1].u.score}: ${esc(cabPick(cu[0], cu[1]))}</span>` : '')(cabU(cb).sort((p, q) => q[1].u.score - p[1].u.score)[0])) : bet ? `<span class="chip">${pre}${esc(bet.t)} ${sgn(bet.ev)}</span>` : ''}${star}</span></span></button>`;
 }
 function renderGameListE(){
@@ -215,7 +219,8 @@ function abBox(sp, x, k, M){
   if (!M) return `<div class="abx ${k.toLowerCase()}"><span class="lab">Model ${k} · ${esc(lab)}</span><p class="small muted">No projection for this game yet.</p></div>`;
   const m = M.hs - M.as;
   return `<div class="abx ${k.toLowerCase()}"><span class="lab">Model ${k} · ${esc(lab)}</span>
-    <div class="abs"><span>${esc(x.away)}</span><b>${abF(sp, M.as)}</b></div><div class="abs"><span>${esc(x.home)}</span><b>${abF(sp, M.hs)}</b></div>
+    <div class="abs"><span>${esc(x.away)}</span><b>${abL(sp, M, 'a')}</b></div><div class="abs"><span>${esc(x.home)}</span><b>${abL(sp, M, 'h')}</b></div>
+    ${M.lf ? `<p class="small muted" title="The big numbers are the most likely real final close to Model A's averages. Grading and every chance on this card use the averages.">Big numbers = likely final. Average: ${esc(x.away)} ${abF1(M.as)}, ${esc(x.home)} ${abF1(M.hs)}</p>` : ''}
     <div class="bar"><i style="width:${(M.p*100).toFixed(0)}%"></i></div>
     <p class="small">${esc(x.home)} ${pct(M.p, 0)} <span class="muted">${amS(+am(M.p))}</span> · ${esc(x.away)} ${pct(1 - M.p, 0)} <span class="muted">${amS(+am(1 - M.p))}</span>${M.est ? ' <span class="muted" title="Win chance worked out from the projected score">≈</span>' : ''}</p>
     <p class="small muted">${esc(abTm(x, m))} · total ${(M.hs + M.as).toFixed(1)}</p>${AB2(sp) && k === 'A' ? cabRange(sp, x) : ''}</div>`;

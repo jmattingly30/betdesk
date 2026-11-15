@@ -115,6 +115,14 @@ def absences(games, use_by_game):
         if L: out[gid] = L
     return out
 
+def likely_final(hs, as_, h, a, win=3.5):
+    """DISPLAY ONLY: the drive simulator's most common final within 3.5 pts of each Model A mean and of its margin, same winner, no tie.
+    Test 2022-25: exact finals 0.07% -> 0.82%, rare team scores shown 51% -> 4%, team MAE 9.42 -> 9.48. Grading keeps the unrounded means (hs/as)."""
+    side = np.sign(round(hs - as_)); h, a = np.asarray(h, int), np.asarray(a, int)
+    m = (np.abs(h - hs) <= win) & (np.abs(a - as_) <= win) & (h != a) & (np.abs(h - a - (hs - as_)) <= win)
+    if side: m &= np.sign(h - a) == side
+    if not m.any(): return [int(round(hs)), int(round(as_))]
+    k = np.bincount(h[m] * 200 + a[m]).argmax(); return [int(k // 200), int(k % 200)]
 def main():
     CL = json.load(open(f"{APP}/cfb_live.json")); S = json.load(open(f"{APP}/game_slates.json"))["CFB"]; slate = {x["id"]: x for x in S["games"]}
     U = json.load(open(f"{APP}/cfb_usage.json")) if os.path.exists(f"{APP}/cfb_usage.json") else {"games": []}
@@ -146,7 +154,7 @@ def main():
                  t10=int(np.quantile(h + a, .1)), t90=int(np.quantile(h + a, .9)), h10=int(np.quantile(h, .1)), h90=int(np.quantile(h, .9)),
                  a10=int(np.quantile(a, .1)), a90=int(np.quantile(a, .9)), p3=round(float(P[np.abs(MG) == 3].sum()), 3), p7=round(float(P[np.abs(MG) == 7].sum()), 3),
                  v4=[v["hs"], v["as"]], usage=round(ush, 2), absences=ab)
-        A["as"] = round(as_, 2)
+        A["as"] = round(as_, 2); A["lf"] = likely_final(hs, as_, h, a)
         x = slate.get(gid) or {}; kick_h = hours_to(v["k"]); early = kick_h >= EARLY_H
         dm = (v["v3_hs"] - v["v3_as"]) if v.get("v3_hs") is not None else None
         rec = {"h": v["h"], "a": v["a"], "d": x.get("d") or v["k"][:10], "k": v["k"], "w": v.get("wk"), "n": v.get("n"), "A": A, "desk_m": None if dm is None else round(dm, 2), "B": None}
