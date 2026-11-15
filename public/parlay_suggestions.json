@@ -1,12 +1,108 @@
 {
- "made": "2026-11-15 14:28 UTC",
+ "made": "2026-11-15 20:25 UTC",
  "note": "Correlated same-game stacks from our projections. Lines are our guess at the book line (recent and season average, nearest .5): type the real line and the book SGP price before betting. fair_odds = our true price; bet only at bet_if_at_least or longer (+5% EV). ev_est = edge if the book hangs each leg at -110 and prices only the obvious links (same player, QB with his receivers). hidden_mult = how much the links books ignore add. line_type fair = our projection rounded to .5; flag = the leg passes the Bet Desk flag rule and the line is set at the player average.",
  "sports": {
   "NBA": {
-   "made_from": "2026-11-15 13:34 UTC",
+   "made_from": "2026-11-15 19:31 UTC",
    "week": "2026-11-15 to 2026-11-17",
    "correlation": [],
    "flag": [
+    {
+     "k": 4,
+     "legs": [
+      {
+       "player": "Naji Marshall",
+       "team": "DAL",
+       "stat": "assists",
+       "role": "P4_ast",
+       "dir": "under",
+       "line": 4.5,
+       "p": 0.773,
+       "dz": 0,
+       "proj": 3.0,
+       "line_type": "flag",
+       "avgs": [
+        4.5,
+        4.5
+       ]
+      },
+      {
+       "player": "Cooper Flagg",
+       "team": "DAL",
+       "stat": "points",
+       "role": "P1_pts",
+       "dir": "under",
+       "line": 23.5,
+       "p": 0.722,
+       "dz": 0.0,
+       "proj": 19.2,
+       "line_type": "flag",
+       "avgs": [
+        24.3,
+        24.08
+       ]
+      },
+      {
+       "player": "Paul George",
+       "team": "BOS",
+       "stat": "points",
+       "role": "P2_pts",
+       "dir": "under",
+       "line": 21.5,
+       "p": 0.698,
+       "dz": 0,
+       "proj": 17.9,
+       "line_type": "flag",
+       "avgs": [
+        22.0,
+        22.0
+       ]
+      },
+      {
+       "player": "Paul George",
+       "team": "BOS",
+       "stat": "turnovers",
+       "role": "P2_tov",
+       "dir": "under",
+       "line": 2.5,
+       "p": 0.682,
+       "dz": 0,
+       "proj": 1.9,
+       "line_type": "flag",
+       "avgs": [
+        2.9,
+        2.9
+       ]
+      }
+     ],
+     "fair_joint": 0.2796,
+     "corr_mult": 1.053,
+     "hidden_mult": 1.03,
+     "ev_est": 2.546,
+     "book_proxy_odds": "+1168",
+     "fair_odds": "+258",
+     "bet_if_at_least": "+275",
+     "kind": "flag",
+     "why": "Paul George points under and Paul George turnovers under move together (latent r 0.08)",
+     "all_under": true,
+     "conditions": {
+      "BOS": [
+       "fav 10+",
+       "home",
+       "Oct-Nov"
+      ],
+      "DAL": [
+       "dog 10+",
+       "Oct-Nov"
+      ]
+     },
+     "game": 14,
+     "teams": [
+      "BOS",
+      "DAL"
+     ],
+     "date": "2026-11-15"
+    },
     {
      "k": 4,
      "legs": [
@@ -102,102 +198,6 @@
      "date": "2026-11-15"
     },
     {
-     "k": 4,
-     "legs": [
-      {
-       "player": "Naji Marshall",
-       "team": "DAL",
-       "stat": "assists",
-       "role": "P4_ast",
-       "dir": "under",
-       "line": 4.5,
-       "p": 0.741,
-       "dz": 0,
-       "proj": 3.2,
-       "line_type": "flag",
-       "avgs": [
-        4.5,
-        4.5
-       ]
-      },
-      {
-       "player": "Paul George",
-       "team": "BOS",
-       "stat": "points",
-       "role": "P2_pts",
-       "dir": "under",
-       "line": 21.5,
-       "p": 0.7,
-       "dz": 0,
-       "proj": 17.9,
-       "line_type": "flag",
-       "avgs": [
-        22.0,
-        22.0
-       ]
-      },
-      {
-       "player": "Cooper Flagg",
-       "team": "DAL",
-       "stat": "points",
-       "role": "P1_pts",
-       "dir": "under",
-       "line": 23.5,
-       "p": 0.683,
-       "dz": 0.0,
-       "proj": 20.3,
-       "line_type": "flag",
-       "avgs": [
-        24.3,
-        24.08
-       ]
-      },
-      {
-       "player": "Paul George",
-       "team": "BOS",
-       "stat": "turnovers",
-       "role": "P2_tov",
-       "dir": "under",
-       "line": 2.5,
-       "p": 0.682,
-       "dz": 0,
-       "proj": 1.9,
-       "line_type": "flag",
-       "avgs": [
-        2.9,
-        2.9
-       ]
-      }
-     ],
-     "fair_joint": 0.2555,
-     "corr_mult": 1.058,
-     "hidden_mult": 1.035,
-     "ev_est": 2.24,
-     "book_proxy_odds": "+1168",
-     "fair_odds": "+291",
-     "bet_if_at_least": "+311",
-     "kind": "flag",
-     "why": "Paul George points under and Paul George turnovers under move together (latent r 0.08)",
-     "all_under": true,
-     "conditions": {
-      "BOS": [
-       "fav 10+",
-       "home",
-       "Oct-Nov"
-      ],
-      "DAL": [
-       "dog 10+",
-       "Oct-Nov"
-      ]
-     },
-     "game": 14,
-     "teams": [
-      "BOS",
-      "DAL"
-     ],
-     "date": "2026-11-15"
-    },
-    {
      "k": 3,
      "legs": [
       {
@@ -274,100 +274,6 @@
      "teams": [
       "OKC",
       "SAC"
-     ],
-     "date": "2026-11-15"
-    },
-    {
-     "k": 4,
-     "legs": [
-      {
-       "player": "Ryan Rollins",
-       "team": "MIL",
-       "stat": "blocks",
-       "role": "P4_blk",
-       "dir": "under",
-       "line": 0.5,
-       "p": 0.742,
-       "dz": 0,
-       "proj": 0.3,
-       "line_type": "fair",
-       "avgs": [
-        0.3,
-        0.3
-       ]
-      },
-      {
-       "player": "Dyson Daniels",
-       "team": "ATL",
-       "stat": "blocks",
-       "role": "P5_blk",
-       "dir": "under",
-       "line": 0.5,
-       "p": 0.73,
-       "dz": 0,
-       "proj": 0.3,
-       "line_type": "fair",
-       "avgs": [
-        0.3,
-        0.31
-       ]
-      },
-      {
-       "player": "Ryan Rollins",
-       "team": "MIL",
-       "stat": "rebounds",
-       "role": "P4_reb",
-       "dir": "under",
-       "line": 4.5,
-       "p": 0.679,
-       "dz": 0,
-       "proj": 3.8,
-       "line_type": "flag",
-       "avgs": [
-        5.3,
-        5.3
-       ]
-      },
-      {
-       "player": "Nickeil Alexander-Walker",
-       "team": "ATL",
-       "stat": "assists",
-       "role": "P1_ast",
-       "dir": "over",
-       "line": 2.5,
-       "p": 0.639,
-       "dz": 0,
-       "proj": 3.8,
-       "line_type": "flag",
-       "avgs": [
-        2.2,
-        2.62
-       ]
-      }
-     ],
-     "fair_joint": 0.2504,
-     "corr_mult": 1.065,
-     "hidden_mult": 1.036,
-     "ev_est": 0.482,
-     "book_proxy_odds": "+492",
-     "fair_odds": "+299",
-     "bet_if_at_least": "+319",
-     "kind": "flag",
-     "why": "Ryan Rollins blocks under and Ryan Rollins rebounds under move together (latent r 0.12)",
-     "all_under": false,
-     "conditions": {
-      "ATL": [
-       "Oct-Nov"
-      ],
-      "MIL": [
-       "home",
-       "Oct-Nov"
-      ]
-     },
-     "game": 11,
-     "teams": [
-      "ATL",
-      "MIL"
      ],
      "date": "2026-11-15"
     },
@@ -450,6 +356,180 @@
       "CLE"
      ],
      "date": "2026-11-16"
+    },
+    {
+     "k": 4,
+     "legs": [
+      {
+       "player": "Kelly Oubre Jr.",
+       "team": "IND",
+       "stat": "threes",
+       "role": "P4_3pm",
+       "dir": "under",
+       "line": 1.5,
+       "p": 0.695,
+       "dz": 0,
+       "proj": 1.2,
+       "line_type": "fair",
+       "avgs": [
+        0.9,
+        0.82
+       ]
+      },
+      {
+       "player": "LeBron James",
+       "team": "PHI",
+       "stat": "points",
+       "role": "P3_pts",
+       "dir": "over",
+       "line": 15.5,
+       "p": 0.686,
+       "dz": 0,
+       "proj": 20.9,
+       "line_type": "flag",
+       "avgs": [
+        15.1,
+        15.1
+       ]
+      },
+      {
+       "player": "Obi Toppin",
+       "team": "IND",
+       "stat": "steals",
+       "role": "P5_stl",
+       "dir": "under",
+       "line": 0.5,
+       "p": 0.658,
+       "dz": 0,
+       "proj": 0.4,
+       "line_type": "fair",
+       "avgs": [
+        0.2,
+        0.2
+       ]
+      },
+      {
+       "player": "Ivica Zubac",
+       "team": "IND",
+       "stat": "assists",
+       "role": "P3_ast",
+       "dir": "under",
+       "line": 2.5,
+       "p": 0.646,
+       "dz": 0,
+       "proj": 2.1,
+       "line_type": "fair",
+       "avgs": [
+        1.7,
+        1.57
+       ]
+      }
+     ],
+     "fair_joint": 0.2157,
+     "corr_mult": 1.064,
+     "hidden_mult": 1.064,
+     "ev_est": 0.212,
+     "book_proxy_odds": "+462",
+     "fair_odds": "+364",
+     "bet_if_at_least": "+387",
+     "kind": "flag",
+     "why": "Kelly Oubre Jr. threes under and Ivica Zubac assists under move together (latent r 0.10)",
+     "all_under": false,
+     "conditions": {
+      "IND": [
+       "dog 6-9.5",
+       "Oct-Nov"
+      ],
+      "PHI": [
+       "fav 6-9.5",
+       "home",
+       "Oct-Nov"
+      ]
+     },
+     "game": 18,
+     "teams": [
+      "IND",
+      "PHI"
+     ],
+     "date": "2026-11-15"
+    },
+    {
+     "k": 3,
+     "legs": [
+      {
+       "player": "Ryan Rollins",
+       "team": "MIL",
+       "stat": "blocks",
+       "role": "P4_blk",
+       "dir": "under",
+       "line": 0.5,
+       "p": 0.742,
+       "dz": 0,
+       "proj": 0.3,
+       "line_type": "fair",
+       "avgs": [
+        0.3,
+        0.3
+       ]
+      },
+      {
+       "player": "Dyson Daniels",
+       "team": "ATL",
+       "stat": "blocks",
+       "role": "P5_blk",
+       "dir": "under",
+       "line": 0.5,
+       "p": 0.727,
+       "dz": 0,
+       "proj": 0.3,
+       "line_type": "fair",
+       "avgs": [
+        0.3,
+        0.31
+       ]
+      },
+      {
+       "player": "Ryan Rollins",
+       "team": "MIL",
+       "stat": "rebounds",
+       "role": "P4_reb",
+       "dir": "under",
+       "line": 4.5,
+       "p": 0.678,
+       "dz": 0,
+       "proj": 3.8,
+       "line_type": "flag",
+       "avgs": [
+        5.3,
+        5.3
+       ]
+      }
+     ],
+     "fair_joint": 0.3845,
+     "corr_mult": 1.051,
+     "hidden_mult": 1.022,
+     "ev_est": 0.197,
+     "book_proxy_odds": "+211",
+     "fair_odds": "+160",
+     "bet_if_at_least": "+173",
+     "kind": "flag",
+     "why": "Ryan Rollins blocks under and Ryan Rollins rebounds under move together (latent r 0.12)",
+     "all_under": true,
+     "conditions": {
+      "ATL": [
+       "Oct-Nov"
+      ],
+      "MIL": [
+       "home",
+       "Oct-Nov"
+      ]
+     },
+     "game": 11,
+     "teams": [
+      "ATL",
+      "MIL"
+     ],
+     "date": "2026-11-15"
     },
     {
      "k": 3,
@@ -626,7 +706,7 @@
    ]
   },
   "NFL": {
-   "made_from": "2026-11-15 13:35 UTC",
+   "made_from": "2026-11-15 19:32 UTC",
    "week": 10,
    "correlation": [],
    "flag": [
@@ -640,7 +720,7 @@
        "role": "WR1_rec_yds",
        "dir": "under",
        "line": 112.5,
-       "p": 0.779,
+       "p": 0.774,
        "dz": 0,
        "proj": 77.7,
        "line_type": "flag",
@@ -656,7 +736,7 @@
        "role": "QB_pass_td",
        "dir": "under",
        "line": 1.5,
-       "p": 0.733,
+       "p": 0.742,
        "dz": 0,
        "proj": 1.0,
        "line_type": "flag",
@@ -672,7 +752,7 @@
        "role": "RB1_rec_yds",
        "dir": "under",
        "line": 40.5,
-       "p": 0.732,
+       "p": 0.729,
        "dz": 0,
        "proj": 29.6,
        "line_type": "flag",
@@ -688,7 +768,7 @@
        "role": "WR2_rec_yds",
        "dir": "under",
        "line": 58.5,
-       "p": 0.725,
+       "p": 0.718,
        "dz": 0,
        "proj": 42.6,
        "line_type": "flag",
@@ -698,13 +778,13 @@
        ]
       }
      ],
-     "fair_joint": 0.3316,
+     "fair_joint": 0.3287,
      "corr_mult": 1.094,
      "hidden_mult": 1.017,
-     "ev_est": 2.632,
+     "ev_est": 2.601,
      "book_proxy_odds": "+995",
-     "fair_odds": "+202",
-     "bet_if_at_least": "+217",
+     "fair_odds": "+204",
+     "bet_if_at_least": "+219",
      "kind": "flag",
      "why": "Kirk Cousins pass TDs under and Tre Tucker rec yds under move together (latent r 0.22)",
      "all_under": true,
@@ -731,7 +811,7 @@
        "role": "WR1_rec_yds",
        "dir": "under",
        "line": 103.5,
-       "p": 0.799,
+       "p": 0.803,
        "dz": 0,
        "proj": 65.9,
        "line_type": "flag",
@@ -747,9 +827,9 @@
        "role": "QB_cmp",
        "dir": "over",
        "line": 12.5,
-       "p": 0.756,
+       "p": 0.743,
        "dz": 0,
-       "proj": 17.5,
+       "proj": 17.6,
        "line_type": "flag",
        "avgs": [
         14.4,
@@ -763,7 +843,7 @@
        "role": "WR1_rec",
        "dir": "under",
        "line": 5.5,
-       "p": 0.698,
+       "p": 0.709,
        "dz": 0.0,
        "proj": 4.17,
        "line_type": "flag",
@@ -773,10 +853,10 @@
        ]
       }
      ],
-     "fair_joint": 0.4757,
-     "corr_mult": 1.128,
+     "fair_joint": 0.4752,
+     "corr_mult": 1.123,
      "hidden_mult": 1.003,
-     "ev_est": 1.404,
+     "ev_est": 1.402,
      "book_proxy_odds": "+405",
      "fair_odds": "+110",
      "bet_if_at_least": "+121",
@@ -822,7 +902,7 @@
        "role": "WR2_rec",
        "dir": "under",
        "line": 5.5,
-       "p": 0.66,
+       "p": 0.667,
        "dz": 0,
        "proj": 4.5,
        "line_type": "flag",
@@ -848,13 +928,13 @@
        ]
       }
      ],
-     "fair_joint": 0.3353,
+     "fair_joint": 0.3388,
      "corr_mult": 1.065,
      "hidden_mult": 1.009,
-     "ev_est": 1.068,
+     "ev_est": 1.09,
      "book_proxy_odds": "+517",
-     "fair_odds": "+198",
-     "bet_if_at_least": "+213",
+     "fair_odds": "+195",
+     "bet_if_at_least": "+210",
      "kind": "flag",
      "why": "Tee Higgins rec yds under and Joe Burrow pass TDs under move together (latent r 0.22)",
      "all_under": true,
@@ -875,19 +955,19 @@
      "k": 3,
      "legs": [
       {
-       "player": "Breece Hall",
-       "team": "NYJ",
+       "player": "DJ Moore",
+       "team": "BUF",
        "stat": "rec yds",
-       "role": "RB1_rec_yds",
+       "role": "REC3_rec_yds",
        "dir": "under",
-       "line": 30.5,
-       "p": 0.782,
+       "line": 56.5,
+       "p": 0.766,
        "dz": 0,
-       "proj": 18.3,
+       "proj": 37.9,
        "line_type": "flag",
        "avgs": [
-        29.2,
-        32.0
+        57.0,
+        57.0
        ]
       },
       {
@@ -897,7 +977,7 @@
        "role": "WR2_rec_yds",
        "dir": "under",
        "line": 68.5,
-       "p": 0.704,
+       "p": 0.711,
        "dz": 0,
        "proj": 52.2,
        "line_type": "flag",
@@ -907,31 +987,31 @@
        ]
       },
       {
-       "player": "Breece Hall",
-       "team": "NYJ",
+       "player": "DJ Moore",
+       "team": "BUF",
        "stat": "receptions",
-       "role": "RB1_rec",
+       "role": "REC3_rec",
        "dir": "under",
-       "line": 2.5,
-       "p": 0.622,
+       "line": 3.5,
+       "p": 0.648,
        "dz": 0,
-       "proj": 2.1,
+       "proj": 2.9,
        "line_type": "flag",
        "avgs": [
-        3.0,
-        3.25
+        3.8,
+        3.8
        ]
       }
      ],
-     "fair_joint": 0.3982,
-     "corr_mult": 1.163,
-     "hidden_mult": 1.008,
-     "ev_est": 1.017,
-     "book_proxy_odds": "+407",
-     "fair_odds": "+151",
-     "bet_if_at_least": "+164",
+     "fair_joint": 0.4146,
+     "corr_mult": 1.175,
+     "hidden_mult": 1.007,
+     "ev_est": 1.062,
+     "book_proxy_odds": "+397",
+     "fair_odds": "+141",
+     "bet_if_at_least": "+153",
      "kind": "flag",
-     "why": "Breece Hall rec yds under and Breece Hall receptions under move together (latent r 0.60)",
+     "why": "DJ Moore rec yds under and DJ Moore receptions under move together (latent r 0.64)",
      "all_under": true,
      "conditions": {
       "BUF": [
@@ -961,7 +1041,7 @@
        "role": "QB_pass_yds",
        "dir": "under",
        "line": 285.5,
-       "p": 0.706,
+       "p": 0.696,
        "dz": 0,
        "proj": 229.2,
        "line_type": "flag",
@@ -977,7 +1057,7 @@
        "role": "RB1_rec",
        "dir": "under",
        "line": 2.5,
-       "p": 0.698,
+       "p": 0.692,
        "dz": 0,
        "proj": 1.8,
        "line_type": "flag",
@@ -993,7 +1073,7 @@
        "role": "QB_pass_td",
        "dir": "under",
        "line": 1.5,
-       "p": 0.575,
+       "p": 0.576,
        "dz": 0,
        "proj": 1.4,
        "line_type": "flag",
@@ -1003,13 +1083,13 @@
        ]
       }
      ],
-     "fair_joint": 0.3406,
-     "corr_mult": 1.202,
-     "hidden_mult": 1.017,
-     "ev_est": 0.807,
+     "fair_joint": 0.3351,
+     "corr_mult": 1.208,
+     "hidden_mult": 1.018,
+     "ev_est": 0.778,
      "book_proxy_odds": "+431",
-     "fair_odds": "+194",
-     "bet_if_at_least": "+208",
+     "fair_odds": "+198",
+     "bet_if_at_least": "+213",
      "kind": "flag",
      "why": "C.J. Stroud pass yds under and C.J. Stroud pass TDs under move together (latent r 0.51)",
      "all_under": true,
@@ -1030,131 +1110,19 @@
      "k": 4,
      "legs": [
       {
-       "player": "Kendrick Bourne",
-       "team": "ARI",
-       "stat": "rec yds",
-       "role": "WR2_rec_yds",
-       "dir": "under",
-       "line": 31.5,
-       "p": 0.754,
-       "dz": 0,
-       "proj": 20.6,
-       "line_type": "flag",
-       "avgs": [
-        31.0,
-        32.88
-       ]
-      },
-      {
-       "player": "Elijah Higgins",
-       "team": "ARI",
-       "stat": "receptions",
-       "role": "REC3_rec",
-       "dir": "under",
-       "line": 2.5,
-       "p": 0.644,
-       "dz": 0,
-       "proj": 2.0,
-       "line_type": "fair",
-       "avgs": [
-        2.6,
-        2.67
-       ]
-      },
-      {
-       "player": "Tyler Allgeier",
-       "team": "ARI",
-       "stat": "rec yds",
-       "role": "RB1_rec_yds",
-       "dir": "under",
-       "line": 18.5,
-       "p": 0.586,
-       "dz": 0,
-       "proj": 18.2,
-       "line_type": "fair",
-       "avgs": [
-        18.6,
-        14.75
-       ]
-      },
-      {
-       "player": "Kyren Williams",
-       "team": "LA",
-       "stat": "rush yds",
-       "role": "RB1_rush_yds",
-       "dir": "under",
-       "line": 66.5,
-       "p": 0.572,
-       "dz": 0.0,
-       "proj": 66.0,
-       "line_type": "fair",
-       "avgs": [
-        59.8,
-        65.89
-       ]
-      }
-     ],
-     "fair_joint": 0.1798,
-     "corr_mult": 1.104,
-     "hidden_mult": 1.104,
-     "ev_est": 0.468,
-     "book_proxy_odds": "+716",
-     "fair_odds": "+456",
-     "bet_if_at_least": "+484",
-     "kind": "flag",
-     "why": "Kendrick Bourne rec yds under and Elijah Higgins receptions under move together (latent r 0.06)",
-     "all_under": true,
-     "conditions": {
-      "ARI": [
-       "fav 7+",
-       "total <=40",
-       "home"
-      ],
-      "LA": [
-       "dog 7+",
-       "total <=40"
-      ]
-     },
-     "game": "2026_10_LA_ARI",
-     "teams": [
-      "ARI",
-      "LA"
-     ],
-     "date": null
-    },
-    {
-     "k": 4,
-     "legs": [
-      {
        "player": "Bhayshul Tuten",
        "team": "JAX",
        "stat": "rec yds",
        "role": "RB1_rec_yds",
        "dir": "under",
        "line": 25.5,
-       "p": 0.787,
+       "p": 0.817,
        "dz": 0,
-       "proj": 14.0,
+       "proj": 13.6,
        "line_type": "flag",
        "avgs": [
         29.0,
         22.62
-       ]
-      },
-      {
-       "player": "Cam Ward",
-       "team": "TEN",
-       "stat": "rush yds",
-       "role": "QB_rush_yds",
-       "dir": "under",
-       "line": 13.5,
-       "p": 0.589,
-       "dz": 0,
-       "proj": 13.1,
-       "line_type": "fair",
-       "avgs": [
-        16.4,
-        14.0
        ]
       },
       {
@@ -1164,13 +1132,29 @@
        "role": "WR2_rec_yds",
        "dir": "under",
        "line": 45.5,
-       "p": 0.584,
+       "p": 0.585,
        "dz": 0,
-       "proj": 45.6,
+       "proj": 45.3,
        "line_type": "fair",
        "avgs": [
         48.4,
         46.75
+       ]
+      },
+      {
+       "player": "Cam Ward",
+       "team": "TEN",
+       "stat": "rush yds",
+       "role": "QB_rush_yds",
+       "dir": "under",
+       "line": 12.5,
+       "p": 0.565,
+       "dz": 0,
+       "proj": 13.0,
+       "line_type": "fair",
+       "avgs": [
+        16.4,
+        14.0
        ]
       },
       {
@@ -1179,10 +1163,10 @@
        "stat": "rec yds",
        "role": "REC3_rec_yds",
        "dir": "under",
-       "line": 41.5,
-       "p": 0.571,
+       "line": 40.5,
+       "p": 0.564,
        "dz": 0,
-       "proj": 41.1,
+       "proj": 40.5,
        "line_type": "fair",
        "avgs": [
         56.8,
@@ -1190,13 +1174,13 @@
        ]
       }
      ],
-     "fair_joint": 0.1688,
-     "corr_mult": 1.092,
-     "hidden_mult": 1.092,
-     "ev_est": 0.427,
-     "book_proxy_odds": "+745",
-     "fair_odds": "+492",
-     "bet_if_at_least": "+522",
+     "fair_joint": 0.1661,
+     "corr_mult": 1.091,
+     "hidden_mult": 1.091,
+     "ev_est": 0.482,
+     "book_proxy_odds": "+792",
+     "fair_odds": "+502",
+     "bet_if_at_least": "+532",
      "kind": "flag",
      "why": "Bhayshul Tuten rec yds under and Jakobi Meyers rec yds under move together (latent r 0.05)",
      "all_under": true,
@@ -1220,13 +1204,77 @@
      "k": 2,
      "legs": [
       {
+       "player": "Trey McBride",
+       "team": "ARI",
+       "stat": "rec yds",
+       "role": "WR1_rec_yds",
+       "dir": "under",
+       "line": 68.5,
+       "p": 0.71,
+       "dz": 0,
+       "proj": 53.8,
+       "line_type": "flag",
+       "avgs": [
+        71.2,
+        66.44
+       ]
+      },
+      {
+       "player": "Trey McBride",
+       "team": "ARI",
+       "stat": "receptions",
+       "role": "WR1_rec",
+       "dir": "under",
+       "line": 7.5,
+       "p": 0.664,
+       "dz": 0.0,
+       "proj": 6.2,
+       "line_type": "flag",
+       "avgs": [
+        8.0,
+        8.11
+       ]
+      }
+     ],
+     "fair_joint": 0.557,
+     "corr_mult": 1.182,
+     "hidden_mult": 1.0,
+     "ev_est": 0.475,
+     "book_proxy_odds": "+165",
+     "fair_odds": "-126",
+     "bet_if_at_least": "-113",
+     "kind": "flag",
+     "why": "Trey McBride rec yds under and Trey McBride receptions under move together (latent r 0.61)",
+     "all_under": true,
+     "conditions": {
+      "ARI": [
+       "fav 7+",
+       "total <=40",
+       "home"
+      ],
+      "LA": [
+       "dog 7+",
+       "total <=40"
+      ]
+     },
+     "game": "2026_10_LA_ARI",
+     "teams": [
+      "ARI",
+      "LA"
+     ],
+     "date": null
+    },
+    {
+     "k": 2,
+     "legs": [
+      {
        "player": "Tetairoa McMillan",
        "team": "CAR",
        "stat": "rec yds",
        "role": "WR1_rec_yds",
        "dir": "under",
        "line": 81.5,
-       "p": 0.682,
+       "p": 0.686,
        "dz": 0,
        "proj": 65.7,
        "line_type": "flag",
@@ -1242,7 +1290,7 @@
        "role": "WR1_rec",
        "dir": "under",
        "line": 5.5,
-       "p": 0.634,
+       "p": 0.642,
        "dz": 0,
        "proj": 4.7,
        "line_type": "flag",
@@ -1252,13 +1300,13 @@
        ]
       }
      ],
-     "fair_joint": 0.5229,
-     "corr_mult": 1.209,
+     "fair_joint": 0.53,
+     "corr_mult": 1.204,
      "hidden_mult": 1.0,
-     "ev_est": 0.384,
+     "ev_est": 0.403,
      "book_proxy_odds": "+165",
-     "fair_odds": "-110",
-     "bet_if_at_least": "+101",
+     "fair_odds": "-113",
+     "bet_if_at_least": "-102",
      "kind": "flag",
      "why": "Tetairoa McMillan rec yds under and Tetairoa McMillan receptions under move together (latent r 0.61)",
      "all_under": true,
@@ -1276,6 +1324,81 @@
      "date": null
     },
     {
+     "k": 3,
+     "legs": [
+      {
+       "player": "Emmett Johnson",
+       "team": "KC",
+       "stat": "rec yds",
+       "role": "RB1_rec_yds",
+       "dir": "under",
+       "line": 31.5,
+       "p": 0.768,
+       "dz": 0,
+       "proj": 19.2,
+       "line_type": "flag",
+       "avgs": [
+        34.6,
+        29.62
+       ]
+      },
+      {
+       "player": "Xavier Worthy",
+       "team": "KC",
+       "stat": "receptions",
+       "role": "REC3_rec",
+       "dir": "under",
+       "line": 4.5,
+       "p": 0.603,
+       "dz": 0,
+       "proj": 4.1,
+       "line_type": "fair",
+       "avgs": [
+        4.6,
+        4.12
+       ]
+      },
+      {
+       "player": "Xavier Worthy",
+       "team": "KC",
+       "stat": "rec yds",
+       "role": "REC3_rec_yds",
+       "dir": "under",
+       "line": 44.5,
+       "p": 0.584,
+       "dz": 0,
+       "proj": 44.4,
+       "line_type": "fair",
+       "avgs": [
+        43.0,
+        34.75
+       ]
+      }
+     ],
+     "fair_joint": 0.3581,
+     "corr_mult": 1.324,
+     "hidden_mult": 1.02,
+     "ev_est": 0.401,
+     "book_proxy_odds": "+291",
+     "fair_odds": "+179",
+     "bet_if_at_least": "+193",
+     "kind": "flag",
+     "why": "Xavier Worthy receptions under and Xavier Worthy rec yds under move together (latent r 0.64)",
+     "all_under": true,
+     "conditions": {
+      "ATL": [
+       "home"
+      ],
+      "KC": []
+     },
+     "game": "2026_10_KC_ATL",
+     "teams": [
+      "ATL",
+      "KC"
+     ],
+     "date": null
+    },
+    {
      "k": 4,
      "legs": [
       {
@@ -1285,7 +1408,7 @@
        "role": "WR2_rec_yds",
        "dir": "under",
        "line": 54.5,
-       "p": 0.761,
+       "p": 0.765,
        "dz": 0,
        "proj": 36.3,
        "line_type": "flag",
@@ -1295,35 +1418,35 @@
        ]
       },
       {
-       "player": "Christian McCaffrey",
-       "team": "SF",
-       "stat": "receptions",
-       "role": "RB1_rec",
-       "dir": "under",
-       "line": 5.5,
-       "p": 0.586,
-       "dz": 0,
-       "proj": 5.1,
-       "line_type": "fair",
-       "avgs": [
-        4.6,
-        4.5
-       ]
-      },
-      {
        "player": "Dak Prescott",
        "team": "DAL",
        "stat": "rush yds",
        "role": "QB_rush_yds",
        "dir": "under",
        "line": 9.5,
-       "p": 0.584,
+       "p": 0.592,
        "dz": 0,
        "proj": 9.3,
        "line_type": "fair",
        "avgs": [
         7.2,
         11.33
+       ]
+      },
+      {
+       "player": "Christian McCaffrey",
+       "team": "SF",
+       "stat": "receptions",
+       "role": "RB1_rec",
+       "dir": "under",
+       "line": 5.5,
+       "p": 0.592,
+       "dz": 0,
+       "proj": 5.1,
+       "line_type": "fair",
+       "avgs": [
+        4.6,
+        4.5
        ]
       },
       {
@@ -1343,13 +1466,13 @@
        ]
       }
      ],
-     "fair_joint": 0.1616,
-     "corr_mult": 1.092,
-     "hidden_mult": 1.092,
-     "ev_est": 0.378,
-     "book_proxy_odds": "+753",
-     "fair_odds": "+519",
-     "bet_if_at_least": "+550",
+     "fair_joint": 0.166,
+     "corr_mult": 1.09,
+     "hidden_mult": 1.09,
+     "ev_est": 0.385,
+     "book_proxy_odds": "+734",
+     "fair_odds": "+502",
+     "bet_if_at_least": "+532",
      "kind": "flag",
      "why": "Jordan Watkins rec yds under and Demarcus Robinson receptions under move together (latent r 0.06)",
      "all_under": true,
@@ -1373,107 +1496,13 @@
      "k": 4,
      "legs": [
       {
-       "player": "Rashod Bateman",
-       "team": "BAL",
-       "stat": "rec yds",
-       "role": "REC3_rec_yds",
-       "dir": "under",
-       "line": 34.5,
-       "p": 0.711,
-       "dz": 0,
-       "proj": 25.2,
-       "line_type": "flag",
-       "avgs": [
-        33.8,
-        36.75
-       ]
-      },
-      {
-       "player": "Derrick Henry",
-       "team": "BAL",
-       "stat": "rec yds",
-       "role": "RB1_rec_yds",
-       "dir": "under",
-       "line": 8.5,
-       "p": 0.628,
-       "dz": 0,
-       "proj": 8.8,
-       "line_type": "fair",
-       "avgs": [
-        6.2,
-        8.33
-       ]
-      },
-      {
-       "player": "Mark Andrews",
-       "team": "BAL",
-       "stat": "rec yds",
-       "role": "WR2_rec_yds",
-       "dir": "under",
-       "line": 28.5,
-       "p": 0.585,
-       "dz": 0,
-       "proj": 28.1,
-       "line_type": "fair",
-       "avgs": [
-        17.6,
-        26.33
-       ]
-      },
-      {
-       "player": "Omarion Hampton",
-       "team": "LAC",
-       "stat": "rush yds",
-       "role": "RB1_rush_yds",
-       "dir": "under",
-       "line": 40.5,
-       "p": 0.558,
-       "dz": 0.0,
-       "proj": 40.6,
-       "line_type": "fair",
-       "avgs": [
-        35.2,
-        46.12
-       ]
-      }
-     ],
-     "fair_joint": 0.16,
-     "corr_mult": 1.097,
-     "hidden_mult": 1.097,
-     "ev_est": 0.377,
-     "book_proxy_odds": "+761",
-     "fair_odds": "+525",
-     "bet_if_at_least": "+556",
-     "kind": "flag",
-     "why": "Derrick Henry rec yds under and Mark Andrews rec yds under move together (latent r 0.05)",
-     "all_under": true,
-     "conditions": {
-      "BAL": [
-       "total <=40",
-       "home"
-      ],
-      "LAC": [
-       "total <=40"
-      ]
-     },
-     "game": "2026_10_LAC_BAL",
-     "teams": [
-      "BAL",
-      "LAC"
-     ],
-     "date": null
-    },
-    {
-     "k": 4,
-     "legs": [
-      {
        "player": "Ollie Gordon II",
        "team": "MIA",
        "stat": "rush yds",
        "role": "RB1_rush_yds",
        "dir": "under",
        "line": 79.5,
-       "p": 0.699,
+       "p": 0.695,
        "dz": 0.0,
        "proj": 62.3,
        "line_type": "flag",
@@ -1489,7 +1518,7 @@
        "role": "REC3_rec",
        "dir": "under",
        "line": 3.5,
-       "p": 0.607,
+       "p": 0.596,
        "dz": 0,
        "proj": 3.1,
        "line_type": "fair",
@@ -1499,29 +1528,13 @@
        ]
       },
       {
-       "player": "Jonathan Taylor",
-       "team": "IND",
-       "stat": "rush yds",
-       "role": "RB1_rush_yds",
-       "dir": "under",
-       "line": 69.5,
-       "p": 0.567,
-       "dz": 0.0,
-       "proj": 69.8,
-       "line_type": "fair",
-       "avgs": [
-        60.6,
-        72.89
-       ]
-      },
-      {
        "player": "Malik Washington",
        "team": "MIA",
        "stat": "rec yds",
        "role": "WR2_rec_yds",
        "dir": "under",
        "line": 39.5,
-       "p": 0.559,
+       "p": 0.586,
        "dz": 0,
        "proj": 39.9,
        "line_type": "fair",
@@ -1529,15 +1542,31 @@
         39.6,
         43.75
        ]
+      },
+      {
+       "player": "Jonathan Taylor",
+       "team": "IND",
+       "stat": "rush yds",
+       "role": "RB1_rush_yds",
+       "dir": "under",
+       "line": 69.5,
+       "p": 0.566,
+       "dz": 0.0,
+       "proj": 69.8,
+       "line_type": "fair",
+       "avgs": [
+        60.6,
+        72.89
+       ]
       }
      ],
-     "fair_joint": 0.1461,
-     "corr_mult": 1.087,
-     "hidden_mult": 1.087,
-     "ev_est": 0.339,
-     "book_proxy_odds": "+817",
-     "fair_odds": "+584",
-     "bet_if_at_least": "+619",
+     "fair_joint": 0.1491,
+     "corr_mult": 1.085,
+     "hidden_mult": 1.085,
+     "ev_est": 0.33,
+     "book_proxy_odds": "+792",
+     "fair_odds": "+571",
+     "bet_if_at_least": "+604",
      "kind": "flag",
      "why": "Greg Dulcich receptions under and Malik Washington rec yds under move together (latent r 0.06)",
      "all_under": true,
@@ -1558,178 +1587,103 @@
      "date": null
     },
     {
-     "k": 3,
+     "k": 4,
      "legs": [
       {
-       "player": "Rashee Rice",
-       "team": "KC",
-       "stat": "receptions",
-       "role": "WR2_rec",
-       "dir": "under",
-       "line": 6.5,
-       "p": 0.74,
-       "dz": 0,
-       "proj": 4.6,
-       "line_type": "flag",
-       "avgs": [
-        6.67,
-        8.0
-       ]
-      },
-      {
-       "player": "Jahan Dotson",
-       "team": "ATL",
-       "stat": "receptions",
-       "role": "REC3_rec",
-       "dir": "under",
-       "line": 2.5,
-       "p": 0.615,
-       "dz": 0,
-       "proj": 2.2,
-       "line_type": "fair",
-       "avgs": [
-        2.0,
-        1.88
-       ]
-      },
-      {
-       "player": "Jahan Dotson",
-       "team": "ATL",
+       "player": "Rashod Bateman",
+       "team": "BAL",
        "stat": "rec yds",
        "role": "REC3_rec_yds",
        "dir": "under",
        "line": 34.5,
-       "p": 0.609,
+       "p": 0.708,
        "dz": 0,
-       "proj": 34.2,
-       "line_type": "fair",
-       "avgs": [
-        51.6,
-        41.75
-       ]
-      }
-     ],
-     "fair_joint": 0.3551,
-     "corr_mult": 1.281,
-     "hidden_mult": 1.005,
-     "ev_est": 0.328,
-     "book_proxy_odds": "+274",
-     "fair_odds": "+182",
-     "bet_if_at_least": "+196",
-     "kind": "flag",
-     "why": "Jahan Dotson receptions under and Jahan Dotson rec yds under move together (latent r 0.64)",
-     "all_under": true,
-     "conditions": {
-      "ATL": [
-       "home"
-      ],
-      "KC": []
-     },
-     "game": "2026_10_KC_ATL",
-     "teams": [
-      "ATL",
-      "KC"
-     ],
-     "date": null
-    },
-    {
-     "k": 4,
-     "legs": [
-      {
-       "player": "Jahmyr Gibbs",
-       "team": "DET",
-       "stat": "rush yds",
-       "role": "RB1_rush_yds",
-       "dir": "under",
-       "line": 106.5,
-       "p": 0.655,
-       "dz": 0,
-       "proj": 89.8,
+       "proj": 25.2,
        "line_type": "flag",
        "avgs": [
-        108.0,
-        105.88
+        33.8,
+        36.75
        ]
       },
       {
-       "player": "DeMario Douglas",
-       "team": "NE",
-       "stat": "receptions",
-       "role": "REC3_rec",
-       "dir": "under",
-       "line": 3.5,
-       "p": 0.595,
-       "dz": 0,
-       "proj": 3.2,
-       "line_type": "fair",
-       "avgs": [
-        4.4,
-        3.44
-       ]
-      },
-      {
-       "player": "Rhamondre Stevenson",
-       "team": "NE",
+       "player": "Derrick Henry",
+       "team": "BAL",
        "stat": "rec yds",
        "role": "RB1_rec_yds",
        "dir": "under",
-       "line": 25.5,
-       "p": 0.591,
+       "line": 8.5,
+       "p": 0.614,
        "dz": 0,
-       "proj": 25.5,
+       "proj": 8.8,
        "line_type": "fair",
        "avgs": [
-        32.4,
-        28.0
+        6.2,
+        8.33
        ]
       },
       {
-       "player": "Mack Hollins",
-       "team": "NE",
+       "player": "Mark Andrews",
+       "team": "BAL",
        "stat": "rec yds",
        "role": "WR2_rec_yds",
        "dir": "under",
-       "line": 45.5,
-       "p": 0.59,
+       "line": 28.5,
+       "p": 0.586,
        "dz": 0,
-       "proj": 45.1,
+       "proj": 28.1,
        "line_type": "fair",
        "avgs": [
-        49.0,
-        49.0
+        17.6,
+        26.33
+       ]
+      },
+      {
+       "player": "Justin Herbert",
+       "team": "LAC",
+       "stat": "rush yds",
+       "role": "QB_rush_yds",
+       "dir": "under",
+       "line": 16.5,
+       "p": 0.573,
+       "dz": 0,
+       "proj": 16.8,
+       "line_type": "fair",
+       "avgs": [
+        28.4,
+        23.75
        ]
       }
      ],
-     "fair_joint": 0.1529,
-     "corr_mult": 1.125,
-     "hidden_mult": 1.125,
-     "ev_est": 0.224,
-     "book_proxy_odds": "+700",
-     "fair_odds": "+554",
-     "bet_if_at_least": "+587",
+     "fair_joint": 0.1609,
+     "corr_mult": 1.102,
+     "hidden_mult": 1.102,
+     "ev_est": 0.297,
+     "book_proxy_odds": "+706",
+     "fair_odds": "+522",
+     "bet_if_at_least": "+553",
      "kind": "flag",
-     "why": "DeMario Douglas receptions under and Mack Hollins rec yds under move together (latent r 0.06)",
+     "why": "Derrick Henry rec yds under and Mark Andrews rec yds under move together (latent r 0.05)",
      "all_under": true,
      "conditions": {
-      "DET": [
-       "total 50+",
+      "BAL": [
+       "total <=40",
        "home"
       ],
-      "NE": [
-       "total 50+"
+      "LAC": [
+       "total <=40"
       ]
      },
-     "game": "2026_10_NE_DET",
+     "game": "2026_10_LAC_BAL",
      "teams": [
-      "DET",
-      "NE"
+      "BAL",
+      "LAC"
      ],
      "date": null
     }
    ]
   },
   "NHL": {
-   "made_from": "2026-11-15 13:31 UTC",
+   "made_from": "2026-11-15 19:28 UTC",
    "week": "2026-11-15 to 2026-11-17",
    "correlation": [],
    "flag": [

@@ -1,5 +1,5 @@
 {
- "made": "2026-11-15 13:46 UTC",
+ "made": "2026-11-15 19:43 UTC",
  "sports": {
   "CBB": {
    "rebuild_all": {
@@ -53,27 +53,27 @@
   },
   "NFL": {
    "rebuild_all": {
-    "n": 31,
-    "team_mae": 7.53,
-    "margin_mae": 9.7,
-    "total_mae": 11.0
+    "n": 32,
+    "team_mae": 7.66,
+    "margin_mae": 10.11,
+    "total_mae": 10.92
    },
    "rebuild_same_games": {
-    "n": 31,
-    "team_mae": 7.53,
-    "margin_mae": 9.7,
-    "total_mae": 11.0
+    "n": 32,
+    "team_mae": 7.66,
+    "margin_mae": 10.11,
+    "total_mae": 10.92
    },
    "today_same_games": {
-    "n": 31,
-    "team_mae": 7.35,
-    "margin_mae": 9.57,
-    "total_mae": 11.24
+    "n": 32,
+    "team_mae": 7.48,
+    "margin_mae": 9.98,
+    "total_mae": 11.01
    },
    "line_same_games": {
-    "n": 31,
-    "margin_mae": 9.66,
-    "total_mae": 10.69
+    "n": 32,
+    "margin_mae": 10.06,
+    "total_mae": 10.53
    }
   },
   "NHL": {
