@@ -1,28 +1,29 @@
 team,spread,total,out,q
 ATL,,,Jock Landale;Kingston Flemings;Mouhamed Gueye;Asa Newell;Henri Veesaar,
+BOS,,,,Neemias Queta:0.5
 CHA,,,Kon Knueppel;Dennis Schroder,
 CHI,,,Tobe Awaka;Caleb Wilson,Jalen Smith:0.5
-CLE,,,Evan Mobley;Sam Merrill;Nae'Qwan Tomlin,Jaylon Tyson:0.5;Peyton Watson:0.5
-DAL,,,Santi Aldama;Max Christie;Kyrie Irving;Dereck Lively II;Tarik Biberovic;Sergio de Larrea,
+CLE,,,Evan Mobley;Sam Merrill;Nae'Qwan Tomlin,Jaylon Tyson:0.25;Peyton Watson:0.5
+DAL,,,Max Christie;Santi Aldama;Kyrie Irving;Dereck Lively II;Tarik Biberovic;Sergio de Larrea,
 DEN,,,Julian Strawther,
 DET,,,Isaiah Joe;Jalen Duren,
 GS,,,Stephen Curry;Brandon Williams;Kristaps Porzingis;Moses Moody;Jimmy Butler III,Gui Santos:0.5
-HOU,,,Clint Capela;Fred VanVleet;Marcus Smart,
+HOU,,,Clint Capela;Steven Adams;Marcus Smart,Amen Thompson:0.5
 IND,,,Andrew Nembhard;Tyrese Haliburton;Johnny Furphy;Ben Sheppard,
 LAC,,,Brandon Ingram;Yanic Konan Niederhauser;Bradley Beal;Jordan Miller,
 LAL,,,Austin Reaves,
-MEM,,,GG Jackson;Ty Jerome;Quinten Post;Scotty Pippen Jr.;Richie Saunders,Isaiah Stewart:0.5;Zach Edey:0.5
-MIA,,,,Pelle Larsson:0.5
-MIL,,,Ousmane Dieng;Ryan Rollins,
+MEM,,,Isaiah Stewart;Scotty Pippen Jr.;GG Jackson;Ty Jerome;Quinten Post;Richie Saunders,Zach Edey:0.5
+MIA,,,,Nikola Jovic:0.5;Pelle Larsson:0.25
+MIL,,,Ryan Rollins;Ousmane Dieng,
 MIN,,,Jaylen Clark;Anthony Edwards;Donte DiVincenzo,
 NO,,,Bryce McGowens;Bennedict Mathurin;Trey Murphy III;Trendon Watford;Dejounte Murray,
 OKC,,,Jaylin Williams;Thomas Sorber;Cason Wallace;Chet Holmgren;Jalen Williams,
 ORL,,,Jonathan Isaac;Noah Penda;Paolo Banchero;Izaiyah Nelson,
-PHI,,,Joel Embiid;Dominick Barlow;Adem Bona;Ariel Hukporti,
+PHI,,,LeBron James;Dominick Barlow;Adem Bona;Ariel Hukporti,Joel Embiid:0.5
 PHX,,,Mark Williams,
 POR,,,Chris Youngblood;Vit Krejci;Ja Morant;Shaedon Sharpe,
-SA,,,De'Aaron Fox;Tobias Harris;Jayden Quaintance,
-SAC,,,De'Andre Hunter;Zach LaVine;Precious Achiuwa;Maxime Raynaud;Ben Simmons,
+SA,,,Tobias Harris;De'Aaron Fox;Jayden Quaintance,
+SAC,,,Zach LaVine;De'Andre Hunter;Precious Achiuwa;Maxime Raynaud;Ben Simmons,
 TOR,,,Nate Bittle;Kawhi Leonard,
 UTAH,,,Jaxson Hayes;Trey Alexander;Lauri Markkanen;Jusuf Nurkic;Jaren Jackson Jr.,
-WSH,,,Tre Johnson;Tristan Vukcevic;Reece Beekman;Justin Champagnie;Jamir Watkins,
+WSH,,,Tristan Vukcevic;Reece Beekman;Justin Champagnie;Jamir Watkins,Tre Johnson:0.5
