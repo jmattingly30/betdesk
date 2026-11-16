@@ -38,7 +38,7 @@ B2. NBA: download every season 2015-2027 as /tmp/claude-0/nbadl/pb_YYYY.parquet 
 B3. NFL props, Tuesday to Sunday only (J 2026-10-28; skip Mondays): download nflverse games.csv
     (https://raw.githubusercontent.com/nflverse/nfldata/master/data/games.csv) to /tmp/claude-0/nfldl/games.csv; week = the week of
     the next 2026 regular-season game with no result; (cd models/nfl-player && python3 fetch_data.py /tmp/claude-0/nfldl 2026);
-    (cd models/nfl-player && python3 build_dataset.py /tmp/claude-0/nfldl .); python3 app/export_nfl_props.py /tmp/claude-0/nfldl 2026 <week> /tmp/claude-0/nfl_props.json --overrides models/nfl-player/overrides.csv
+    (cd models/nfl-player && python3 build_dataset.py /tmp/claude-0/nfldl . && python3 apv_features.py /tmp/claude-0/nfldl .); python3 app/export_nfl_props.py /tmp/claude-0/nfldl 2026 <week> /tmp/claude-0/nfl_props.json --overrides models/nfl-player/overrides.csv
     (J 2026-11-05: starting-QB overrides for props; game-model QB overrides live in models/team-strength/nfl/qb_overrides.json);
     python3 app/add_recent.py NFL /tmp/claude-0/nfl_props.json (rerun once on FileNotFoundError); copy to app/data/nfl_props.json.
     Spot-check a few teams' opponents against games.csv for that week.

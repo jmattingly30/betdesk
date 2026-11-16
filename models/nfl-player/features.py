@@ -323,6 +323,8 @@ if __name__ == '__main__':
     if inj is None: print('no injury reports given: availability uses who actually played (the pre-audit backtest)')
     df = build(pg, inj)
     df = add_tracking(df, sys.argv[3] if len(sys.argv) > 3 else (sys.argv[2] if len(sys.argv) > 2 else None))
+    import apv_features                                   # roadmap steps 5-6: APV inputs (apv_features.py <dl_dir> <model_dir> first)
+    df = apv_features.add(df, M)
     df.to_parquet(f'{M}/data/features.parquet', index=False)
     print(df.shape)
     print(df[['tsh_l', 'tsh_norm', 'csh_norm', 'miss_tsh', 'd_rec_yds_WR', 'd_tsh_TE', 'qb_ypa_rel', 'catch_r', 'ypc', 'ypa']].describe().T.round(3))
