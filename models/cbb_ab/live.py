@@ -217,9 +217,15 @@ def main():
     json.dump(dict(out, games=keep(f"{APP}/cbb_ab.json", out["games"], kick=lambda i, r: r.get("k") or (slate.get(i) or {}).get("k"))), open(f"{APP}/cbb_ab.json", "w"), separators=(",", ":"))
     # tracking (J model-tracking rule): every run's Model A scores + Model B picks, first and latest seen, graded by grade.py
     os.makedirs(f"{HERE}/history", exist_ok=True)
+    # Only games that have not started are logged (audit 2026-11-13, finding 1): after a game is played cbb_v2's ratings include
+    # it, so a row written then is not a prediction. Start time comes from the slate; a game without one is skipped once its
+    # date (Mountain time) has passed. "k" is saved so grade.py can pick the last row before the start.
+    mt_today = (NOW - dt.timedelta(hours=7)).date().isoformat(); skipped = 0
     with open(f"{HERE}/history/runs.jsonl", "a") as fh:
         for gid, g in out["games"].items():
-            fh.write(json.dumps({"t": out["made"], "id": gid, "h": g["h"], "a": g["a"], "d": g["d"], "A": [g["A"]["hs"], g["A"]["as"]],
+            k = (slate.get(gid) or {}).get("k"); age = hours_since(k)
+            if (age is not None and age >= 0) or (age is None and g["d"] < mt_today): skipped += 1; continue
+            fh.write(json.dumps({"t": out["made"], "id": gid, "k": k, "h": g["h"], "a": g["a"], "d": g["d"], "A": [g["A"]["hs"], g["A"]["as"]],
                                  "B": {k: {kk: z[kk] for kk in ("market", "gap", "real", "fresh", "tier", "side", "bet")} for k, z in (g["B"] or {}).items() if isinstance(z, dict)}}) + "\n")
     n = len(out["games"]); nb = sum(1 for g in out["games"].values() if g["B"])
     tiers = {}
@@ -227,6 +233,7 @@ def main():
         for k in ("spread", "total", "ml"):
             z = g["B"] and g["B"].get(k)
             if z: tiers[f"{k}_{z['tier']}"] = tiers.get(f"{k}_{z['tier']}", 0) + 1
+    print("run log: skipped", skipped, "game(s) already started")
     print(n, "games ->", f"{APP}/cbb_ab.json |", nb, "with lines | tiers", tiers, "| teams without tier match", nomatch, "| level guard", LG)
     for gid, g in list(out["games"].items())[:40]:
         z = g["B"] and g["B"].get("spread")
