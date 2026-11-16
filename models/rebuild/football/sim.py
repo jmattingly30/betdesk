@@ -6,7 +6,7 @@ touchdown, safety. Outcome odds come from league tables by start position (fit o
 the offense by one scoring-odds term solved per game so the simulated mean matches the projection (the point
 estimate comes from the stack; the simulator supplies the shape: key numbers, correlation, clock).
 The next drive's start is drawn from what actually followed that outcome in the data. Drive length (clock) is
-drawn per outcome. Overtime: one possession each, then sudden death (simplified).
+drawn per outcome. Overtime (roadmap step 3, 2026-11-15): 2025+ regular-season rules (10:00, both teams get the ball, sudden death, ties).
 
 GAME STATE (J 2026-11-15, football sim roadmap step 2): drive outcomes, drive lengths and the try after a touchdown depend
 on the game state, from real 2008-18 drives: 7 states = normal, last 2:00 of the 1st half, and the last 5:00 of the game
@@ -95,6 +95,27 @@ def _try(TRY, half, lead6):
     return 8.0
 
 @njit(cache=True)
+def _ot(sc, th0, th1, P, NS, NN, DU, DN, TRY, clock_scale):
+    """Regular-season overtime under the 2025+ rules: 10:00, both teams get the ball (unless the defense scores), then
+    sudden death; still tied at 0:00 = tie. Drives use the late-game state tables (tied / trailing), so the 2nd team
+    down 3 kicks, down 7 or 8 goes for the TD, and a team down 1 after its TD goes for 2 as often as real teams do."""
+    t = 600.0; pos = 0 if np.random.random() < 0.5 else 1; start = NS[0, np.random.randint(NN[0])]; n = 0
+    while t > 0:
+        th = th0 if pos == 0 else th1
+        lead = sc[pos] - sc[1 - pos]
+        s = state(1, min(t, 300.0), int(lead))
+        k = _drive(P, s, th, start)
+        if k == 6: k = 2                                         # no kneels in a tied overtime: a dead drive = a punt
+        if k == 0: sc[pos] += _try(TRY, 1, int(lead) + 6)
+        elif k == 4: sc[1 - pos] += _try(TRY, 1, int(-lead) + 6); return
+        elif k == 1: sc[pos] += 3
+        elif k == 5: sc[1 - pos] += 2; return
+        n += 1
+        if n >= 2 and sc[0] != sc[1]: return                     # both have had the ball (or sudden death): a lead ends it
+        t -= DU[s, k, np.random.randint(DN[s, k])] * clock_scale
+        start = NS[k, np.random.randint(NN[k])]; pos = 1 - pos
+
+@njit(cache=True)
 def sim_games(thh, tha, P, NS, NN, DU, DN, TRY, nsim, seed, clock_scale, k_score, k_late, th_sd):
     np.random.seed(seed); G = thh.shape[0]
     out = np.zeros((G, 6)); mh = np.zeros((G, 81))
@@ -121,11 +142,8 @@ def sim_games(thh, tha, P, NS, NN, DU, DN, TRY, nsim, seed, clock_scale, k_score
                     t -= DU[s, k, np.random.randint(DN[s, k])] * clock_scale
                     start = NS[k, np.random.randint(NN[k])]
                     if k != 4: pos = 1 - pos   # return TD: the scorer kicks off, the same offense gets it back; safety: the scorer gets the free kick
-            if sc[0] == sc[1]:   # overtime, simplified: first score wins, by relative scoring odds
-                ph = np.exp(thh[g]) / (np.exp(thh[g]) + np.exp(tha[g]))
-                if np.random.random() < 0.94:
-                    if np.random.random() < ph: sc[0] += 3
-                    else: sc[1] += 3
+            if sc[0] == sc[1]:
+                _ot(sc, thh[g] + eh, tha[g] + ea, P, NS, NN, DU, DN, TRY, clock_scale)
             sh += sc[0]; sa += sc[1]; d = sc[0] - sc[1]; s2m += d * d; s2t += (sc[0] + sc[1]) ** 2
             if d > 0: win += 1
             elif d == 0: win += 0.5

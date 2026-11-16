@@ -1,0 +1,7741 @@
+{
+"made": "2026-11-16 15:58 UTC",
+"through_week": 11,
+"replacement_v": -0.05,
+"shrink_plays": 203,
+"pts_per_value": 16.7,
+"teams": {
+"2": {
+"name": "Auburn",
+"qbs": [
+{
+"pid": "4880272.0",
+"name": "Byrum Brown",
+"v": -0.0018,
+"plays": 484,
+"passes": 343,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5210501.0",
+"name": "Tristan Ti'a",
+"v": -0.0455,
+"plays": 28,
+"passes": 19,
+"games": 5,
+"last_wk": 11
+},
+{
+"pid": "5296027.0",
+"name": "Christian Neptune",
+"v": -0.0174,
+"plays": 2,
+"passes": 2,
+"games": 2,
+"last_wk": 7
+}
+]
+},
+"5": {
+"name": "UAB",
+"qbs": [
+{
+"pid": "5057381.0",
+"name": "Ryder Burton",
+"v": -0.145,
+"plays": 317,
+"passes": 268,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "4897730.0",
+"name": "Bam McReynolds",
+"v": -0.0606,
+"plays": 103,
+"passes": 1,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5197123.0",
+"name": "Nate Rogers",
+"v": -0.0334,
+"plays": 17,
+"passes": 5,
+"games": 8,
+"last_wk": 11
+}
+]
+},
+"6": {
+"name": "South Alabama",
+"qbs": [
+{
+"pid": "5148858.0",
+"name": "Jared Hollins",
+"v": -0.0113,
+"plays": 206,
+"passes": 165,
+"games": 8,
+"last_wk": 10
+},
+{
+"pid": "4869553.0",
+"name": "Bishop Davenport",
+"v": 0.0812,
+"plays": 138,
+"passes": 105,
+"games": 4,
+"last_wk": 11
+}
+]
+},
+"8": {
+"name": "Arkansas",
+"qbs": [
+{
+"pid": "5079516.0",
+"name": "KJ Jackson",
+"v": 0.0037,
+"plays": 396,
+"passes": 324,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5141473.0",
+"name": "AJ Hill",
+"v": -0.001,
+"plays": 34,
+"passes": 32,
+"games": 3,
+"last_wk": 4
+},
+{
+"pid": "3116099.0",
+"name": "Monte Harrison",
+"v": -0.0575,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 3
+}
+]
+},
+"9": {
+"name": "Arizona State",
+"qbs": [
+{
+"pid": "5141378.0",
+"name": "Cutter Boley",
+"v": -0.0058,
+"plays": 215,
+"passes": 184,
+"games": 7,
+"last_wk": 8
+},
+{
+"pid": "5209295.0",
+"name": "Jake Fette",
+"v": -0.016,
+"plays": 133,
+"passes": 113,
+"games": 5,
+"last_wk": 11
+},
+{
+"pid": "5209382.0",
+"name": "Cardae Mack",
+"v": 0.0471,
+"plays": 132,
+"passes": 4,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "4597499.0",
+"name": "Mikey Keene",
+"v": 0.0286,
+"plays": 70,
+"passes": 67,
+"games": 5,
+"last_wk": 11
+},
+{
+"pid": "5110535.0",
+"name": "Kyson Brown",
+"v": 0.0008,
+"plays": 70,
+"passes": 2,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5159831.0",
+"name": "Derek Eusebio",
+"v": -0.0395,
+"plays": 4,
+"passes": 1,
+"games": 2,
+"last_wk": 11
+}
+]
+},
+"12": {
+"name": "Arizona",
+"qbs": [
+{
+"pid": "4801717.0",
+"name": "Noah Fifita",
+"v": 0.2336,
+"plays": 430,
+"passes": 374,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5158407.0",
+"name": "Sawyer Anderson",
+"v": -0.0411,
+"plays": 24,
+"passes": 16,
+"games": 4,
+"last_wk": 8
+}
+]
+},
+"13": {
+"name": "Cal Poly",
+"qbs": [
+{
+"pid": "5219586.0",
+"name": "Anthony Grigsby Jr.",
+"v": 0.0041,
+"plays": 50,
+"passes": 44,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"16": {
+"name": "Sacramento State",
+"qbs": [
+{
+"pid": "5158748.0",
+"name": "Jackson Sharman",
+"v": -0.1232,
+"plays": 301,
+"passes": 274,
+"games": 9,
+"last_wk": 10
+},
+{
+"pid": "5401458.0",
+"name": "Brian Salazar Jr.",
+"v": -0.0672,
+"plays": 74,
+"passes": 63,
+"games": 6,
+"last_wk": 11
+},
+{
+"pid": "4920192.0",
+"name": "Carson Conklin",
+"v": -0.1135,
+"plays": 49,
+"passes": 48,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"21": {
+"name": "San Diego State",
+"qbs": [
+{
+"pid": "4685311.0",
+"name": "Jayden Denegal",
+"v": -0.0794,
+"plays": 175,
+"passes": 158,
+"games": 7,
+"last_wk": 7
+},
+{
+"pid": "4912453.0",
+"name": "Lucky Sutton",
+"v": -0.0121,
+"plays": 128,
+"passes": 4,
+"games": 7,
+"last_wk": 11
+},
+{
+"pid": "5141664.0",
+"name": "Stone Saunders",
+"v": -0.0609,
+"plays": 107,
+"passes": 101,
+"games": 5,
+"last_wk": 11
+},
+{
+"pid": "5302259.0",
+"name": "Draiden Trudeau",
+"v": -0.029,
+"plays": 15,
+"passes": 14,
+"games": 3,
+"last_wk": 6
+},
+{
+"pid": "4916888.0",
+"name": "Bert Emanuel Jr.",
+"v": -0.0907,
+"plays": 12,
+"passes": 2,
+"games": 7,
+"last_wk": 9
+},
+{
+"pid": "5309724.0",
+"name": "Cooper DiLeva",
+"v": -0.0288,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 11
+},
+{
+"pid": "5302266.0",
+"name": "Donovan Brown",
+"v": -0.0596,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 4
+}
+]
+},
+"23": {
+"name": "San Jos\u00e9 State",
+"qbs": [
+{
+"pid": "5295238.0",
+"name": "Luke Weaver",
+"v": -0.0121,
+"plays": 329,
+"passes": 280,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5215357.0",
+"name": "Daniel Rolovich",
+"v": -0.0811,
+"plays": 77,
+"passes": 61,
+"games": 4,
+"last_wk": 11
+},
+{
+"pid": "5205684.0",
+"name": "Robert McDaniel",
+"v": -0.0985,
+"plays": 19,
+"passes": 16,
+"games": 1,
+"last_wk": 8
+},
+{
+"pid": "5161012.0",
+"name": "Carson Clark",
+"v": -0.0487,
+"plays": 2,
+"passes": 1,
+"games": 1,
+"last_wk": 11
+},
+{
+"pid": "5296610.0",
+"name": "Tama Amisone",
+"v": -0.055,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"24": {
+"name": "Stanford",
+"qbs": [
+{
+"pid": "4878681.0",
+"name": "Davis Warren",
+"v": 0.0154,
+"plays": 370,
+"passes": 352,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5211073.0",
+"name": "Michael Mitchell Jr.",
+"v": -0.0576,
+"plays": 12,
+"passes": 11,
+"games": 4,
+"last_wk": 7
+},
+{
+"pid": "4914482.0",
+"name": "Charlie Mirer",
+"v": -0.0622,
+"plays": 2,
+"passes": 1,
+"games": 1,
+"last_wk": 6
+},
+{
+"pid": "5212732.0",
+"name": "Liam Thorpe",
+"v": -0.0525,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 9
+}
+]
+},
+"25": {
+"name": "California",
+"qbs": [
+{
+"pid": "5164313.0",
+"name": "Jaron-Keawe Sagapolutele",
+"v": -0.0437,
+"plays": 323,
+"passes": 309,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5054036.0",
+"name": "Jackson Brousseau",
+"v": -0.0196,
+"plays": 133,
+"passes": 127,
+"games": 6,
+"last_wk": 11
+},
+{
+"pid": "5296106.0",
+"name": "Dominic Ingrassia",
+"v": -0.0269,
+"plays": 11,
+"passes": 1,
+"games": 4,
+"last_wk": 11
+},
+{
+"pid": "5165154.0",
+"name": "Mason Mini",
+"v": -0.0683,
+"plays": 7,
+"passes": 3,
+"games": 5,
+"last_wk": 11
+},
+{
+"pid": "5151623.0",
+"name": "Angus Davies",
+"v": -0.0602,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 8
+}
+]
+},
+"26": {
+"name": "UCLA",
+"qbs": [
+{
+"pid": "5092275.0",
+"name": "Ty Dieffenbach",
+"v": 0.0527,
+"plays": 171,
+"passes": 140,
+"games": 6,
+"last_wk": 11
+},
+{
+"pid": "4870799.0",
+"name": "Nico Iamaleava",
+"v": -0.0664,
+"plays": 160,
+"passes": 123,
+"games": 5,
+"last_wk": 6
+},
+{
+"pid": "5142594.0",
+"name": "Madden Iamaleava",
+"v": -0.0851,
+"plays": 14,
+"passes": 10,
+"games": 4,
+"last_wk": 11
+},
+{
+"pid": "4899366.0",
+"name": "Semaj Morgan",
+"v": -0.0678,
+"plays": 2,
+"passes": 1,
+"games": 2,
+"last_wk": 7
+}
+]
+},
+"30": {
+"name": "USC",
+"qbs": [
+{
+"pid": "4685454.0",
+"name": "Jayden Maiava",
+"v": 0.181,
+"plays": 369,
+"passes": 352,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5161854.0",
+"name": "Jonas Williams",
+"v": -0.0449,
+"plays": 17,
+"passes": 15,
+"games": 3,
+"last_wk": 2
+}
+]
+},
+"36": {
+"name": "Colorado State",
+"qbs": [
+{
+"pid": "5079443.0",
+"name": "Hauss Hejny",
+"v": 0.1085,
+"plays": 234,
+"passes": 189,
+"games": 7,
+"last_wk": 11
+},
+{
+"pid": "5212610.0",
+"name": "K'saan Farrar",
+"v": 0.0006,
+"plays": 173,
+"passes": 157,
+"games": 7,
+"last_wk": 11
+},
+{
+"pid": "5122401.0",
+"name": "Darius Curry",
+"v": -0.0214,
+"plays": 11,
+"passes": 8,
+"games": 1,
+"last_wk": 3
+},
+{
+"pid": "5193168.0",
+"name": "Terrence Smith Jr.",
+"v": -0.0426,
+"plays": 5,
+"passes": 3,
+"games": 4,
+"last_wk": 11
+}
+]
+},
+"38": {
+"name": "Colorado",
+"qbs": [
+{
+"pid": "5079771.0",
+"name": "Isaac Wilson",
+"v": -0.0041,
+"plays": 269,
+"passes": 214,
+"games": 8,
+"last_wk": 11
+},
+{
+"pid": "5159016.0",
+"name": "Julian Lewis",
+"v": -0.033,
+"plays": 108,
+"passes": 101,
+"games": 4,
+"last_wk": 4
+},
+{
+"pid": "5214655.0",
+"name": "Kaneal Sweetwyne",
+"v": -0.0395,
+"plays": 23,
+"passes": 18,
+"games": 4,
+"last_wk": 11
+},
+{
+"pid": "5189530.0",
+"name": "Joseph Williams",
+"v": -0.0542,
+"plays": 4,
+"passes": 3,
+"games": 3,
+"last_wk": 5
+}
+]
+},
+"41": {
+"name": "UConn",
+"qbs": [
+{
+"pid": "5079619.0",
+"name": "Kalieb Osborne",
+"v": 0.0982,
+"plays": 388,
+"passes": 300,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5077806.0",
+"name": "Tucker McDonald",
+"v": -0.036,
+"plays": 12,
+"passes": 11,
+"games": 3,
+"last_wk": 5
+}
+]
+},
+"47": {
+"name": "Howard",
+"qbs": [
+{
+"pid": "5087297.0",
+"name": "Ja'Shawn Scroggins",
+"v": -0.1088,
+"plays": 39,
+"passes": 34,
+"games": 2,
+"last_wk": 4
+},
+{
+"pid": "5098448.0",
+"name": "Isaiah Freeman",
+"v": -0.0785,
+"plays": 17,
+"passes": 13,
+"games": 2,
+"last_wk": 4
+},
+{
+"pid": "5301193.0",
+"name": "Terrell Russell Jr.",
+"v": -0.0546,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"48": {
+"name": "Delaware",
+"qbs": [
+{
+"pid": "5153846.0",
+"name": "Nick Minicucci",
+"v": 0.1195,
+"plays": 298,
+"passes": 266,
+"games": 8,
+"last_wk": 11
+},
+{
+"pid": "5289314.0",
+"name": "Tyler Bell",
+"v": -0.0184,
+"plays": 75,
+"passes": 56,
+"games": 3,
+"last_wk": 8
+},
+{
+"pid": "5161800.0",
+"name": "Viron Ellison Jr.",
+"v": -0.0649,
+"plays": 46,
+"passes": 1,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5224762.0",
+"name": "Braden Streeter",
+"v": -0.1098,
+"plays": 44,
+"passes": 39,
+"games": 4,
+"last_wk": 5
+},
+{
+"pid": "5296312.0",
+"name": "EJ Archield Jr.",
+"v": -0.073,
+"plays": 23,
+"passes": 19,
+"games": 1,
+"last_wk": 5
+},
+{
+"pid": "5079614.0",
+"name": "Riley Trujillo",
+"v": -0.0492,
+"plays": 6,
+"passes": 4,
+"games": 1,
+"last_wk": 4
+},
+{
+"pid": "5157266.0",
+"name": "Bryson Graves",
+"v": -0.0317,
+"plays": 2,
+"passes": 1,
+"games": 2,
+"last_wk": 10
+}
+]
+},
+"50": {
+"name": "Florida A&M",
+"qbs": [
+{
+"pid": "4431976.0",
+"name": "Dustin Fletcher",
+"v": -0.0266,
+"plays": 25,
+"passes": 19,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5442040.0",
+"name": "Armond Parker",
+"v": -0.0402,
+"plays": 7,
+"passes": 7,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5227056.0",
+"name": "James Hayes",
+"v": -0.0499,
+"plays": 2,
+"passes": 2,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"52": {
+"name": "Florida State",
+"qbs": [
+{
+"pid": "4838679.0",
+"name": "Ashton Daniels",
+"v": 0.1187,
+"plays": 374,
+"passes": 282,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5141661.0",
+"name": "Kevin Sperry",
+"v": -0.0617,
+"plays": 9,
+"passes": 6,
+"games": 4,
+"last_wk": 7
+}
+]
+},
+"55": {
+"name": "Jacksonville State",
+"qbs": [
+{
+"pid": "5122157.0",
+"name": "Caden Creel",
+"v": 0.0976,
+"plays": 408,
+"passes": 274,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5087930.0",
+"name": "Jamill Williams",
+"v": -0.0673,
+"plays": 7,
+"passes": 1,
+"games": 6,
+"last_wk": 7
+},
+{
+"pid": "5222557.0",
+"name": "Jack Moran",
+"v": -0.0276,
+"plays": 4,
+"passes": 4,
+"games": 2,
+"last_wk": 10
+},
+{
+"pid": "5295639.0",
+"name": "Carter Lewis",
+"v": -0.0361,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"57": {
+"name": "Florida",
+"qbs": [
+{
+"pid": "5132812.0",
+"name": "Aaron Philo",
+"v": 0.0647,
+"plays": 241,
+"passes": 188,
+"games": 8,
+"last_wk": 11
+},
+{
+"pid": "5295814.0",
+"name": "Tramell Jones Jr.",
+"v": 0.0108,
+"plays": 146,
+"passes": 120,
+"games": 7,
+"last_wk": 10
+},
+{
+"pid": "4693740.0",
+"name": "Kahleil Jackson",
+"v": -0.0289,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 3
+}
+]
+},
+"58": {
+"name": "South Florida",
+"qbs": [
+{
+"pid": "5079620.0",
+"name": "Michael Van Buren Jr.",
+"v": -0.0339,
+"plays": 238,
+"passes": 193,
+"games": 8,
+"last_wk": 9
+},
+{
+"pid": "5079542.0",
+"name": "Luke Kromenhoek",
+"v": 0.023,
+"plays": 147,
+"passes": 86,
+"games": 8,
+"last_wk": 11
+},
+{
+"pid": "4870927.0",
+"name": "Bryson Rodgers",
+"v": -0.0543,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 11
+}
+]
+},
+"59": {
+"name": "Georgia Tech",
+"qbs": [
+{
+"pid": "5191162.0",
+"name": "Alberto Mendoza",
+"v": -0.043,
+"plays": 330,
+"passes": 301,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5207610.0",
+"name": "Grady Adamson",
+"v": -0.0622,
+"plays": 84,
+"passes": 49,
+"games": 5,
+"last_wk": 11
+},
+{
+"pid": "5103639.0",
+"name": "Trelain Maddox",
+"v": -0.0011,
+"plays": 71,
+"passes": 1,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5296224.0",
+"name": "Landon Shaffer",
+"v": -0.0411,
+"plays": 2,
+"passes": 2,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"61": {
+"name": "Georgia",
+"qbs": [
+{
+"pid": "4685578.0",
+"name": "Gunner Stockton",
+"v": 0.0933,
+"plays": 279,
+"passes": 230,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5079679.0",
+"name": "Ryan Puglisi",
+"v": -0.027,
+"plays": 43,
+"passes": 33,
+"games": 8,
+"last_wk": 11
+},
+{
+"pid": "5141602.0",
+"name": "Ryan Montgomery",
+"v": -0.0556,
+"plays": 8,
+"passes": 6,
+"games": 2,
+"last_wk": 2
+},
+{
+"pid": "5229348.0",
+"name": "Hezekiah Millender",
+"v": -0.0434,
+"plays": 6,
+"passes": 1,
+"games": 2,
+"last_wk": 2
+},
+{
+"pid": "5145507.0",
+"name": "Drew Miller",
+"v": -0.0601,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"62": {
+"name": "Hawai'i",
+"qbs": [
+{
+"pid": "5101124.0",
+"name": "Micah Alejado",
+"v": -0.0367,
+"plays": 490,
+"passes": 455,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5211117.0",
+"name": "Bjorn Jurgensen",
+"v": -0.0583,
+"plays": 15,
+"passes": 9,
+"games": 5,
+"last_wk": 11
+},
+{
+"pid": "5218881.0",
+"name": "Tama Uiliata",
+"v": -0.0073,
+"plays": 9,
+"passes": 1,
+"games": 6,
+"last_wk": 10
+}
+]
+},
+"66": {
+"name": "Iowa State",
+"qbs": [
+{
+"pid": "5080403.0",
+"name": "Jaylen Raynor",
+"v": 0.0189,
+"plays": 337,
+"passes": 262,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5219258.0",
+"name": "Aiden Flora",
+"v": 0.0839,
+"plays": 190,
+"passes": 4,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5140620.0",
+"name": "Connor Moberly",
+"v": -0.035,
+"plays": 37,
+"passes": 22,
+"games": 4,
+"last_wk": 8
+}
+]
+},
+"68": {
+"name": "Boise State",
+"qbs": [
+{
+"pid": "4870513.0",
+"name": "Maddux Madsen",
+"v": 0.171,
+"plays": 305,
+"passes": 261,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5160730.0",
+"name": "Max Cutforth",
+"v": 0.0437,
+"plays": 37,
+"passes": 33,
+"games": 2,
+"last_wk": 10
+}
+]
+},
+"70": {
+"name": "Idaho",
+"qbs": [
+{
+"pid": "4832830.0",
+"name": "Joshua Wood",
+"v": -0.0366,
+"plays": 36,
+"passes": 28,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "4923050.0",
+"name": "Israel Carter",
+"v": -0.0773,
+"plays": 8,
+"passes": 3,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"77": {
+"name": "Northwestern",
+"qbs": [
+{
+"pid": "5075805.0",
+"name": "Aidan Chiles",
+"v": 0.1881,
+"plays": 291,
+"passes": 222,
+"games": 8,
+"last_wk": 9
+},
+{
+"pid": "4685459.0",
+"name": "Nicco Marchiol",
+"v": 0.0141,
+"plays": 99,
+"passes": 75,
+"games": 4,
+"last_wk": 11
+},
+{
+"pid": "4569262.0",
+"name": "Alex Honig",
+"v": -0.0605,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 7
+}
+]
+},
+"79": {
+"name": "Southern Illinois",
+"qbs": [
+{
+"pid": "4697094.0",
+"name": "DJ Williams",
+"v": -0.0629,
+"plays": 45,
+"passes": 39,
+"games": 1,
+"last_wk": 3
+},
+{
+"pid": "5227786.0",
+"name": "Jake Curry",
+"v": -0.046,
+"plays": 7,
+"passes": 3,
+"games": 1,
+"last_wk": 3
+},
+{
+"pid": "5151518.0",
+"name": "Kyle Thomas",
+"v": -0.0358,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 3
+}
+]
+},
+"84": {
+"name": "Indiana",
+"qbs": [
+{
+"pid": "4685401.0",
+"name": "Josh Hoover",
+"v": 0.0972,
+"plays": 236,
+"passes": 215,
+"games": 9,
+"last_wk": 9
+},
+{
+"pid": "4695867.0",
+"name": "Grant Wilson",
+"v": 0.0215,
+"plays": 64,
+"passes": 52,
+"games": 6,
+"last_wk": 11
+},
+{
+"pid": "5145553.0",
+"name": "Tyler Cherry",
+"v": -0.0668,
+"plays": 3,
+"passes": 3,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"87": {
+"name": "Notre Dame",
+"qbs": [
+{
+"pid": "5079369.0",
+"name": "CJ Carr",
+"v": 0.1317,
+"plays": 326,
+"passes": 295,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5159115.0",
+"name": "Noah Grubbs",
+"v": -0.0476,
+"plays": 27,
+"passes": 26,
+"games": 5,
+"last_wk": 11
+},
+{
+"pid": "5280155.0",
+"name": "Teddy Jarrard",
+"v": -0.0471,
+"plays": 5,
+"passes": 2,
+"games": 2,
+"last_wk": 6
+}
+]
+},
+"93": {
+"name": "Murray State",
+"qbs": [
+{
+"pid": "5193343.0",
+"name": "Jim Ogle",
+"v": -0.0437,
+"plays": 38,
+"passes": 37,
+"games": 2,
+"last_wk": 3
+},
+{
+"pid": "5227854.0",
+"name": "Baxter Wright",
+"v": -0.0711,
+"plays": 9,
+"passes": 2,
+"games": 2,
+"last_wk": 3
+},
+{
+"pid": "5083941.0",
+"name": "Collin Shannon",
+"v": -0.06,
+"plays": 7,
+"passes": 6,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"96": {
+"name": "Kentucky",
+"qbs": [
+{
+"pid": "4918099.0",
+"name": "Kenny Minchey",
+"v": 0.0462,
+"plays": 352,
+"passes": 310,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "4870609.0",
+"name": "CJ Baxter",
+"v": 0.0387,
+"plays": 104,
+"passes": 1,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "4879824.0",
+"name": "Callum Wither",
+"v": -0.057,
+"plays": 4,
+"passes": 1,
+"games": 2,
+"last_wk": 4
+}
+]
+},
+"97": {
+"name": "Louisville",
+"qbs": [
+{
+"pid": "5078278.0",
+"name": "Lincoln Kienholz",
+"v": 0.1282,
+"plays": 367,
+"passes": 280,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "4836476.0",
+"name": "Davin Wydner",
+"v": -0.0313,
+"plays": 6,
+"passes": 5,
+"games": 2,
+"last_wk": 10
+},
+{
+"pid": "5158996.0",
+"name": "Briggs Cherry",
+"v": -0.0484,
+"plays": 2,
+"passes": 2,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5226570.0",
+"name": "Ryan Zimmerman",
+"v": -0.0608,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 9
+}
+]
+},
+"98": {
+"name": "Western Kentucky",
+"qbs": [
+{
+"pid": "4920158.0",
+"name": "Brock Glenn",
+"v": 0.002,
+"plays": 314,
+"passes": 207,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5196864.0",
+"name": "Rodney Tisdale Jr.",
+"v": -0.0254,
+"plays": 202,
+"passes": 169,
+"games": 8,
+"last_wk": 11
+},
+{
+"pid": "5077114.0",
+"name": "Caleb McMickle",
+"v": -0.0574,
+"plays": 4,
+"passes": 2,
+"games": 1,
+"last_wk": 4
+},
+{
+"pid": "-6047.0",
+"name": "TEAM",
+"v": -0.0678,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"99": {
+"name": "LSU",
+"qbs": [
+{
+"pid": "5078810.0",
+"name": "Sam Leavitt",
+"v": 0.1163,
+"plays": 438,
+"passes": 357,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5224789.0",
+"name": "Landen Clark",
+"v": -0.038,
+"plays": 56,
+"passes": 34,
+"games": 7,
+"last_wk": 8
+},
+{
+"pid": "5141563.0",
+"name": "Husan Longstreet",
+"v": -0.0365,
+"plays": 15,
+"passes": 10,
+"games": 2,
+"last_wk": 5
+},
+{
+"pid": "4921154.0",
+"name": "Eugene Wilson III",
+"v": -0.0609,
+"plays": 6,
+"passes": 1,
+"games": 5,
+"last_wk": 10
+},
+{
+"pid": "5114311.0",
+"name": "Jackson Harris",
+"v": -0.0347,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 6
+}
+]
+},
+"103": {
+"name": "Boston College",
+"qbs": [
+{
+"pid": "5307005.0",
+"name": "Mason McKenzie",
+"v": -0.0725,
+"plays": 413,
+"passes": 273,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5276589.0",
+"name": "Femi Babalola",
+"v": -0.0595,
+"plays": 14,
+"passes": 10,
+"games": 2,
+"last_wk": 11
+},
+{
+"pid": "5142236.0",
+"name": "Grayson Wilson",
+"v": -0.1052,
+"plays": 11,
+"passes": 9,
+"games": 2,
+"last_wk": 10
+},
+{
+"pid": "5146747.0",
+"name": "Javarius Green",
+"v": -0.0486,
+"plays": 3,
+"passes": 1,
+"games": 2,
+"last_wk": 10
+},
+{
+"pid": "5144853.0",
+"name": "Landon Wright",
+"v": -0.0526,
+"plays": 3,
+"passes": 1,
+"games": 2,
+"last_wk": 5
+}
+]
+},
+"107": {
+"name": "Holy Cross",
+"qbs": [
+{
+"pid": "5154302.0",
+"name": "David Lynch",
+"v": -0.042,
+"plays": 28,
+"passes": 26,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"113": {
+"name": "Massachusetts",
+"qbs": [
+{
+"pid": "4920153.0",
+"name": "William Watson III",
+"v": -0.0466,
+"plays": 212,
+"passes": 175,
+"games": 8,
+"last_wk": 11
+},
+{
+"pid": "5298739.0",
+"name": "Logan Inagawa",
+"v": -0.0129,
+"plays": 94,
+"passes": 66,
+"games": 5,
+"last_wk": 11
+},
+{
+"pid": "5327585.0",
+"name": "Aedan McCarthy",
+"v": -0.1147,
+"plays": 44,
+"passes": 35,
+"games": 2,
+"last_wk": 6
+}
+]
+},
+"119": {
+"name": "Towson",
+"qbs": [
+{
+"pid": "5301657.0",
+"name": "Andrew Indorf",
+"v": 0.0328,
+"plays": 55,
+"passes": 53,
+"games": 2,
+"last_wk": 2
+},
+{
+"pid": "5405931.0",
+"name": "Jacob Davis",
+"v": -0.0439,
+"plays": 12,
+"passes": 7,
+"games": 2,
+"last_wk": 2
+}
+]
+},
+"120": {
+"name": "Maryland",
+"qbs": [
+{
+"pid": "5141695.0",
+"name": "Malik Washington",
+"v": -0.0148,
+"plays": 354,
+"passes": 308,
+"games": 9,
+"last_wk": 10
+},
+{
+"pid": "5295550.0",
+"name": "DeJuan Williams",
+"v": -0.0665,
+"plays": 95,
+"passes": 2,
+"games": 7,
+"last_wk": 11
+},
+{
+"pid": "4872721.0",
+"name": "Cardell Williams",
+"v": 0.0261,
+"plays": 51,
+"passes": 31,
+"games": 4,
+"last_wk": 11
+},
+{
+"pid": "5092410.0",
+"name": "Dorian Fleming",
+"v": -0.0285,
+"plays": 3,
+"passes": 1,
+"games": 1,
+"last_wk": 10
+},
+{
+"pid": "5086182.0",
+"name": "Jack Capaldi",
+"v": -0.042,
+"plays": 3,
+"passes": 2,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "-6544.0",
+"name": "TEAM",
+"v": -0.0696,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 4
+}
+]
+},
+"127": {
+"name": "Michigan State",
+"qbs": [
+{
+"pid": "5146670.0",
+"name": "Alessio Milivojevic",
+"v": 0.0115,
+"plays": 275,
+"passes": 247,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "4700135.0",
+"name": "Cam Fancher",
+"v": -0.0794,
+"plays": 49,
+"passes": 36,
+"games": 6,
+"last_wk": 11
+},
+{
+"pid": "5266583.0",
+"name": "Kayd Coffman",
+"v": -0.0812,
+"plays": 20,
+"passes": 15,
+"games": 3,
+"last_wk": 11
+},
+{
+"pid": "5164308.0",
+"name": "Leo Hannan",
+"v": -0.0316,
+"plays": 16,
+"passes": 16,
+"games": 1,
+"last_wk": 8
+},
+{
+"pid": "4911541.0",
+"name": "Carson Gulker",
+"v": -0.041,
+"plays": 10,
+"passes": 1,
+"games": 5,
+"last_wk": 11
+}
+]
+},
+"130": {
+"name": "Michigan",
+"qbs": [
+{
+"pid": "5141741.0",
+"name": "Bryce Underwood",
+"v": -0.0034,
+"plays": 196,
+"passes": 143,
+"games": 8,
+"last_wk": 11
+},
+{
+"pid": "5269403.0",
+"name": "Tommy Carr",
+"v": -0.0503,
+"plays": 153,
+"passes": 114,
+"games": 6,
+"last_wk": 11
+}
+]
+},
+"135": {
+"name": "Minnesota",
+"qbs": [
+{
+"pid": "5144959.0",
+"name": "Drake Lindsey",
+"v": -0.034,
+"plays": 347,
+"passes": 330,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "4920901.0",
+"name": "Darius Taylor",
+"v": -0.0894,
+"plays": 110,
+"passes": 1,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5214645.0",
+"name": "Brady Palmer",
+"v": -0.0432,
+"plays": 8,
+"passes": 6,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5150680.0",
+"name": "Max Shikenjanski",
+"v": -0.0281,
+"plays": 4,
+"passes": 3,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "4831976.0",
+"name": "Javon Tracy",
+"v": -0.0522,
+"plays": 4,
+"passes": 1,
+"games": 2,
+"last_wk": 9
+}
+]
+},
+"142": {
+"name": "Missouri",
+"qbs": [
+{
+"pid": "5141684.0",
+"name": "Austin Simmons",
+"v": 0.0887,
+"plays": 335,
+"passes": 316,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5195300.0",
+"name": "Matt Zollers",
+"v": -0.0568,
+"plays": 24,
+"passes": 18,
+"games": 4,
+"last_wk": 11
+},
+{
+"pid": "4755664.0",
+"name": "Nick Evers",
+"v": -0.045,
+"plays": 2,
+"passes": 2,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5141582.0",
+"name": "Donovan Olugbode",
+"v": -0.0534,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 4
+}
+]
+},
+"145": {
+"name": "Ole Miss",
+"qbs": [
+{
+"pid": "4911529.0",
+"name": "Trinidad Chambliss",
+"v": 0.1381,
+"plays": 390,
+"passes": 341,
+"games": 9,
+"last_wk": 10
+},
+{
+"pid": "5141506.0",
+"name": "Deuce Knight",
+"v": -0.0373,
+"plays": 25,
+"passes": 13,
+"games": 4,
+"last_wk": 10
+},
+{
+"pid": "4870912.0",
+"name": "Traylon Ray",
+"v": -0.0534,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 9
+}
+]
+},
+"147": {
+"name": "Montana State",
+"qbs": [
+{
+"pid": "4684502.0",
+"name": "Justin Lamson",
+"v": -0.013,
+"plays": 33,
+"passes": 26,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"149": {
+"name": "Montana",
+"qbs": [
+{
+"pid": "5153708.0",
+"name": "Keali'i Ah Yat",
+"v": -0.0137,
+"plays": 42,
+"passes": 41,
+"games": 1,
+"last_wk": 3
+},
+{
+"pid": "5225217.0",
+"name": "Luke Flowers",
+"v": -0.07,
+"plays": 6,
+"passes": 6,
+"games": 1,
+"last_wk": 3
+}
+]
+},
+"150": {
+"name": "Duke",
+"qbs": [
+{
+"pid": "4694149.0",
+"name": "Walker Eget",
+"v": 0.0521,
+"plays": 294,
+"passes": 286,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5164332.0",
+"name": "Nate Sheppard",
+"v": 0.0764,
+"plays": 215,
+"passes": 9,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5185699.0",
+"name": "Dan Mahan",
+"v": -0.0773,
+"plays": 41,
+"passes": 28,
+"games": 9,
+"last_wk": 10
+},
+{
+"pid": "5211205.0",
+"name": "Terry Walker III",
+"v": -0.0471,
+"plays": 6,
+"passes": 4,
+"games": 1,
+"last_wk": 4
+},
+{
+"pid": "5193566.0",
+"name": "Kade Reynoldson",
+"v": -0.0495,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 4
+}
+]
+},
+"151": {
+"name": "East Carolina",
+"qbs": [
+{
+"pid": "5075800.0",
+"name": "Emory Williams",
+"v": -0.1424,
+"plays": 224,
+"passes": 188,
+"games": 8,
+"last_wk": 11
+},
+{
+"pid": "4433829.0",
+"name": "Mitch Griffis",
+"v": -0.1189,
+"plays": 177,
+"passes": 142,
+"games": 9,
+"last_wk": 10
+},
+{
+"pid": "5226083.0",
+"name": "Jason Dickerson",
+"v": -0.0367,
+"plays": 3,
+"passes": 1,
+"games": 3,
+"last_wk": 11
+}
+]
+},
+"152": {
+"name": "NC State",
+"qbs": [
+{
+"pid": "5079301.0",
+"name": "CJ Bailey",
+"v": 0.0612,
+"plays": 374,
+"passes": 310,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5148611.0",
+"name": "Will Wilson",
+"v": -0.0383,
+"plays": 59,
+"passes": 15,
+"games": 8,
+"last_wk": 9
+},
+{
+"pid": "4870793.0",
+"name": "Tad Hudson",
+"v": -0.0473,
+"plays": 10,
+"passes": 8,
+"games": 1,
+"last_wk": 10
+},
+{
+"pid": "5079745.0",
+"name": "Joshisa Trader",
+"v": -0.0536,
+"plays": 2,
+"passes": 2,
+"games": 2,
+"last_wk": 5
+}
+]
+},
+"153": {
+"name": "North Carolina",
+"qbs": [
+{
+"pid": "4592532.0",
+"name": "Billy Edwards Jr.",
+"v": 0.0844,
+"plays": 338,
+"passes": 306,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5199937.0",
+"name": "Travis Burgess",
+"v": -0.0689,
+"plays": 19,
+"passes": 14,
+"games": 1,
+"last_wk": 11
+},
+{
+"pid": "5145396.0",
+"name": "Miles O'Neill",
+"v": -0.0584,
+"plays": 7,
+"passes": 6,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"154": {
+"name": "Wake Forest",
+"qbs": [
+{
+"pid": "4920227.0",
+"name": "Gio Lopez",
+"v": 0.2303,
+"plays": 330,
+"passes": 259,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5141634.0",
+"name": "Steele Pizzella",
+"v": 0.045,
+"plays": 66,
+"passes": 42,
+"games": 6,
+"last_wk": 11
+},
+{
+"pid": "5289364.0",
+"name": "Gannon Jones",
+"v": -0.0394,
+"plays": 5,
+"passes": 4,
+"games": 1,
+"last_wk": 10
+},
+{
+"pid": "5290250.0",
+"name": "Grant Lawless",
+"v": -0.047,
+"plays": 3,
+"passes": 2,
+"games": 1,
+"last_wk": 10
+}
+]
+},
+"155": {
+"name": "North Dakota",
+"qbs": [
+{
+"pid": "5155528.0",
+"name": "Jerry Kaminski",
+"v": -0.0397,
+"plays": 32,
+"passes": 23,
+"games": 1,
+"last_wk": 3
+},
+{
+"pid": "5155530.0",
+"name": "Korey Tai",
+"v": -0.0664,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 3
+}
+]
+},
+"158": {
+"name": "Nebraska",
+"qbs": [
+{
+"pid": "5044387.0",
+"name": "Anthony Colandrea",
+"v": 0.0682,
+"plays": 423,
+"passes": 347,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5141556.0",
+"name": "TJ Lateef",
+"v": -0.0375,
+"plays": 17,
+"passes": 13,
+"games": 3,
+"last_wk": 11
+},
+{
+"pid": "5126471.0",
+"name": "Daniel Kaelin",
+"v": -0.0592,
+"plays": 3,
+"passes": 2,
+"games": 1,
+"last_wk": 3
+},
+{
+"pid": "5110168.0",
+"name": "Carter Nelson",
+"v": -0.0652,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 11
+}
+]
+},
+"160": {
+"name": "New Hampshire",
+"qbs": [
+{
+"pid": "5298487.0",
+"name": "Brooks Bentley",
+"v": -0.0762,
+"plays": 21,
+"passes": 21,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5226704.0",
+"name": "Tommy McLeish",
+"v": -0.0607,
+"plays": 12,
+"passes": 10,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"164": {
+"name": "Rutgers",
+"qbs": [
+{
+"pid": "5079717.0",
+"name": "AJ Surace",
+"v": -0.062,
+"plays": 155,
+"passes": 138,
+"games": 8,
+"last_wk": 11
+},
+{
+"pid": "4870900.0",
+"name": "Dylan Lonergan",
+"v": -0.0029,
+"plays": 150,
+"passes": 132,
+"games": 6,
+"last_wk": 8
+},
+{
+"pid": "5172031.0",
+"name": "Sean Ashenfelder",
+"v": -0.1124,
+"plays": 24,
+"passes": 17,
+"games": 4,
+"last_wk": 11
+},
+{
+"pid": "-7238.0",
+"name": "TEAM",
+"v": -0.0758,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 3
+},
+{
+"pid": "5221407.0",
+"name": "Jakob Anderson",
+"v": -0.0274,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 3
+}
+]
+},
+"166": {
+"name": "New Mexico State",
+"qbs": [
+{
+"pid": "5224084.0",
+"name": "Trey Hedden",
+"v": -0.0388,
+"plays": 201,
+"passes": 190,
+"games": 7,
+"last_wk": 11
+},
+{
+"pid": "5152503.0",
+"name": "Adam Damante",
+"v": -0.0854,
+"plays": 133,
+"passes": 124,
+"games": 6,
+"last_wk": 9
+},
+{
+"pid": "5076584.0",
+"name": "TJ Washington Jr.",
+"v": -0.0675,
+"plays": 80,
+"passes": 1,
+"games": 10,
+"last_wk": 11
+}
+]
+},
+"167": {
+"name": "New Mexico",
+"qbs": [
+{
+"pid": "5261479.0",
+"name": "Toa Fa'avae",
+"v": -0.0804,
+"plays": 237,
+"passes": 158,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5122887.0",
+"name": "Luke Moga",
+"v": -0.0643,
+"plays": 46,
+"passes": 42,
+"games": 5,
+"last_wk": 10
+},
+{
+"pid": "5228804.0",
+"name": "James Laubstein",
+"v": 0.029,
+"plays": 21,
+"passes": 1,
+"games": 6,
+"last_wk": 7
+},
+{
+"pid": "5326947.0",
+"name": "Bailen George",
+"v": -0.0061,
+"plays": 2,
+"passes": 2,
+"games": 2,
+"last_wk": 11
+},
+{
+"pid": "5323149.0",
+"name": "Dorian Patterson",
+"v": -0.0452,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 9
+}
+]
+},
+"183": {
+"name": "Syracuse",
+"qbs": [
+{
+"pid": "4685694.0",
+"name": "Steve Angeli",
+"v": -0.0179,
+"plays": 280,
+"passes": 265,
+"games": 7,
+"last_wk": 11
+},
+{
+"pid": "4870928.0",
+"name": "Malachi Nelson",
+"v": -0.0066,
+"plays": 82,
+"passes": 75,
+"games": 3,
+"last_wk": 7
+},
+{
+"pid": "5153782.0",
+"name": "Amari Odom",
+"v": 0.0115,
+"plays": 55,
+"passes": 47,
+"games": 3,
+"last_wk": 5
+},
+{
+"pid": "5086156.0",
+"name": "Danny Lauter",
+"v": -0.0209,
+"plays": 13,
+"passes": 13,
+"games": 2,
+"last_wk": 7
+},
+{
+"pid": "5159036.0",
+"name": "Calvin Russell III",
+"v": -0.0401,
+"plays": 5,
+"passes": 1,
+"games": 3,
+"last_wk": 11
+},
+{
+"pid": "5290980.0",
+"name": "Jimmy Gregg",
+"v": -0.0475,
+"plays": 2,
+"passes": 1,
+"games": 2,
+"last_wk": 6
+},
+{
+"pid": "-7579.0",
+"name": "TEAM",
+"v": -0.0691,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"189": {
+"name": "Bowling Green",
+"qbs": [
+{
+"pid": "5385753.0",
+"name": "Jay Kastantin",
+"v": -0.0276,
+"plays": 290,
+"passes": 241,
+"games": 9,
+"last_wk": 9
+},
+{
+"pid": "4912647.0",
+"name": "Austin Novosad",
+"v": -0.058,
+"plays": 34,
+"passes": 34,
+"games": 3,
+"last_wk": 11
+},
+{
+"pid": "5226453.0",
+"name": "Brennan Ridley",
+"v": -0.0633,
+"plays": 9,
+"passes": 1,
+"games": 6,
+"last_wk": 9
+}
+]
+},
+"193": {
+"name": "Miami (OH)",
+"qbs": [
+{
+"pid": "5388435.0",
+"name": "Caleb Heavner",
+"v": -0.1177,
+"plays": 200,
+"passes": 152,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5141549.0",
+"name": "David McComb",
+"v": 0.06,
+"plays": 119,
+"passes": 107,
+"games": 4,
+"last_wk": 4
+},
+{
+"pid": "5193270.0",
+"name": "D'Shawntae Jones",
+"v": -0.0579,
+"plays": 91,
+"passes": 2,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5280838.0",
+"name": "Drew Bellisari",
+"v": -0.0124,
+"plays": 18,
+"passes": 15,
+"games": 1,
+"last_wk": 11
+},
+{
+"pid": "5293035.0",
+"name": "Scoop Smith",
+"v": -0.0159,
+"plays": 11,
+"passes": 2,
+"games": 7,
+"last_wk": 11
+},
+{
+"pid": "5079772.0",
+"name": "Damarion Witten",
+"v": -0.0521,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 6
+}
+]
+},
+"194": {
+"name": "Ohio State",
+"qbs": [
+{
+"pid": "5079712.0",
+"name": "Julian Sayin",
+"v": 0.1527,
+"plays": 232,
+"passes": 206,
+"games": 7,
+"last_wk": 7
+},
+{
+"pid": "5214646.0",
+"name": "Luke Fahey",
+"v": 0.0278,
+"plays": 154,
+"passes": 139,
+"games": 6,
+"last_wk": 11
+},
+{
+"pid": "5146824.0",
+"name": "Tavien St. Clair",
+"v": -0.0463,
+"plays": 9,
+"passes": 7,
+"games": 2,
+"last_wk": 3
+}
+]
+},
+"195": {
+"name": "Ohio",
+"qbs": [
+{
+"pid": "5228762.0",
+"name": "Nick Poulos",
+"v": -0.0385,
+"plays": 227,
+"passes": 169,
+"games": 7,
+"last_wk": 11
+},
+{
+"pid": "5171031.0",
+"name": "Matt Vezza",
+"v": -0.0398,
+"plays": 100,
+"passes": 70,
+"games": 6,
+"last_wk": 7
+},
+{
+"pid": "5244755.0",
+"name": "Levi Davis",
+"v": 0.0173,
+"plays": 48,
+"passes": 30,
+"games": 7,
+"last_wk": 11
+},
+{
+"pid": "4875744.0",
+"name": "Magnus Haines",
+"v": -0.0686,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 11
+}
+]
+},
+"197": {
+"name": "Oklahoma State",
+"qbs": [
+{
+"pid": "5219834.0",
+"name": "Drew Mestemaker",
+"v": 0.1411,
+"plays": 397,
+"passes": 363,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5258016.0",
+"name": "Caleb Hawkins",
+"v": 0.061,
+"plays": 206,
+"passes": 1,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5291690.0",
+"name": "Broderick Vehrs",
+"v": -0.0302,
+"plays": 21,
+"passes": 16,
+"games": 4,
+"last_wk": 11
+},
+{
+"pid": "5148787.0",
+"name": "Wyatt Young",
+"v": -0.0513,
+"plays": 6,
+"passes": 1,
+"games": 6,
+"last_wk": 11
+}
+]
+},
+"201": {
+"name": "Oklahoma",
+"qbs": [
+{
+"pid": "4915980.0",
+"name": "John Mateer",
+"v": 0.0168,
+"plays": 384,
+"passes": 301,
+"games": 9,
+"last_wk": 10
+},
+{
+"pid": "5224237.0",
+"name": "Whitt Newbauer",
+"v": -0.0467,
+"plays": 3,
+"passes": 1,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5245123.0",
+"name": "Bowe Bentley",
+"v": -0.0587,
+"plays": 2,
+"passes": 2,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5154245.0",
+"name": "Jacob Ulrich",
+"v": -0.0749,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 7
+}
+]
+},
+"202": {
+"name": "Tulsa",
+"qbs": [
+{
+"pid": "5224011.0",
+"name": "Baylor Hayes",
+"v": -0.0066,
+"plays": 303,
+"passes": 269,
+"games": 8,
+"last_wk": 11
+},
+{
+"pid": "4565355.0",
+"name": "Dexter Williams II",
+"v": -0.0937,
+"plays": 76,
+"passes": 63,
+"games": 6,
+"last_wk": 10
+},
+{
+"pid": "4710860.0",
+"name": "Oran Singleton Jr.",
+"v": -0.0515,
+"plays": 10,
+"passes": 3,
+"games": 7,
+"last_wk": 11
+},
+{
+"pid": "5163541.0",
+"name": "Max Tulen",
+"v": -0.043,
+"plays": 2,
+"passes": 1,
+"games": 2,
+"last_wk": 3
+}
+]
+},
+"204": {
+"name": "Oregon State",
+"qbs": [
+{
+"pid": "5212654.0",
+"name": "Braden Atkinson",
+"v": 0.0893,
+"plays": 409,
+"passes": 383,
+"games": 9,
+"last_wk": 10
+},
+{
+"pid": "4917981.0",
+"name": "AJ Newberry",
+"v": -0.0069,
+"plays": 85,
+"passes": 1,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "4685497.0",
+"name": "Maalik Murphy",
+"v": 0.0646,
+"plays": 62,
+"passes": 59,
+"games": 4,
+"last_wk": 11
+},
+{
+"pid": "5296163.0",
+"name": "Brady Jones",
+"v": -0.0539,
+"plays": 8,
+"passes": 3,
+"games": 3,
+"last_wk": 6
+}
+]
+},
+"213": {
+"name": "Penn State",
+"qbs": [
+{
+"pid": "4801299.0",
+"name": "Rocco Becht",
+"v": 0.0135,
+"plays": 357,
+"passes": 295,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5077502.0",
+"name": "Carson Hansen",
+"v": 0.0096,
+"plays": 115,
+"passes": 1,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5164316.0",
+"name": "Alex Manske",
+"v": -0.0288,
+"plays": 20,
+"passes": 16,
+"games": 4,
+"last_wk": 11
+},
+{
+"pid": "5082407.0",
+"name": "Connor Barry",
+"v": -0.057,
+"plays": 5,
+"passes": 2,
+"games": 2,
+"last_wk": 3
+},
+{
+"pid": "5294651.0",
+"name": "Nathan Tiyce",
+"v": -0.0329,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 9
+}
+]
+},
+"218": {
+"name": "Temple",
+"qbs": [
+{
+"pid": "5078166.0",
+"name": "Ajani Sheppard",
+"v": 0.0044,
+"plays": 259,
+"passes": 184,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5077787.0",
+"name": "Jaxon Smolik",
+"v": -0.0837,
+"plays": 80,
+"passes": 60,
+"games": 6,
+"last_wk": 10
+},
+{
+"pid": "5089003.0",
+"name": "Colin Chase",
+"v": -0.003,
+"plays": 11,
+"passes": 4,
+"games": 7,
+"last_wk": 11
+}
+]
+},
+"221": {
+"name": "Pittsburgh",
+"qbs": [
+{
+"pid": "5208095.0",
+"name": "Mason Heintschel",
+"v": 0.0485,
+"plays": 182,
+"passes": 153,
+"games": 5,
+"last_wk": 5
+},
+{
+"pid": "4714300.0",
+"name": "Holden Geriner",
+"v": -0.1087,
+"plays": 154,
+"passes": 136,
+"games": 6,
+"last_wk": 9
+},
+{
+"pid": "5207640.0",
+"name": "Corey Dailey",
+"v": -0.0412,
+"plays": 82,
+"passes": 72,
+"games": 5,
+"last_wk": 11
+}
+]
+},
+"222": {
+"name": "Villanova",
+"qbs": [
+{
+"pid": "4875733.0",
+"name": "Pat McQuaide",
+"v": 0.0058,
+"plays": 34,
+"passes": 32,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5402290.0",
+"name": "Nolan DiLucia",
+"v": -0.0441,
+"plays": 4,
+"passes": 3,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"227": {
+"name": "Rhode Island",
+"qbs": [
+{
+"pid": "5145592.0",
+"name": "Tyler Budge",
+"v": -0.034,
+"plays": 40,
+"passes": 33,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"228": {
+"name": "Clemson",
+"qbs": [
+{
+"pid": "5159078.0",
+"name": "Tait Reynolds",
+"v": -0.0839,
+"plays": 358,
+"passes": 269,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "4899369.0",
+"name": "Christopher Vizzina",
+"v": -0.1611,
+"plays": 65,
+"passes": 55,
+"games": 3,
+"last_wk": 11
+},
+{
+"pid": "5081434.0",
+"name": "Trent Pearman",
+"v": -0.1444,
+"plays": 25,
+"passes": 19,
+"games": 3,
+"last_wk": 11
+},
+{
+"pid": "5112674.0",
+"name": "Bryant Wesco Jr.",
+"v": -0.0438,
+"plays": 3,
+"passes": 1,
+"games": 2,
+"last_wk": 10
+},
+{
+"pid": "5200187.0",
+"name": "Brock Bradley",
+"v": -0.0514,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 7
+}
+]
+},
+"231": {
+"name": "Furman",
+"qbs": [
+{
+"pid": "4432703.0",
+"name": "Jake Garcia",
+"v": -0.1522,
+"plays": 29,
+"passes": 23,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5413484.0",
+"name": "Connor Ackerley",
+"v": -0.0571,
+"plays": 7,
+"passes": 5,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"233": {
+"name": "South Dakota",
+"qbs": [
+{
+"pid": "5302115.0",
+"name": "Austyn Modrzewski",
+"v": -0.0227,
+"plays": 30,
+"passes": 29,
+"games": 1,
+"last_wk": 3
+},
+{
+"pid": "4878223.0",
+"name": "Jackson Proctor",
+"v": -0.0525,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 3
+}
+]
+},
+"235": {
+"name": "Memphis",
+"qbs": [
+{
+"pid": "5165807.0",
+"name": "Marcus Stokes",
+"v": 0.1269,
+"plays": 371,
+"passes": 306,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5079548.0",
+"name": "Air Noland",
+"v": -0.0429,
+"plays": 15,
+"passes": 9,
+"games": 3,
+"last_wk": 5
+},
+{
+"pid": "5220352.0",
+"name": "Hunter Tipton",
+"v": -0.0643,
+"plays": 5,
+"passes": 1,
+"games": 2,
+"last_wk": 8
+}
+]
+},
+"238": {
+"name": "Vanderbilt",
+"qbs": [
+{
+"pid": "5158948.0",
+"name": "Jared Curtis",
+"v": -0.0233,
+"plays": 353,
+"passes": 283,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5121691.0",
+"name": "Blaze Berlowitz",
+"v": -0.017,
+"plays": 77,
+"passes": 53,
+"games": 4,
+"last_wk": 6
+},
+{
+"pid": "5126473.0",
+"name": "Whit Muschamp",
+"v": -0.0459,
+"plays": 4,
+"passes": 3,
+"games": 1,
+"last_wk": 5
+},
+{
+"pid": "5209910.0",
+"name": "Jack Elliott",
+"v": -0.0369,
+"plays": 2,
+"passes": 1,
+"games": 1,
+"last_wk": 5
+},
+{
+"pid": "5088418.0",
+"name": "Tyler Ebel",
+"v": -0.0608,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 4
+}
+]
+},
+"239": {
+"name": "Baylor",
+"qbs": [
+{
+"pid": "5079555.0",
+"name": "DJ Lagway",
+"v": -0.0008,
+"plays": 369,
+"passes": 322,
+"games": 8,
+"last_wk": 11
+},
+{
+"pid": "5295723.0",
+"name": "Caden Knighten",
+"v": -0.0472,
+"plays": 84,
+"passes": 1,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5145459.0",
+"name": "Nate Bennett",
+"v": -0.0639,
+"plays": 68,
+"passes": 66,
+"games": 4,
+"last_wk": 10
+},
+{
+"pid": "5159106.0",
+"name": "Ryelan Morris",
+"v": -0.0391,
+"plays": 60,
+"passes": 1,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5213685.0",
+"name": "Edward Griffin",
+"v": -0.0824,
+"plays": 7,
+"passes": 6,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"242": {
+"name": "Rice",
+"qbs": [
+{
+"pid": "4685291.0",
+"name": "Jacurri Brown",
+"v": -0.0101,
+"plays": 209,
+"passes": 93,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5145788.0",
+"name": "Gael Ochoa",
+"v": 0.0091,
+"plays": 101,
+"passes": 50,
+"games": 6,
+"last_wk": 11
+},
+{
+"pid": "5265447.0",
+"name": "Patrick Crayton Jr.",
+"v": 0.0026,
+"plays": 14,
+"passes": 6,
+"games": 3,
+"last_wk": 10
+},
+{
+"pid": "5384736.0",
+"name": "Rice",
+"v": -0.0735,
+"plays": 3,
+"passes": 1,
+"games": 3,
+"last_wk": 11
+}
+]
+},
+"245": {
+"name": "Texas A&M",
+"qbs": [
+{
+"pid": "4870971.0",
+"name": "Marcel Reed",
+"v": -0.0908,
+"plays": 368,
+"passes": 301,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5295969.0",
+"name": "Brady Hart",
+"v": -0.063,
+"plays": 26,
+"passes": 24,
+"games": 4,
+"last_wk": 11
+},
+{
+"pid": "5158957.0",
+"name": "Helaman Casuga",
+"v": -0.0513,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 7
+}
+]
+},
+"248": {
+"name": "Houston",
+"qbs": [
+{
+"pid": "4685574.0",
+"name": "Conner Weigman",
+"v": 0.2085,
+"plays": 382,
+"passes": 309,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5159035.0",
+"name": "Keisean Henderson",
+"v": -0.0347,
+"plays": 9,
+"passes": 8,
+"games": 2,
+"last_wk": 2
+}
+]
+},
+"249": {
+"name": "North Texas",
+"qbs": [
+{
+"pid": "4801307.0",
+"name": "Tayven Jackson",
+"v": 0.1567,
+"plays": 356,
+"passes": 324,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5175092.0",
+"name": "Chris Jimerson Jr.",
+"v": -0.035,
+"plays": 42,
+"passes": 18,
+"games": 6,
+"last_wk": 11
+},
+{
+"pid": "5215310.0",
+"name": "Chaston Ditta",
+"v": -0.0789,
+"plays": 31,
+"passes": 22,
+"games": 4,
+"last_wk": 6
+}
+]
+},
+"251": {
+"name": "Texas",
+"qbs": [
+{
+"pid": "4870906.0",
+"name": "Arch Manning",
+"v": -0.0269,
+"plays": 382,
+"passes": 325,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5141509.0",
+"name": "Karle Lacey Jr.",
+"v": -0.0484,
+"plays": 11,
+"passes": 9,
+"games": 3,
+"last_wk": 9
+}
+]
+},
+"252": {
+"name": "BYU",
+"qbs": [
+{
+"pid": "5141367.0",
+"name": "Bear Bachmeier",
+"v": 0.1374,
+"plays": 370,
+"passes": 272,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "4688540.0",
+"name": "Treyson Bourguet",
+"v": -0.0622,
+"plays": 6,
+"passes": 3,
+"games": 2,
+"last_wk": 3
+},
+{
+"pid": "4870876.0",
+"name": "Kyler Kasper",
+"v": -0.029,
+"plays": 3,
+"passes": 3,
+"games": 2,
+"last_wk": 11
+}
+]
+},
+"253": {
+"name": "Southern Utah",
+"qbs": [
+{
+"pid": "5151171.0",
+"name": "Will Burns",
+"v": -0.0189,
+"plays": 31,
+"passes": 26,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5441448.0",
+"name": "Lee Norman-Lester",
+"v": -0.0584,
+"plays": 2,
+"passes": 1,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5441452.0",
+"name": "Jackson Stevens",
+"v": -0.0565,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"254": {
+"name": "Utah",
+"qbs": [
+{
+"pid": "5105849.0",
+"name": "Devon Dampier",
+"v": 0.081,
+"plays": 404,
+"passes": 293,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5173431.0",
+"name": "Wayshawn Parker",
+"v": 0.0546,
+"plays": 125,
+"passes": 1,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5294263.0",
+"name": "Byrd Ficklin",
+"v": -0.0586,
+"plays": 53,
+"passes": 20,
+"games": 8,
+"last_wk": 9
+},
+{
+"pid": "4871040.0",
+"name": "Creed Whittemore",
+"v": -0.028,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 10
+}
+]
+},
+"256": {
+"name": "James Madison",
+"qbs": [
+{
+"pid": "5153978.0",
+"name": "Camden Coleman",
+"v": 0.0092,
+"plays": 287,
+"passes": 248,
+"games": 10,
+"last_wk": 10
+},
+{
+"pid": "5172036.0",
+"name": "JC Evans",
+"v": 0.0815,
+"plays": 165,
+"passes": 109,
+"games": 7,
+"last_wk": 11
+},
+{
+"pid": "5147757.0",
+"name": "Arrington Maiden",
+"v": -0.0306,
+"plays": 13,
+"passes": 9,
+"games": 2,
+"last_wk": 10
+},
+{
+"pid": "5332125.0",
+"name": "Tanner Vibabul",
+"v": -0.0448,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"257": {
+"name": "Richmond",
+"qbs": [
+{
+"pid": "5083373.0",
+"name": "Ashten Snelsire",
+"v": -0.0766,
+"plays": 23,
+"passes": 23,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5299849.0",
+"name": "Jack Callaghan",
+"v": -0.0751,
+"plays": 8,
+"passes": 6,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"258": {
+"name": "Virginia",
+"qbs": [
+{
+"pid": "4685696.0",
+"name": "Beau Pribula",
+"v": -0.0478,
+"plays": 345,
+"passes": 263,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "4870819.0",
+"name": "Eli Holstein",
+"v": -0.014,
+"plays": 49,
+"passes": 47,
+"games": 4,
+"last_wk": 11
+},
+{
+"pid": "5145789.0",
+"name": "Cole Geer",
+"v": -0.0465,
+"plays": 13,
+"passes": 8,
+"games": 2,
+"last_wk": 4
+}
+]
+},
+"259": {
+"name": "Virginia Tech",
+"qbs": [
+{
+"pid": "5144078.0",
+"name": "Ethan Grunkemeyer",
+"v": 0.0602,
+"plays": 421,
+"passes": 362,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5141366.0",
+"name": "Bryce Baker",
+"v": -0.0379,
+"plays": 18,
+"passes": 15,
+"games": 2,
+"last_wk": 2
+},
+{
+"pid": "5138451.0",
+"name": "Luke Reynolds",
+"v": -0.0521,
+"plays": 7,
+"passes": 5,
+"games": 3,
+"last_wk": 8
+}
+]
+},
+"264": {
+"name": "Washington",
+"qbs": [
+{
+"pid": "5079653.0",
+"name": "Demond Williams Jr.",
+"v": 0.0316,
+"plays": 333,
+"passes": 274,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5079318.0",
+"name": "Elijah Brown",
+"v": 0.0598,
+"plays": 107,
+"passes": 105,
+"games": 4,
+"last_wk": 9
+},
+{
+"pid": "5166797.0",
+"name": "Dezmen Roebuck",
+"v": -0.0498,
+"plays": 10,
+"passes": 1,
+"games": 4,
+"last_wk": 10
+}
+]
+},
+"265": {
+"name": "Washington State",
+"qbs": [
+{
+"pid": "5226019.0",
+"name": "Caden Pinnick",
+"v": -0.0878,
+"plays": 250,
+"passes": 196,
+"games": 6,
+"last_wk": 6
+},
+{
+"pid": "5263246.0",
+"name": "Owen Eshelman",
+"v": 0.055,
+"plays": 213,
+"passes": 156,
+"games": 4,
+"last_wk": 11
+},
+{
+"pid": "5155864.0",
+"name": "Julian Dugger",
+"v": -0.0439,
+"plays": 10,
+"passes": 2,
+"games": 3,
+"last_wk": 11
+}
+]
+},
+"275": {
+"name": "Wisconsin",
+"qbs": [
+{
+"pid": "5125715.0",
+"name": "Colton Joseph",
+"v": 0.0106,
+"plays": 278,
+"passes": 196,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5210475.0",
+"name": "Ryan Hopkins",
+"v": -0.0587,
+"plays": 77,
+"passes": 65,
+"games": 5,
+"last_wk": 11
+},
+{
+"pid": "-6965.0",
+"name": "TEAM",
+"v": -0.068,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"276": {
+"name": "Marshall",
+"qbs": [
+{
+"pid": "4432691.0",
+"name": "Carlos Del Rio-Wilson",
+"v": -0.0553,
+"plays": 257,
+"passes": 181,
+"games": 8,
+"last_wk": 11
+},
+{
+"pid": "4685697.0",
+"name": "Zion Turner",
+"v": -0.1033,
+"plays": 150,
+"passes": 125,
+"games": 7,
+"last_wk": 10
+},
+{
+"pid": "5158251.0",
+"name": "Khalil Wilkins",
+"v": -0.0434,
+"plays": 70,
+"passes": 23,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5296702.0",
+"name": "Cooper Heimbach",
+"v": -0.0336,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 11
+},
+{
+"pid": "5225343.0",
+"name": "Owen Sweeney",
+"v": -0.0532,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 5
+}
+]
+},
+"277": {
+"name": "West Virginia",
+"qbs": [
+{
+"pid": "5079465.0",
+"name": "Michael Hawkins Jr.",
+"v": 0.1641,
+"plays": 418,
+"passes": 231,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5164314.0",
+"name": "Scotty Fox Jr.",
+"v": -0.0499,
+"plays": 8,
+"passes": 4,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5161828.0",
+"name": "Jyron Hughley",
+"v": -0.0221,
+"plays": 5,
+"passes": 1,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"278": {
+"name": "Fresno State",
+"qbs": [
+{
+"pid": "5010409.0",
+"name": "Jayden Mandal",
+"v": 0.0947,
+"plays": 366,
+"passes": 301,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5146667.0",
+"name": "Khristian Martin",
+"v": -0.0444,
+"plays": 8,
+"passes": 4,
+"games": 3,
+"last_wk": 6
+},
+{
+"pid": "5143919.0",
+"name": "Jordan Malau'ulu",
+"v": -0.0344,
+"plays": 3,
+"passes": 1,
+"games": 3,
+"last_wk": 10
+}
+]
+},
+"282": {
+"name": "Indiana State",
+"qbs": [
+{
+"pid": "5155321.0",
+"name": "Elijah Owens",
+"v": -0.0546,
+"plays": 28,
+"passes": 20,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "4685691.0",
+"name": "Brady Allen",
+"v": -0.0165,
+"plays": 6,
+"passes": 5,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"284": {
+"name": "Stonehill",
+"qbs": [
+{
+"pid": "5106897.0",
+"name": "Jack O'Connell",
+"v": -0.1105,
+"plays": 47,
+"passes": 42,
+"games": 2,
+"last_wk": 4
+},
+{
+"pid": "5229295.0",
+"name": "Drew Eason",
+"v": -0.0218,
+"plays": 13,
+"passes": 11,
+"games": 2,
+"last_wk": 4
+}
+]
+},
+"290": {
+"name": "Georgia Southern",
+"qbs": [
+{
+"pid": "4685740.0",
+"name": "Max Johnson",
+"v": 0.0963,
+"plays": 359,
+"passes": 332,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5212641.0",
+"name": "Weston Bryan",
+"v": 0.0113,
+"plays": 59,
+"passes": 14,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "4912238.0",
+"name": "Turner Helton",
+"v": 0.0187,
+"plays": 45,
+"passes": 40,
+"games": 3,
+"last_wk": 10
+},
+{
+"pid": "5155780.0",
+"name": "Taeo Todd",
+"v": -0.0539,
+"plays": 43,
+"passes": 1,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5123988.0",
+"name": "Taylor Bradshaw",
+"v": -0.0512,
+"plays": 5,
+"passes": 1,
+"games": 4,
+"last_wk": 10
+}
+]
+},
+"292": {
+"name": "UT Rio Grande Valley",
+"qbs": [
+{
+"pid": "4685521.0",
+"name": "Garret Rangel",
+"v": -0.0362,
+"plays": 36,
+"passes": 33,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5300880.0",
+"name": "Aidan Jakobsohn",
+"v": -0.0571,
+"plays": 12,
+"passes": 11,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5300847.0",
+"name": "Atzel Chavez Jr.",
+"v": -0.0445,
+"plays": 5,
+"passes": 4,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"295": {
+"name": "Old Dominion",
+"qbs": [
+{
+"pid": "5193346.0",
+"name": "Quinn Henicle",
+"v": -0.0792,
+"plays": 198,
+"passes": 120,
+"games": 7,
+"last_wk": 10
+},
+{
+"pid": "5091836.0",
+"name": "Jaxon Potter",
+"v": -0.1311,
+"plays": 133,
+"passes": 125,
+"games": 4,
+"last_wk": 10
+},
+{
+"pid": "5295919.0",
+"name": "Ryan Huff",
+"v": -0.1568,
+"plays": 83,
+"passes": 77,
+"games": 4,
+"last_wk": 7
+}
+]
+},
+"302": {
+"name": "UC Davis",
+"qbs": [
+{
+"pid": "5298853.0",
+"name": "Treynor Cleeland",
+"v": -0.0602,
+"plays": 29,
+"passes": 28,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5164325.0",
+"name": "Jackson Kollock",
+"v": -0.0341,
+"plays": 10,
+"passes": 10,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5298855.0",
+"name": "Drew Cofield",
+"v": -0.0519,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"304": {
+"name": "Idaho State",
+"qbs": [
+{
+"pid": "5158746.0",
+"name": "Jordan Cooke",
+"v": -0.0518,
+"plays": 45,
+"passes": 35,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"309": {
+"name": "Louisiana",
+"qbs": [
+{
+"pid": "4871091.0",
+"name": "Lunch Winfield",
+"v": -0.0033,
+"plays": 363,
+"passes": 240,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5146661.0",
+"name": "Daniel Beale",
+"v": -0.0358,
+"plays": 13,
+"passes": 10,
+"games": 3,
+"last_wk": 7
+},
+{
+"pid": "5197074.0",
+"name": "Ja'Corian Norris",
+"v": -0.0549,
+"plays": 2,
+"passes": 1,
+"games": 1,
+"last_wk": 4
+}
+]
+},
+"311": {
+"name": "Maine",
+"qbs": [
+{
+"pid": "5226632.0",
+"name": "Eddie Buehler",
+"v": -0.0444,
+"plays": 73,
+"passes": 71,
+"games": 2,
+"last_wk": 3
+}
+]
+},
+"322": {
+"name": "Lafayette",
+"qbs": [
+{
+"pid": "5153849.0",
+"name": "Daniel Lipovski",
+"v": -0.1126,
+"plays": 35,
+"passes": 34,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5225799.0",
+"name": "Jason Penza",
+"v": -0.0452,
+"plays": 12,
+"passes": 9,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"324": {
+"name": "Coastal Carolina",
+"qbs": [
+{
+"pid": "5296439.0",
+"name": "Deuce Bailey",
+"v": -0.0362,
+"plays": 390,
+"passes": 316,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5152029.0",
+"name": "Tre Guerra",
+"v": -0.0938,
+"plays": 13,
+"passes": 13,
+"games": 3,
+"last_wk": 10
+}
+]
+},
+"326": {
+"name": "Texas State",
+"qbs": [
+{
+"pid": "5148803.0",
+"name": "Brad Jackson",
+"v": 0.1587,
+"plays": 399,
+"passes": 297,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5202460.0",
+"name": "Gavin Parkhurst",
+"v": -0.0499,
+"plays": 17,
+"passes": 11,
+"games": 3,
+"last_wk": 7
+},
+{
+"pid": "5236321.0",
+"name": "Tucker Cusano",
+"v": -0.0679,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 9
+}
+]
+},
+"328": {
+"name": "Utah State",
+"qbs": [
+{
+"pid": "5081197.0",
+"name": "Grady Brosterhous",
+"v": -0.0594,
+"plays": 284,
+"passes": 201,
+"games": 7,
+"last_wk": 8
+},
+{
+"pid": "4923285.0",
+"name": "McCae Hillstead",
+"v": -0.0782,
+"plays": 162,
+"passes": 117,
+"games": 5,
+"last_wk": 11
+},
+{
+"pid": "5151339.0",
+"name": "Anthony Garcia",
+"v": -0.0434,
+"plays": 6,
+"passes": 1,
+"games": 4,
+"last_wk": 10
+}
+]
+},
+"331": {
+"name": "Eastern Washington",
+"qbs": [
+{
+"pid": "5152110.0",
+"name": "Nate Bell",
+"v": -0.0022,
+"plays": 43,
+"passes": 27,
+"games": 1,
+"last_wk": 3
+},
+{
+"pid": "5146672.0",
+"name": "Jake Schakel",
+"v": -0.0445,
+"plays": 5,
+"passes": 5,
+"games": 1,
+"last_wk": 3
+}
+]
+},
+"333": {
+"name": "Alabama",
+"qbs": [
+{
+"pid": "5141629.0",
+"name": "Keelon Russell",
+"v": 0.1275,
+"plays": 370,
+"passes": 309,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5079508.0",
+"name": "Austin Mack",
+"v": -0.0343,
+"plays": 11,
+"passes": 5,
+"games": 4,
+"last_wk": 11
+}
+]
+},
+"338": {
+"name": "Kennesaw State",
+"qbs": [
+{
+"pid": "4870645.0",
+"name": "Rickie Collins",
+"v": -0.0401,
+"plays": 331,
+"passes": 249,
+"games": 9,
+"last_wk": 10
+},
+{
+"pid": "5382898.0",
+"name": "Landon Varnes",
+"v": -0.0344,
+"plays": 107,
+"passes": 98,
+"games": 4,
+"last_wk": 11
+},
+{
+"pid": "5265536.0",
+"name": "Skyler Williams",
+"v": -0.1197,
+"plays": 21,
+"passes": 6,
+"games": 4,
+"last_wk": 11
+},
+{
+"pid": "5083103.0",
+"name": "Davis Bryson",
+"v": -0.0462,
+"plays": 7,
+"passes": 1,
+"games": 5,
+"last_wk": 10
+}
+]
+},
+"344": {
+"name": "Mississippi State",
+"qbs": [
+{
+"pid": "5177084.0",
+"name": "Kamario Taylor",
+"v": 0.1004,
+"plays": 204,
+"passes": 175,
+"games": 6,
+"last_wk": 8
+},
+{
+"pid": "5294646.0",
+"name": "Parker Puckett",
+"v": -0.1047,
+"plays": 126,
+"passes": 100,
+"games": 6,
+"last_wk": 11
+},
+{
+"pid": "5081405.0",
+"name": "AJ Swann",
+"v": -0.0437,
+"plays": 73,
+"passes": 70,
+"games": 3,
+"last_wk": 11
+},
+{
+"pid": "4907671.0",
+"name": "Anthony Evans III",
+"v": -0.0427,
+"plays": 6,
+"passes": 2,
+"games": 4,
+"last_wk": 11
+},
+{
+"pid": "5161838.0",
+"name": "Brodie McWhorter",
+"v": -0.0472,
+"plays": 2,
+"passes": 2,
+"games": 1,
+"last_wk": 11
+},
+{
+"pid": "4920164.0",
+"name": "Sam West",
+"v": -0.0399,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 8
+},
+{
+"pid": "5141501.0",
+"name": "Gracen Harris",
+"v": -0.0389,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 3
+}
+]
+},
+"349": {
+"name": "Army",
+"qbs": [
+{
+"pid": "5150297.0",
+"name": "Cale Hellums",
+"v": 0.0937,
+"plays": 273,
+"passes": 90,
+"games": 9,
+"last_wk": 10
+},
+{
+"pid": "5293684.0",
+"name": "Bryson Luter",
+"v": -0.0089,
+"plays": 27,
+"passes": 4,
+"games": 6,
+"last_wk": 10
+},
+{
+"pid": "5082118.0",
+"name": "Zach Mundell",
+"v": 0.0609,
+"plays": 19,
+"passes": 3,
+"games": 8,
+"last_wk": 10
+},
+{
+"pid": "5219408.0",
+"name": "Ethan Washington",
+"v": -0.0398,
+"plays": 5,
+"passes": 2,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"356": {
+"name": "Illinois",
+"qbs": [
+{
+"pid": "4795295.0",
+"name": "Katin Houser",
+"v": 0.0995,
+"plays": 336,
+"passes": 298,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5198286.0",
+"name": "Michael Clayton II",
+"v": -0.0365,
+"plays": 32,
+"passes": 28,
+"games": 2,
+"last_wk": 8
+},
+{
+"pid": "5196352.0",
+"name": "Carson Boyd",
+"v": -0.0317,
+"plays": 9,
+"passes": 4,
+"games": 4,
+"last_wk": 11
+}
+]
+},
+"399": {
+"name": "UAlbany",
+"qbs": [
+{
+"pid": "5095216.0",
+"name": "Kai Colon",
+"v": -0.0565,
+"plays": 41,
+"passes": 39,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5082909.0",
+"name": "Aidan Semo",
+"v": -0.068,
+"plays": 10,
+"passes": 5,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2000": {
+"name": "Abilene Christian",
+"qbs": [
+{
+"pid": "5226080.0",
+"name": "John David Black",
+"v": -0.0612,
+"plays": 39,
+"passes": 35,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2005": {
+"name": "Air Force",
+"qbs": [
+{
+"pid": "5306440.0",
+"name": "Evan Medders",
+"v": 0.0957,
+"plays": 127,
+"passes": 27,
+"games": 8,
+"last_wk": 11
+},
+{
+"pid": "5238868.0",
+"name": "Liam Szarka",
+"v": 0.0086,
+"plays": 124,
+"passes": 40,
+"games": 4,
+"last_wk": 5
+},
+{
+"pid": "5223112.0",
+"name": "Kemper Hodges",
+"v": 0.0342,
+"plays": 118,
+"passes": 4,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5449066.0",
+"name": "Howard Fisher IV",
+"v": -0.0537,
+"plays": 24,
+"passes": 12,
+"games": 4,
+"last_wk": 11
+},
+{
+"pid": "5223108.0",
+"name": "Josh Johnson",
+"v": -0.076,
+"plays": 6,
+"passes": 4,
+"games": 1,
+"last_wk": 8
+},
+{
+"pid": "5295013.0",
+"name": "Mason Hayes",
+"v": -0.0129,
+"plays": 5,
+"passes": 1,
+"games": 4,
+"last_wk": 11
+}
+]
+},
+"2006": {
+"name": "Akron",
+"qbs": [
+{
+"pid": "5146903.0",
+"name": "Brayden Roggow",
+"v": -0.0674,
+"plays": 225,
+"passes": 204,
+"games": 9,
+"last_wk": 10
+},
+{
+"pid": "5198324.0",
+"name": "Cibastian Broughton",
+"v": -0.0661,
+"plays": 175,
+"passes": 128,
+"games": 5,
+"last_wk": 11
+},
+{
+"pid": "5084582.0",
+"name": "Jordan Gant",
+"v": 0.0097,
+"plays": 152,
+"passes": 1,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5193341.0",
+"name": "Marcel Williams",
+"v": -0.0503,
+"plays": 6,
+"passes": 6,
+"games": 1,
+"last_wk": 6
+},
+{
+"pid": "5209397.0",
+"name": "Semaj Beals",
+"v": -0.0526,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 3
+}
+]
+},
+"2011": {
+"name": "Alabama State",
+"qbs": [
+{
+"pid": "4887151.0",
+"name": "Andrew Body",
+"v": -0.0658,
+"plays": 38,
+"passes": 27,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5441396.0",
+"name": "Aaron Frye",
+"v": -0.0526,
+"plays": 4,
+"passes": 1,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2016": {
+"name": "Alcorn State",
+"qbs": [
+{
+"pid": "4878822.0",
+"name": "Jaylon Tolbert",
+"v": -0.0828,
+"plays": 26,
+"passes": 22,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5229538.0",
+"name": "Bryan Wilson",
+"v": -0.0737,
+"plays": 3,
+"passes": 2,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2026": {
+"name": "App State",
+"qbs": [
+{
+"pid": "4870999.0",
+"name": "Malachi Singleton",
+"v": 0.0184,
+"plays": 354,
+"passes": 309,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5146664.0",
+"name": "Henry Hasselbeck",
+"v": -0.0042,
+"plays": 90,
+"passes": 33,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5082965.0",
+"name": "Tommy Ulatowski",
+"v": -0.0518,
+"plays": 5,
+"passes": 5,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5092352.0",
+"name": "Chris Lofton",
+"v": -0.0356,
+"plays": 3,
+"passes": 1,
+"games": 2,
+"last_wk": 10
+}
+]
+},
+"2029": {
+"name": "Arkansas-Pine Bluff",
+"qbs": [
+{
+"pid": "5303364.0",
+"name": "Garrison Davis",
+"v": -0.0805,
+"plays": 16,
+"passes": 15,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5163068.0",
+"name": "Jack Schierholz",
+"v": -0.0633,
+"plays": 13,
+"passes": 10,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5229490.0",
+"name": "Landon Holcomb",
+"v": -0.0541,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2032": {
+"name": "Arkansas State",
+"qbs": [
+{
+"pid": "5123665.0",
+"name": "Trey Owens",
+"v": -0.0036,
+"plays": 383,
+"passes": 318,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "4713649.0",
+"name": "Drew Dickey",
+"v": -0.0283,
+"plays": 5,
+"passes": 3,
+"games": 2,
+"last_wk": 5
+}
+]
+},
+"2046": {
+"name": "Austin Peay",
+"qbs": [
+{
+"pid": "4870889.0",
+"name": "Chris Parson",
+"v": -0.0853,
+"plays": 31,
+"passes": 26,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2050": {
+"name": "Ball State",
+"qbs": [
+{
+"pid": "5075392.0",
+"name": "Keldric Luster",
+"v": -0.0483,
+"plays": 364,
+"passes": 289,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5152153.0",
+"name": "Tyler Mizzell",
+"v": -0.0348,
+"plays": 59,
+"passes": 41,
+"games": 7,
+"last_wk": 8
+}
+]
+},
+"2065": {
+"name": "Bethune-Cookman",
+"qbs": [
+{
+"pid": "4870848.0",
+"name": "Tyler Jefferson",
+"v": -0.0454,
+"plays": 17,
+"passes": 11,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "4837469.0",
+"name": "Amari Jones",
+"v": -0.0618,
+"plays": 12,
+"passes": 9,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5159018.0",
+"name": "Joel Morris",
+"v": -0.0277,
+"plays": 3,
+"passes": 2,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2083": {
+"name": "Bucknell",
+"qbs": [
+{
+"pid": "5402059.0",
+"name": "Emmett Dowling",
+"v": -0.078,
+"plays": 23,
+"passes": 21,
+"games": 1,
+"last_wk": 4
+},
+{
+"pid": "5147067.0",
+"name": "Christopher Dietrich",
+"v": -0.0436,
+"plays": 9,
+"passes": 8,
+"games": 1,
+"last_wk": 4
+}
+]
+},
+"2084": {
+"name": "Buffalo",
+"qbs": [
+{
+"pid": "5222591.0",
+"name": "Jason Wright",
+"v": -0.0506,
+"plays": 314,
+"passes": 259,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5151369.0",
+"name": "Messiah Burch",
+"v": 0.0042,
+"plays": 199,
+"passes": 2,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5328086.0",
+"name": "Elijah Holmes",
+"v": -0.0497,
+"plays": 71,
+"passes": 64,
+"games": 2,
+"last_wk": 2
+}
+]
+},
+"2097": {
+"name": "Campbell",
+"qbs": [
+{
+"pid": "5154962.0",
+"name": "Kamden Sixkiller",
+"v": -0.0711,
+"plays": 32,
+"passes": 32,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5299304.0",
+"name": "Grayson Harvey",
+"v": -0.044,
+"plays": 11,
+"passes": 8,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2110": {
+"name": "Central Arkansas",
+"qbs": [
+{
+"pid": "5416075.0",
+"name": "Donovyn Omolo",
+"v": -0.0746,
+"plays": 38,
+"passes": 33,
+"games": 1,
+"last_wk": 4
+}
+]
+},
+"2115": {
+"name": "Central Connecticut",
+"qbs": [
+{
+"pid": "4711410.0",
+"name": "Brett Griffis",
+"v": -0.0598,
+"plays": 23,
+"passes": 18,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5105336.0",
+"name": "Conner Kenyon",
+"v": -0.045,
+"plays": 16,
+"passes": 16,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2116": {
+"name": "UCF",
+"qbs": [
+{
+"pid": "5085337.0",
+"name": "Keyone Jenkins",
+"v": 0.0061,
+"plays": 221,
+"passes": 185,
+"games": 8,
+"last_wk": 9
+},
+{
+"pid": "4911929.0",
+"name": "Alonza Barnett III",
+"v": -0.0531,
+"plays": 170,
+"passes": 140,
+"games": 5,
+"last_wk": 11
+},
+{
+"pid": "5154248.0",
+"name": "Kaleb Annett",
+"v": -0.0577,
+"plays": 5,
+"passes": 3,
+"games": 2,
+"last_wk": 5
+}
+]
+},
+"2117": {
+"name": "Central Michigan",
+"qbs": [
+{
+"pid": "5084769.0",
+"name": "Angel Flores",
+"v": -0.0839,
+"plays": 222,
+"passes": 104,
+"games": 7,
+"last_wk": 7
+},
+{
+"pid": "5149056.0",
+"name": "Jadyn Glasser",
+"v": -0.0229,
+"plays": 148,
+"passes": 121,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5295480.0",
+"name": "Marcus Beamon",
+"v": -0.0652,
+"plays": 13,
+"passes": 12,
+"games": 3,
+"last_wk": 10
+}
+]
+},
+"2127": {
+"name": "Charleston Southern",
+"qbs": [
+{
+"pid": "5298248.0",
+"name": "Lek Powell",
+"v": -0.1311,
+"plays": 28,
+"passes": 26,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5224320.0",
+"name": "Jared Echols",
+"v": -0.0779,
+"plays": 27,
+"passes": 22,
+"games": 2,
+"last_wk": 7
+},
+{
+"pid": "5298251.0",
+"name": "Caden Clay",
+"v": -0.0945,
+"plays": 5,
+"passes": 4,
+"games": 1,
+"last_wk": 7
+}
+]
+},
+"2132": {
+"name": "Cincinnati",
+"qbs": [
+{
+"pid": "4685345.0",
+"name": "JC French IV",
+"v": 0.0298,
+"plays": 376,
+"passes": 283,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5089327.0",
+"name": "Samaj Jones",
+"v": -0.0101,
+"plays": 14,
+"passes": 4,
+"games": 4,
+"last_wk": 5
+},
+{
+"pid": "5084404.0",
+"name": "Liam O'Brien",
+"v": -0.068,
+"plays": 11,
+"passes": 7,
+"games": 2,
+"last_wk": 11
+},
+{
+"pid": "5152045.0",
+"name": "Malachi Henry",
+"v": -0.0274,
+"plays": 6,
+"passes": 4,
+"games": 4,
+"last_wk": 11
+}
+]
+},
+"2142": {
+"name": "Colgate",
+"qbs": [
+{
+"pid": "5089309.0",
+"name": "Jake Stearney",
+"v": -0.0673,
+"plays": 37,
+"passes": 32,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2169": {
+"name": "Delaware State",
+"qbs": [
+{
+"pid": "5150645.0",
+"name": "Ui Ale",
+"v": 0.0599,
+"plays": 26,
+"passes": 23,
+"games": 1,
+"last_wk": 3
+},
+{
+"pid": "4685542.0",
+"name": "Jayden Sauray",
+"v": -0.0582,
+"plays": 8,
+"passes": 3,
+"games": 1,
+"last_wk": 3
+},
+{
+"pid": "5154019.0",
+"name": "Noah Brannock",
+"v": -0.0449,
+"plays": 5,
+"passes": 2,
+"games": 1,
+"last_wk": 3
+}
+]
+},
+"2184": {
+"name": "Duquesne",
+"qbs": [
+{
+"pid": "4695784.0",
+"name": "Carson Camp",
+"v": -0.0998,
+"plays": 43,
+"passes": 38,
+"games": 2,
+"last_wk": 3
+},
+{
+"pid": "5227106.0",
+"name": "Logan Kushner",
+"v": -0.0657,
+"plays": 10,
+"passes": 6,
+"games": 2,
+"last_wk": 3
+}
+]
+},
+"2193": {
+"name": "East Tennessee State",
+"qbs": [
+{
+"pid": "5164309.0",
+"name": "Mason Mims",
+"v": 0.0119,
+"plays": 35,
+"passes": 35,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2197": {
+"name": "Eastern Illinois",
+"qbs": [
+{
+"pid": "5113896.0",
+"name": "Cole LaCrue",
+"v": -0.0334,
+"plays": 18,
+"passes": 13,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5083199.0",
+"name": "Jeremiah Salem",
+"v": -0.0595,
+"plays": 3,
+"passes": 3,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2198": {
+"name": "Eastern Kentucky",
+"qbs": [
+{
+"pid": "5301731.0",
+"name": "Tyler Travers",
+"v": -0.0825,
+"plays": 26,
+"passes": 20,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2199": {
+"name": "Eastern Michigan",
+"qbs": [
+{
+"pid": "4690158.0",
+"name": "Noah Kim",
+"v": -0.0613,
+"plays": 316,
+"passes": 293,
+"games": 8,
+"last_wk": 7
+},
+{
+"pid": "5094040.0",
+"name": "Brogan McCaughey",
+"v": -0.1084,
+"plays": 75,
+"passes": 64,
+"games": 3,
+"last_wk": 10
+},
+{
+"pid": "5144207.0",
+"name": "Jace Stuckey",
+"v": -0.0639,
+"plays": 22,
+"passes": 15,
+"games": 3,
+"last_wk": 10
+}
+]
+},
+"2210": {
+"name": "Elon",
+"qbs": [
+{
+"pid": "5151062.0",
+"name": "TJ Crews IV",
+"v": -0.086,
+"plays": 30,
+"passes": 27,
+"games": 1,
+"last_wk": 7
+}
+]
+},
+"2226": {
+"name": "Florida Atlantic",
+"qbs": [
+{
+"pid": "4869991.0",
+"name": "Caden Veltkamp",
+"v": 0.0954,
+"plays": 452,
+"passes": 414,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5219898.0",
+"name": "Drew Devillier",
+"v": -0.0243,
+"plays": 22,
+"passes": 19,
+"games": 5,
+"last_wk": 11
+},
+{
+"pid": "5215248.0",
+"name": "Jordan Magwood",
+"v": -0.0643,
+"plays": 12,
+"passes": 6,
+"games": 3,
+"last_wk": 11
+},
+{
+"pid": "4914830.0",
+"name": "Easton Messer",
+"v": -0.0415,
+"plays": 7,
+"passes": 3,
+"games": 4,
+"last_wk": 10
+},
+{
+"pid": "5302741.0",
+"name": "Jeremiah Daoud",
+"v": -0.0557,
+"plays": 5,
+"passes": 4,
+"games": 1,
+"last_wk": 5
+}
+]
+},
+"2229": {
+"name": "Florida International",
+"qbs": [
+{
+"pid": "4870883.0",
+"name": "JJ Kohl",
+"v": -0.0378,
+"plays": 373,
+"passes": 335,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5153845.0",
+"name": "Zach Marker",
+"v": -0.046,
+"plays": 20,
+"passes": 15,
+"games": 4,
+"last_wk": 9
+},
+{
+"pid": "5218988.0",
+"name": "Jojo Stone",
+"v": -0.0428,
+"plays": 4,
+"passes": 1,
+"games": 3,
+"last_wk": 9
+},
+{
+"pid": "5236210.0",
+"name": "Jackson Verdugo",
+"v": -0.0622,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 7
+}
+]
+},
+"2230": {
+"name": "Fordham",
+"qbs": [
+{
+"pid": "4812381.0",
+"name": "Gunnar Smith",
+"v": -0.09,
+"plays": 58,
+"passes": 49,
+"games": 2,
+"last_wk": 2
+},
+{
+"pid": "5402131.0",
+"name": "Crew Colon",
+"v": -0.0678,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2241": {
+"name": "Gardner-Webb",
+"qbs": [
+{
+"pid": "4869817.0",
+"name": "Cole Pennington",
+"v": -0.0169,
+"plays": 80,
+"passes": 76,
+"games": 2,
+"last_wk": 4
+}
+]
+},
+"2247": {
+"name": "Georgia State",
+"qbs": [
+{
+"pid": "5193926.0",
+"name": "Cameran Brown",
+"v": 0.1375,
+"plays": 207,
+"passes": 170,
+"games": 7,
+"last_wk": 8
+},
+{
+"pid": "5083490.0",
+"name": "Ayden Pereira",
+"v": -0.0806,
+"plays": 166,
+"passes": 123,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5381375.0",
+"name": "Gavin Nuckolls",
+"v": -0.0517,
+"plays": 3,
+"passes": 3,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5216706.0",
+"name": "TJ Stanley",
+"v": -0.0445,
+"plays": 3,
+"passes": 3,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "4812474.0",
+"name": "DJ Riles",
+"v": -0.0339,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 4
+}
+]
+},
+"2261": {
+"name": "Hampton",
+"qbs": [
+{
+"pid": "5156293.0",
+"name": "Jalen Woods",
+"v": -0.1114,
+"plays": 18,
+"passes": 16,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5088851.0",
+"name": "Tre'Von Taylor",
+"v": -0.0643,
+"plays": 12,
+"passes": 8,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2277": {
+"name": "Houston Christian",
+"qbs": [
+{
+"pid": "5154855.0",
+"name": "Cutter Stewart",
+"v": -0.1234,
+"plays": 47,
+"passes": 37,
+"games": 2,
+"last_wk": 4
+},
+{
+"pid": "4691966.0",
+"name": "Maddox Kopp",
+"v": -0.0386,
+"plays": 15,
+"passes": 12,
+"games": 2,
+"last_wk": 4
+},
+{
+"pid": "5301346.0",
+"name": "Reilly Garcia",
+"v": -0.0873,
+"plays": 7,
+"passes": 6,
+"games": 2,
+"last_wk": 4
+}
+]
+},
+"2287": {
+"name": "Illinois State",
+"qbs": [
+{
+"pid": "4833241.0",
+"name": "Gage Roy",
+"v": 0.0018,
+"plays": 27,
+"passes": 26,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5298094.0",
+"name": "Chase Kwiatkowski",
+"v": -0.034,
+"plays": 6,
+"passes": 1,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5227699.0",
+"name": "Beckham Pellant",
+"v": -0.0721,
+"plays": 2,
+"passes": 2,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5227704.0",
+"name": "Dylan Lord",
+"v": -0.068,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2294": {
+"name": "Iowa",
+"qbs": [
+{
+"pid": "5089314.0",
+"name": "Hank Brown",
+"v": 0.0402,
+"plays": 256,
+"passes": 228,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5121030.0",
+"name": "Jeremy Hecklinski",
+"v": -0.0582,
+"plays": 67,
+"passes": 66,
+"games": 5,
+"last_wk": 8
+},
+{
+"pid": "5192909.0",
+"name": "Jimmy Sullivan",
+"v": -0.0564,
+"plays": 5,
+"passes": 4,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2305": {
+"name": "Kansas",
+"qbs": [
+{
+"pid": "5079604.0",
+"name": "Isaiah Marshall",
+"v": 0.0481,
+"plays": 370,
+"passes": 257,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5151060.0",
+"name": "Cole Ballard",
+"v": 0.0367,
+"plays": 58,
+"passes": 45,
+"games": 4,
+"last_wk": 9
+},
+{
+"pid": "4986096.0",
+"name": "Chase Jenkins",
+"v": -0.0253,
+"plays": 8,
+"passes": 3,
+"games": 2,
+"last_wk": 9
+}
+]
+},
+"2306": {
+"name": "Kansas State",
+"qbs": [
+{
+"pid": "4870857.0",
+"name": "Avery Johnson",
+"v": 0.0619,
+"plays": 238,
+"passes": 191,
+"games": 6,
+"last_wk": 7
+},
+{
+"pid": "5124584.0",
+"name": "Blake Barnett",
+"v": -0.0329,
+"plays": 75,
+"passes": 51,
+"games": 3,
+"last_wk": 10
+},
+{
+"pid": "5164321.0",
+"name": "Dillon Duff",
+"v": 0.0098,
+"plays": 68,
+"passes": 59,
+"games": 3,
+"last_wk": 11
+},
+{
+"pid": "4736246.0",
+"name": "Jacob Knuth",
+"v": -0.0466,
+"plays": 54,
+"passes": 45,
+"games": 2,
+"last_wk": 8
+}
+]
+},
+"2309": {
+"name": "Kent State",
+"qbs": [
+{
+"pid": "5119841.0",
+"name": "Dru DeShields",
+"v": -0.0712,
+"plays": 378,
+"passes": 311,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5222633.0",
+"name": "Nolan Good",
+"v": -0.109,
+"plays": 25,
+"passes": 16,
+"games": 5,
+"last_wk": 9
+},
+{
+"pid": "5141625.0",
+"name": "Deante Ruffin",
+"v": -0.0485,
+"plays": 5,
+"passes": 3,
+"games": 1,
+"last_wk": 3
+},
+{
+"pid": "5295590.0",
+"name": "Da'Realyst Clark",
+"v": -0.0574,
+"plays": 4,
+"passes": 1,
+"games": 3,
+"last_wk": 7
+},
+{
+"pid": "5388310.0",
+"name": "Ethan Thanthanavong",
+"v": -0.0639,
+"plays": 3,
+"passes": 2,
+"games": 2,
+"last_wk": 3
+},
+{
+"pid": "5291801.0",
+"name": "Brendyn Smith",
+"v": -0.0539,
+"plays": 2,
+"passes": 1,
+"games": 2,
+"last_wk": 11
+}
+]
+},
+"2320": {
+"name": "Lamar",
+"qbs": [
+{
+"pid": "5154911.0",
+"name": "Aiden McCown",
+"v": -0.0701,
+"plays": 31,
+"passes": 28,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5301719.0",
+"name": "Julian Salazar",
+"v": -0.0607,
+"plays": 9,
+"passes": 7,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2335": {
+"name": "Liberty",
+"qbs": [
+{
+"pid": "5138131.0",
+"name": "Deshawn Purdie",
+"v": 0.0535,
+"plays": 260,
+"passes": 212,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5079364.0",
+"name": "Kam Davis",
+"v": 0.1012,
+"plays": 123,
+"passes": 1,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "4602923.0",
+"name": "Jaylen Henderson",
+"v": -0.054,
+"plays": 29,
+"passes": 18,
+"games": 6,
+"last_wk": 9
+},
+{
+"pid": "4832918.0",
+"name": "Ethan Vasko",
+"v": -0.032,
+"plays": 22,
+"passes": 4,
+"games": 8,
+"last_wk": 11
+},
+{
+"pid": "5295943.0",
+"name": "Jachin Davis",
+"v": -0.0466,
+"plays": 7,
+"passes": 1,
+"games": 3,
+"last_wk": 9
+}
+]
+},
+"2341": {
+"name": "Long Island University",
+"qbs": [
+{
+"pid": "4837195.0",
+"name": "Luca Stanzani",
+"v": -0.0641,
+"plays": 63,
+"passes": 44,
+"games": 2,
+"last_wk": 4
+},
+{
+"pid": "5304536.0",
+"name": "Mekhi Moore",
+"v": -0.0471,
+"plays": 6,
+"passes": 2,
+"games": 2,
+"last_wk": 4
+}
+]
+},
+"2348": {
+"name": "Louisiana Tech",
+"qbs": [
+{
+"pid": "5150998.0",
+"name": "Blake Baker",
+"v": 0.0607,
+"plays": 257,
+"passes": 207,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5296376.0",
+"name": "Trey Kukuk",
+"v": 0.0393,
+"plays": 156,
+"passes": 103,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5296374.0",
+"name": "Andrew Burnette",
+"v": -0.0777,
+"plays": 97,
+"passes": 1,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "4919037.0",
+"name": "Sergio Snider",
+"v": -0.0559,
+"plays": 30,
+"passes": 1,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5296386.0",
+"name": "Dylone Brooks",
+"v": -0.0209,
+"plays": 25,
+"passes": 1,
+"games": 5,
+"last_wk": 11
+},
+{
+"pid": "5184630.0",
+"name": "Jackson Bradley",
+"v": -0.0925,
+"plays": 8,
+"passes": 4,
+"games": 2,
+"last_wk": 11
+},
+{
+"pid": "5224217.0",
+"name": "Marcus Calwise Jr.",
+"v": 0.007,
+"plays": 5,
+"passes": 2,
+"games": 4,
+"last_wk": 11
+},
+{
+"pid": "5222150.0",
+"name": "Joshua Brantley",
+"v": -0.0427,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2377": {
+"name": "McNeese",
+"qbs": [
+{
+"pid": "4915622.0",
+"name": "Jake Strong",
+"v": -0.077,
+"plays": 14,
+"passes": 12,
+"games": 1,
+"last_wk": 5
+},
+{
+"pid": "5275329.0",
+"name": "Brady Barrier",
+"v": -0.0261,
+"plays": 10,
+"passes": 8,
+"games": 1,
+"last_wk": 5
+}
+]
+},
+"2382": {
+"name": "Mercer",
+"qbs": [
+{
+"pid": "5193282.0",
+"name": "JP Pickles",
+"v": -0.0438,
+"plays": 22,
+"passes": 13,
+"games": 1,
+"last_wk": 3
+},
+{
+"pid": "5152839.0",
+"name": "Jaylen King",
+"v": -0.0616,
+"plays": 8,
+"passes": 4,
+"games": 1,
+"last_wk": 3
+}
+]
+},
+"2385": {
+"name": "Mercyhurst",
+"qbs": [
+{
+"pid": "5227557.0",
+"name": "Alex Gevaudan",
+"v": 0.0,
+"plays": 68,
+"passes": 66,
+"games": 2,
+"last_wk": 4
+},
+{
+"pid": "5186736.0",
+"name": "Anthony Wolter",
+"v": -0.0893,
+"plays": 25,
+"passes": 24,
+"games": 2,
+"last_wk": 2
+},
+{
+"pid": "5304132.0",
+"name": "Tyler Tusai",
+"v": -0.1144,
+"plays": 19,
+"passes": 19,
+"games": 2,
+"last_wk": 2
+},
+{
+"pid": "-6872.0",
+"name": "TEAM",
+"v": -0.0683,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2390": {
+"name": "Miami",
+"qbs": [
+{
+"pid": "5121169.0",
+"name": "Darian Mensah",
+"v": 0.2942,
+"plays": 360,
+"passes": 326,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5141605.0",
+"name": "Luke Nickel",
+"v": -0.0543,
+"plays": 21,
+"passes": 20,
+"games": 3,
+"last_wk": 4
+},
+{
+"pid": "5161816.0",
+"name": "Dereon Coleman",
+"v": -0.0633,
+"plays": 8,
+"passes": 4,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2393": {
+"name": "Middle Tennessee",
+"qbs": [
+{
+"pid": "5194626.0",
+"name": "Roman Gagliano",
+"v": -0.0081,
+"plays": 403,
+"passes": 351,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "4565180.0",
+"name": "Peter Costelli",
+"v": -0.0606,
+"plays": 2,
+"passes": 1,
+"games": 1,
+"last_wk": 7
+}
+]
+},
+"2400": {
+"name": "Mississippi Valley State",
+"qbs": [
+{
+"pid": "5233879.0",
+"name": "Josh Brown",
+"v": -0.0926,
+"plays": 17,
+"passes": 13,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5168808.0",
+"name": "Jordon Davis",
+"v": -0.0725,
+"plays": 13,
+"passes": 10,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2405": {
+"name": "Monmouth",
+"qbs": [
+{
+"pid": "5226663.0",
+"name": "Frankie Weaver",
+"v": 0.0012,
+"plays": 48,
+"passes": 47,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2415": {
+"name": "Morgan State",
+"qbs": [
+{
+"pid": "4870712.0",
+"name": "Cameron Edge",
+"v": -0.0702,
+"plays": 18,
+"passes": 17,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5221616.0",
+"name": "Ade Olanegan",
+"v": -0.0587,
+"plays": 9,
+"passes": 8,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5154534.0",
+"name": "Tahj Smith",
+"v": -0.0544,
+"plays": 2,
+"passes": 1,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2426": {
+"name": "Navy",
+"qbs": [
+{
+"pid": "5220473.0",
+"name": "Jackson Gutierrez",
+"v": 0.1331,
+"plays": 288,
+"passes": 90,
+"games": 9,
+"last_wk": 10
+},
+{
+"pid": "5158343.0",
+"name": "Braxton Woodson",
+"v": 0.0152,
+"plays": 75,
+"passes": 25,
+"games": 7,
+"last_wk": 10
+}
+]
+},
+"2428": {
+"name": "North Carolina Central",
+"qbs": [
+{
+"pid": "5301057.0",
+"name": "Nelson Layne",
+"v": -0.097,
+"plays": 27,
+"passes": 19,
+"games": 1,
+"last_wk": 4
+},
+{
+"pid": "5230073.0",
+"name": "Cobey Thompkins",
+"v": -0.0245,
+"plays": 18,
+"passes": 16,
+"games": 1,
+"last_wk": 4
+}
+]
+},
+"2429": {
+"name": "Charlotte",
+"qbs": [
+{
+"pid": "4801306.0",
+"name": "Conner Harrell",
+"v": -0.0598,
+"plays": 215,
+"passes": 184,
+"games": 7,
+"last_wk": 11
+},
+{
+"pid": "5089540.0",
+"name": "Cole Gonzales",
+"v": -0.1222,
+"plays": 140,
+"passes": 128,
+"games": 5,
+"last_wk": 5
+},
+{
+"pid": "5272738.0",
+"name": "Jaylen White",
+"v": -0.0924,
+"plays": 13,
+"passes": 8,
+"games": 5,
+"last_wk": 7
+}
+]
+},
+"2433": {
+"name": "UL Monroe",
+"qbs": [
+{
+"pid": "5122054.0",
+"name": "Aidan Armenta",
+"v": -0.0007,
+"plays": 265,
+"passes": 221,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5207934.0",
+"name": "Austin Carlisle",
+"v": -0.0444,
+"plays": 168,
+"passes": 95,
+"games": 8,
+"last_wk": 11
+},
+{
+"pid": "5158127.0",
+"name": "Landon Graves",
+"v": -0.0571,
+"plays": 4,
+"passes": 3,
+"games": 2,
+"last_wk": 4
+}
+]
+},
+"2439": {
+"name": "UNLV",
+"qbs": [
+{
+"pid": "4870607.0",
+"name": "Jackson Arnold",
+"v": 0.0564,
+"plays": 400,
+"passes": 279,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "4685495.0",
+"name": "Alex Orji",
+"v": -0.0783,
+"plays": 27,
+"passes": 12,
+"games": 7,
+"last_wk": 11
+},
+{
+"pid": "4872961.0",
+"name": "Matt Byrnes",
+"v": -0.0696,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 5
+}
+]
+},
+"2440": {
+"name": "Nevada",
+"qbs": [
+{
+"pid": "4819250.0",
+"name": "AJ Bianco",
+"v": -0.0728,
+"plays": 157,
+"passes": 122,
+"games": 7,
+"last_wk": 11
+},
+{
+"pid": "5205097.0",
+"name": "Carter Jones",
+"v": -0.1039,
+"plays": 117,
+"passes": 95,
+"games": 4,
+"last_wk": 6
+},
+{
+"pid": "5220671.0",
+"name": "Herschel Turner",
+"v": 0.0366,
+"plays": 100,
+"passes": 1,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5077500.0",
+"name": "Luke Duncan",
+"v": -0.1192,
+"plays": 62,
+"passes": 57,
+"games": 5,
+"last_wk": 9
+},
+{
+"pid": "5265060.0",
+"name": "Reeve Slone",
+"v": -0.0852,
+"plays": 7,
+"passes": 4,
+"games": 2,
+"last_wk": 9
+},
+{
+"pid": "5103836.0",
+"name": "Marshaun Brown",
+"v": -0.0417,
+"plays": 2,
+"passes": 2,
+"games": 2,
+"last_wk": 8
+}
+]
+},
+"2447": {
+"name": "Nicholls",
+"qbs": [
+{
+"pid": "5164893.0",
+"name": "Ean Rodrigue",
+"v": -0.1349,
+"plays": 48,
+"passes": 42,
+"games": 2,
+"last_wk": 3
+},
+{
+"pid": "5226521.0",
+"name": "Preston Welch",
+"v": -0.0564,
+"plays": 7,
+"passes": 2,
+"games": 2,
+"last_wk": 3
+}
+]
+},
+"2448": {
+"name": "North Carolina A&T",
+"qbs": [
+{
+"pid": "5164567.0",
+"name": "Kevin White",
+"v": -0.0551,
+"plays": 33,
+"passes": 24,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5226768.0",
+"name": "Braxton Thomas",
+"v": -0.0654,
+"plays": 3,
+"passes": 3,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5150663.0",
+"name": "Champ Long",
+"v": -0.0546,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2449": {
+"name": "North Dakota State",
+"qbs": [
+{
+"pid": "5087156.0",
+"name": "Nathan Hayes",
+"v": 0.0469,
+"plays": 306,
+"passes": 258,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5297927.0",
+"name": "Preston Brown",
+"v": -0.0645,
+"plays": 18,
+"passes": 5,
+"games": 6,
+"last_wk": 8
+},
+{
+"pid": "5156994.0",
+"name": "Trey Drake",
+"v": -0.0356,
+"plays": 4,
+"passes": 4,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2450": {
+"name": "Norfolk State",
+"qbs": [
+{
+"pid": "5150426.0",
+"name": "Deljay Bailey",
+"v": -0.0997,
+"plays": 71,
+"passes": 50,
+"games": 2,
+"last_wk": 2
+},
+{
+"pid": "5439441.0",
+"name": "Da'Jean Golmond",
+"v": -0.0426,
+"plays": 9,
+"passes": 6,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5439443.0",
+"name": "Ty Jackson",
+"v": -0.0586,
+"plays": 5,
+"passes": 3,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2453": {
+"name": "North Alabama",
+"qbs": [
+{
+"pid": "4685698.0",
+"name": "Destin Wade",
+"v": -0.0657,
+"plays": 28,
+"passes": 24,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5216796.0",
+"name": "Banks Bowen",
+"v": -0.0526,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2458": {
+"name": "Northern Colorado",
+"qbs": [
+{
+"pid": "5219929.0",
+"name": "Kenny Lueth",
+"v": -0.029,
+"plays": 30,
+"passes": 24,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "4873077.0",
+"name": "Brayten Silbor",
+"v": -0.0535,
+"plays": 4,
+"passes": 4,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2459": {
+"name": "Northern Illinois",
+"qbs": [
+{
+"pid": "4881032.0",
+"name": "Taron Dickens",
+"v": 0.036,
+"plays": 397,
+"passes": 342,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5193302.0",
+"name": "Telly Johnson Jr.",
+"v": -0.0185,
+"plays": 122,
+"passes": 1,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "4884086.0",
+"name": "Jalen Macon",
+"v": -0.0938,
+"plays": 23,
+"passes": 15,
+"games": 2,
+"last_wk": 2
+},
+{
+"pid": "5210128.0",
+"name": "Brady Davidson",
+"v": -0.0306,
+"plays": 6,
+"passes": 6,
+"games": 1,
+"last_wk": 3
+},
+{
+"pid": "5193277.0",
+"name": "George Dimopoulos",
+"v": -0.041,
+"plays": 5,
+"passes": 5,
+"games": 1,
+"last_wk": 10
+},
+{
+"pid": "-6213.0",
+"name": "TEAM",
+"v": -0.07,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2460": {
+"name": "Northern Iowa",
+"qbs": [
+{
+"pid": "4826635.0",
+"name": "Jaxon Dailey",
+"v": -0.047,
+"plays": 33,
+"passes": 30,
+"games": 1,
+"last_wk": 3
+},
+{
+"pid": "5227968.0",
+"name": "Cale McThenia",
+"v": -0.0492,
+"plays": 6,
+"passes": 6,
+"games": 1,
+"last_wk": 3
+}
+]
+},
+"2464": {
+"name": "Northern Arizona",
+"qbs": [
+{
+"pid": "5225414.0",
+"name": "Ty Pennington",
+"v": -0.0738,
+"plays": 34,
+"passes": 31,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5405896.0",
+"name": "Donivan Dixon",
+"v": -0.0629,
+"plays": 6,
+"passes": 5,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2466": {
+"name": "Northwestern State",
+"qbs": [
+{
+"pid": "5226585.0",
+"name": "Abram Johnston",
+"v": -0.0825,
+"plays": 20,
+"passes": 14,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "4808719.0",
+"name": "Zach Wilcke",
+"v": -0.0446,
+"plays": 9,
+"passes": 3,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2483": {
+"name": "Oregon",
+"qbs": [
+{
+"pid": "5079572.0",
+"name": "Dylan Raiola",
+"v": 0.0535,
+"plays": 234,
+"passes": 220,
+"games": 8,
+"last_wk": 11
+},
+{
+"pid": "4870921.0",
+"name": "Dante Moore",
+"v": 0.0519,
+"plays": 111,
+"passes": 106,
+"games": 4,
+"last_wk": 4
+},
+{
+"pid": "5158446.0",
+"name": "Brock Thomas",
+"v": -0.112,
+"plays": 47,
+"passes": 42,
+"games": 3,
+"last_wk": 7
+},
+{
+"pid": "5141659.0",
+"name": "Akili Smith Jr.",
+"v": -0.0455,
+"plays": 5,
+"passes": 4,
+"games": 1,
+"last_wk": 3
+},
+{
+"pid": "4685565.0",
+"name": "Evan Stewart",
+"v": -0.0591,
+"plays": 2,
+"passes": 1,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "4871005.0",
+"name": "Teitum Tuioti",
+"v": -0.0263,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 10
+}
+]
+},
+"2502": {
+"name": "Portland State",
+"qbs": [
+{
+"pid": "5152778.0",
+"name": "Gabe Downing",
+"v": -0.0488,
+"plays": 76,
+"passes": 74,
+"games": 2,
+"last_wk": 3
+}
+]
+},
+"2504": {
+"name": "Prairie View A&M",
+"qbs": [
+{
+"pid": "4801301.0",
+"name": "Tevin Carter",
+"v": -0.0595,
+"plays": 32,
+"passes": 28,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5425111.0",
+"name": "Kaeden Smith",
+"v": -0.0514,
+"plays": 8,
+"passes": 5,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2509": {
+"name": "Purdue",
+"qbs": [
+{
+"pid": "5104738.0",
+"name": "Ryan Browne",
+"v": 0.0539,
+"plays": 366,
+"passes": 325,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5149006.0",
+"name": "Evans Chuba",
+"v": -0.0392,
+"plays": 30,
+"passes": 23,
+"games": 4,
+"last_wk": 11
+}
+]
+},
+"2523": {
+"name": "Robert Morris",
+"qbs": [
+{
+"pid": "4832789.0",
+"name": "Carson Haggard",
+"v": -0.0188,
+"plays": 66,
+"passes": 60,
+"games": 2,
+"last_wk": 4
+},
+{
+"pid": "5298328.0",
+"name": "Cooper Panteck",
+"v": -0.0517,
+"plays": 2,
+"passes": 2,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2529": {
+"name": "Sacred Heart",
+"qbs": [
+{
+"pid": "5225700.0",
+"name": "Poochie Snyder",
+"v": -0.0711,
+"plays": 22,
+"passes": 15,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5298400.0",
+"name": "Dameon Crosby",
+"v": -0.0062,
+"plays": 8,
+"passes": 4,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5165911.0",
+"name": "John Michalski",
+"v": -0.0102,
+"plays": 6,
+"passes": 5,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "-12170.0",
+"name": "TEAM",
+"v": -0.0682,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2534": {
+"name": "Sam Houston",
+"qbs": [
+{
+"pid": "5148427.0",
+"name": "Landyn Locke",
+"v": -0.0856,
+"plays": 318,
+"passes": 291,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5220425.0",
+"name": "DJ Bailey",
+"v": -0.08,
+"plays": 71,
+"passes": 61,
+"games": 4,
+"last_wk": 11
+},
+{
+"pid": "5384797.0",
+"name": "Brett Holloway",
+"v": -0.0751,
+"plays": 23,
+"passes": 6,
+"games": 7,
+"last_wk": 11
+}
+]
+},
+"2535": {
+"name": "Samford",
+"qbs": [
+{
+"pid": "4870864.0",
+"name": "Gabarri Johnson",
+"v": -0.0806,
+"plays": 34,
+"passes": 31,
+"games": 1,
+"last_wk": 5
+}
+]
+},
+"2545": {
+"name": "SE Louisiana",
+"qbs": [
+{
+"pid": "4685440.0",
+"name": "Kyle Lowe",
+"v": 0.0143,
+"plays": 46,
+"passes": 45,
+"games": 2,
+"last_wk": 3
+}
+]
+},
+"2546": {
+"name": "Southeast Missouri State",
+"qbs": [
+{
+"pid": "4920145.0",
+"name": "Braylen Ragland",
+"v": -0.1163,
+"plays": 31,
+"passes": 28,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2567": {
+"name": "SMU",
+"qbs": [
+{
+"pid": "5084084.0",
+"name": "Kevin Jennings",
+"v": 0.1358,
+"plays": 391,
+"passes": 335,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5141487.0",
+"name": "Ty Hawkins",
+"v": -0.0383,
+"plays": 21,
+"passes": 15,
+"games": 3,
+"last_wk": 10
+},
+{
+"pid": "5161878.0",
+"name": "Cole Leinart",
+"v": -0.0497,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5084086.0",
+"name": "Charlie Fiser",
+"v": -0.0567,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2571": {
+"name": "South Dakota State",
+"qbs": [
+{
+"pid": "5085784.0",
+"name": "Chase Mason",
+"v": -0.0398,
+"plays": 62,
+"passes": 50,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2572": {
+"name": "Southern Miss",
+"qbs": [
+{
+"pid": "4833635.0",
+"name": "Landry Lyddy",
+"v": -0.0688,
+"plays": 239,
+"passes": 215,
+"games": 8,
+"last_wk": 9
+},
+{
+"pid": "5079628.0",
+"name": "John White",
+"v": -0.0939,
+"plays": 98,
+"passes": 88,
+"games": 3,
+"last_wk": 11
+},
+{
+"pid": "4618083.0",
+"name": "Ethan Hampton",
+"v": -0.0881,
+"plays": 82,
+"passes": 76,
+"games": 3,
+"last_wk": 3
+},
+{
+"pid": "5394591.0",
+"name": "Eelijah Singleton",
+"v": -0.0624,
+"plays": 2,
+"passes": 2,
+"games": 2,
+"last_wk": 6
+},
+{
+"pid": "5218891.0",
+"name": "Mario Sanders",
+"v": -0.0085,
+"plays": 2,
+"passes": 1,
+"games": 2,
+"last_wk": 11
+},
+{
+"pid": "5394605.0",
+"name": "Dusty Zimmer",
+"v": -0.0025,
+"plays": 2,
+"passes": 1,
+"games": 2,
+"last_wk": 11
+}
+]
+},
+"2579": {
+"name": "South Carolina",
+"qbs": [
+{
+"pid": "4875127.0",
+"name": "LaNorris Sellers",
+"v": 0.0996,
+"plays": 379,
+"passes": 291,
+"games": 9,
+"last_wk": 10
+},
+{
+"pid": "5164334.0",
+"name": "Cutter Woods",
+"v": -0.1047,
+"plays": 67,
+"passes": 61,
+"games": 5,
+"last_wk": 11
+},
+{
+"pid": "5151218.0",
+"name": "Lucian Anderson III",
+"v": -0.0467,
+"plays": 3,
+"passes": 2,
+"games": 2,
+"last_wk": 2
+}
+]
+},
+"2582": {
+"name": "Southern",
+"qbs": [
+{
+"pid": "5442202.0",
+"name": "Christian Johnson",
+"v": -0.0827,
+"plays": 13,
+"passes": 13,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5308438.0",
+"name": "Ashton Strother",
+"v": -0.0684,
+"plays": 5,
+"passes": 5,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5442201.0",
+"name": "Wyatt McCauley",
+"v": -0.0119,
+"plays": 3,
+"passes": 3,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2619": {
+"name": "Stony Brook",
+"qbs": [
+{
+"pid": "5226896.0",
+"name": "Quinn Boyd",
+"v": -0.0911,
+"plays": 43,
+"passes": 36,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5405824.0",
+"name": "Frenchmon Bethea",
+"v": -0.0565,
+"plays": 2,
+"passes": 2,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2623": {
+"name": "Missouri State",
+"qbs": [
+{
+"pid": "4685252.0",
+"name": "Henry Belin IV",
+"v": -0.0108,
+"plays": 233,
+"passes": 207,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5083042.0",
+"name": "Skyler Locklear",
+"v": -0.0226,
+"plays": 141,
+"passes": 117,
+"games": 5,
+"last_wk": 6
+},
+{
+"pid": "5085729.0",
+"name": "Connor Lair",
+"v": -0.0882,
+"plays": 94,
+"passes": 1,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5227766.0",
+"name": "Elijah Leonard",
+"v": -0.0492,
+"plays": 4,
+"passes": 1,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "4837193.0",
+"name": "Jmariyae Robinson",
+"v": -0.0367,
+"plays": 4,
+"passes": 1,
+"games": 3,
+"last_wk": 9
+}
+]
+},
+"2627": {
+"name": "Tarleton State",
+"qbs": [
+{
+"pid": "4899468.0",
+"name": "Kaden Anderson",
+"v": -0.0525,
+"plays": 30,
+"passes": 25,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2628": {
+"name": "TCU",
+"qbs": [
+{
+"pid": "5083569.0",
+"name": "Jaden Craig",
+"v": -0.0009,
+"plays": 427,
+"passes": 370,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5141643.0",
+"name": "Adam Schobel",
+"v": -0.0968,
+"plays": 6,
+"passes": 1,
+"games": 3,
+"last_wk": 11
+}
+]
+},
+"2630": {
+"name": "UT Martin",
+"qbs": [
+{
+"pid": "5299226.0",
+"name": "Tate Surber",
+"v": -0.0013,
+"plays": 65,
+"passes": 60,
+"games": 2,
+"last_wk": 3
+},
+{
+"pid": "4801302.0",
+"name": "Julian Calvez",
+"v": -0.0653,
+"plays": 7,
+"passes": 4,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5147475.0",
+"name": "Aidan Glover",
+"v": -0.0525,
+"plays": 3,
+"passes": 1,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2633": {
+"name": "Tennessee",
+"qbs": [
+{
+"pid": "5158973.0",
+"name": "Faizon Brandon",
+"v": -0.0337,
+"plays": 162,
+"passes": 118,
+"games": 7,
+"last_wk": 11
+},
+{
+"pid": "5141571.0",
+"name": "George MacIntyre",
+"v": -0.0991,
+"plays": 155,
+"passes": 142,
+"games": 8,
+"last_wk": 11
+},
+{
+"pid": "4917093.0",
+"name": "Ryan Staub",
+"v": -0.044,
+"plays": 3,
+"passes": 3,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2634": {
+"name": "Tennessee State",
+"qbs": [
+{
+"pid": "5162467.0",
+"name": "Daylin Lee",
+"v": -0.0469,
+"plays": 21,
+"passes": 20,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5298787.0",
+"name": "Byron McNair",
+"v": -0.0451,
+"plays": 13,
+"passes": 6,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5079734.0",
+"name": "Marcelis Tate",
+"v": -0.0446,
+"plays": 3,
+"passes": 2,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2636": {
+"name": "UTSA",
+"qbs": [
+{
+"pid": "4775136.0",
+"name": "Owen McCown",
+"v": -0.0086,
+"plays": 360,
+"passes": 318,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "4918111.0",
+"name": "A'Marion Peterson",
+"v": 0.1298,
+"plays": 75,
+"passes": 1,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5151316.0",
+"name": "Brandon Tennison",
+"v": -0.0738,
+"plays": 8,
+"passes": 5,
+"games": 2,
+"last_wk": 10
+},
+{
+"pid": "4917054.0",
+"name": "David Amador II",
+"v": -0.0264,
+"plays": 4,
+"passes": 3,
+"games": 3,
+"last_wk": 6
+}
+]
+},
+"2638": {
+"name": "UTEP",
+"qbs": [
+{
+"pid": "5232049.0",
+"name": "Raymond Moore III",
+"v": -0.0678,
+"plays": 211,
+"passes": 131,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5141395.0",
+"name": "EJ Colson Jr.",
+"v": -0.1506,
+"plays": 183,
+"passes": 121,
+"games": 7,
+"last_wk": 9
+},
+{
+"pid": "4877714.0",
+"name": "Jaden Smith",
+"v": -0.0366,
+"plays": 8,
+"passes": 1,
+"games": 7,
+"last_wk": 11
+},
+{
+"pid": "5390014.0",
+"name": "Braesen Leon",
+"v": -0.0556,
+"plays": 2,
+"passes": 2,
+"games": 1,
+"last_wk": 5
+}
+]
+},
+"2640": {
+"name": "Texas Southern",
+"qbs": [
+{
+"pid": "4917305.0",
+"name": "Cam'Ron McCoy",
+"v": -0.091,
+"plays": 63,
+"passes": 48,
+"games": 2,
+"last_wk": 5
+},
+{
+"pid": "5442341.0",
+"name": "Nelson Peterson Jr.",
+"v": -0.063,
+"plays": 9,
+"passes": 6,
+"games": 2,
+"last_wk": 5
+}
+]
+},
+"2641": {
+"name": "Texas Tech",
+"qbs": [
+{
+"pid": "5126468.0",
+"name": "Will Hammond",
+"v": -0.0107,
+"plays": 243,
+"passes": 213,
+"games": 8,
+"last_wk": 11
+},
+{
+"pid": "4773919.0",
+"name": "Thomas Castellanos",
+"v": 0.0649,
+"plays": 151,
+"passes": 90,
+"games": 7,
+"last_wk": 11
+},
+{
+"pid": "5151618.0",
+"name": "Kirk Francis",
+"v": -0.0524,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "4916941.0",
+"name": "Coy Eakin",
+"v": -0.055,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 9
+}
+]
+},
+"2643": {
+"name": "The Citadel",
+"qbs": [
+{
+"pid": "4695602.0",
+"name": "Nick Billoups",
+"v": -0.0086,
+"plays": 29,
+"passes": 14,
+"games": 2,
+"last_wk": 7
+},
+{
+"pid": "5302081.0",
+"name": "Xavier Hill",
+"v": -0.0438,
+"plays": 15,
+"passes": 4,
+"games": 1,
+"last_wk": 7
+},
+{
+"pid": "5223107.0",
+"name": "Quentin Hayes",
+"v": -0.1034,
+"plays": 12,
+"passes": 5,
+"games": 2,
+"last_wk": 7
+}
+]
+},
+"2649": {
+"name": "Toledo",
+"qbs": [
+{
+"pid": "5082330.0",
+"name": "John Alan Richter",
+"v": 0.0029,
+"plays": 335,
+"passes": 309,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5394415.0",
+"name": "Khamoni Robinson",
+"v": -0.0524,
+"plays": 12,
+"passes": 6,
+"games": 3,
+"last_wk": 11
+},
+{
+"pid": "5200190.0",
+"name": "Walter Moses",
+"v": -0.0345,
+"plays": 6,
+"passes": 1,
+"games": 2,
+"last_wk": 4
+}
+]
+},
+"2653": {
+"name": "Troy",
+"qbs": [
+{
+"pid": "4431633.0",
+"name": "Goose Crowder",
+"v": -0.0155,
+"plays": 288,
+"passes": 238,
+"games": 8,
+"last_wk": 11
+},
+{
+"pid": "4912119.0",
+"name": "Tucker Kilcrease",
+"v": -0.0986,
+"plays": 118,
+"passes": 86,
+"games": 5,
+"last_wk": 10
+},
+{
+"pid": "4899096.0",
+"name": "Evan Crenshaw",
+"v": -0.0724,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2655": {
+"name": "Tulane",
+"qbs": [
+{
+"pid": "5291713.0",
+"name": "Trace Johnson",
+"v": -0.0773,
+"plays": 194,
+"passes": 168,
+"games": 6,
+"last_wk": 11
+},
+{
+"pid": "5091890.0",
+"name": "Kadin Semonza",
+"v": -0.1455,
+"plays": 150,
+"passes": 130,
+"games": 5,
+"last_wk": 6
+},
+{
+"pid": "5219709.0",
+"name": "Dagan Bruno",
+"v": -0.0499,
+"plays": 22,
+"passes": 10,
+"games": 6,
+"last_wk": 11
+},
+{
+"pid": "4870518.0",
+"name": "Zeon Chriss-Gremillion",
+"v": -0.0609,
+"plays": 14,
+"passes": 9,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2678": {
+"name": "VMI",
+"qbs": [
+{
+"pid": "5225341.0",
+"name": "JoJo Crump",
+"v": -0.0861,
+"plays": 16,
+"passes": 9,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5168665.0",
+"name": "Chandler Wilson",
+"v": -0.0805,
+"plays": 8,
+"passes": 4,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5302501.0",
+"name": "Ian Reynolds",
+"v": -0.0689,
+"plays": 6,
+"passes": 4,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2681": {
+"name": "Wagner",
+"qbs": [
+{
+"pid": "5302638.0",
+"name": "Benjamin Newman",
+"v": -0.0203,
+"plays": 57,
+"passes": 51,
+"games": 2,
+"last_wk": 3
+},
+{
+"pid": "5227351.0",
+"name": "Cristian Pinto",
+"v": -0.0449,
+"plays": 9,
+"passes": 7,
+"games": 2,
+"last_wk": 3
+},
+{
+"pid": "5440760.0",
+"name": "Jason Wiley",
+"v": -0.0487,
+"plays": 2,
+"passes": 1,
+"games": 2,
+"last_wk": 3
+}
+]
+},
+"2692": {
+"name": "Weber State",
+"qbs": [
+{
+"pid": "5439505.0",
+"name": "Nate Dahle",
+"v": 0.0248,
+"plays": 54,
+"passes": 51,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5151291.0",
+"name": "Cash McCollum",
+"v": -0.0618,
+"plays": 6,
+"passes": 4,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2698": {
+"name": "West Georgia",
+"qbs": [
+{
+"pid": "4880196.0",
+"name": "Colton Fitzgerald",
+"v": -0.0622,
+"plays": 32,
+"passes": 31,
+"games": 2,
+"last_wk": 2
+},
+{
+"pid": "5157481.0",
+"name": "Collin Hurst",
+"v": -0.0945,
+"plays": 29,
+"passes": 25,
+"games": 2,
+"last_wk": 2
+},
+{
+"pid": "5194695.0",
+"name": "Luke Marble",
+"v": -0.0455,
+"plays": 12,
+"passes": 4,
+"games": 2,
+"last_wk": 2
+},
+{
+"pid": "5224749.0",
+"name": "DK Daniel",
+"v": -0.0522,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2710": {
+"name": "Western Illinois",
+"qbs": [
+{
+"pid": "5165011.0",
+"name": "Kennedy McGill",
+"v": 0.0288,
+"plays": 40,
+"passes": 22,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5299364.0",
+"name": "Cason Carswell",
+"v": -0.0484,
+"plays": 2,
+"passes": 2,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2711": {
+"name": "Western Michigan",
+"qbs": [
+{
+"pid": "5074245.0",
+"name": "Broc Lowry",
+"v": -0.041,
+"plays": 299,
+"passes": 223,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5126475.0",
+"name": "Trey Petty",
+"v": -0.0034,
+"plays": 20,
+"passes": 8,
+"games": 3,
+"last_wk": 6
+},
+{
+"pid": "5145473.0",
+"name": "Mason Reynolds",
+"v": -0.0043,
+"plays": 14,
+"passes": 9,
+"games": 1,
+"last_wk": 11
+}
+]
+},
+"2717": {
+"name": "Western Carolina",
+"qbs": [
+{
+"pid": "4875128.0",
+"name": "Lex Thomas",
+"v": -0.0234,
+"plays": 37,
+"passes": 32,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5231037.0",
+"name": "Isaac Lee",
+"v": -0.0732,
+"plays": 3,
+"passes": 3,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5441193.0",
+"name": "Patrick Harding",
+"v": -0.046,
+"plays": 2,
+"passes": 2,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2729": {
+"name": "William & Mary",
+"qbs": [
+{
+"pid": "5226917.0",
+"name": "Winston Watkins",
+"v": -0.0326,
+"plays": 21,
+"passes": 19,
+"games": 1,
+"last_wk": 4
+},
+{
+"pid": "5301114.0",
+"name": "Carter Carroll",
+"v": -0.0445,
+"plays": 5,
+"passes": 5,
+"games": 1,
+"last_wk": 4
+}
+]
+},
+"2747": {
+"name": "Wofford",
+"qbs": [
+{
+"pid": "5203716.0",
+"name": "Ethan Drumm",
+"v": -0.0983,
+"plays": 24,
+"passes": 20,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5156255.0",
+"name": "J.T. Fayard",
+"v": -0.0911,
+"plays": 13,
+"passes": 12,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2751": {
+"name": "Wyoming",
+"qbs": [
+{
+"pid": "4838536.0",
+"name": "Tyler Hughes",
+"v": 0.0063,
+"plays": 294,
+"passes": 197,
+"games": 9,
+"last_wk": 10
+},
+{
+"pid": "5227257.0",
+"name": "Markell Holman",
+"v": -0.0153,
+"plays": 111,
+"passes": 3,
+"games": 10,
+"last_wk": 11
+},
+{
+"pid": "5258056.0",
+"name": "Samuel Harris",
+"v": -0.0195,
+"plays": 93,
+"passes": 1,
+"games": 9,
+"last_wk": 11
+},
+{
+"pid": "5296625.0",
+"name": "Landon Sims",
+"v": -0.052,
+"plays": 46,
+"passes": 30,
+"games": 4,
+"last_wk": 11
+},
+{
+"pid": "5220376.0",
+"name": "Bart Edmiston",
+"v": -0.034,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 3
+}
+]
+},
+"2754": {
+"name": "Youngstown State",
+"qbs": [
+{
+"pid": "5109518.0",
+"name": "Beau Brungard",
+"v": 0.0106,
+"plays": 47,
+"passes": 36,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5300743.0",
+"name": "Malachi Lewis",
+"v": -0.0595,
+"plays": 4,
+"passes": 4,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2755": {
+"name": "Grambling",
+"qbs": [
+{
+"pid": "5151696.0",
+"name": "Reginald Johnson",
+"v": -0.0005,
+"plays": 23,
+"passes": 22,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5085259.0",
+"name": "Ashton Frye",
+"v": -0.073,
+"plays": 3,
+"passes": 2,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "4949488.0",
+"name": "Jacobe Robinson",
+"v": -0.0585,
+"plays": 3,
+"passes": 2,
+"games": 1,
+"last_wk": 2
+},
+{
+"pid": "5306457.0",
+"name": "Hayden Benoit",
+"v": -0.0698,
+"plays": 2,
+"passes": 1,
+"games": 1,
+"last_wk": 2
+}
+]
+},
+"2771": {
+"name": "Merrimack",
+"qbs": [
+{
+"pid": "5146355.0",
+"name": "AJ Hairston Jr",
+"v": -0.1262,
+"plays": 57,
+"passes": 50,
+"games": 2,
+"last_wk": 10
+},
+{
+"pid": "5225304.0",
+"name": "Cole Meehan",
+"v": -0.0712,
+"plays": 38,
+"passes": 34,
+"games": 2,
+"last_wk": 10
+}
+]
+},
+"2803": {
+"name": "Bryant",
+"qbs": [
+{
+"pid": "5226265.0",
+"name": "Brennan Myer",
+"v": -0.0649,
+"plays": 23,
+"passes": 20,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "5157426.0",
+"name": "Jaden Keefner",
+"v": -0.0548,
+"plays": 5,
+"passes": 5,
+"games": 1,
+"last_wk": 1
+}
+]
+},
+"2815": {
+"name": "Lindenwood",
+"qbs": [
+{
+"pid": "5225648.0",
+"name": "Pops Battle",
+"v": -0.0448,
+"plays": 41,
+"passes": 28,
+"games": 2,
+"last_wk": 4
+},
+{
+"pid": "5298518.0",
+"name": "Hoyt Gregory",
+"v": -0.0709,
+"plays": 26,
+"passes": 16,
+"games": 1,
+"last_wk": 4
+}
+]
+},
+"2837": {
+"name": "East Texas A&M",
+"qbs": [
+{
+"pid": "5151407.0",
+"name": "Jack Jacobs",
+"v": -0.0541,
+"plays": 24,
+"passes": 23,
+"games": 1,
+"last_wk": 3
+},
+{
+"pid": "5441947.0",
+"name": "Reese Mooney",
+"v": -0.0537,
+"plays": 19,
+"passes": 19,
+"games": 1,
+"last_wk": 3
+}
+]
+},
+"2916": {
+"name": "Incarnate Word",
+"qbs": [
+{
+"pid": "5085112.0",
+"name": "Emmett Brown",
+"v": -0.0624,
+"plays": 55,
+"passes": 47,
+"games": 1,
+"last_wk": 4
+},
+{
+"pid": "5442098.0",
+"name": "Jackson Fields",
+"v": -0.0662,
+"plays": 14,
+"passes": 9,
+"games": 1,
+"last_wk": 4
+},
+{
+"pid": "5152821.0",
+"name": "David Rasor",
+"v": -0.0511,
+"plays": 2,
+"passes": 1,
+"games": 1,
+"last_wk": 4
+}
+]
+},
+"3101": {
+"name": "Utah Tech",
+"qbs": [
+{
+"pid": "5224562.0",
+"name": "Bronson Barben",
+"v": -0.0402,
+"plays": 27,
+"passes": 23,
+"games": 1,
+"last_wk": 1
+},
+{
+"pid": "4993406.0",
+"name": "CJ Tiller",
+"v": -0.1095,
+"plays": 11,
+"passes": 9,
+"games": 1,
+"last_wk": 1
+}
+]
+}
+}
+}

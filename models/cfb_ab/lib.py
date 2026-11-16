@@ -9,6 +9,7 @@
   state (normal; 1st-half last 2:00; last 5:00 trailing 1-3 / 4-8 / 9+, leading, tied) incl. an end-of-half outcome (kneel /
   clock out), from the same 2023-25 drives; the 2nd-half kickoff goes to the team that kicked first (was always the away
   team); after a return TD the scorer kicks off. Bias re-set to -0.10 (sim team mean +0.2 over Model A, as before).
+  OVERTIME (step 3): real college overtime (see Sim.overtime), so no simulated game ends tied.
   Test 2022-25 (600 sims/game): exact final log score -6.947 -> -6.892, team score -3.550 -> -3.537, margin -4.164 -> -4.125,
   team-total over Brier .2570 -> .2561; margin of 3 4.0% -> 6.0% (real 9.8%), of 7 4.5% -> 5.7% (real 7.9%); field goal
   when down 4-8 in the last 5:00 real 0.2%, sim 0.3%; 1st-half last 2:00 field goals 3% -> 9% (real 12%).
@@ -76,6 +77,9 @@ class Sim:
         self.NS = [K[(K.c == c) & K.next_y.notna()].next_y.values for c in range(6)]
         self.SEC = [[(lambda v: v if len(v) >= 20 else K[K.c == c].sec.values)(K[(K.s == s) & (K.c == c)].sec.values) for c in range(7)] for s in range(NST)]
         self.ret_rate = float((D.def_pts > 0).mean()); self.ko = K[K.c == 0].next_y.dropna().values
+        O = pd.read_parquet(drives); O = O[O.season.between(2023, 2025) & (O.period == 5)]
+        self.OTP = np.array([(O.off_pts >= 6).mean(), (O.off_pts == 3).mean(), (O.off_pts == 0).mean()])   # 1st OT possession: TD, FG, none
+        self.OTP /= self.OTP.sum()
         self.grid = np.linspace(-2, 2, 21); self.look = np.array([self.game(np.full(6000, t), np.zeros(6000))[0].mean() for t in self.grid])
 
     def outcome(self, b, th, s):
@@ -113,7 +117,35 @@ class Sim:
                 nxt = np.choose(np.minimum(c, 5), [r.choice(self.NS[k], n) for k in range(6)]).astype(float)
                 y = np.where(ret, r.choice(self.ko, n), nxt)
                 poss = np.where(ret, poss, 1 - poss)   # return TD: the scorer kicks off; safety: the scorer gets the free kick
+        self.overtime(th_h, th_a, hs, as_, rec)
         return hs, as_
+
+    def overtime(self, th_h, th_a, hs, as_, rec=None):
+        """College overtime (roadmap step 3, 2026-11-15): each round both teams get one possession from the 25 (TD / FG / no
+        score from 2023-25 OT drives, tilted by team strength like regulation drives); the 2nd team needs a TD after a TD (goes
+        for it on 4th down instead of kicking) and plays for the FG after a stop. Round 1 kicks the PAT, round 2 must go for 2
+        after a TD, round 3+ is alternating 2-pt plays (45% each). Edits hs / as_ in place; replays get half=3 drives."""
+        r = self.rng; n = len(th_h); tied = hs == as_; first = (r.random(n) < 0.5).astype(int); TWO = 0.45
+        for rd in range(1, 11):
+            if not tied.any(): break
+            add = np.zeros((2, n)); order = first if rd % 2 else 1 - first
+            for j in (0, 1):
+                side = np.where(j == 0, order, 1 - order); th = np.where(side == 0, th_h, th_a)
+                if rd >= 3:
+                    pts = (r.random(n) < TWO) * 2.0; c = np.where(pts > 0, 0, 3)
+                else:
+                    p = np.tile(self.OTP, (n, 1)); p[:, 0] *= np.exp(th); p[:, 1] *= np.exp(0.6 * th)
+                    if j == 1:
+                        a0 = np.where(order == 0, add[0], add[1]); need_td = a0 >= 6; need_fg = a0 == 0
+                        p[need_td, 0] += 0.4 * p[need_td, 1]; p[need_td, 2] += 0.6 * p[need_td, 1]; p[need_td, 1] = 0
+                        p[need_fg, 1] += 0.5 * p[need_fg, 0]; p[need_fg, 0] *= 0.5
+                    p /= p.sum(1, keepdims=True); c = (r.random(n)[:, None] > np.cumsum(p, 1)).sum(1).clip(0, 2)
+                    td = np.where(rd == 1, np.where(r.random(n) < 0.97, 7, 6), np.where(r.random(n) < TWO, 8, 6))
+                    pts = np.where(c == 0, td, np.where(c == 1, 3, 0)).astype(float); c = np.where(c == 2, 3, c)
+                pts = pts * tied; add[0] += np.where(side == 0, pts, 0); add[1] += np.where(side == 1, pts, 0)
+                if rec is not None: rec.append(dict(half=3, live=tied.copy(), poss=side.copy(), y=np.full(n, 25.0), c=c, done=np.zeros(n, bool), ret=np.zeros(n, bool),
+                                                    off=pts, dfn=np.zeros(n), sec=np.zeros(n)))
+            hs += add[0]; as_ += add[1]; tied = tied & (hs == as_)
 
     def run(self, hs, as_, n=2000, shrink=1.0, rec=None):
         """score sims for one game whose Model A means are hs/as_ (margin shrunk around the mid by `shrink`)"""

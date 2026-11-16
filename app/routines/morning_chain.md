@@ -51,6 +51,7 @@ B5. Every day (J 2026-11-02 CBB two-model rollout; was Mon/Thu, daily so every n
     ratings in cbb_live/, then runs live_cbb.py; about 25 min, run_in_background) -> app/data/cbb_v2.json. Without it live_cbb.py uses stale ratings.
 B6. Sundays (and any day pbp_2026.parquet gained a full week since the last rebuild): CFB v3 rebuild per the "Weekly refresh" block
     in models/cfb-v3/README.md (pbp_2026.parquet + cfb_schedules_2026.csv, build.py --roster roster_prior.csv, export_app.py) -> cfb_model.json.
+    B6b (same day, after B6): `python3 models/cfb_ab/qb_apv.py models/cfb-v3/pbp_2026.parquet` -> models/cfb_ab/apv/qb_apv.json (QB APV to date; step 4 SHADOW for CFB missing-QB sizes, J 2026-11-16).
     The CBB ratings rebuild (models/cbb/export_app.py) waits until ~8 games per team (late November).
 B7. Google Drive: search_files for title = 'mlb_slate.json' (folder "Bet Desk MLB"), download_file_content, decode base64 to
     app/data/mlb_slate.json. Skip quietly if missing or its updatedAt is over 2 days old. Never publish it.

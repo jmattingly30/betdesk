@@ -1,6 +1,7 @@
 """Grade CFB Model A + Model B from history/runs.jsonl against finals (cfbfastR schedule csv, refreshed by run_live.sh).
 Model A (J yardstick): team-score miss vs actual AND vs the market's implied team totals (last market seen before kickoff); v4 alone
-(no usage / absence inputs) graded beside it, and games with a missing-star input split out. Model B: per tier and kind, the FIRST time
+(no usage / absence inputs) graded beside it, and games with a missing-star input split out. QB APV shadow (step 4): games where a
+missing QB was also sized by APV -> A_qb_flat (live) vs A_qb_apv_shadow, same games. Model B: per tier and kind, the FIRST time
 a pick reached tier A/B -> win rate, ROI at the shown price, CLV in points vs the last market seen.
 python3 models/cfb_ab/grade.py [schedule csv] -> models/cfb_ab/history/grade.json"""
 import json, os, sys, datetime as dt, collections, pandas as pd
@@ -28,6 +29,7 @@ for i, f in fin.items():
     for j, side in ((0, "h"), (1, "a")):
         E["A"].append(abs(r["A"][j] - f[side])); E["v4"].append(abs(r["v4"][j] - f[side]))
         if hasabs: E["A_abs"].append(abs(r["A"][j] - f[side])); E["v4_abs"].append(abs(r["v4"][j] - f[side]))
+        if r.get("A_apv"): E["A_qb_flat"].append(abs(r["A"][j] - f[side])); E["A_qb_apv_shadow"].append(abs(r["A_apv"][j] - f[side]))   # step 4 shadow (J 2026-11-16)
         if imp: E["line"].append(abs(imp[j] - f[side])); E["closer"].append(abs(r["A"][j] - f[side]) < abs(imp[j] - f[side]))
 for k, v in E.items():
     if v: out["A"][k] = {"n": len(v), ("share" if k == "closer" else "MAE"): round(sum(v) / len(v), 3)}

@@ -30,6 +30,10 @@ EARLY_H = 96
 SHARE = {"early": TB["open"]["b_v4"], "late": TB["close"]["b_v4"], "total_early": TB["open"]["b_total_v4"]}
 ABS = {"qb_e": -2.5, "qb_n": -0.5, "skill": -1.0}   # team points (absence_test.json, shrunk; skill elite/non-elite pooled)
 NOW = dt.datetime.now(dt.timezone.utc); dec = DV.dec_from_am
+# QB APV SHADOW (J 2026-11-16, football roadmap step 4): a missing QB also sized by APV (backup's to-date value minus the starter's
+# x 16.7 pts, apv/qb_apv.json from qb_apv.py). Logged beside Model A (A.shadow_qb, runs.jsonl A_apv) and graded in grade.py;
+# Model A, Model B and the desk keep the flat sizes until the shadow proves out.
+QBV = json.load(open(f"{HERE}/apv/qb_apv.json")) if os.path.exists(f"{HERE}/apv/qb_apv.json") else None
 NSIM = int(os.environ.get("CFB_NSIM", 4000))
 
 def inv(p):
@@ -112,8 +116,22 @@ def absences(games, use_by_game):
             pts = ABS["qb_e" if el else "qb_n"] if c["kind"] == "qb" else ABS["skill"]
             L.append(dict(team=g["h" if side == "h" else "a"], side=side, player=c["player"], kind=c["kind"], elite=bool(el), pts=pts, src=c["src"],
                           ypg=st.get("qb_ypg") if c["kind"] == "qb" else st.get("scr_ypg")))
+        for z in L:
+            if z["kind"] == "qb": z.update(qb_apv(z, ids[0 if z["side"] == "h" else 1], [y["player"] for y in L if y["kind"] == "qb" and y["side"] == z["side"]]))
         if L: out[gid] = L
     return out
+
+def qb_apv(z, tid, outs):
+    """shadow size of a missing QB: (next QB's to-date APV value - the missing starter's) x pts_per_value; {} if the starter has no APV row"""
+    if not QBV: return {}
+    T = QBV["teams"].get(str(tid)) if tid else None
+    if T is None: T = next((t for t in QBV["teams"].values() if norm(t["name"]) == norm(z["team"])), None)
+    if T is None: return {}
+    q = next((q for q in T["qbs"] if norm(q["name"]) == norm(z["player"])), None)
+    if q is None: return {}
+    out_n = {norm(o) for o in outs}; rep = next((r for r in T["qbs"] if norm(r["name"]) not in out_n), None)
+    v_rep = rep["v"] if rep else QBV["replacement_v"]
+    return dict(apv_pts=round(QBV["pts_per_value"] * (v_rep - q["v"]), 2), apv_out=q["v"], apv_rep=v_rep, apv_rep_name=rep["name"] if rep else None)
 
 def likely_final(hs, as_, h, a, win=3.5):
     """DISPLAY ONLY: the drive simulator's most common final within 3.5 pts of each Model A mean and of its margin, same winner, no tie.
@@ -155,6 +173,10 @@ def main():
                  a10=int(np.quantile(a, .1)), a90=int(np.quantile(a, .9)), p3=round(float(P[np.abs(MG) == 3].sum()), 3), p7=round(float(P[np.abs(MG) == 7].sum()), 3),
                  v4=[v["hs"], v["as"]], usage=round(ush, 2), absences=ab)
         A["as"] = round(as_, 2); A["lf"] = likely_final(hs, as_, h, a)
+        sq = [z for z in ab if z["kind"] == "qb" and z.get("apv_pts") is not None]
+        if sq:   # shadow: the same game with each missing QB sized by APV instead of the flat size (not shown, not used by Model B)
+            d_ = {sd: sum(z["apv_pts"] - z["pts"] for z in sq if z["side"] == sd) for sd in "ha"}
+            A["shadow_qb"] = dict(hs=round(hs + d_["h"], 2), **{"as": round(as_ + d_["a"], 2)})
         x = slate.get(gid) or {}; kick_h = hours_to(v["k"]); early = kick_h >= EARLY_H
         dm = (v["v3_hs"] - v["v3_as"]) if v.get("v3_hs") is not None else None
         rec = {"h": v["h"], "a": v["a"], "d": x.get("d") or v["k"][:10], "k": v["k"], "w": v.get("wk"), "n": v.get("n"), "A": A, "desk_m": None if dm is None else round(dm, 2), "B": None}
@@ -225,6 +247,8 @@ def main():
         for gid, g in out["games"].items():
             fh.write(json.dumps({"t": out["made"], "id": gid, "h": g["h"], "a": g["a"], "d": g["d"], "k": g["k"], "A": [g["A"]["hs"], g["A"]["as"]], "v4": g["A"]["v4"], "desk_m": g["desk_m"],
                                  "abs": [[z["side"], z["player"], z["pts"]] for z in g["A"]["absences"]],
+                                 **({"A_apv": [g["A"]["shadow_qb"]["hs"], g["A"]["shadow_qb"]["as"]], "abs_apv": [[z["side"], z["player"], z["apv_pts"], z.get("apv_rep_name")] for z in g["A"]["absences"] if z.get("apv_pts") is not None]}
+                                    if g["A"].get("shadow_qb") else {}),
                                  "B": {k: {kk: z.get(kk) for kk in ("market", "gap", "real", "fresh", "tier", "side", "bet")} for k, z in (g["B"] or {}).items() if isinstance(z, dict)}}) + "\n")
     tiers = {}
     for g in out["games"].values():
