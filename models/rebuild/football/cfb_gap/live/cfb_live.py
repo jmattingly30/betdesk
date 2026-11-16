@@ -11,8 +11,17 @@ print("margin coefs", dict(zip(['c'] + L4, bm.round(3)))); print("total coefs", 
 # upcoming games
 pr = [g for g in json.load(open("probe.json"))["games"] if g["sp"] == "CFB"]
 s26 = pd.read_csv("cfbros/s_2026.csv"); s26["game_id"] = s26.game_id.astype(str)
+def no_games(why):
+    # Sunday mornings (and bye weeks) have no unstarted CFB game on the desk probe: write an empty file instead of crashing
+    # (pd.DataFrame([]) has no "id" column -> KeyError, which failed the 11-15 morning chain at C4b)
+    import datetime, sys
+    json.dump({"made": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"), "model": "CFB rebuild v4 (weeks 4+)", "games": [], "note": why},
+              open("/mnt/project-files/sports-analytics/app/data/cfb_live.json", "w"))
+    print("wrote app/data/cfb_live.json 0 (" + why + ")"); sys.exit(0)
+if not pr: no_games("no upcoming CFB games on the desk probe")
 U = pd.DataFrame(pr).merge(s26[["game_id", "week", "home_id", "away_id", "venue_id"]], left_on="id", right_on="game_id", how="left")
 print("unmatched", U.home_id.isna().sum()); U = U.dropna(subset=["home_id"]).copy()
+if U.empty: no_games("no probe game matched the 2026 schedule")
 U["season"] = 2026; U["wk"] = U.week; U["home_id"] = U.home_id.astype(int); U["away_id"] = U.away_id.astype(int); U["neu"] = U.n.astype(float)
 U["model_margin"] = U.hs - U["as"]; U["model_total"] = U.hs + U["as"]
 # program SRS (same as cfb_gap3)

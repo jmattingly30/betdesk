@@ -12,6 +12,11 @@ What counts as crossed: the id is on that sport's slate, the slate's game has NO
 from the slate's (any difference, including a pre-start home/away swap). A started game whose sides ESPN swapped afterwards
 (neutral site) is left alone, as tools/check_data.py already warns about it. Rows whose id is not on the slate are left alone.
 Each drop is printed as a WARN line so it shows in the job log.
+
+Moved games (2026-11-16): when the teams still match but ESPN moved the game to another day (SIU Edwardsville @ North Dakota
+moved 11-16 -> 11-17; Ole Miss @ Oklahoma played Sunday 11-15, not Saturday), the row is the same matchup, so it is kept and
+its day (and kickoff, where the row has one) is re-dated to the slate's. The models take the day from their own schedule
+source (cbb_v2.json, cfb_live.json), which lags ESPN, and tools/check_data.py failed the 11-15 and 11-16 runs on it.
 """
 import sys, os, json
 from datetime import datetime, timezone
@@ -40,6 +45,16 @@ def crossed(sp, gid, row):
     return f"{row.get('a')} @ {row.get('h')} but the slate now has {s['a']} @ {s['h']}"
 
 
+def redate(sp, gid, row):
+    """Same matchup, different day on the slate: copy the slate's day/kickoff onto the row. Returns a note or None."""
+    s = slate.get(sp, {}).get(str(gid))
+    if not s or not isinstance(row, dict) or (row.get('h'), row.get('a')) != (s['h'], s['a']): return None
+    note = []
+    if row.get('d') and s.get('d') and row['d'] != s['d']: note.append(f"day {row['d']} -> {s['d']}"); row['d'] = s['d']
+    if row.get('k') and s.get('k') and row['k'] != s['k'] and note: row['k'] = s['k']
+    return ', '.join(note) or None
+
+
 total = 0
 def save(name, data, n):
     global total
@@ -59,7 +74,9 @@ for sp, name in (('CBB', 'cbb_ab.json'), ('NFL', 'nfl_ab.json'), ('NBA', 'nba_ab
         why = crossed(sp, gid, G[gid])
         if why:
             print(f'WARN dropped {name} game {gid}: model row is {why} (next model run re-projects it)')
-            del G[gid]; n += 1
+            del G[gid]; n += 1; continue
+        moved = redate(sp, gid, G[gid])
+        if moved: print(f"WARN moved {name} game {gid} {G[gid].get('a')} @ {G[gid].get('h')}: {moved} (ESPN moved the game)"); n += 1
     save(name, J, n)
 
 # model_a.json: {sports: {SP: {games: [row with id]}}}
@@ -72,9 +89,11 @@ if MA:
         keep = []
         for r in rows:
             why = crossed(sp, r.get('id') if isinstance(r, dict) else None, r)
-            if why: print(f"WARN dropped model_a.json {sp} game {r.get('id')}: model row is {why} (next model run re-projects it)"); n += 1
-            else: keep.append(r)
+            if why: print(f"WARN dropped model_a.json {sp} game {r.get('id')}: model row is {why} (next model run re-projects it)"); n += 1; continue
+            moved = redate(sp, r.get('id') if isinstance(r, dict) else None, r)
+            if moved: print(f"WARN moved model_a.json {sp} game {r.get('id')}: {moved} (ESPN moved the game)"); n += 1
+            keep.append(r)
         x['games'] = keep
     save('model_a.json', MA, n)
 
-print(f'drop_crossed_games: {total} row(s) dropped')
+print(f'drop_crossed_games: {total} row(s) dropped or re-dated')
