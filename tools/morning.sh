@@ -32,6 +32,7 @@ step "B4a NFL coach grades" python3 models/team-strength/nfl/export_coach_grades
 step "B5 CBB v2 (in-season ratings refresh + live_cbb)" bash models/rebuild/basketball/cbb_live/refresh_cbb.sh
 if [ "$DOW" = 7 ]; then
   sh_step "B6 CFB v3 weekly rebuild" "cd models/cfb-v3 && curl -sSfL -o pbp_2026.parquet https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_cfb_pbp/play_by_play_2026.parquet && curl -sSfL -o sched_2026.csv https://raw.githubusercontent.com/sportsdataverse/cfbfastR-data/main/schedules/csv/cfb_schedules_2026.csv && D=../team-strength/data && python3 build.py \$D/cfb_games.parquet \$D/cfb_team_games_epa.csv \$D/cfb_returning.csv . pbp_2026.parquet sched_2026.csv --roster roster_prior.csv && python3 export_app.py"
+  sh_step "B6b CFB QB APV (shadow, roadmap step 4)" "python3 models/cfb_ab/qb_apv.py models/cfb-v3/pbp_2026.parquet"
 fi
 # B6a CFB v2 (CFBD) Mon and Thu, or whenever cfb_v2.json is 4+ days old (J 2026-11-11: the separate cfb-v2 schedule skipped Mon 11-09)
 if [ "$DOW" = 1 ] || [ "$DOW" = 4 ] || python3 -c "import json,sys,datetime as d;m=json.load(open('$SA/app/data/cfb_v2.json'))['made'][:10];sys.exit(0 if (d.date.today()-d.date.fromisoformat(m)).days>=4 else 1)"; then
