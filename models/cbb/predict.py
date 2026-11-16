@@ -21,20 +21,50 @@ from scipy.stats import norm
 here = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, here)
 cfg = json.load(open(f'{here}/model_config.json'))
 
-def preseason_ratings():
-    """Next season's prior: latest expanding-window coefficients on last two seasons, average roster turnover."""
+def _roster_features(y, final):
+    """Each team's own roster features for season y from data/cbb_roster_links.parquet (priors.team_features), or None when
+    that season's rosters are not in the file. Values are kept inside the range of past seasons: the coming season is
+    measured from full rosters, past seasons from who played early, so its transfer shares can run past anything the
+    coefficients were fit on (same rule as the rebuild's clip_new_season)."""
+    lp = f'{here}/data/cbb_roster_links.parquet'
+    if not os.path.exists(lp): return None
+    links = pd.read_parquet(lp)
+    if not (links.season == y).any(): return None
+    cwd = os.getcwd(); os.chdir(here)
+    try:
+        import priors as P
+        X = P.team_features(final, links)
+    finally: os.chdir(cwd)
+    cols = [c for c in ['ret', 'xfer_min', 'xfer_q', 'r_val', 'r_val_lvl', 'xfer_val'] if c in X.columns]
+    past = X[X.season < y]; now = X[X.season == y].copy()
+    if now.empty: return None
+    now[cols] = now[cols].clip(past[cols].min(), past[cols].max(), axis=1)
+    now['lag1_x_ret'] = now.lag1 * now.ret
+    return now
+
+def preseason_ratings(roster=True):
+    """Next season's prior: latest expanding-window coefficients on the last two seasons and each team's own roster turnover
+    (returning minutes, transfers in, player values) when next season's rosters are in data/cbb_roster_links.parquet.
+    Before 2026-11-16 every team was given the league-average roster, which squeezed the preseason ratings: in the first
+    days of 2026-27 this model's margins were two thirds as wide as the market's (docs/research/basketball.md).
+    roster=False, or no roster rows for a team, falls back to the league-average roster."""
     r = pd.read_csv(f'{here}/data/cbb_ratings_by_season.csv'); co = pd.read_csv(f'{here}/prior_coefficients.csv')
     y = r.season.max(); c = co[co.season == co.season.max()].set_index('comp')
     ret = pd.read_csv(f'{here}/data/cbb_returning.csv'); last = ret[ret.season == ret.season.max()]
     fp = f'{here}/data/cbb_prior_feature_means.csv'; fm = pd.read_csv(fp) if os.path.exists(fp) else pd.DataFrame()
     a, b = r[r.season == y].set_index('team'), r[r.season == y - 1].set_index('team')
     out = pd.DataFrame(index=a.index); out['name'] = a.name
+    X = _roster_features(y + 1, {s: d.set_index('team')[['O', 'D', 'P', 'net']] for s, d in r.groupby('season')}) if roster else None
     for comp in ['O', 'D', 'P']:
         k = c.loc[comp]; lag1 = a[comp]; lag2 = b[comp].reindex(a.index).fillna(lag1); rt = last.ret_min.mean() - 0.4
         out[comp] = k.lag1*lag1 + k.lag2*lag2 + k.lag1_x_ret*lag1*rt + k.ret*rt + k.xfer_min*last.xfer_min.mean() + k.const
         # roster terms not known before rosters post (xfer_q, CBB-2 player values): last season's league average
         for f_ in ['xfer_q', 'r_val', 'r_val_lvl', 'xfer_val']:
             if f_ in k.index and f_ in fm.columns: out[comp] += k[f_] * fm[f_].iloc[-1]
+        if X is not None:   # teams with a roster for next season get their own roster terms in place of the league average
+            x = X[(X.comp == comp) & (X.new_d1 == 0)].set_index('team')
+            own = sum(k[f_] * x[f_] for f_ in ['lag1', 'lag2', 'lag1_x_ret', 'ret', 'xfer_min', 'xfer_q', 'r_val', 'r_val_lvl', 'xfer_val'] if f_ in k.index and f_ in x.columns) + k.const
+            own = own.reindex(out.index); out[comp] = own.where(own.notna(), out[comp])
     out['net'] = out.O + out.D; out['mu'] = a.mu.iloc[0]; out['hca'] = a.hca.iloc[0]; out['T0'] = a.T0.iloc[0]
     out['tempo'] = out.T0 + out.P
     return out.reset_index().rename(columns={'team': 'team_id'})
