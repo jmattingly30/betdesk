@@ -1,87 +1,87 @@
 {
- "made": "2026-11-15 19:43 UTC",
+ "made": "2026-11-16 13:38 UTC",
  "sports": {
   "CBB": {
    "rebuild_all": {
-    "n": 597,
-    "team_mae": 8.34,
-    "margin_mae": 10.08,
-    "total_mae": 13.22
+    "n": 632,
+    "team_mae": 8.39,
+    "margin_mae": 10.14,
+    "total_mae": 13.34
    },
    "rebuild_same_games": {
-    "n": 592,
-    "team_mae": 8.33,
-    "margin_mae": 10.04,
-    "total_mae": 13.26
+    "n": 627,
+    "team_mae": 8.38,
+    "margin_mae": 10.09,
+    "total_mae": 13.38
    },
    "today_same_games": {
-    "n": 592,
+    "n": 627,
     "team_mae": 8.57,
-    "margin_mae": 10.22,
-    "total_mae": 13.81
+    "margin_mae": 10.27,
+    "total_mae": 13.83
    },
    "line_same_games": {
-    "n": 262,
-    "margin_mae": 8.96,
-    "total_mae": 13.39
+    "n": 294,
+    "margin_mae": 9.21,
+    "total_mae": 13.5
    }
   },
   "NBA": {
    "rebuild_all": {
-    "n": 145,
-    "team_mae": 9.53,
-    "margin_mae": 11.69,
-    "total_mae": 14.2
+    "n": 154,
+    "team_mae": 9.59,
+    "margin_mae": 11.55,
+    "total_mae": 14.41
    },
    "rebuild_same_games": {
-    "n": 145,
-    "team_mae": 9.53,
-    "margin_mae": 11.69,
-    "total_mae": 14.2
+    "n": 154,
+    "team_mae": 9.59,
+    "margin_mae": 11.55,
+    "total_mae": 14.41
    },
    "today_same_games": {
-    "n": 145,
-    "team_mae": 9.98,
-    "margin_mae": 11.78,
-    "total_mae": 15.52
+    "n": 154,
+    "team_mae": 9.93,
+    "margin_mae": 11.57,
+    "total_mae": 15.47
    },
    "line_same_games": {
-    "n": 103,
-    "margin_mae": 11.63,
-    "total_mae": 13.09
+    "n": 112,
+    "margin_mae": 11.39,
+    "total_mae": 13.41
    }
   },
   "NFL": {
    "rebuild_all": {
-    "n": 32,
-    "team_mae": 7.66,
-    "margin_mae": 10.11,
-    "total_mae": 10.92
+    "n": 43,
+    "team_mae": 7.65,
+    "margin_mae": 10.0,
+    "total_mae": 10.59
    },
    "rebuild_same_games": {
-    "n": 32,
-    "team_mae": 7.66,
-    "margin_mae": 10.11,
-    "total_mae": 10.92
+    "n": 43,
+    "team_mae": 7.65,
+    "margin_mae": 10.0,
+    "total_mae": 10.59
    },
    "today_same_games": {
-    "n": 32,
-    "team_mae": 7.48,
-    "margin_mae": 9.98,
-    "total_mae": 11.01
+    "n": 43,
+    "team_mae": 7.57,
+    "margin_mae": 9.91,
+    "total_mae": 10.83
    },
    "line_same_games": {
-    "n": 32,
-    "margin_mae": 10.06,
-    "total_mae": 10.53
+    "n": 43,
+    "margin_mae": 10.07,
+    "total_mae": 10.22
    }
   },
   "NHL": {
    "rebuild_all": {
-    "n": 141,
-    "team_mae": 1.36,
-    "margin_mae": 2.06,
-    "total_mae": 1.86
+    "n": 146,
+    "team_mae": 1.37,
+    "margin_mae": 2.09,
+    "total_mae": 1.85
    },
    "rebuild_same_games": {
     "n": 0,
