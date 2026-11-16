@@ -30,6 +30,7 @@ after a cd). Never print or store API keys. Edit no file except what the scripts
 4b. Noon and night: `python3 /mnt/project-files/sports-analytics/models/cbb_ab/live.py` (CBB Model B re-priced on the new lines -> app/data/cbb_ab.json).
 4c. Every pull (noon, night, NFL Sunday, NFL Tuesday): `python3 /mnt/project-files/sports-analytics/models/nfl_ab/live.py` (NFL Model B re-priced on the new lines -> app/data/nfl_ab.json; J 2026-11-05).
 4d. Noon and night: `python3 /mnt/project-files/sports-analytics/models/nba_ab/live.py` (NBA Model B re-priced on the new lines -> app/data/nba_ab.json; J 2026-11-05; ~1 min, needs scipy. The night pull catches NBA openers, where Model B's tiers were tested).
+4d2. Noon and night: `python3 /mnt/project-files/sports-analytics/models/nhl_sim/live.py <scratchpad>` (NHL sim re-logged beside the new lines, so the last row before puck drop is the one graded; about 30 s).
 4e. Noon and night, after step 3 (and 4a at night): `python3 /mnt/project-files/sports-analytics/models/cfb_ab/live.py` (CFB Model B re-priced on the new lines -> app/data/cfb_ab.json; J 2026-11-05; ~15 s).
 4f. HELD (J 2026-11-11): tennis Model A+B (models/tennis_ab/live.py, grade.py) does not run while tennis is off the desk.
 4g. Every pull, after 4b-4e: `python3 /mnt/project-files/sports-analytics/models/sims/build.py` (Watch the sim, J 2026-11-06; NFL Sunday/Tuesday pulls: add ` NFL`; about 1 min) -> app/data/sims_{nba,cbb,nfl,cfb,tennis}.json.
