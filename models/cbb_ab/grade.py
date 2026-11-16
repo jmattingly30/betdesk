@@ -59,7 +59,7 @@ out = {"made": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), 
        "games_final": sum(1 for i in fin if i in last or i in dropped), "games_graded": sum(1 for i in fin if i in last),
        "games_without_pregame_row": sum(1 for i in fin if i in dropped and i not in last), "A": {}, "B": {}}
 mae = lambda v: round(sum(v) / len(v), 2) if v else None
-A = collections.defaultdict(list)
+A = collections.defaultdict(list); BK = collections.defaultdict(lambda: collections.defaultdict(list))
 for i, f in fin.items():
     r = last.get(i)
     if not r: continue
@@ -71,11 +71,18 @@ for i, f in fin.items():
     A["team_l_ours"] += [abs(oh - fh), abs(oa - fa)]; A["team_l_line"] += [abs(lh - fh), abs(la - fa)]
     A["margin_ours"].append(abs((oh - oa) - (fh - fa))); A["margin_line"].append(abs(ms - (fh - fa)))
     A["total_ours"].append(abs((oh + oa) - (fh + fa))); A["total_line"].append(abs(mt - (fh + fa))); A["total_bias"].append((oh + oa) - (fh + fa))
+    # every lined game by size of the line, big mismatches included (research 2026-11-13, idea 4): the back-tests had few of them
+    b = "under 7" if abs(ms) < 7 else "7 to 14" if abs(ms) < 14 else "14 to 21" if abs(ms) < 21 else "21 and up"; sg = 1 if ms >= 0 else -1
+    BK[b]["ours"].append(abs((oh - oa) - (fh - fa))); BK[b]["line"].append(abs(ms - (fh - fa)))
+    BK[b]["short"].append(sg * ((oh - oa) - ms)); BK[b]["result"].append(sg * ((fh - fa) - ms))
 if A["team"]:
     out["A"] = {"team_scores": len(A["team"]), "MAE": mae(A["team"]),
                 "lined": {"games": len(A["margin_ours"]), "team_MAE": mae(A["team_l_ours"]), "line_team_MAE": mae(A["team_l_line"]),
                           "margin_MAE": mae(A["margin_ours"]), "line_margin_MAE": mae(A["margin_line"]),
-                          "total_MAE": mae(A["total_ours"]), "line_total_MAE": mae(A["total_line"]), "total_bias": mae(A["total_bias"])}}
+                          "total_MAE": mae(A["total_ours"]), "line_total_MAE": mae(A["total_line"]), "total_bias": mae(A["total_bias"])},
+                # ours_vs_line / result_vs_line: points toward the favourite (negative = short of the line)
+                "by_line": {b: {"games": len(v["ours"]), "margin_MAE": mae(v["ours"]), "line_margin_MAE": mae(v["line"]), "ours_vs_line": mae(v["short"]), "result_vs_line": mae(v["result"])}
+                            for b in ("under 7", "7 to 14", "14 to 21", "21 and up") if (v := BK.get(b))}}
 T = collections.defaultdict(lambda: {"n": 0, "w": 0, "pnl": 0.0, "clv": 0.0, "clv_n": 0})
 for (gid, k), (r, z) in [*first.items(), *firstU.items()]:
     f = fin.get(gid)
