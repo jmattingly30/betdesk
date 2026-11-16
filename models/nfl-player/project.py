@@ -11,7 +11,7 @@ lines.csv (optional):     name,stat,line    (stat one of targets rec rec_yds car
 Projections assume the player plays (props are void otherwise)."""
 import sys, os, json, pickle, argparse, numpy as np, pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import model as mdl, features, scheme_features
+import model as mdl, features, scheme_features, apv_features
 
 ap = argparse.ArgumentParser()
 ap.add_argument('model_dir'); ap.add_argument('dl_dir'); ap.add_argument('season', type=int); ap.add_argument('week', type=int)
@@ -83,6 +83,7 @@ feat = features.build(full, features.load_injuries(a.dl_dir, range(2016, a.seaso
 feat = features.add_tracking(feat, a.dl_dir)           # NFL-3 team-changer target model (ngs_*.csv.gz from fetch_data.py)
 if os.path.exists(f'{M}/data/scheme_team.parquet'):     # NFL-4 play-caller / personnel / coverage features (scheme_features.py)
     feat = scheme_features.add_scheme(feat, M)
+feat = apv_features.add(feat, M)                        # roadmap step 5: opponent run-defense APV (step 6 rookie-QB columns built, not used)
 cur = feat[feat._new == 1].copy()
 
 pk = f'{M}/data/model.pkl'
@@ -101,6 +102,10 @@ if 'opp_chg' not in model:                              # a model saved before 2
     tr = mdl.predict_team(model['team'], mdl.add_derived(feat[(feat._new == 0) & (feat.season >= 2017)]))
     model['opp_chg'] = mdl.fit_changer_targets(tr)
     pickle.dump(model, open(pk, 'wb'))
+if 'opp_rapv' not in model['eff']['rush_yds'].params.index:   # a model saved before steps 5-6: refit the efficiency GLMs
+    tr = feat[(feat._new == 0) & (feat.season >= 2017)]
+    print(f'refitting the efficiency GLMs with the APV inputs on {len(tr)} player-games ...')
+    model['eff'] = mdl.fit_efficiency(mdl.add_derived(tr)); pickle.dump(model, open(pk, 'wb'))
 cal = json.load(open(f'{M}/calibration.json'))
 pred = mdl.predict(model, cur)
 pred['rush_rec_yds_hat'] = pred.rush_yds_hat + pred.rec_yds_hat

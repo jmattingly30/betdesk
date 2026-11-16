@@ -18,6 +18,10 @@ def _log(x, lo=1e-3):
     return np.log(np.clip(np.asarray(x, float), lo, None))
 
 
+def _col(df, c):
+    return df[c].fillna(0.0) if c in df else pd.Series(0.0, index=df.index)
+
+
 def add_derived(df):
     df = df.copy()
     pos = df.position
@@ -144,10 +148,15 @@ def eff_specs(df):
                                             'l_imp': _log(df.implied_rel), 'wind': df.wind.clip(0, 30) / 10, 'dome': df.dome}, rec_mask),
         'rush_yds': ('rush_yds', 'carries', {'l_rate': _log(df.ypc), 'l_def': _log(df.d_rush_yds), 'l_imp': _log(df.implied_rel),
                                               'spread': df.spread / 7, 'is_qb': (df.position == 'QB').astype(float),
-                                              'qb_scr': (df.position == 'QB') * df.scr_rate.fillna(0.035) * 10}, df.position.isin(['RB', 'QB', 'WR'])),
+                                              'qb_scr': (df.position == 'QB') * df.scr_rate.fillna(0.035) * 10,
+                                              # roadmap step 5 (2026-11-16): the opponent's RB-run APV allowed (apv_features.py).
+                                              # The runner's own APV was tried too and added nothing once ypc is in (coef < 0).
+                                              'opp_rapv': _col(df, 'opp_rapv') * 10}, df.position.isin(['RB', 'QB', 'WR'])),
         'cmp': ('cmp', 'pass_att', {'l_rate': _log(df.cmp_r), 'l_def': _log(df.d_cmp), 'wind': df.wind.clip(0, 30) / 10}, df.is_qb_start == 1),
         'pass_yds': ('pass_yds', 'pass_att', {'l_rate': _log(df.ypa), 'l_def': _log(df.d_pass_yds), 'l_imp': _log(df.implied_rel),
                                                'wind': df.wind.clip(0, 30) / 10, 'dome': df.dome}, df.is_qb_start == 1),
+        # roadmap step 6 (rookie QB college APV+, apv_features.rook_qb / rook_apv) was tested here and left out: in the full
+        # 2024-25 backtest rookie QB passing-yard error went 62.08 -> 62.66 (worse both seasons), see apv_features.py.
         'pass_td': ('pass_td', 'pass_att', {'l_rate': _log(df.pass_td_r), 'l_def': _log(df.d_pass_td), 'l_imp': _log(df.implied / 22)}, df.is_qb_start == 1),
         'td': ('td', 'td_opp', {'l_def': _log(df.d_td), 'l_imp': _log(df.implied / 22), 'l_rz': _log(df.rzt_sh.fillna(0) + df.rzc_sh.fillna(0) + 0.01),
                                 'is_qb': (df.position == 'QB').astype(float)}, df.position.isin(['WR', 'TE', 'RB', 'QB'])),
