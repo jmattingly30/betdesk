@@ -210,8 +210,10 @@ async function api(req, env, ctx, who, url) {
     if (path[1] === 'guests' && method === 'GET') {
       const users = await D.users();
       const counts = await Promise.all(users.map(u => desk(env, `u:${u.id}`).count('bets').catch(() => 0)));
+      const profs = await Promise.all(users.map(u => desk(env, `u:${u.id}`).getKey('profile').catch(() => null)));   // Honcho's read on each guest
       const inv = await D.invite();
-      return json({ guests: users.map((u, i) => ({ id: u.id, name: u.name, active: u.active, created: u.created, last_seen: u.last_seen || null, level: u.level || null, bets: counts[i] })),
+      return json({ guests: users.map((u, i) => ({ id: u.id, name: u.name, active: u.active, created: u.created, last_seen: u.last_seen || null, level: u.level || null, bets: counts[i],
+        honcho: profs[i] ? { note: profs[i].note || '', level: profs[i].level || null, sports: profs[i].sports || [], bet_types: profs[i].bet_types || [], at: profs[i].at || null } : null })),
         invite: inv ? { active: inv.active, used: inv.used, max: inv.max, created: inv.created } : null });
     }
     if (path[1] === 'invite' && method === 'POST') { // {max} makes a new shared link (the old one stops); {off:true} closes it

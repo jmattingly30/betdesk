@@ -159,12 +159,14 @@ nav button[aria-current=true]{color:var(--accent);border-top-color:var(--accent)
   function gameLine(g){   // our projection in plain words
     if (g.sport === 'TENNIS'){ const p1 = g.p1_win >= 0.5, w = p1 ? g.home : g.away, p = p1 ? g.p1_win : 1 - g.p1_win;
       return `We have ${w} winning ${pct(p)} of the time${g.sets ? `, most often ${g.sets}` : ''}${g.games ? `, about ${Math.round(g.games)} games` : ''}.`; }
+    if (g.sport === 'NHL'){ const hw = (g.p_home ?? 0.5) >= 0.5, w = hw ? g.home : g.away;
+      return `We have ${w} winning ${pct(hw ? g.p_home : 1 - g.p_home)} of the time, about ${(g.hs + g.as).toFixed(1)} total goals${g.p_ot != null ? `, ${pct(g.p_ot)} chance of overtime` : ''}.`; }
     const hw = g.hs >= g.as, w = hw ? g.home : g.away, m = Math.abs(g.hs - g.as);
     return `We have ${w} winning by ${Math.round(m * 10) / 10}${g.p_home != null ? ` (${pct(hw ? g.p_home : 1 - g.p_home)} to win)` : ''}, about ${Math.round(g.hs + g.as)} total points.`;
   }
   function gameRow(g){
     const ps = visible().filter(p => p.game === g.key), open = S.open === g.key, lv = level();
-    const score = g.sport === 'TENNIS' ? `${pct(g.p1_win)} – ${pct(1 - g.p1_win)}` : `${Math.round(g.as)}–${Math.round(g.hs)}`;
+    const score = g.sport === 'TENNIS' ? `${pct(g.p1_win)} – ${pct(1 - g.p1_win)}` : g.sport === 'NHL' ? `${g.as.toFixed(1)}–${g.hs.toFixed(1)}` : `${Math.round(g.as)}–${Math.round(g.hs)}`;
     const best = ps.length ? Math.max(...ps.map(p => p.stars)) : 0;
     return `<div class="card game${open ? ' open' : ''}">
       <button type="button" class="grow" data-game="${esc(g.key)}">
@@ -173,7 +175,8 @@ nav button[aria-current=true]{color:var(--accent);border-top-color:var(--accent)
         <span class="meta" style="grid-column:1/-1">${esc(tStr(g))}${g.event ? ' · ' + esc(g.event) : ''}${ps.length ? ` · <b class="pc">${ps.length} pick${ps.length === 1 ? '' : 's'}${best === 3 ? ' ★' : ''}</b>` : ''}</span>
       </button>
       ${open ? `<div class="gbody"><p class="why">${esc(gameLine(g))}</p>
-        ${lv >= 2 && g.spread != null ? `<div class="nums"><span>Books: <b>${esc(g.home)} ${g.spread > 0 ? '−' : '+'}${Math.abs(g.spread)}</b></span>${g.total != null ? `<span>Total <b>${g.total}</b></span>` : ''}</div>` : ''}
+        ${lv >= 2 && g.spread != null ? `<div class="nums"><span>Books: <b>${esc(g.home)} ${g.spread > 0 ? '−' : '+'}${Math.abs(g.spread)}</b></span>${g.total != null ? `<span>Total <b>${g.total}</b></span>` : ''}</div>` :
+          lv >= 2 && g.total != null ? `<div class="nums"><span>Books' total: <b>${g.total}</b></span></div>` : ''}
         ${ps.length ? ps.map(pickCard).join('') : '<p class="small muted" style="margin:8px 0">No picks in this game. Our number is close to the books’ here.</p>'}</div>` : ''}
     </div>`;
   }
@@ -196,7 +199,7 @@ nav button[aria-current=true]{color:var(--accent);border-top-color:var(--accent)
              (props.length ? section('Player props', '', props.map(pickCard).join('')) : '') ||
              '<p class="empty">No picks right now. New lines come in through the day.</p>';
     } else if (!gs.length){
-      body = `<p class="empty">${sp === 'NHL' ? 'We don’t project NHL game scores yet, only player props. See Best bets.' : 'No upcoming games right now.'}</p>`;
+      body = `<p class="empty">No upcoming games right now.</p>`;
     } else {
       const days = [...new Set(gs.map(g => g.date))];
       body = days.map(d => section(esc(dayLabel(d)), `${sp === 'TENNIS' ? 'win chance' : 'our score'}`, gs.filter(g => g.date === d).map(gameRow).join(''))).join('');
