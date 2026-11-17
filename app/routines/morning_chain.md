@@ -82,6 +82,8 @@ C4b. CFB Model A: `bash /mnt/project-files/sports-analytics/models/rebuild/footb
 C4g. CFB Model A + Model B (J 2026-11-05 rollout, after C4a and C4b): `python3 models/cfb_ab/live.py` (about 15 s) -> app/data/cfb_ab.json. It prints games, tiers,
     usage matches and every missing starter it priced ('OUT ...'); report if it errors or prints 0 games with lines while CFB has lines. Manual absences live in
     models/cfb_ab/absences.json (team, player, kind qb/skill, until date). Then `python3 models/cfb_ab/grade.py` (-> models/cfb_ab/history/grade.json).
+C4h. NHL sim (2026-11-16, after C2): `python3 models/nhl_sim/live.py <scratchpad> && python3 models/nhl_sim/grade.py <scratchpad>` (about 30 s; downloads this
+    season's play-by-play) -> app/data/nhl_sim.json, models/nhl_sim/history/log.jsonl + grade.json. Not on the desk yet, so nothing to publish.
 C4c. `python3 app/export_model_a.py` (after B8 and C4b) -> app/data/model_a.json.
 C4h. Watch the sim (J 2026-11-06, after C4d-C4g): `python3 models/sims/build.py` (about 1 min; no numba needed) -> app/data/sims_{nba,cbb,nfl,cfb,tennis}.json.
     It prints one audit line per sport; report a sport that errors or says 'off Model A' for more than a few games.

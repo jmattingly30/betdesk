@@ -12,6 +12,7 @@ Read this instead of re-reading code. Sport-model goals and rules live in projec
 - `models/` — one folder per model.
   - Live game models (Model A sim + Model B tiers): `cbb_ab/`, `nfl_ab/`, `nba_ab/`, `cfb_ab/` (each: `live.py` -> `app/data/<sport>_ab.json` + `history/runs.jsonl`; `grade.py` -> `history/grade.json`). `tennis_ab/` is held.
   - Model A engines: `rebuild/basketball` (NBA stack, CBB v2 in `cbb_live/`), `rebuild/football` (NFL drive model, CFB v4 in `cfb_gap/live/`), `rebuild/hockey`, `rebuild/shadow/shadow.py` (live shadow projections).
+  - NHL team model: `nhl_sim/` (shot-state sim with rest; `live.py <scratch>` -> `app/data/nhl_sim.json` + `history/log.jsonl`, `grade.py`, `hist.py` yearly, `backtest.py`). Not on the desk yet.
   - Shared Model B code: `model-b/` (`devig.py`, `ml_anchor.py`, `unproven.py`, `pregame.py` = keep started games frozen).
   - Player props: `nba-player/`, `nfl-player/`, `nhl-player/`; `injuries/scan.py` (ESPN injury feed).
   - `grading/grade.py` (scorecard.json), `snap_games.js` / `snap_flags.js` (headless desk snapshots), `sims/build.py`, `parlay/`, `promo/`, `oddspapi/`, `team-strength/`, older `cbb/`, `cfb-v2/`, `cfb-v3/`.

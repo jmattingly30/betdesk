@@ -14,6 +14,7 @@ step "line tools" bash -c "cd app && python3 line_tools.py"
 if [ "$T" != nfl ]; then step "CBB Model B (cbb_ab live)" python3 models/cbb_ab/live.py; fi
 step "NFL Model B (nfl_ab live)" python3 models/nfl_ab/live.py
 if [ "$T" != nfl ]; then step "NBA Model B (nba_ab live)" python3 models/nba_ab/live.py; fi
+if [ "$T" != nfl ]; then step "NHL sim (re-logged on the new lines)" python3 models/nhl_sim/live.py ${RUNNER_TEMP:-/tmp}; fi
 if [ "$T" = night ]; then step "CFB usage" bash -c "cd models/oddspapi && python3 cfb_usage.py"; fi
 if [ "$T" != nfl ]; then step "CFB Model B (cfb_ab live)" python3 models/cfb_ab/live.py; fi
 # Tennis Model A+B and grading held (J 2026-11-11: tennis off the desk; models/tennis_ab kept for later)

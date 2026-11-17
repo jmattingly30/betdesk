@@ -50,6 +50,7 @@ step "C4 line tools" python3 app/line_tools.py
 step "C4d CBB Model A+B" bash -c "python3 models/cbb_ab/live.py && python3 models/cbb_ab/grade.py"
 step "C4e NFL Model A+B" bash -c "python3 models/nfl_ab/live.py && python3 models/nfl_ab/grade.py $DL/nfldl/games.csv"
 step "C4f NBA Model A+B" bash -c "python3 models/nba_ab/live.py && python3 models/nba_ab/grade.py"
+step "C4h NHL sim" bash -c "python3 models/nhl_sim/live.py ${RUNNER_TEMP:-/tmp} && python3 models/nhl_sim/grade.py ${RUNNER_TEMP:-/tmp}"
 step "C4a CFB usage" bash -c "cd models/oddspapi && python3 cfb_usage.py"
 step "C4b CFB Model A" bash models/rebuild/football/cfb_gap/live/run_live.sh
 step "C4g CFB Model A+B" bash -c "python3 models/cfb_ab/live.py && python3 models/cfb_ab/grade.py"
