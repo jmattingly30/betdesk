@@ -108,4 +108,6 @@ def run(G, base, P, N=400, seed=0):
     if P.get("dist"):      # chance of 0, 1, ... 9, 10+ goals for each team (overtime and shootout goal included)
         out["dist_h"] = [np.bincount(np.minimum(x, 10), minlength=11) / N for x in H]
         out["dist_a"] = [np.bincount(np.minimum(x, 10), minlength=11) / N for x in A]
+        out["dist_t"] = [np.bincount(np.minimum(x, 15), minlength=16) / N for x in tot_]   # game total 0 ... 14, 15+ (joint, not two marginals)
+        out["p_h2"] = (H - A >= 2).mean(1); out["p_a2"] = (A - H >= 2).mean(1)            # puck line: wins by 2+
     return out

@@ -33,3 +33,7 @@ Better in all five seasons on second-night teams (t -6.0 overall).
 - Starting goalie is the team's most used goalie of its last ten games, not the confirmed starter.
 - The line beside each game is team goals implied by the moneyline and game total (Pinnacle when listed). Our odds pulls do not carry team-total markets.
 - No injuries or line-ups. Those are research candidates in the design doc, not part of this build.
+
+## On the Bet Desk (2026-11-17)
+
+NHL > Games lists every game in `nhl_sim.json`: the sim's score and win chance (Model A, not blended), the market's implied team goals beside it, and in the game tile the 80% ranges, overtime chance, and our chance for the moneyline, puck line, total and team totals 2.5/3.5 (from `dt`, `pl`, `dh`, `da`). Started games stay listed for 30 h with the final (`fs`). Data > Model A vs B shows the grade (`grade` in `nhl_sim.json`): team goals and totals vs the market, by team, latest games. No bet engine (Model B) for NHL yet.
