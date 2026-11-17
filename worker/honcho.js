@@ -47,19 +47,19 @@ const PROFILE_SCHEMA = {
   type: 'object',
   properties: {
     level: { type: 'integer', description: '1 = plain picks only, 2 = picks plus reasons and less proven long shots, 3 = every number' },
-    sports: { type: 'array', items: { type: 'string' }, description: 'Sports this person cares about, most first, from: NFL, NBA, CFB, CBB' },
+    sports: { type: 'array', items: { type: 'string' }, description: 'Sports this person cares about, most first, from: NFL, NBA, CFB, CBB, NHL' },
     bet_types: { type: 'array', items: { type: 'string' }, description: 'Bet types they like, from: spread, total, moneyline' },
     note: { type: 'string', description: 'One friendly sentence (under 160 characters) to show at the top of their desk, plain English, no jargon' },
   },
   required: ['level', 'sports', 'bet_types', 'note'],
 };
 
-const QUERY = `This person uses a simple sports betting pick sheet. Based on everything you know about them:
+const QUERY = `This person uses a simple sports betting pick sheet (NFL, NBA, college football, college basketball and NHL). Based on everything you know about them:
 which sports and bet types do they care about, how comfortable are they with betting math (level 1 = wants
 plain picks only, 2 = likes short reasons and is fine seeing less proven long-shot picks, 3 = wants every number:
 edges, win chances, model scores), and one short friendly note for the top of their desk that helps them bet
 smarter (for example about sticking to strong picks, bet size, or a sport they do well in). If you know little
-about them yet, answer level 1, all four sports, and a welcoming note.`;
+about them yet, answer level 1, all five sports, and a welcoming note.`;
 
 export async function profile(env, desk, uid) {
   if (!honchoOn(env)) return null;
@@ -67,7 +67,7 @@ export async function profile(env, desk, uid) {
   const r = await call(env, `/peers/${peerId(uid)}/chat`, { query: QUERY, reasoning_level: 'low', response_format: PROFILE_SCHEMA });
   let p;
   try { p = JSON.parse(r.content || '{}'); } catch (e) { return null; }
-  const SPORTS = ['NFL', 'NBA', 'CFB', 'CBB'], TYPES = ['spread', 'total', 'moneyline'];
+  const SPORTS = ['NFL', 'NBA', 'CFB', 'CBB', 'NHL'], TYPES = ['spread', 'total', 'moneyline'];
   return {
     level: Math.min(3, Math.max(1, Math.round(Number(p.level) || 1))),
     sports: (p.sports || []).map(s => String(s).toUpperCase()).filter(s => SPORTS.includes(s)),

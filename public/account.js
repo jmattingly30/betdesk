@@ -79,6 +79,16 @@
   // ---- People card (Settings): invite links for guests ----
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const ago = t => { if (!t) return 'never'; const h = (Date.now() - Date.parse(t)) / 36e5; return h < 1 ? 'just now' : h < 48 ? Math.round(h) + ' h ago' : Math.round(h / 24) + ' days ago'; };
+  const SPN = { NFL: 'NFL', NBA: 'NBA', CFB: 'college football', CBB: 'college basketball', NHL: 'NHL' };
+  const LVN = ['', 'Simple', 'Guided', 'Full'];
+  // What Honcho has learned about a guest: the note on top of their desk, plus the level, sports and bet types it picked.
+  const honchoLine = u => {
+    const h = u.honcho;
+    if (!h) return `<p class="small muted" style="margin:0 0 10px">Honcho: nothing learned yet.</p>`;
+    const bits = [h.level ? `level ${LVN[h.level] || h.level}` : '', h.sports.length ? 'sports: ' + h.sports.map(s => SPN[s] || s).join(', ') : '',
+      h.bet_types.length ? 'likes ' + h.bet_types.join(', ') : '', h.at ? 'updated ' + ago(h.at) : ''].filter(Boolean).join(' · ');
+    return `<p class="small" style="margin:0 0 10px">${h.note ? `<i>“${esc(h.note)}”</i><br>` : ''}<span class="muted">Honcho: ${esc(bits)}</span></p>`;
+  };
   async function people() {
     const anchor = document.getElementById('backupCard');
     if (!anchor || document.getElementById('peopleCard')) return;
@@ -94,7 +104,8 @@
           <span><b>${esc(u.name)}</b> <span class="small muted">${u.bets} bets · seen ${ago(u.last_seen)}${u.active ? '' : ' · <b>off</b>'}</span></span>
           <span class="row" style="gap:6px"><button class="btn ghost" type="button" data-link="${esc(u.id)}">New link</button>
           <button class="btn ghost" type="button" data-signout="${esc(u.id)}">Sign out everywhere</button>
-          <button class="btn ghost" type="button" data-active="${esc(u.id)}" data-on="${u.active ? 0 : 1}">${u.active ? 'Turn off' : 'Turn on'}</button></span></div>`).join('') || '<p class="small muted">No one yet.</p>'}
+          <button class="btn ghost" type="button" data-active="${esc(u.id)}" data-on="${u.active ? 0 : 1}">${u.active ? 'Turn off' : 'Turn on'}</button></span></div>
+          ${honchoLine(u)}`).join('') || '<p class="small muted">No one yet.</p>'}
         <div class="row" style="gap:6px;margin-top:8px"><input id="newGuest" placeholder="Name" maxlength="40" style="flex:1"><button class="btn" type="button" id="addGuest">Make invite link</button></div>
         <h3 style="margin-top:16px">One link for several people</h3>
         <p class="small muted">Send one link to a group. Each person who opens it types their name and gets their own desk. It stops after the number of people you pick, or when you turn it off.${inv && inv.active ? ` <b>Open: ${inv.used} of ${inv.max} used.</b>` : inv ? ` Closed (${inv.used} joined).` : ''}</p>

@@ -35,6 +35,17 @@ function buildGames(sport, d, today, now) {
   }
   return out;
 }
+// NHL games from the shot-state sim (nhl_sim.json, models/nhl_sim/live.py). Games only: there is no NHL bet engine
+// (Model B) yet, so the sim adds no game picks. The books' number beside it is the total (lt); NHL has no spread.
+function buildNhlGames(d, today, now) {
+  const out = [];
+  for (const g of d.games || []) {
+    if (g.hs == null || g.fs || (g.d && g.d < today) || (g.k && Date.parse(g.k) <= now)) continue;
+    out.push({ key: `NHL:${g.id}`, sport: 'NHL', home: g.h, away: g.a, date: g.d || null, kickoff: g.k || null,
+      hs: r1(g.hs), as: r1(g.as), p_home: g.pw ?? null, p_ot: g.pot ?? null, spread: null, total: g.lt ?? null });
+  }
+  return out;
+}
 function buildTennisGames(d, now) {
   const out = [];
   for (const m of d.matches || []) {
@@ -151,6 +162,7 @@ export async function loadPicks(env, origin) {
   // one bad or missing file should not empty the sheet
   const games = [];
   for (const [sport, f] of Object.entries(FILES)) { const d = await get(f); if (d) { all.push(...build(sport, d, today, now)); games.push(...buildGames(sport, d, today, now)); } }
+  const nhl = await get('nhl_sim.json'); if (nhl) games.push(...buildNhlGames(nhl, today, now));
   const t = TENNIS_ON ? await get('tennis_ab.json') : null; if (t) { all.push(...buildTennis(t, now)); games.push(...buildTennisGames(t, now)); }
   const pp = await get('prop_picks.json');
   if (pp) for (const x of buildProps(pp, today, now)) {   // tie each prop to its game: NFL by game id, others by the two teams
