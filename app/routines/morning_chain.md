@@ -83,7 +83,7 @@ C4g. CFB Model A + Model B (J 2026-11-05 rollout, after C4a and C4b): `python3 m
     usage matches and every missing starter it priced ('OUT ...'); report if it errors or prints 0 games with lines while CFB has lines. Manual absences live in
     models/cfb_ab/absences.json (team, player, kind qb/skill, until date). Then `python3 models/cfb_ab/grade.py` (-> models/cfb_ab/history/grade.json).
 C4h. NHL sim (2026-11-16, after C2): `python3 models/nhl_sim/live.py <scratchpad> && python3 models/nhl_sim/grade.py <scratchpad>` (about 30 s; downloads this
-    season's play-by-play) -> app/data/nhl_sim.json, models/nhl_sim/history/log.jsonl + grade.json. Not on the desk yet, so nothing to publish.
+    season's play-by-play) -> app/data/nhl_sim.json (with the grade inside), models/nhl_sim/history/log.jsonl + grade.json. On the desk since 2026-11-17 (NHL Games tab): publish nhl_sim.json in D.
 C4c. `python3 app/export_model_a.py` (after B8 and C4b) -> app/data/model_a.json.
 C4h. Watch the sim (J 2026-11-06, after C4d-C4g): `python3 models/sims/build.py` (about 1 min; no numba needed) -> app/data/sims_{nba,cbb,nfl,cfb,tennis}.json.
     It prints one audit line per sport; report a sport that errors or says 'off Model A' for more than a few games.
@@ -97,7 +97,7 @@ C8. `python3 models/grading/grade.py` (last).
 Copy app/bet-desk.html to <scratchpad>/betdesk/index.html (never edit bet-desk.html; it already holds the 2026-10-30 Concept E redesign, never rerun app/redesign_patch.py) and every file below that changed this run into
 <scratchpad>/betdesk/ at its bare name: past_props.json, nhl_props.json, nba_props.json, nfl_props.json, games_models.json, cbb_v2.json,
 cfb_model.json, game_slates.json, line_tools.json, props_NFL.json, props_NBA.json, props_NHL.json, parlay_suggestions.json,
-promo_picks.json, scorecard.json, player_results.json, cfb_usage.json, model_a.json, cbb_ab.json, nfl_ab.json, nba_ab.json, cfb_ab.json, sims_nba.json, sims_cbb.json, sims_nfl.json, sims_cfb.json, nfl_coaches.json and cfb_v2.json (file time in the last 30 h; J 2026-11-11: tennis and soccer files are not published while those sports are off the desk),
+promo_picks.json, scorecard.json, player_results.json, cfb_usage.json, model_a.json, cbb_ab.json, nfl_ab.json, nba_ab.json, cfb_ab.json, sims_nba.json, sims_cbb.json, sims_nfl.json, sims_cfb.json, nhl_sim.json, nfl_coaches.json and cfb_v2.json (file time in the last 30 h; J 2026-11-11: tennis and soccer files are not published while those sports are off the desk),
 sim.js (from app/sim.js, the Watch-the-sim viewer; always include it),
 and props_vs_close.json if its "made" is newer than the published copy.
 Publish with the Artifact tool: url https://claude.ai/artifact/Pdq3m2UxoriBf2gBdzgBp4, file_path <scratchpad>/betdesk/index.html,

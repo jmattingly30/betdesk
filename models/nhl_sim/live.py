@@ -53,7 +53,7 @@ def market(path):
             return [np.tril(J, -1).sum() + 0.5 * np.trace(J) - p, (J * (tot > L)).sum() / max(1 - (J * (tot == L)).sum(), 1e-9) - q]
         x = least_squares(res, [L / 2, L / 2], bounds=(0.8, 7)).x
         J = np.outer(poisson.pmf(k, x[0]), poisson.pmf(k, x[1])); tie = np.trace(J)
-        out[(e["home_team"], e["away_team"], e["commence_time"][:10])] = {"lh": round(float(x[0] + tie / 2), 2), "la": round(float(x[1] + tie / 2), 2), "lt": L, "lp": round(p, 3)}
+        out[(e["home_team"], e["away_team"], e["commence_time"][:10])] = {"lh": round(float(x[0] + tie / 2), 2), "la": round(float(x[1] + tie / 2), 2), "lt": L, "lp": round(p, 3), "lo": round(q, 3)}
     return out
 
 
@@ -95,6 +95,7 @@ def main():
             row = {"id": str(int(r.game_id)), "made": made, "k": r.k.isoformat(timespec="seconds"), "d": str(r.game_date)[:10], "h": r.home_team_abbr, "a": r.away_team_abbr,
                    "hs": round(float(x.pred_h), 2), "as": round(float(x.pred_a), 2), "pw": round(float(x.p_home), 3), "pot": round(float(x.p_ot), 3),
                    "dh": [round(float(v), 4) for v in x.dist_h], "da": [round(float(v), 4) for v in x.dist_a],
+                   "dt": [round(float(v), 4) for v in x.dist_t], "pl": [round(float(x.p_h2), 3), round(float(x.p_a2), 3)],
                    "b2b": [int(G.b2b_h[i]), int(G.b2b_a[i])], "gk": [usual.get(r.home_team_abbr), usual.get(r.away_team_abbr)]}
             m = mk.get((f"{r.home_team_name}", f"{r.away_team_name}", str(r.k)[:10]))
             if m is None:      # odds feed uses full names ("New York Rangers"); match on the city / place part
@@ -104,8 +105,29 @@ def main():
             rows.append(row)
     os.makedirs(f"{HERE}/history", exist_ok=True)
     with open(f"{HERE}/history/log.jsonl", "a") as f:
-        for r in rows: f.write(json.dumps({k_: v for k_, v in r.items() if k_ not in ("dh", "da")}) + "\n")
-    json.dump({"made": made, "season": SEASON, "games_rated": int(ng), "rest_mult": lib.REST_MULT, "games": rows}, open(f"{SA}/app/data/nhl_sim.json", "w"))
+        for r in rows: f.write(json.dumps({k_: v for k_, v in r.items() if k_ not in ("dh", "da", "dt")}) + "\n")
+    # Bet Desk full day (J 2026-11-06): games that started in the last 30 h stay on the desk with their last pre-game row and the final
+    out_rows = rows + started_rows(f"{SA}/app/data/nhl_sim.json", sch, now, {r["id"] for r in rows})
+    try: grade = json.load(open(f"{HERE}/history/grade.json"))
+    except Exception: grade = None
+    json.dump({"made": made, "season": SEASON, "games_rated": int(ng), "rest_mult": lib.REST_MULT, "games": out_rows, "grade": grade},
+              open(f"{SA}/app/data/nhl_sim.json", "w"))
+
+
+def started_rows(path, sch, now, skip, hours=30):
+    """Rows from the previous nhl_sim.json whose game has started (within `hours`), kept as they were before puck drop,
+    with the final score once the schedule has it (fs = [home, away])."""
+    try: old = json.load(open(path)).get("games", [])
+    except Exception: return []
+    fin = {str(int(g)): [int(h), int(a)] for g, h, a, st in zip(sch.game_id, sch.home_score, sch.away_score, sch.game_state)
+           if st in ("OFF", "FINAL") and pd.notna(h) and pd.notna(a)}
+    out = []
+    for r in old:
+        k = pd.Timestamp(r["k"])
+        if r["id"] in skip or k > now or (now - k).total_seconds() > hours * 3600: continue
+        if r["id"] in fin: r["fs"] = fin[r["id"]]
+        out.append(r)
+    return out
     print("NHL sim:", len(rows), "games,", sum("lh" in r for r in rows), "with a line,", sum(sum(r["b2b"]) for r in rows), "teams on a second night", flush=True)
 
 

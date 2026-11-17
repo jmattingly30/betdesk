@@ -8,7 +8,7 @@ let MA = null, TEN = null, TENM = null, SHEET = null;
 const AB_DESK = sp => sp === 'CBB' ? 'A' : 'B';
 const AB_SD = {NFL:13.5, CFB:15.5, NBA:12, CBB:10.5};
 const AB_GAP = {NFL:[3, 4], CFB:[4, 6], NBA:[4, 6], CBB:[3, 5], NHL:[0.6, 0.8]};   // margin, total: a gap this big opens the why box
-const AB_LAB = sp => sp === 'CBB' ? ['Scores · v2 + sim', 'Bets · tier'] : sp === 'NFL' ? ['Scores · rebuild + key numbers', 'Bets · tier'] : sp === 'NBA' && cabOn('NBA') ? ['Scores · rebuild + sim', 'Bets · tier'] : sp === 'CFB' && cabOn('CFB') ? ['Scores · v4 + drive sim', 'Bets · tier'] : sp === 'CFB' ? ['Rebuild v4', cfVer === 'v2' ? 'CFB v2 (yours)' : 'Desk v3'] : ['Rebuild', 'Desk model'];
+const AB_LAB = sp => sp === 'NHL' ? ['Shot-state sim', 'Market · implied goals'] : sp === 'CBB' ? ['Scores · v2 + sim', 'Bets · tier'] : sp === 'NFL' ? ['Scores · rebuild + key numbers', 'Bets · tier'] : sp === 'NBA' && cabOn('NBA') ? ['Scores · rebuild + sim', 'Bets · tier'] : sp === 'CFB' && cabOn('CFB') ? ['Scores · v4 + drive sim', 'Bets · tier'] : sp === 'CFB' ? ['Rebuild v4', cfVer === 'v2' ? 'CFB v2 (yours)' : 'Desk v3'] : ['Rebuild', 'Desk model'];
 function maGame(sp, x){
   const M = MA && MA.sports && MA.sports[sp]; if (!M) return null;
   const id = String(x.g ?? x.id ?? ''), h = x.home ?? x.h, a = x.away ?? x.a;
@@ -22,6 +22,7 @@ function poisWin(lh, la){   // NHL: P(home wins), ties split (overtime)
 const abWin = (sp, hs, as) => sp === 'NHL' ? poisWin(hs, as) : ncdf((hs - as)/(AB_SD[sp] || 12));
 // both models for one game: {A, B, gapM, gapT, big}; each model {hs, as, p (home win), est (chance from the score, not the card)}
 function abOf(sp, x, r){
+  if (sp === 'NHL') return nhlAB(x);   // NHL (J 2026-11-17): A = the sim (nhl_sim.json), B box = the market's implied goals
   const desk = r ? {hs:r.raw.hs, as:r.raw.as, p:r.pml ?? abWin(sp, r.raw.hs, r.raw.as), est:r.pml == null} : null;
   if ((sp === 'NFL' || sp === 'NBA' || sp === 'CFB') && cabOn(sp)){ const G = cabGame(x, sp), m = maGame(sp, x);   // NFL, NBA, CFB (J 2026-11-05): Model A = {nfl,nba,cfb}_ab.json scores, Model B = its bet engine; the desk model stays in the full card below
     return {A:G && G.A ? {hs:G.A.hs, as:G.A.as, lf:G.A.lf, p:G.A.p_home, est:false, g:G} : m ? {hs:m.hs, as:m.as, p:abWin(sp, m.hs, m.as), est:true, g:m} : null, B:null}; }
@@ -120,7 +121,7 @@ const gsOf = (sp, x) => gsGames(sp).find(y => String(y.id) === String(x.g ?? x.i
 const recentStart = x => started(x) && Date.now() - Date.parse(x.k) <= DAY_H*36e5;
 function gStat(sp, x){   // null = not started; else {t: chip text, fin}
   if (!started(x)) return null;
-  const f = gsOf(sp, x), fs = f && f.fs;
+  const f = sp === 'NHL' ? nhlRow(x) : gsOf(sp, x), fs = f && f.fs;
   if (fs) return {t:`Final ${fs[1]}-${fs[0]}`, fin:true};
   return Date.now() - Date.parse(x.k) > (DUR_H[sp] || 3)*36e5 ? {t:'Ended', fin:true} : {t:'Live', fin:false};
 }
@@ -138,6 +139,7 @@ slateGames = function(sp){
 // ---------- game rows (Games tab and Home) ----------
 function abLegend(sp){
   const [la, lb] = AB_LAB(sp);
+  if (sp === 'NHL') return `<p class="small muted ablg"><b class="ka">A</b> Shot-state sim (ours, not blended) <b class="kb">M</b> Market: team goals implied by the moneyline and total</p>`;
   if (AB2(sp)) return `<p class="small muted ablg"><b class="ka">A</b> ${esc(la)} <b class="kb">B</b> ${esc(lb)} (A bet, B lean)${!cabOn(sp) ? ' · Model B file not loaded yet' : ''}</p>`;
   return `<p class="small muted ablg"><b class="ka">A</b> ${esc(la)} <b class="kb">B</b> ${esc(lb)}${!(MA && MA.sports && MA.sports[sp]) ? ` · Model ${AB_DESK(sp) === 'A' ? 'B' : 'A'} has no ${esc(sp)} file yet` : ''}</p>`;
 }
@@ -149,17 +151,17 @@ function eRow(sp, x, r, i){
   const bet = e || (b && b.mev >= PF_THR && b.bev >= PF_THR ? {t:sideLbl(g, b.mk, b.s, b.pt), ev:b.bev} : null);
   const cb = AB2(sp) ? cabGame(x, sp) : null, cs = cb && cb.B && cb.B.spread && cb.B.spread.tier !== 'C' ? cb.B.spread : null, cbt = cabBets(cb).filter(([k, z]) => z.tier === 'A')[0] || cabBets(cb)[0];
   if (AB2(sp)){ B.as = undefined; B.hs = undefined; }
-  const star = bet && sp === 'CFB' && cfbStars(x.home, x.away).length ? ' <span class="chip y">star out</span>' : '';
+  const star = (bet && sp === 'CFB' && cfbStars(x.home, x.away).length ? ' <span class="chip y">star out</span>' : '') + (sp === 'NHL' && A.g && A.g.b2b ? A.g.b2b.map((v, k) => v ? ` <span class="chip b" title="Second night of a back-to-back">${esc(k ? x.away : x.home)} B2B</span>` : '').join('') : '');
   return `<button type="button" class="erow${st ? ' past' : ''}" data-i="${i}">
     <span class="t">${tLogo(sp, x.away)}${esc(x.away)}</span><span class="sc"${A.lf ? ` title="Likely final; average ${abF1(A.as)}"` : ''}>${abL(sp, A, 'a')}</span><span class="sb">${AB2(sp) ? (cs && cs.side === x.away ? cs.tier : '') : abF(sp, B.as)}</span>
     <span class="t">${tLogo(sp, x.home)}${esc(x.home)}</span><span class="sc"${A.lf ? ` title="Likely final; average ${abF1(A.hs)}"` : ''}>${abL(sp, A, 'h')}</span><span class="sb">${AB2(sp) ? (cs && cs.side === x.home ? cs.tier : '') : abF(sp, B.hs)}</span>
-    <span class="meta"><span>${statChip(st)}${esc(whenOf(x))}${fav ? ` · ${esc(fav[0])} ${pct(fav[1], 0)}` : ''}</span><span>${ab.big ? `<span class="chip y">A/B gap</span> ` : ''}${AB2(sp) ? (cbt ? `<span class="chip${cbt[1].tier === 'A' ? '' : ' y'}">${pre}${CAB_T[cbt[1].tier]}: ${esc(cabPick(cbt[0], cbt[1]))}${cbt[1].tier === 'A' ? ' ' + sgn(cbt[1].bet.ev) : ''}</span>` : (cu => cu ? `<span class="chip u">${pre}Unproven ${cu[1].u.score}: ${esc(cabPick(cu[0], cu[1]))}</span>` : '')(cabU(cb).sort((p, q) => q[1].u.score - p[1].u.score)[0])) : bet ? `<span class="chip">${pre}${esc(bet.t)} ${sgn(bet.ev)}</span>` : ''}${star}</span></span></button>`;
+    <span class="meta"><span>${statChip(st)}${esc(whenOf(x))}${fav ? ` · ${esc(fav[0])} ${pct(fav[1], 0)}` : ''}</span><span>${ab.big ? `<span class="chip y">${sp === 'NHL' ? 'Off market' : 'A/B gap'}</span> ` : ''}${AB2(sp) ? (cbt ? `<span class="chip${cbt[1].tier === 'A' ? '' : ' y'}">${pre}${CAB_T[cbt[1].tier]}: ${esc(cabPick(cbt[0], cbt[1]))}${cbt[1].tier === 'A' ? ' ' + sgn(cbt[1].bet.ev) : ''}</span>` : (cu => cu ? `<span class="chip u">${pre}Unproven ${cu[1].u.score}: ${esc(cabPick(cu[0], cu[1]))}</span>` : '')(cabU(cb).sort((p, q) => q[1].u.score - p[1].u.score)[0])) : bet ? `<span class="chip">${pre}${esc(bet.t)} ${sgn(bet.ev)}</span>` : ''}${star}</span></span></button>`;
 }
 function renderGameListE(){
   const sp = S.sport, box = $('#gameListE'), C = GCFG[sp]; if (!box) return; if (AB2(sp)) cabLoad(sp);
-  const all = C ? slateGames(sp).filter(x => !started(x) || recentStart(x)) : [];
+  const all = C || sp === 'NHL' ? slateGames(sp).filter(x => !started(x) || recentStart(x)) : [];
   const gs = [...all.filter(x => !started(x)), ...all.filter(x => started(x))];   // upcoming first, then the day's started games
-  if (!gs.length){ box.innerHTML = ''; return; }
+  if (!gs.length){ box.innerHTML = sp === 'NHL' ? `<p class="small muted">${nhlOn() ? 'No NHL games in the sim file for this day (it covers today and tomorrow).' : NHLS === false ? 'Loading the NHL sim…' : 'The NHL sim file is not loaded.'}</p>` : ''; return; }
   const pr0 = probeGames(sp, gs), keep = gs.map((x, i) => { const ab = abOf(sp, x, pr0[i]); return !!(ab.A || ab.B); });
   const gk = gs.filter((x, i) => keep[i]), pr = pr0.filter((x, i) => keep[i]), hid = gs.length - gk.length;   // J 2026-11-02 cleanup: games neither model projects (non-D1 opponents) are left out
   const nUp = gk.filter(x => !started(x)).length, rows = (a, z) => gk.slice(a, z).map((x, i) => eRow(sp, x, pr[a + i], a + i)).join('');
@@ -169,6 +171,96 @@ function renderGameListE(){
 }
 const _renderGameList = renderGameList;
 renderGameList = function(){ _renderGameList(); renderGameListE(); drawSheet(); };
+// ---------- NHL on the desk (J 2026-11-17): Model A = the shot-state sim (models/nhl_sim/live.py -> nhl_sim.json, PR #34) ----------
+// Our unblended score and win chance for every game; beside it the team goals the market implies (moneyline + total, Pinnacle first).
+// No NHL bet engine (Model B) yet: Model A is graded on accuracy against the market's team goals (Data > Model A vs B), not on bets.
+// Started games stay listed with their last pre-game row and the final (live.py keeps them 30 h).
+VIEWS.NHL = ['games', ...VIEWS.NHL.filter(k => k !== 'games')];
+if (!MODELS.includes('NHL sim')) MODELS.push('NHL sim');
+TEAM_MODEL.NHL = 'NHL sim'; DUR_H.NHL = 2.75;
+let NHLS = null;
+function nhlLoad(){ if (NHLS !== null) return; NHLS = false;
+  fetch('nhl_sim.json', {cache:'no-cache'}).then(r => r.ok ? r.json() : null).then(j => { if (j && j.games){ NHLS = j;
+    try { renderGameList(); renderHome(); if (!$('#v-results').hidden) renderCharts(); } catch(e){} } }).catch(() => {}); }
+const nhlOn = () => !!(NHLS && NHLS.games);
+const nhlRow = x => !nhlOn() ? null : NHLS.games.find(g => String(g.id) === String(x.g ?? x.id)) || NHLS.games.find(g => g.h === (x.home ?? x.h) && g.a === (x.away ?? x.a) && (!x.d || g.d === x.d)) || null;
+const nhlX = g => ({g:g.id, id:g.id, d:g.d, k:g.k, home:g.h, away:g.a, n:0});
+const _slateGamesN = slateGames;
+slateGames = function(sp){
+  if (sp !== 'NHL') return _slateGamesN(sp);
+  nhlLoad(); if (!nhlOn()) return [];
+  const today = !S.day || S.day === localDay();
+  return NHLS.games.filter(g => started(g) ? today && recentStart(g) : dayOk(g)).map(nhlX).sort((a, b) => (a.k || '').localeCompare(b.k || '') || a.home.localeCompare(b.home));
+};
+function nhlAB(x){
+  const g = nhlRow(x); if (!g) return {A:null, B:null};
+  const A = {hs:g.hs, as:g.as, p:g.pw, est:false, g}, B = g.lh != null ? {hs:g.lh, as:g.la, p:g.lp, est:false, mkt:true} : null, o = {A, B};
+  if (B){ o.gapM = (A.hs - A.as) - (B.hs - B.as); o.gapT = (A.hs + A.as) - (B.hs + B.as); o.big = Math.abs(o.gapM) >= AB_GAP.NHL[0] || Math.abs(o.gapT) >= AB_GAP.NHL[1]; }
+  return o;
+}
+const nhlCum = d => { let s = 0; return d.map(v => s += v); };
+const nhlQ = (d, q) => nhlCum(d).findIndex(c => c >= q);
+const nhlOver = (d, L) => d.reduce((s, v, i) => s + (i > L ? v : 0), 0);   // last bucket is "N+": fine for any line below it
+const nhlPush = (d, L) => Number.isInteger(L) ? d[L] || 0 : 0;
+const nhlMode = d => d.indexOf(Math.max(...d));
+function nhlRange(x){
+  const g = nhlRow(x); if (!g || !g.dh) return '';
+  const r = (d, top) => { const a = nhlQ(d, 0.1), b = nhlQ(d, 0.9); return `${a}–${b}${b >= top ? '+' : ''}`; };
+  return `<p class="small muted">80% of sims: ${esc(x.away)} ${r(g.da, 10)}, ${esc(x.home)} ${r(g.dh, 10)}${g.dt ? ` · total ${r(g.dt, 15)}` : ''} · most likely ${esc(x.away)} ${nhlMode(g.da)}, ${esc(x.home)} ${nhlMode(g.dh)} · overtime ${pct(g.pot, 0)}</p>`;
+}
+function nhlMktBox(x){
+  const g = nhlRow(x);
+  if (!g || g.lh == null) return `<div class="abx b"><span class="lab">Market · implied goals</span><p class="small muted">No moneyline and total posted for this game yet.</p></div>`;
+  return `<div class="abx b"><span class="lab">Market · implied goals</span>
+    <div class="abs"><span>${esc(x.away)}</span><b>${g.la.toFixed(1)}</b></div><div class="abs"><span>${esc(x.home)}</span><b>${g.lh.toFixed(1)}</b></div>
+    <div class="bar"><i style="width:${(g.lp*100).toFixed(0)}%"></i></div>
+    <p class="small">${esc(x.home)} ${pct(g.lp, 0)} · ${esc(x.away)} ${pct(1 - g.lp, 0)} <span class="muted">no vig</span></p>
+    <p class="small muted">Total ${g.lt}${g.lo != null ? `, over ${pct(g.lo, 0)} no vig` : ''}. From the moneyline and total (Pinnacle first).</p></div>`;
+}
+// our chance for each NHL market from the sim's distributions; "Log" opens the bet form with our chance filled in
+let NHLP = [];
+function nhlPrices(x){
+  NHLP = []; const g = nhlRow(x); if (!g || !g.dh) return '';
+  const R = (t, mk, side, line, p, m) => { NHLP.push({x, t, mk, side, line, p}); return `<tr><td class="t">${esc(t)}</td><td><b>${pct(p, 0)}</b> <span class="muted">${amS(+am(p))}</span></td><td class="muted">${m == null ? '–' : pct(m, 0)}</td><td><button class="btn ghost sm" type="button" data-nlog="${NHLP.length - 1}">Log</button></td></tr>`; };
+  const L = [R(`${x.home} ML`, 'Moneyline', 'Side', '', g.pw, g.lp), R(`${x.away} ML`, 'Moneyline', 'Side', '', 1 - g.pw, g.lp != null ? 1 - g.lp : null)];
+  if (g.pl) L.push(R(`${x.home} -1.5`, 'Spread', 'Side', -1.5, g.pl[0]), R(`${x.away} +1.5`, 'Spread', 'Side', 1.5, 1 - g.pl[0]), R(`${x.away} -1.5`, 'Spread', 'Side', -1.5, g.pl[1]), R(`${x.home} +1.5`, 'Spread', 'Side', 1.5, 1 - g.pl[1]));
+  if (g.dt){ const T = g.lt != null ? g.lt : 5.5, o = nhlOver(g.dt, T), pu = nhlPush(g.dt, T);
+    L.push(R(`Over ${T}`, 'Total', 'Over', T, o, g.lo), R(`Under ${T}`, 'Total', 'Under', T, 1 - o - pu, g.lo != null ? 1 - g.lo : null)); }
+  [[x.away, g.da], [x.home, g.dh]].forEach(([t, d]) => [2.5, 3.5].forEach(T => L.push(R(`${t} team total over ${T}`, 'Total', 'Over', T, nhlOver(d, T)))));
+  return `<div class="panel ebox"><h3>Our chances</h3><p class="small muted">Straight from the sim (4,000 games), not blended with the market. Fair odds beside each; market column = no-vig chance where we have it. NHL has no bet engine yet, so nothing here is a tested bet: compare with your book's price before logging.${g.dt && g.lt != null && Number.isInteger(g.lt) ? ` Total ${g.lt} pushes ${pct(nhlPush(g.dt, g.lt), 0)} of the time.` : ''}</p>
+    <table class="et"><thead><tr><th>Bet</th><th>Ours</th><th>Market</th><th></th></tr></thead><tbody>${L.join('')}</tbody></table></div>`;
+}
+function nhlWhy(x, ab){
+  const g = nhlRow(x); if (!g) return '';
+  const L = [], A = ab.A, B = ab.B;
+  if (B){ const dh = A.hs - B.hs, da = A.as - B.as;
+    L.push(`The sim has ${abTm(x, A.hs - A.as)} goals with ${(A.hs + A.as).toFixed(1)} total. The market implies ${abTm(x, B.hs - B.as)} with ${(B.hs + B.as).toFixed(1)}.`);
+    const w = Math.abs(dh) >= Math.abs(da) ? [x.home, dh] : [x.away, da];
+    if (Math.abs(w[1]) >= 0.05) L.push(`Most of the difference is ${w[0]}: the sim has it ${Math.abs(w[1]).toFixed(1)} goals ${w[1] > 0 ? 'higher' : 'lower'} than the market.`); }
+  else L.push('No line posted yet, so there is nothing to compare against.');
+  (g.b2b || []).forEach((b, i) => { if (b) L.push(`${i ? x.away : x.home} played last night: the sim scores a team on the second night of a back-to-back at ${NHLS.rest_mult ?? 0.92} of its usual rate (held-out test: second-night miss 1.43 -> 1.39 goals, better all 5 seasons).`); });
+  L.push('Goalie: each team\'s most used goalie of its last 10 games, not the confirmed starter. No injuries or line-ups in the sim yet, so check late news.');
+  L.push(`Tested 2022-26 on 5,578 held-out games: team goals missed by 1.38 per game on average. ${(gr => gr && gr.team_goals ? `Live so far (${gr.games} games): sim ${gr.team_goals.sim_miss} per team${gr.team_goals.line_miss != null ? `, market ${gr.team_goals.line_miss}` : ''}.` : 'Live grading against the market starts with the first finished games.')(NHLS.grade)}`);
+  return `<details class="dis panel"${ab.big ? ' open' : ''}><summary><b>Sim vs market</b>${B ? ` <span class="small muted">margin gap ${Math.abs(ab.gapM).toFixed(1)} · total gap ${Math.abs(ab.gapT).toFixed(1)}</span>` : ''}</summary>${L.map(t => `<p class="small">${esc(t)}</p>`).join('')}</details>`;
+}
+// Data > Model A vs B: the sim graded on finished games against the market's team goals (the Model A yardstick, J 2026-10-31)
+function nhlData(){
+  nhlLoad(); const G = NHLS && NHLS.grade;
+  if (!G || !G.games) return `<div class="card"><h3>NHL sim</h3><p class="small muted">${nhlOn() ? 'Grading starts once the first logged games finish (the last row before puck drop is the one graded).' : 'Loading…'}</p></div>`;
+  const f = v => v == null ? '–' : (+v).toFixed(2), t = G.team_goals || {}, T = G.total || {}, s2 = G.second_night || {};
+  const best = (a, b) => a != null && b != null ? (a < b ? ['best', ''] : ['', 'best']) : ['', ''];
+  const r1 = best(t.sim_miss_lined, t.line_miss), r2 = best(T.sim_miss_lined, T.line_miss), r3 = best(s2.sim_miss_lined, s2.line_miss);
+  const tm = Object.entries(G.teams || {}).sort((a, b) => (b[1].act - b[1].proj) - (a[1].act - a[1].proj));
+  return `<div class="card"><h3>NHL sim · Model A</h3><p class="small muted">Average miss in goals on the last pre-game row of each finished game (overtime and shootout goal included); lower is better, the better one lit. Market = team goals implied by the moneyline and total at that time. ${G.games} games, ${esc(G.first || '')} to ${esc(G.last || '')}. Picks the winner ${pct(G.winners, 0)}.</p>
+    <div class="tablewrap"><table class="et"><thead><tr><th></th><th>n</th><th>Sim</th><th>Market</th><th>Sim bias</th></tr></thead><tbody>
+      <tr><td class="t">Team goals</td><td>${t.lined ?? t.n ?? '–'}</td><td class="${r1[0]}">${f(t.sim_miss_lined ?? t.sim_miss)}</td><td class="${r1[1]}">${f(t.line_miss)}</td><td>${f(t.sim_bias)}</td></tr>
+      <tr><td class="t">Game total</td><td>${T.lined ?? T.n ?? '–'}</td><td class="${r2[0]}">${f(T.sim_miss_lined ?? T.sim_miss)}</td><td class="${r2[1]}">${f(T.line_miss)}</td><td></td></tr>
+      ${s2.n ? `<tr><td class="t">Second night</td><td>${s2.lined ?? s2.n}</td><td class="${r3[0]}">${f(s2.sim_miss_lined ?? s2.sim_miss)}</td><td class="${r3[1]}">${f(s2.line_miss)}</td><td>${f(s2.sim_bias)}</td></tr>` : ''}
+    </tbody></table></div>
+    ${tm.length ? `<details><summary class="small"><b>By team</b> · goals per game vs our projection</summary><div class="tablewrap"><table class="et"><thead><tr><th>Team</th><th>n</th><th>Ours</th><th>Scored</th><th>Miss</th><th>Market miss</th></tr></thead><tbody>${tm.map(([k, v]) => `<tr><td class="t">${esc(k)}</td><td>${v.n}</td><td>${f(v.proj)}</td><td class="${v.act >= v.proj ? 'pos' : 'neg'}">${f(v.act)}</td><td>${f(v.miss)}</td><td>${f(v.line_miss)}</td></tr>`).join('')}</tbody></table></div><p class="small muted">Green = scored more than we projected. Sorted by how far above our number each team has scored.</p></details>` : ''}
+    ${(G.recent || []).length ? `<details><summary class="small"><b>Latest games</b></summary><div class="tablewrap"><table class="et"><thead><tr><th>Game</th><th>Ours</th><th>Market</th><th>Final</th></tr></thead><tbody>${G.recent.map(r => `<tr><td class="t">${esc(r.a)} @ ${esc(r.h)}<br><span class="muted">${esc(dayName(r.d))}</span></td><td>${(+r.ps[1]).toFixed(1)}–${(+r.ps[0]).toFixed(1)}</td><td>${r.l && r.l[0] != null ? `${(+r.l[1]).toFixed(1)}–${(+r.l[0]).toFixed(1)}` : '–'}</td><td>${r.fs[1]}–${r.fs[0]}</td></tr>`).join('')}</tbody></table></div><p class="small muted">Away–home.</p></details>` : ''}</div>`;
+}
+nhlLoad();
 // Watch the sim (J 2026-11-06): sim.js + sims_{sport}.json (models/sims/build.py), loaded on the first tap so the page stays the same size
 const SIM_SP = ['NBA', 'CBB', 'NFL', 'CFB', 'Tennis'];
 const simBtn = sp => SIM_SP.includes(sp) ? `<div class="row" data-simrow hidden><button class="btn ghost sm" type="button" data-sim>&#9654; Watch the sim</button><span class="small muted">a simulated game from Model A, not a prediction</span></div>` : '';
@@ -205,14 +297,16 @@ function drawSheet(){
   el.innerHTML = `<div class="row" style="justify-content:space-between"><button class="btn ghost sm" type="button" id="shBack">‹ All ${esc(sp)} games</button><span class="small muted">${esc(whenOf(x))}${x.n ? ' · neutral' : ''}</span></div>
     <h2 class="gt">${tLogo(sp, x.away)}${esc(x.away)} <span class="muted">@</span> ${tLogo(sp, x.home)}${esc(x.home)}</h2>${mk ? `<p class="small muted">${started(x) ? 'Last pre-game market' : 'Market'} ${esc(mk)}</p>` : ''}
     ${(st => st ? `<p class="small">${statChip(st)}Started ${esc(kick(x))}. Model A, Model B and the market below are as of the last update before it started${(cg => cg && cg.pre ? ` (${esc(String(cg.pre).slice(0, 16).replace('T', ' '))}${/UTC|Z$/.test(String(cg.pre)) ? '' : ' UTC'})` : '')(AB2(sp) ? cabGame(x, sp) : null)}. You can still log a bet you placed.</p>` : '')(gStat(sp, x))}
-    <div class="abrow">${AB2(sp) ? abBox(sp, x, 'A', ab.A) + cabBox(sp, x) : ['A', 'B'].map(k => abBox(sp, x, k, ab[k])).join('')}</div>${simBtn(sp)}
-    ${AB2(sp) ? cabWhy(sp, x) : whyBox(sp, x, ab, ln)}${gameBets(sp, x, r, g)}${propLeans(sp, x)}${bookGrid(sp, g)}${cfbV2Line(sp, x)}
-    <h3 class="cardh">Full model card · explanation, edges and your own prices</h3>`;
+    <div class="abrow">${AB2(sp) ? abBox(sp, x, 'A', ab.A) + cabBox(sp, x) : sp === 'NHL' ? abBox(sp, x, 'A', ab.A) + nhlMktBox(x) : ['A', 'B'].map(k => abBox(sp, x, k, ab[k])).join('')}</div>${simBtn(sp)}
+    ${AB2(sp) ? cabWhy(sp, x) : sp === 'NHL' ? nhlWhy(x, ab) + nhlPrices(x) : whyBox(sp, x, ab, ln)}${gameBets(sp, x, r, g)}${propLeans(sp, x)}${bookGrid(sp, g)}${cfbV2Line(sp, x)}
+    ${GCARD[sp] ? '<h3 class="cardh">Full model card · explanation, edges and your own prices</h3>' : ''}`;
   $('#shBack').onclick = closeGame;
   el.querySelectorAll('[data-sim]').forEach(b => b.onclick = () => simOpen(sp, {...x, _A:(AB2(sp) && cabGame(x, sp) || {}).A}));
   simShow(sp, el);
   el.querySelectorAll('[data-lean]').forEach(t => t.onclick = () => { const z = LEANS[+t.dataset.lean]; if (z) poOpen(z.p, z.k, z.r); });
-  if (gc){ el.appendChild(gc); gc.hidden = false; }
+  el.querySelectorAll('[data-nlog]').forEach(b => b.onclick = () => { const z = NHLP[+b.dataset.nlog]; if (!z) return;
+    openBet({sport:'NHL', market:z.mk, model:'NHL sim', desc:`${z.t} (${x.away} @ ${x.home})`, side:z.side, line:z.line, odds:'', push:0, units:'', book:'', pm:z.p, gm:{h:x.home, a:x.away}}); });
+  if (gc && GCARD[sp]){ el.appendChild(gc); gc.hidden = false; }
 }
 function abBox(sp, x, k, M){
   const lab = AB_LAB(sp)[k === 'A' ? 0 : 1];
@@ -223,7 +317,7 @@ function abBox(sp, x, k, M){
     ${M.lf ? `<p class="small muted" title="The big numbers are the most likely real final close to Model A's averages. Grading and every chance on this card use the averages.">Big numbers = likely final. Average: ${esc(x.away)} ${abF1(M.as)}, ${esc(x.home)} ${abF1(M.hs)}</p>` : ''}
     <div class="bar"><i style="width:${(M.p*100).toFixed(0)}%"></i></div>
     <p class="small">${esc(x.home)} ${pct(M.p, 0)} <span class="muted">${amS(+am(M.p))}</span> · ${esc(x.away)} ${pct(1 - M.p, 0)} <span class="muted">${amS(+am(1 - M.p))}</span>${M.est ? ' <span class="muted" title="Win chance worked out from the projected score">≈</span>' : ''}</p>
-    <p class="small muted">${esc(abTm(x, m))} · total ${(M.hs + M.as).toFixed(1)}</p>${AB2(sp) && k === 'A' ? cabRange(sp, x) : ''}</div>`;
+    <p class="small muted">${esc(abTm(x, m))} · total ${(M.hs + M.as).toFixed(1)}</p>${AB2(sp) && k === 'A' ? cabRange(sp, x) : sp === 'NHL' && k === 'A' ? nhlRange(x) : ''}</div>`;
 }
 // "Why the models disagree" (J 2026-10-29: the information J wanted most from concept A; open by default on a big gap)
 function whyBox(sp, x, ab, ln){
@@ -376,6 +470,14 @@ function homeGames(){
   return {d, list:sps.map(sp => { const gs = up(sp).filter(x => x.d === d).map(x => ({g:x.id, d:x.d, k:x.k, w:x.w, home:x.h, away:x.a, n:x.n || 0, feed:x.ln || null}));
     return {sp, gs, pr:probeGames(sp, gs)}; }).filter(z => z.gs.length)};
 }
+const _homeGamesN = homeGames;
+homeGames = function(){   // NHL (2026-11-17): the sim's games on the same day as the other sports (or its own next day)
+  const G = _homeGamesN(); if (!nhlOn()) return G;
+  const up = NHLS.games.filter(g => !started(g) && g.d >= localDay()), d = G.d || [...new Set(up.map(g => g.d))].sort()[0];
+  const gs = up.filter(g => g.d === d).sort((a, b) => a.k.localeCompare(b.k)).map(nhlX);
+  if (gs.length) G.list.push({sp:'NHL', gs, pr:gs.map(() => null)});
+  return {d: G.d || d || null, list:G.list};
+};
 function homeOpen(sp, x){
   if (sp === 'NFL' && x.w) NFL_W = +x.w;
   if (S.sport !== sp){ S.sport = sp; lsSet('betdesk.sport', sp); }
@@ -524,7 +626,7 @@ const _renderCharts = renderCharts;
 renderCharts = function(){
   if (S.resMode === 'ab' || S.resMode === 'missed'){
     charts.splice(0).forEach(c => c.destroy()); $('#chartSeg').innerHTML = ''; $('#chartKpis').innerHTML = '';
-    $('#chartsBody').innerHTML = S.resMode === 'ab' ? abData() : missedData();
+    $('#chartsBody').innerHTML = S.resMode === 'ab' ? abData() + nhlData() : missedData();
   } else _renderCharts();
   $('#resMode').innerHTML = [['bets', 'My bets'], ['ab', 'Model A vs B'], ['missed', 'Not placed'], ['models', 'Report card']].map(([k, l]) => `<button type="button" aria-pressed="${S.resMode === k}" data-k="${k}">${l}</button>`).join('');
   $('#resMode').querySelectorAll('button').forEach(b => b.onclick = () => { S.resMode = b.dataset.k; renderCharts(); });
@@ -533,7 +635,7 @@ function abData(){
   const G = MA && MA.grade && MA.grade.sports;
   if (!G || !Object.keys(G).length) return '<div class="empty">Model A vs B grading shows here once both models have graded games.</div>';
   const f = x => x == null ? '–' : (+x).toFixed(2);
-  const rows = Object.entries(G).filter(([sp, g]) => g.rebuild_same_games && g.rebuild_same_games.n && g.today_same_games).map(([sp, g]) => { const a = g.rebuild_same_games || {}, b = g.today_same_games || {}, l = g.line_same_games || {};
+  const rows = Object.entries(G).filter(([sp, g]) => sp !== 'NHL' && g.rebuild_same_games && g.rebuild_same_games.n && g.today_same_games).map(([sp, g]) => { const a = g.rebuild_same_games || {}, b = g.today_same_games || {}, l = g.line_same_games || {};
     const wm = a.margin_mae != null && b.margin_mae != null ? (a.margin_mae < b.margin_mae ? 'A' : 'B') : '', wt = a.total_mae != null && b.total_mae != null ? (a.total_mae < b.total_mae ? 'A' : 'B') : '';
     return `<tr><td class="t">${esc(sp)}</td><td>${a.n ?? '–'}</td><td class="${wm === 'A' ? 'best' : ''}">${f(a.margin_mae)}</td><td class="${wm === 'B' ? 'best' : ''}">${f(b.margin_mae)}</td><td>${f(l.margin_mae)}${l.n ? ` <span class="muted">(${l.n})</span>` : ''}</td><td class="${wt === 'A' ? 'best' : ''}">${f(a.total_mae)}</td><td class="${wt === 'B' ? 'best' : ''}">${f(b.total_mae)}</td><td>${f(l.total_mae)}</td></tr>`; }).join('');
   return `<div class="card"><h3>Model A vs Model B</h3><p class="small muted">Average miss in points on the same finished games; lower is better and the better model is lit. A = the rebuild, B = the desk model as it stood that morning. The line column covers only games with a saved line (count in brackets). For CBB (from Nov 2) A is the desk's CBB v2 and B the previous model. Graded ${esc(MA.grade.made || '')}.</p>
