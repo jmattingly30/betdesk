@@ -195,10 +195,10 @@
   ],
   "2026_12_SEA_SF": [
    0,
-   2,
+   0,
    "Brock Purdy",
-   "Drew Lock",
-   0.033
+   "Sam Darnold",
+   0.0
   ],
   "2026_12_TEN_JAX": [
    0,
@@ -313,11 +313,11 @@
    0.0
   ],
   "2026_13_DAL_SEA": [
-   2,
    0,
-   "Drew Lock",
+   0,
+   "Sam Darnold",
    "Dak Prescott",
-   -0.033
+   0.0
   ],
   "2026_14_MIN_NE": [
    0,
@@ -397,11 +397,11 @@
    0.0
   ],
   "2026_14_NYG_SEA": [
+   0,
    2,
-   2,
-   "Drew Lock",
+   "Sam Darnold",
    "J.J. McCarthy",
-   0.015
+   0.047
   ],
   "2026_14_TB_BAL": [
    2,
@@ -440,10 +440,10 @@
   ],
   "2026_15_SEA_PHI": [
    2,
-   2,
+   0,
    "Joe Milton III",
-   "Drew Lock",
-   -0.116
+   "Sam Darnold",
+   -0.148
   ],
   "2026_15_ATL_WAS": [
    0,
@@ -558,11 +558,11 @@
    0.0
   ],
   "2026_16_LA_SEA": [
-   2,
    0,
-   "Drew Lock",
+   0,
+   "Sam Darnold",
    "Matthew Stafford",
-   -0.033
+   0.0
   ],
   "2026_16_ARI_NO": [
    0,
@@ -741,10 +741,10 @@
   ],
   "2026_17_SEA_CAR": [
    0,
-   2,
+   0,
    "Bryce Young",
-   "Drew Lock",
-   0.033
+   "Sam Darnold",
+   0.0
   ],
   "2026_17_WAS_JAX": [
    0,
@@ -846,10 +846,10 @@
   ],
   "2026_18_SEA_LA": [
    0,
-   2,
+   0,
    "Matthew Stafford",
-   "Drew Lock",
-   0.033
+   "Sam Darnold",
+   0.0
   ],
   "2026_18_SF_ARI": [
    2,
