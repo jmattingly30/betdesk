@@ -1,0 +1,10 @@
+name: CBB v2 refresh
+on:
+  # Run by hand from the Actions tab when the morning chain's CBB v2 step (B5) failed. The morning chain runs it daily.
+  workflow_dispatch: {}
+jobs:
+  run:
+    uses: ./.github/workflows/run.yml
+    permissions: { contents: write, actions: read }
+    secrets: inherit
+    with: { script: "tools/cbb_v2.sh", cron_mdt: "0 0 1 1 *", cron_mst: "0 0 1 1 *", timeout: 60, playwright: false }

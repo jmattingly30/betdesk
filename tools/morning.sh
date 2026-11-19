@@ -36,8 +36,8 @@ if [ "$DOW" = 7 ]; then
 fi
 # B6a CFB v2 (CFBD) Mon and Thu, or whenever cfb_v2.json is 4+ days old (J 2026-11-11: the separate cfb-v2 schedule skipped Mon 11-09)
 if [ "$DOW" = 1 ] || [ "$DOW" = 4 ] || python3 -c "import json,sys,datetime as d;m=json.load(open('$SA/app/data/cfb_v2.json'))['made'][:10];sys.exit(0 if (d.date.today()-d.date.fromisoformat(m)).days>=4 else 1)"; then
-  WK=$(python3 -c "import pandas as p;s=p.read_csv('https://raw.githubusercontent.com/sportsdataverse/cfbfastR-data/main/schedules/csv/cfb_schedules_2026.csv');s=s[(s.season_type=='regular')&s.home_points.isna()];print(int(s.week.min()) if len(s) else 0)")
-  sh_step "B6a CFB v2 week $WK" "cd models/cfb-v2 && python3 export_v2_ratings.py 2026 $WK && cp cfb_v2.json $SA/app/data/cfb_v2.json"
+  # week lookup retries with backoff; if every try fails the step fails with a clear message (2026-11-19: one 503 left WK empty)
+  sh_step "B6a CFB v2" "WK=\$(python3 tools/cfb_week.py) && echo \"CFB v2 week \$WK\" && cd models/cfb-v2 && python3 export_v2_ratings.py 2026 \$WK && cp cfb_v2.json $SA/app/data/cfb_v2.json"
 fi
 sh_step "B8 Model A NBA lineups + shadow" "cd models/rebuild/basketball && python3 live_lineup.py && cd ../shadow && DL=${RUNNER_TEMP:-/tmp} python3 shadow.py nba nfl nhl cbb"
 
