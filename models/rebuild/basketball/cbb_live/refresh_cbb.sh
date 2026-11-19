@@ -5,10 +5,13 @@ set -e
 cd "$(dirname "$0")"
 rm -rf cbb && cp -r ../../../cbb cbb && rm -rf cbb/__pycache__
 H=$(mktemp -d); B=https://raw.githubusercontent.com/sportsdataverse/hoopR-mbb-data/main/mbb
+# get FILE URL: retries with backoff (1, 2, 4 ... 64 s; ~2 min) before failing, so one GitHub 503 doesn't sink the step
+# (2026-11-19: a single 503 on one of ~50 hoopR files failed the morning run)
+get(){ curl -sSfL --retry 7 --retry-all-errors -o "$1" "$2" || { echo "refresh_cbb: download failed after 7 retries: $2" >&2; exit 1; }; }
 for y in $(seq 2008 2027); do
-  curl -sSfL -o $H/mbb_schedule_$y.parquet $B/schedules/parquet/mbb_schedule_$y.parquet
-  curl -sSfL -o $H/team_box_$y.parquet $B/team_box/parquet/team_box_$y.parquet
-  if [ $y -ge 2012 ]; then curl -sSfL -o $H/player_box_$y.parquet $B/player_box/parquet/player_box_$y.parquet; fi
+  get $H/mbb_schedule_$y.parquet $B/schedules/parquet/mbb_schedule_$y.parquet
+  get $H/team_box_$y.parquet $B/team_box/parquet/team_box_$y.parquet
+  if [ $y -ge 2012 ]; then get $H/player_box_$y.parquet $B/player_box/parquet/player_box_$y.parquet; fi
 done
 cd cbb
 CBB_LAST=2027 python3 prep_cbb.py $H data
