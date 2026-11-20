@@ -45,6 +45,7 @@ GAP = 5.3
 LOCK = f'{D}/odds/oddspapi.lock'
 
 FORBIDDEN = [0]   # 403 retries used since the last good reply
+RESTRICTED = [False]   # plan refuses upcoming-game odds: skip the remaining sports
 
 def call(path, **q):
     q['apiKey'] = KEY; url = f'{BASE}{path}?' + '&'.join(f'{k}={v}' for k, v in q.items())
@@ -58,10 +59,12 @@ def call(path, **q):
             if e.code == 429: time.sleep(min(GAP * (1 + i // 5), 20)); continue
             if e.code == 404: return {}   # no prices at these books for this fixture
             if e.code >= 500 and i < 3: time.sleep(GAP * 2); continue   # Cloudflare 520 killed the first tennis sweep 2026-10-29
-            # 2026-11-20: the 6:30 MT sweep got 403 on its first call for all five sports, though the key worked at 05:17 UTC and
-            # again by 18:00 UTC. Treat 403 as a passing block: wait 30, 60, 120, 240 s, then fail. The count is shared across
-            # sports, so a lasting block costs ~7.5 min once, not once per sport.
-            if e.code == 403 and FORBIDDEN[0] < 4: time.sleep(30 * 2 ** FORBIDDEN[0]); FORBIDDEN[0] += 1; continue
+            # 2026-11-20: OddsPapi now answers 403 RESTRICTED_ACCESS to /historical-odds for upcoming fixtures on the free plan
+            # ("only available for finished fixtures"). Say so plainly and stop: retrying cannot help.
+            if e.code == 403:
+                body = e.read()[:400].decode(errors='replace')
+                if 'RESTRICTED_ACCESS' in body: RESTRICTED[0] = True; raise RuntimeError('OddsPapi plan blocks upcoming-game odds (RESTRICTED_ACCESS, free plan: finished fixtures only)')
+                if FORBIDDEN[0] < 4: time.sleep(30 * 2 ** FORBIDDEN[0]); FORBIDDEN[0] += 1; continue   # other 403s: wait 30/60/120/240 s
             raise
         except (ValueError, OSError, http.client.HTTPException) as e:   # cut-off or stalled reply: one bad game killed the CFB/NHL sweeps 2026-10-28
             if i < 3: time.sleep(GAP); continue
@@ -345,6 +348,7 @@ if __name__ == '__main__':
     lock(30)   # re-written after every game, so a killed run frees the key within 30 min
     try:
         for sp in todo:
+            if RESTRICTED[0]: print(sp, 'failed: skipped, OddsPapi plan blocks upcoming-game odds'); continue
             try: sweep_tennis() if sp == 'TENNIS' else sweep(sp, M)
             except Exception as ex: print(sp, 'failed:', ex)
     finally: unlock()
