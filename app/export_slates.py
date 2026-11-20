@@ -5,7 +5,8 @@ python3 export_slates.py [nfl_games.csv]     # default /tmp/claude-0/nfldl/games
 Per sport, the upcoming games: id, kickoff (UTC), day (US Eastern), home, away, neutral. NFL games also carry the market
 line nflverse publishes in games.csv (consensus spread, total, moneylines and their odds), which the app uses to flag
 games where the model beats the line by 5%+ EV.
-Live lines (J 2026-10-17): with ODDS_API_KEY set (an environment secret, never in code), every sport pulls The Odds API
+Live lines (2026-11-20: Odds API is the game-line feed again; credits only for sports named in ODDS_FORCE, see
+tools/morning.sh + tools/pull.sh). Earlier (J 2026-10-17): with ODDS_API_KEY set (an environment secret, never in code), every sport pulls The Odds API
 once (h2h, spreads, totals, US books; 3 credits per sport, ~360 a month for 4 sports on the 500-credit free plan) and
 saves the raw reply to data/odds/{SPORT}.json. Without the key, a saved reply under 30 hours old is used, so a separate
 session that has the key can pull the odds first. Each game's ln is then the median across books (spread and total
@@ -33,7 +34,7 @@ SEASON_CFB, SEASON_CBB, SEASON_NBA = 2026, 2027, 2027
 # J 2026-10-27 (line shopping): up to 10 named books cost the same credits as one region, so Pinnacle and BetOnline (the sharp
 # prices that set fair odds in line_tools.py) come free. The other 8 are the books J can bet in Colorado (free feed only).
 BOOKS = ['pinnacle', 'betonlineag', 'draftkings', 'fanduel', 'betmgm', 'williamhill_us', 'espnbet', 'fanatics', 'betrivers', 'ballybet']
-ODDS_KEYS = dict(NFL='americanfootball_nfl', CFB='americanfootball_ncaaf', CBB='basketball_ncaab', NBA='basketball_nba')
+ODDS_KEYS = dict(NFL='americanfootball_nfl', CFB='americanfootball_ncaaf', CBB='basketball_ncaab', NBA='basketball_nba', NHL='icehockey_nhl')
 NFL_MASCOT = {**dict(Cardinals='ARI', Falcons='ATL', Ravens='BAL', Bills='BUF', Panthers='CAR', Bears='CHI', Bengals='CIN', Browns='CLE',
                   Cowboys='DAL', Broncos='DEN', Lions='DET', Packers='GB', Texans='HOU', Colts='IND', Jaguars='JAX', Chiefs='KC',
                   Raiders='LV', Chargers='LAC', Rams='LA', Dolphins='MIA', Vikings='MIN', Patriots='NE', Saints='NO', Giants='NYG',
@@ -100,8 +101,9 @@ def odds_events(sp):
         d = json.load(open(f))
         if d.get('src') == 'oddspapi' and NOW - dt.datetime.fromisoformat(d['made']) < dt.timedelta(hours=6):
             print(sp, 'odds from OddsPapi sweep', d['made'][:16]); return d['events'], d.get('left')
-    # CBB opens 2026-11-02: no credits spent on its few early lines before then (OddsPapi covers it once books post)
-    if key and not (sp == 'CBB' and NOW.date() < dt.date(2026, 11, 2)):
+    # 2026-11-20 (J): game lines now come from The Odds API (OddsPapi's free plan stopped pricing upcoming games), so credits
+    # are spent only when ODDS_FORCE names the sport ('1' = all): 500 credits/month at 3 per sport pull, set per run in tools/*.sh
+    if key and (force == '1' or sp in force.split(',')):
         url = (f'https://api.the-odds-api.com/v4/sports/{ODDS_KEYS[sp]}/odds?bookmakers={",".join(BOOKS)}&markets=h2h,spreads,totals'
                f'&oddsFormat=american&apiKey={key}')
         with urllib.request.urlopen(url, timeout=60) as r:
@@ -263,3 +265,12 @@ if __name__ == '__main__':
         print(sp, len(x['games']) if x else 0, 'games', f"week {x['week']}" if x and 'week' in x else '')
     json.dump(J, open(OUT, 'w'), separators=(',', ':'))
     print('wrote', OUT)
+    # NHL has no slate here; its game lines feed models/nhl_sim (data/odds/NHL.json). J 2026-10-28: keep every pull's NHL lines.
+    try:
+        ev, left = odds_events('NHL'); f = f'{HERE}/data/odds/NHL.json'
+        if ev is not None and json.load(open(f)).get('made') == NOW.isoformat():
+            import gzip; hf = f'{HERE}/data/odds/nhl_line_history.json.gz'
+            H = json.load(gzip.open(hf, 'rt')) if os.path.exists(hf) else {}
+            H[NOW.isoformat(timespec='minutes')] = ev; json.dump(H, gzip.open(hf, 'wt'), separators=(',', ':'))
+            print('NHL', len(ev), 'games of lines saved (+ history)')
+    except Exception as e: print('NHL odds failed:', e)
