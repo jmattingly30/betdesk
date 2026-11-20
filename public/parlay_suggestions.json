@@ -1,9 +1,9 @@
 {
- "made": "2026-11-20 13:50 UTC",
+ "made": "2026-11-20 18:13 UTC",
  "note": "Correlated same-game stacks from our projections. Lines are our guess at the book line (recent and season average, nearest .5): type the real line and the book SGP price before betting. fair_odds = our true price; bet only at bet_if_at_least or longer (+5% EV). ev_est = edge if the book hangs each leg at -110 and prices only the obvious links (same player, QB with his receivers). hidden_mult = how much the links books ignore add. line_type fair = our projection rounded to .5; flag = the leg passes the Bet Desk flag rule and the line is set at the player average.",
  "sports": {
   "NBA": {
-   "made_from": "2026-11-20 13:34 UTC",
+   "made_from": "2026-11-20 18:04 UTC",
    "week": "2026-11-20 to 2026-11-22",
    "correlation": [],
    "flag": [
@@ -203,6 +203,102 @@
      "k": 4,
      "legs": [
       {
+       "player": "Jordan Poole",
+       "team": "NO",
+       "stat": "threes",
+       "role": "P4_3pm",
+       "dir": "over",
+       "line": 1.5,
+       "p": 0.754,
+       "dz": 0,
+       "proj": 2.8,
+       "line_type": "flag",
+       "avgs": [
+        1.4,
+        1.33
+       ]
+      },
+      {
+       "player": "Zion Williamson",
+       "team": "NO",
+       "stat": "threes",
+       "role": "P1_3pm",
+       "dir": "under",
+       "line": 0.5,
+       "p": 0.706,
+       "dz": 0.0,
+       "proj": 0.5,
+       "line_type": "fair",
+       "avgs": [
+        0.3,
+        0.4
+       ]
+      },
+      {
+       "player": "Zion Williamson",
+       "team": "NO",
+       "stat": "blocks",
+       "role": "P1_blk",
+       "dir": "under",
+       "line": 0.5,
+       "p": 0.673,
+       "dz": 0.0,
+       "proj": 0.47,
+       "line_type": "fair",
+       "avgs": [
+        0.6,
+        0.6
+       ]
+      },
+      {
+       "player": "Shai Gilgeous-Alexander",
+       "team": "OKC",
+       "stat": "threes",
+       "role": "P1_3pm",
+       "dir": "under",
+       "line": 2.5,
+       "p": 0.66,
+       "dz": 0.0,
+       "proj": 2.2,
+       "line_type": "fair",
+       "avgs": [
+        2.5,
+        2.27
+       ]
+      }
+     ],
+     "fair_joint": 0.2483,
+     "corr_mult": 1.05,
+     "hidden_mult": 1.045,
+     "ev_est": 0.321,
+     "book_proxy_odds": "+432",
+     "fair_odds": "+303",
+     "bet_if_at_least": "+323",
+     "kind": "flag",
+     "why": "Jordan Poole threes over and Shai Gilgeous-Alexander threes under move together (latent r 0.05)",
+     "all_under": false,
+     "conditions": {
+      "NO": [
+       "dog 10+",
+       "Oct-Nov"
+      ],
+      "OKC": [
+       "fav 10+",
+       "home",
+       "Oct-Nov"
+      ]
+     },
+     "game": 6,
+     "teams": [
+      "NO",
+      "OKC"
+     ],
+     "date": "2026-11-20"
+    },
+    {
+     "k": 4,
+     "legs": [
+      {
        "player": "Jamal Murray",
        "team": "DEN",
        "stat": "steals",
@@ -299,33 +395,33 @@
       {
        "player": "Daniss Jenkins",
        "team": "DET",
-       "stat": "threes",
-       "role": "P2_3pm",
+       "stat": "blocks",
+       "role": "P2_blk",
        "dir": "under",
-       "line": 2.5,
-       "p": 0.7,
+       "line": 0.5,
+       "p": 0.774,
        "dz": 0,
-       "proj": 2.1,
+       "proj": 0.3,
        "line_type": "fair",
        "avgs": [
-        2.4,
-        3.29
+        0.0,
+        0.08
        ]
       },
       {
-       "player": "Paul Reed",
-       "team": "DET",
-       "stat": "steals",
-       "role": "P4_stl",
+       "player": "Jakob Poeltl",
+       "team": "TOR",
+       "stat": "blocks",
+       "role": "P4_blk",
        "dir": "under",
        "line": 1.5,
-       "p": 0.685,
+       "p": 0.72,
        "dz": 0,
        "proj": 1.1,
        "line_type": "fair",
        "avgs": [
-        1.2,
-        1.08
+        0.8,
+        0.82
        ]
       },
       {
@@ -345,31 +441,31 @@
        ]
       },
       {
-       "player": "Paul Reed",
+       "player": "Daniss Jenkins",
        "team": "DET",
-       "stat": "assists",
-       "role": "P4_ast",
+       "stat": "rebounds",
+       "role": "P2_reb",
        "dir": "under",
-       "line": 2.5,
-       "p": 0.665,
+       "line": 4.5,
+       "p": 0.646,
        "dz": 0,
-       "proj": 2.0,
+       "proj": 4.0,
        "line_type": "fair",
        "avgs": [
-        2.1,
-        2.23
+        3.4,
+        3.75
        ]
       }
      ],
-     "fair_joint": 0.2301,
-     "corr_mult": 1.063,
+     "fair_joint": 0.257,
+     "corr_mult": 1.051,
      "hidden_mult": 1.032,
-     "ev_est": 0.169,
-     "book_proxy_odds": "+408",
-     "fair_odds": "+335",
-     "bet_if_at_least": "+356",
+     "ev_est": 0.168,
+     "book_proxy_odds": "+355",
+     "fair_odds": "+289",
+     "bet_if_at_least": "+309",
      "kind": "flag",
-     "why": "Paul Reed steals under and Paul Reed assists under move together (latent r 0.10)",
+     "why": "Daniss Jenkins blocks under and Daniss Jenkins rebounds under move together (latent r 0.08)",
      "all_under": true,
      "conditions": {
       "DET": [
@@ -394,7 +490,7 @@
    ]
   },
   "NFL": {
-   "made_from": "2026-11-20 13:35 UTC",
+   "made_from": "2026-11-20 18:04 UTC",
    "week": 11,
    "correlation": [],
    "flag": [
@@ -408,7 +504,7 @@
        "role": "WR2_rec_yds",
        "dir": "under",
        "line": 58.5,
-       "p": 0.742,
+       "p": 0.738,
        "dz": 0,
        "proj": 40.8,
        "line_type": "flag",
@@ -424,7 +520,7 @@
        "role": "RB1_rush_yds",
        "dir": "under",
        "line": 108.5,
-       "p": 0.705,
+       "p": 0.695,
        "dz": 0,
        "proj": 85.3,
        "line_type": "flag",
@@ -440,7 +536,7 @@
        "role": "RB1_rush_yds",
        "dir": "under",
        "line": 76.5,
-       "p": 0.677,
+       "p": 0.69,
        "dz": 0.0,
        "proj": 61.1,
        "line_type": "flag",
@@ -456,7 +552,7 @@
        "role": "RB1_rec_yds",
        "dir": "under",
        "line": 13.5,
-       "p": 0.606,
+       "p": 0.612,
        "dz": 0,
        "proj": 13.8,
        "line_type": "fair",
@@ -466,13 +562,13 @@
        ]
       }
      ],
-     "fair_joint": 0.2261,
-     "corr_mult": 1.054,
+     "fair_joint": 0.228,
+     "corr_mult": 1.053,
      "hidden_mult": 1.047,
-     "ev_est": 1.457,
-     "book_proxy_odds": "+987",
-     "fair_odds": "+342",
-     "bet_if_at_least": "+364",
+     "ev_est": 1.456,
+     "book_proxy_odds": "+977",
+     "fair_odds": "+339",
+     "bet_if_at_least": "+360",
      "kind": "flag",
      "why": "DJ Moore rec yds under and James Cook rec yds under move together (latent r 0.05)",
      "all_under": true,
@@ -493,175 +589,6 @@
      "date": null
     },
     {
-     "k": 3,
-     "legs": [
-      {
-       "player": "Travis Etienne",
-       "team": "NO",
-       "stat": "rec yds",
-       "role": "RB1_rec_yds",
-       "dir": "under",
-       "line": 23.5,
-       "p": 0.82,
-       "dz": 0,
-       "proj": 12.1,
-       "line_type": "flag",
-       "avgs": [
-        22.2,
-        26.0
-       ]
-      },
-      {
-       "player": "Travis Etienne",
-       "team": "NO",
-       "stat": "receptions",
-       "role": "RB1_rec",
-       "dir": "under",
-       "line": 2.5,
-       "p": 0.714,
-       "dz": 0,
-       "proj": 1.7,
-       "line_type": "flag",
-       "avgs": [
-        3.2,
-        3.67
-       ]
-      },
-      {
-       "player": "Luther Burden III",
-       "team": "CHI",
-       "stat": "receptions",
-       "role": "WR1_rec",
-       "dir": "under",
-       "line": 5.5,
-       "p": 0.665,
-       "dz": 0.0,
-       "proj": 4.58,
-       "line_type": "flag",
-       "avgs": [
-        6.0,
-        5.44
-       ]
-      }
-     ],
-     "fair_joint": 0.4341,
-     "corr_mult": 1.115,
-     "hidden_mult": 1.005,
-     "ev_est": 1.199,
-     "book_proxy_odds": "+407",
-     "fair_odds": "+130",
-     "bet_if_at_least": "+142",
-     "kind": "flag",
-     "why": "Travis Etienne rec yds under and Travis Etienne receptions under move together (latent r 0.60)",
-     "all_under": true,
-     "conditions": {
-      "CHI": [
-       "dog 7+",
-       "home"
-      ],
-      "NO": [
-       "fav 7+"
-      ]
-     },
-     "game": "2026_11_NO_CHI",
-     "teams": [
-      "CHI",
-      "NO"
-     ],
-     "date": null
-    },
-    {
-     "k": 4,
-     "legs": [
-      {
-       "player": "Bucky Irving",
-       "team": "TB",
-       "stat": "rush yds",
-       "role": "RB1_rush_yds",
-       "dir": "under",
-       "line": 108.5,
-       "p": 0.784,
-       "dz": 0,
-       "proj": 71.0,
-       "line_type": "flag",
-       "avgs": [
-        119.8,
-        97.38
-       ]
-      },
-      {
-       "player": "Jahmyr Gibbs",
-       "team": "DET",
-       "stat": "rush yds",
-       "role": "RB1_rush_yds",
-       "dir": "under",
-       "line": 119.5,
-       "p": 0.772,
-       "dz": 0,
-       "proj": 81.8,
-       "line_type": "flag",
-       "avgs": [
-        129.4,
-        111.11
-       ]
-      },
-      {
-       "player": "Sam LaPorta",
-       "team": "DET",
-       "stat": "rec yds",
-       "role": "REC3_rec_yds",
-       "dir": "under",
-       "line": 47.5,
-       "p": 0.584,
-       "dz": 0,
-       "proj": 47.4,
-       "line_type": "fair",
-       "avgs": [
-        37.4,
-        46.11
-       ]
-      },
-      {
-       "player": "Jahmyr Gibbs",
-       "team": "DET",
-       "stat": "rec yds",
-       "role": "RB1_rec_yds",
-       "dir": "under",
-       "line": 35.5,
-       "p": 0.582,
-       "dz": 0,
-       "proj": 35.7,
-       "line_type": "fair",
-       "avgs": [
-        39.4,
-        41.67
-       ]
-      }
-     ],
-     "fair_joint": 0.2163,
-     "corr_mult": 1.051,
-     "hidden_mult": 1.046,
-     "ev_est": 1.097,
-     "book_proxy_odds": "+870",
-     "fair_odds": "+362",
-     "bet_if_at_least": "+385",
-     "kind": "flag",
-     "why": "Sam LaPorta rec yds under and Jahmyr Gibbs rec yds under move together (latent r 0.05)",
-     "all_under": true,
-     "conditions": {
-      "DET": [
-       "home"
-      ],
-      "TB": []
-     },
-     "game": "2026_11_TB_DET",
-     "teams": [
-      "DET",
-      "TB"
-     ],
-     "date": null
-    },
-    {
      "k": 4,
      "legs": [
       {
@@ -673,7 +600,7 @@
        "line": 89.5,
        "p": 0.799,
        "dz": 0.0,
-       "proj": 55.8,
+       "proj": 56.8,
        "line_type": "flag",
        "avgs": [
         84.0,
@@ -687,9 +614,9 @@
        "role": "RB1_rush_yds",
        "dir": "under",
        "line": 65.5,
-       "p": 0.736,
+       "p": 0.739,
        "dz": 0.0,
-       "proj": 47.6,
+       "proj": 47.4,
        "line_type": "flag",
        "avgs": [
         69.6,
@@ -697,47 +624,47 @@
        ]
       },
       {
-       "player": "Germie Bernard",
-       "team": "PIT",
+       "player": "Saquon Barkley",
+       "team": "PHI",
        "stat": "rec yds",
-       "role": "WR2_rec_yds",
+       "role": "RB1_rec_yds",
        "dir": "under",
-       "line": 46.5,
-       "p": 0.575,
+       "line": 11.5,
+       "p": 0.625,
        "dz": 0,
-       "proj": 46.2,
+       "proj": 11.2,
        "line_type": "fair",
        "avgs": [
-        44.8,
-        43.17
+        3.2,
+        -1.67
        ]
       },
       {
-       "player": "Germie Bernard",
+       "player": "Aaron Rodgers",
        "team": "PIT",
-       "stat": "receptions",
-       "role": "WR2_rec",
+       "stat": "pass TDs",
+       "role": "QB_pass_td",
        "dir": "under",
-       "line": 4.5,
-       "p": 0.57,
+       "line": 1.5,
+       "p": 0.621,
        "dz": 0,
-       "proj": 4.3,
-       "line_type": "fair",
+       "proj": 1.3,
+       "line_type": "flag",
        "avgs": [
-        5.0,
-        4.83
+        1.6,
+        1.67
        ]
       }
      ],
-     "fair_joint": 0.2608,
-     "corr_mult": 1.353,
-     "hidden_mult": 1.026,
-     "ev_est": 1.061,
-     "book_proxy_odds": "+690",
-     "fair_odds": "+283",
-     "bet_if_at_least": "+303",
+     "fair_joint": 0.2447,
+     "corr_mult": 1.068,
+     "hidden_mult": 1.036,
+     "ev_est": 1.416,
+     "book_proxy_odds": "+887",
+     "fair_odds": "+309",
+     "bet_if_at_least": "+329",
      "kind": "flag",
-     "why": "Germie Bernard rec yds under and Germie Bernard receptions under move together (latent r 0.62)",
+     "why": "Jaylen Warren rush yds under and Aaron Rodgers pass TDs under move together (latent r 0.12)",
      "all_under": true,
      "conditions": {
       "PHI": [
@@ -759,15 +686,93 @@
      "k": 3,
      "legs": [
       {
+       "player": "Travis Etienne",
+       "team": "NO",
+       "stat": "rec yds",
+       "role": "RB1_rec_yds",
+       "dir": "under",
+       "line": 23.5,
+       "p": 0.822,
+       "dz": 0,
+       "proj": 12.1,
+       "line_type": "flag",
+       "avgs": [
+        22.2,
+        26.0
+       ]
+      },
+      {
+       "player": "Travis Etienne",
+       "team": "NO",
+       "stat": "receptions",
+       "role": "RB1_rec",
+       "dir": "under",
+       "line": 2.5,
+       "p": 0.709,
+       "dz": 0,
+       "proj": 1.7,
+       "line_type": "flag",
+       "avgs": [
+        3.2,
+        3.67
+       ]
+      },
+      {
+       "player": "Luther Burden III",
+       "team": "CHI",
+       "stat": "receptions",
+       "role": "WR1_rec",
+       "dir": "under",
+       "line": 5.5,
+       "p": 0.664,
+       "dz": 0.0,
+       "proj": 4.58,
+       "line_type": "flag",
+       "avgs": [
+        6.0,
+        5.44
+       ]
+      }
+     ],
+     "fair_joint": 0.4316,
+     "corr_mult": 1.115,
+     "hidden_mult": 1.005,
+     "ev_est": 1.186,
+     "book_proxy_odds": "+407",
+     "fair_odds": "+132",
+     "bet_if_at_least": "+143",
+     "kind": "flag",
+     "why": "Travis Etienne rec yds under and Travis Etienne receptions under move together (latent r 0.60)",
+     "all_under": true,
+     "conditions": {
+      "CHI": [
+       "dog 7+",
+       "home"
+      ],
+      "NO": [
+       "fav 7+"
+      ]
+     },
+     "game": "2026_11_NO_CHI",
+     "teams": [
+      "CHI",
+      "NO"
+     ],
+     "date": null
+    },
+    {
+     "k": 3,
+     "legs": [
+      {
        "player": "Christian McCaffrey",
        "team": "SF",
        "stat": "rec yds",
        "role": "RB1_rec_yds",
        "dir": "under",
        "line": 54.5,
-       "p": 0.736,
+       "p": 0.752,
        "dz": 0,
-       "proj": 37.4,
+       "proj": 37.3,
        "line_type": "flag",
        "avgs": [
         61.8,
@@ -781,9 +786,9 @@
        "role": "QB_pass_yds",
        "dir": "under",
        "line": 254.5,
-       "p": 0.714,
+       "p": 0.718,
        "dz": 0,
-       "proj": 199.1,
+       "proj": 199.6,
        "line_type": "flag",
        "avgs": [
         255.6,
@@ -797,7 +802,7 @@
        "role": "QB_pass_td",
        "dir": "under",
        "line": 1.5,
-       "p": 0.622,
+       "p": 0.623,
        "dz": 0,
        "proj": 1.3,
        "line_type": "flag",
@@ -807,13 +812,13 @@
        ]
       }
      ],
-     "fair_joint": 0.385,
-     "corr_mult": 1.178,
-     "hidden_mult": 1.014,
-     "ev_est": 1.042,
+     "fair_joint": 0.3952,
+     "corr_mult": 1.175,
+     "hidden_mult": 1.013,
+     "ev_est": 1.096,
      "book_proxy_odds": "+431",
-     "fair_odds": "+160",
-     "bet_if_at_least": "+173",
+     "fair_odds": "+153",
+     "bet_if_at_least": "+166",
      "kind": "flag",
      "why": "Kirk Cousins pass yds under and Kirk Cousins pass TDs under move together (latent r 0.51)",
      "all_under": true,
@@ -840,9 +845,9 @@
        "role": "RB1_rec_yds",
        "dir": "under",
        "line": 42.5,
-       "p": 0.752,
+       "p": 0.756,
        "dz": 0,
-       "proj": 29.0,
+       "proj": 28.9,
        "line_type": "flag",
        "avgs": [
         40.4,
@@ -856,9 +861,9 @@
        "role": "WR2_rec_yds",
        "dir": "under",
        "line": 52.5,
-       "p": 0.688,
+       "p": 0.687,
        "dz": 0,
-       "proj": 42.0,
+       "proj": 41.9,
        "line_type": "flag",
        "avgs": [
         52.8,
@@ -882,12 +887,12 @@
        ]
       }
      ],
-     "fair_joint": 0.3913,
-     "corr_mult": 1.176,
+     "fair_joint": 0.392,
+     "corr_mult": 1.174,
      "hidden_mult": 1.009,
-     "ev_est": 0.982,
+     "ev_est": 0.985,
      "book_proxy_odds": "+407",
-     "fair_odds": "+156",
+     "fair_odds": "+155",
      "bet_if_at_least": "+168",
      "kind": "flag",
      "why": "Ashton Jeanty rec yds under and Ashton Jeanty receptions under move together (latent r 0.60)",
@@ -909,7 +914,7 @@
      "date": null
     },
     {
-     "k": 3,
+     "k": 4,
      "legs": [
       {
        "player": "Breece Hall",
@@ -918,7 +923,7 @@
        "role": "RB1_rec_yds",
        "dir": "under",
        "line": 38.5,
-       "p": 0.822,
+       "p": 0.823,
        "dz": 0,
        "proj": 20.9,
        "line_type": "flag",
@@ -934,7 +939,7 @@
        "role": "WR2_rec_yds",
        "dir": "under",
        "line": 52.5,
-       "p": 0.671,
+       "p": 0.67,
        "dz": 0,
        "proj": 42.3,
        "line_type": "flag",
@@ -944,31 +949,47 @@
        ]
       },
       {
-       "player": "Breece Hall",
+       "player": "Mason Taylor",
        "team": "NYJ",
-       "stat": "receptions",
-       "role": "RB1_rec",
+       "stat": "rec yds",
+       "role": "REC3_rec_yds",
        "dir": "under",
-       "line": 2.5,
-       "p": 0.623,
+       "line": 27.5,
+       "p": 0.577,
        "dz": 0,
-       "proj": 2.2,
-       "line_type": "flag",
+       "proj": 27.4,
+       "line_type": "fair",
        "avgs": [
-        3.4,
-        3.4
+        29.0,
+        20.88
+       ]
+      },
+      {
+       "player": "Justin Herbert",
+       "team": "LAC",
+       "stat": "rush yds",
+       "role": "QB_rush_yds",
+       "dir": "under",
+       "line": 25.5,
+       "p": 0.569,
+       "dz": 0,
+       "proj": 25.8,
+       "line_type": "fair",
+       "avgs": [
+        30.6,
+        26.78
        ]
       }
      ],
-     "fair_joint": 0.3907,
-     "corr_mult": 1.137,
-     "hidden_mult": 1.007,
-     "ev_est": 0.979,
-     "book_proxy_odds": "+407",
-     "fair_odds": "+156",
-     "bet_if_at_least": "+169",
+     "fair_joint": 0.1954,
+     "corr_mult": 1.079,
+     "hidden_mult": 1.079,
+     "ev_est": 0.977,
+     "book_proxy_odds": "+912",
+     "fair_odds": "+412",
+     "bet_if_at_least": "+437",
      "kind": "flag",
-     "why": "Breece Hall rec yds under and Breece Hall receptions under move together (latent r 0.60)",
+     "why": "Breece Hall rec yds under and Adonai Mitchell rec yds under move together (latent r 0.05)",
      "all_under": true,
      "conditions": {
       "LAC": [
@@ -984,6 +1005,97 @@
      "date": null
     },
     {
+     "k": 4,
+     "legs": [
+      {
+       "player": "Baker Mayfield",
+       "team": "TB",
+       "stat": "completions",
+       "role": "QB_cmp",
+       "dir": "over",
+       "line": 13.5,
+       "p": 0.731,
+       "dz": 0,
+       "proj": 18.4,
+       "line_type": "flag",
+       "avgs": [
+        12.6,
+        14.33
+       ]
+      },
+      {
+       "player": "Cade Otton",
+       "team": "TB",
+       "stat": "rec yds",
+       "role": "REC3_rec_yds",
+       "dir": "over",
+       "line": 17.5,
+       "p": 0.689,
+       "dz": 0,
+       "proj": 33.5,
+       "line_type": "flag",
+       "avgs": [
+        10.8,
+        23.44
+       ]
+      },
+      {
+       "player": "Baker Mayfield",
+       "team": "TB",
+       "stat": "pass yds",
+       "role": "QB_pass_yds",
+       "dir": "over",
+       "line": 147.5,
+       "p": 0.681,
+       "dz": 0,
+       "proj": 200.4,
+       "line_type": "flag",
+       "avgs": [
+        141.2,
+        153.67
+       ]
+      },
+      {
+       "player": "Chris Godwin Jr.",
+       "team": "TB",
+       "stat": "rec yds",
+       "role": "WR2_rec_yds",
+       "dir": "over",
+       "line": 26.5,
+       "p": 0.594,
+       "dz": 0,
+       "proj": 38.7,
+       "line_type": "flag",
+       "avgs": [
+        23.4,
+        28.78
+       ]
+      }
+     ],
+     "fair_joint": 0.3014,
+     "corr_mult": 1.48,
+     "hidden_mult": 1.006,
+     "ev_est": 0.939,
+     "book_proxy_odds": "+543",
+     "fair_odds": "+232",
+     "bet_if_at_least": "+248",
+     "kind": "flag",
+     "why": "Baker Mayfield completions over and Baker Mayfield pass yds over move together (latent r 0.53)",
+     "all_under": false,
+     "conditions": {
+      "DET": [
+       "home"
+      ],
+      "TB": []
+     },
+     "game": "2026_11_TB_DET",
+     "teams": [
+      "DET",
+      "TB"
+     ],
+     "date": null
+    },
+    {
      "k": 3,
      "legs": [
       {
@@ -993,9 +1105,9 @@
        "role": "WR2_rec_yds",
        "dir": "under",
        "line": 54.5,
-       "p": 0.721,
+       "p": 0.74,
        "dz": 0,
-       "proj": 40.2,
+       "proj": 39.7,
        "line_type": "flag",
        "avgs": [
         50.2,
@@ -1009,9 +1121,9 @@
        "role": "WR1_rec_yds",
        "dir": "under",
        "line": 63.5,
-       "p": 0.702,
+       "p": 0.7,
        "dz": 0,
-       "proj": 49.4,
+       "proj": 50.3,
        "line_type": "flag",
        "avgs": [
         65.4,
@@ -1025,9 +1137,9 @@
        "role": "QB_pass_td",
        "dir": "under",
        "line": 2.5,
-       "p": 0.644,
+       "p": 0.662,
        "dz": 0,
-       "proj": 2.1,
+       "proj": 2.0,
        "line_type": "fair",
        "avgs": [
         2.0,
@@ -1035,13 +1147,13 @@
        ]
       }
      ],
-     "fair_joint": 0.3488,
-     "corr_mult": 1.07,
-     "hidden_mult": 1.009,
-     "ev_est": 0.729,
-     "book_proxy_odds": "+396",
-     "fair_odds": "+187",
-     "bet_if_at_least": "+201",
+     "fair_joint": 0.3648,
+     "corr_mult": 1.064,
+     "hidden_mult": 1.008,
+     "ev_est": 0.766,
+     "book_proxy_odds": "+384",
+     "fair_odds": "+174",
+     "bet_if_at_least": "+188",
      "kind": "flag",
      "why": "Travis Kelce rec yds under and Patrick Mahomes pass TDs under move together (latent r 0.22)",
      "all_under": true,
@@ -1071,7 +1183,7 @@
        "role": "QB_cmp",
        "dir": "under",
        "line": 24.5,
-       "p": 0.764,
+       "p": 0.769,
        "dz": 0,
        "proj": 18.9,
        "line_type": "flag",
@@ -1087,7 +1199,7 @@
        "role": "QB_pass_yds",
        "dir": "under",
        "line": 237.5,
-       "p": 0.74,
+       "p": 0.747,
        "dz": 0,
        "proj": 179.8,
        "line_type": "flag",
@@ -1097,13 +1209,13 @@
        ]
       }
      ],
-     "fair_joint": 0.6268,
-     "corr_mult": 1.109,
+     "fair_joint": 0.6347,
+     "corr_mult": 1.105,
      "hidden_mult": 1.0,
-     "ev_est": 0.726,
+     "ev_est": 0.747,
      "book_proxy_odds": "+175",
-     "fair_odds": "-168",
-     "bet_if_at_least": "-148",
+     "fair_odds": "-174",
+     "bet_if_at_least": "-153",
      "kind": "flag",
      "why": "Jacoby Brissett completions under and Jacoby Brissett pass yds under move together (latent r 0.53)",
      "all_under": true,
@@ -1130,9 +1242,9 @@
        "role": "QB_pass_yds",
        "dir": "over",
        "line": 194.5,
-       "p": 0.667,
+       "p": 0.66,
        "dz": 0.0,
-       "proj": 248.2,
+       "proj": 248.0,
        "line_type": "flag",
        "avgs": [
         197.6,
@@ -1146,7 +1258,7 @@
        "role": "WR2_rec",
        "dir": "over",
        "line": 2.5,
-       "p": 0.612,
+       "p": 0.625,
        "dz": 0.0,
        "proj": 3.47,
        "line_type": "flag",
@@ -1162,7 +1274,7 @@
        "role": "WR1_rec",
        "dir": "over",
        "line": 2.5,
-       "p": 0.603,
+       "p": 0.611,
        "dz": 0,
        "proj": 3.5,
        "line_type": "flag",
@@ -1172,13 +1284,13 @@
        ]
       }
      ],
-     "fair_joint": 0.299,
-     "corr_mult": 1.215,
-     "hidden_mult": 1.006,
-     "ev_est": 0.538,
+     "fair_joint": 0.3059,
+     "corr_mult": 1.214,
+     "hidden_mult": 1.005,
+     "ev_est": 0.573,
      "book_proxy_odds": "+414",
-     "fair_odds": "+234",
-     "bet_if_at_least": "+251",
+     "fair_odds": "+227",
+     "bet_if_at_least": "+243",
      "kind": "flag",
      "why": "Cam Ward pass yds over and Elic Ayomanor receptions over move together (latent r 0.35)",
      "all_under": false,
@@ -1210,7 +1322,7 @@
        "role": "QB_pass_td",
        "dir": "over",
        "line": 0.5,
-       "p": 0.69,
+       "p": 0.699,
        "dz": 0,
        "proj": 1.2,
        "line_type": "flag",
@@ -1226,7 +1338,7 @@
        "role": "REC3_rec",
        "dir": "under",
        "line": 3.5,
-       "p": 0.589,
+       "p": 0.59,
        "dz": 0,
        "proj": 3.2,
        "line_type": "fair",
@@ -1242,7 +1354,7 @@
        "role": "REC3_rec_yds",
        "dir": "under",
        "line": 36.5,
-       "p": 0.578,
+       "p": 0.582,
        "dz": 0,
        "proj": 36.8,
        "line_type": "fair",
@@ -1252,13 +1364,13 @@
        ]
       }
      ],
-     "fair_joint": 0.31,
-     "corr_mult": 1.32,
+     "fair_joint": 0.3159,
+     "corr_mult": 1.316,
      "hidden_mult": 1.006,
-     "ev_est": 0.24,
-     "book_proxy_odds": "+300",
-     "fair_odds": "+223",
-     "bet_if_at_least": "+239",
+     "ev_est": 0.258,
+     "book_proxy_odds": "+298",
+     "fair_odds": "+217",
+     "bet_if_at_least": "+232",
      "kind": "flag",
      "why": "Brenton Strange receptions under and Brenton Strange rec yds under move together (latent r 0.64)",
      "all_under": false,
@@ -1278,7 +1390,7 @@
    ]
   },
   "NHL": {
-   "made_from": "2026-11-20 13:31 UTC",
+   "made_from": "2026-11-20 18:02 UTC",
    "week": "2026-11-20 to 2026-11-22",
    "correlation": [],
    "flag": [
