@@ -44,17 +44,24 @@ GAP = 5.3
 # op_pull.py, odds-history thread) pause while another owner's lock is unexpired.
 LOCK = f'{D}/odds/oddspapi.lock'
 
+FORBIDDEN = [0]   # 403 retries used since the last good reply
+
 def call(path, **q):
     q['apiKey'] = KEY; url = f'{BASE}{path}?' + '&'.join(f'{k}={v}' for k, v in q.items())
     for i in range(60):   # backs off up to ~6 min in all while another loop finishes with the key
         try:
             with urllib.request.urlopen(url, timeout=120) as r: b = r.read()
             if b'rate limited' in b[:300]: time.sleep(min(GAP * (1 + i // 5), 20)); continue
+            FORBIDDEN[0] = 0
             return json.loads(b)
         except urllib.error.HTTPError as e:
             if e.code == 429: time.sleep(min(GAP * (1 + i // 5), 20)); continue
             if e.code == 404: return {}   # no prices at these books for this fixture
             if e.code >= 500 and i < 3: time.sleep(GAP * 2); continue   # Cloudflare 520 killed the first tennis sweep 2026-10-29
+            # 2026-11-20: the 6:30 MT sweep got 403 on its first call for all five sports, though the key worked at 05:17 UTC and
+            # again by 18:00 UTC. Treat 403 as a passing block: wait 30, 60, 120, 240 s, then fail. The count is shared across
+            # sports, so a lasting block costs ~7.5 min once, not once per sport.
+            if e.code == 403 and FORBIDDEN[0] < 4: time.sleep(30 * 2 ** FORBIDDEN[0]); FORBIDDEN[0] += 1; continue
             raise
         except (ValueError, OSError, http.client.HTTPException) as e:   # cut-off or stalled reply: one bad game killed the CFB/NHL sweeps 2026-10-28
             if i < 3: time.sleep(GAP); continue
