@@ -7,7 +7,9 @@ SW="${RUNNER_TEMP:-/tmp}/sweep.log"
 
 # A. odds sweep in the background; B runs meanwhile (tennis sweep held 2026-11-11, J: tennis off the desk)
 # CFB last + OP_DEADLINE_MIN=110 (2026-11-07: the Saturday CFB sweep ran 1h50m and starved CBB/NBA/NHL); unreached CFB games keep old lines, noon Odds API covers CFB
-( cd "$SA/app" && OP_DEADLINE_MIN=110 python3 op_live.py NFL NBA CBB NHL CFB ) > "$SW" 2>&1 &
+# 2026-11-20 (J): OddsPapi free plan no longer prices upcoming games; props now come from its live endpoint, Pinnacle +
+# DraftKings (2 billed requests, budget-paced in op_live.py), and game lines from The Odds API in C2 (ODDS_FORCE=1, all 5 sports)
+( cd "$SA/app" && python3 op_live.py --live NFL NBA NHL CFB ) > "$SW" 2>&1 &
 SWEEP=$!
 
 # B. projections
@@ -45,7 +47,7 @@ sh_step "B8 Model A NBA lineups + shadow" "cd models/rebuild/basketball && pytho
 wait $SWEEP || echo "A op_live sweep" >> "$FAILS"
 echo "::group::sweep log"; cat "$SW"; echo "::endgroup::"
 grep -q "failed:" "$SW" && echo "A sweep printed failed: lines" >> "$FAILS"
-step "C2 slates" bash -c "cd app && python3 export_slates.py"
+step "C2 slates (Odds API game lines, all sports: 15 credits)" bash -c "cd app && ODDS_FORCE=1 python3 export_slates.py"
 step "C4 line tools" python3 app/line_tools.py
 step "C4d CBB Model A+B" bash -c "python3 models/cbb_ab/live.py && python3 models/cbb_ab/grade.py"
 step "C4e NFL Model A+B" bash -c "python3 models/nfl_ab/live.py && python3 models/nfl_ab/grade.py $DL/nfldl/games.csv"

@@ -2,14 +2,16 @@
 # Noon / night / NFL pulls, per app/routines/odds_pulls.md. Usage: tools/pull.sh noon|night|nfl
 source "$(dirname "$0")/ci.sh"; T="$1"; setup_paths
 case "$T" in
-  noon)  step "op_live NFL NBA NHL (groups 1-3)" bash -c "cd app && OP_GROUPS=3 python3 op_live.py NFL NBA NHL" ;;
-  night) step "op_live all sports (groups 1-3, CFB last, 110 min cap)" bash -c "cd app && OP_GROUPS=3 OP_DEADLINE_MIN=110 python3 op_live.py NFL NBA CBB NHL CFB" ;;   # tennis sweep held (J 2026-11-11)
-  nfl)   step "op_live NFL (all books)"           bash -c "cd app && python3 op_live.py NFL" ;;
+  # 2026-11-20 (J): props from OddsPapi's live endpoint, Pinnacle + DraftKings, 2 billed requests per pull (budget-paced);
+  # game lines from The Odds API, which only the morning chain (all sports) and NFL pulls (NFL) spend credits on
+  noon)  step "OddsPapi live props NFL NBA NHL" bash -c "cd app && python3 op_live.py --live NFL NBA NHL" ;;
+  night) step "OddsPapi live props NFL NBA NHL CFB" bash -c "cd app && python3 op_live.py --live NFL NBA NHL CFB" ;;
+  nfl)   step "OddsPapi live props NFL" bash -c "cd app && python3 op_live.py --live NFL" ;;
   *) echo "unknown pull $T"; exit 2 ;;
 esac
 step "injury scan (NBA Model A sees news since the morning)" python3 models/injuries/scan.py
-if [ "$T" = noon ]; then step "slates (Odds API college lines)" bash -c "cd app && ODDS_FORCE=CFB,CBB python3 export_slates.py"
-else step "slates (no Odds API credits)" bash -c "cd app && env -u ODDS_API_KEY python3 export_slates.py"; fi
+if [ "$T" = nfl ]; then step "slates (Odds API NFL lines: 3 credits)" bash -c "cd app && ODDS_FORCE=NFL python3 export_slates.py"
+else step "slates (no Odds API credits; morning lines reused)" bash -c "cd app && env -u ODDS_API_KEY python3 export_slates.py"; fi
 step "line tools" bash -c "cd app && python3 line_tools.py"
 if [ "$T" != nfl ]; then step "CBB Model B (cbb_ab live)" python3 models/cbb_ab/live.py; fi
 step "NFL Model B (nfl_ab live)" python3 models/nfl_ab/live.py

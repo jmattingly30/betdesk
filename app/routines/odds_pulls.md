@@ -1,4 +1,11 @@
 # Bet Desk odds pulls (J 2026-10-28 schedule; J 2026-10-29: fresh short sessions on a smaller model, each pull publishes itself,
+
+> **2026-11-20 FEED SPLIT (J).** OddsPapi's free plan stopped pricing upcoming games (`/historical-odds` 403 RESTRICTED_ACCESS).
+> Props: `python3 op_live.py --live <sports>` = OddsPapi live endpoint, Pinnacle + DraftKings (most distinct props), 2 billed
+> requests per pull, paced to the 250/month limit. Game lines: The Odds API (10 books incl. Pinnacle, 3 credits per sport):
+> morning `ODDS_FORCE=1 python3 export_slates.py` (all 5 sports incl. NHL -> data/odds/NHL.json), NFL pulls `ODDS_FORCE=NFL`,
+> noon/night `env -u ODDS_API_KEY` (reuse the morning lines). The steps below that run op_live.py without `--live` are out of date;
+> GitHub's tools/morning.sh and tools/pull.sh are the source of truth.
 # noon and night pulls skip book group 4). Times America/Denver. The scheduled tasks only say "follow this file";
 # change the steps here, not in the tasks.
 

@@ -31,6 +31,15 @@ SPORTS = dict(NFL=(14, 'NFL', 9), CFB=(14, 'NCAA, Regular Season', 7), NBA=(11, 
 # J 2026-10-28: Colorado books post no college player props, so CFB/CBB sweeps keep game lines only; every pro sport keeps props
 PROP_SPORTS = {'NFL', 'NBA', 'NHL'}
 MODEL_PROPS = {'CFB'}   # J 2026-10-29: college props kept as CFB game-model inputs only (write_model_props), never as bets
+# 2026-11-20 (J): OddsPapi's free plan stopped serving /historical-odds for upcoming games (403 RESTRICTED_ACCESS).
+# Props now come from the billed live endpoint /odds-by-tournaments: 1 request = one book, up to 5 leagues, every upcoming
+# game with player names. J: props from 2 books only, the sharpest (Pinnacle) and the one with the most props; game lines
+# from The Odds API (export_slates.py). Budget: 250 requests/month, so each pull costs len(LIVE_BOOKS) requests and
+# live_budget_ok() skips a pull that would run ahead of an even monthly pace.
+LIVE_BOOKS = os.environ.get('OP_LIVE_BOOKS', 'pinnacle,draftkings').split(',')
+TIDS = dict(NFL=31, CFB=27653, NBA=132, CBB=648, NHL=234)   # OddsPapi tournament ids (checked 2026-11-20)
+LIVE_SPORTS = ['NFL', 'NBA', 'NHL', 'CFB']   # props sports + CFB model props; CBB has no props and its lines come from The Odds API
+LIVE = [False]
 FIX_HOURS = 48          # fixture lists cover 9 days; refresh every 2 days (billed)
 NAME_BOOKS = ['draftkings', 'bet365', 'fanduel', 'betrivers']  # billed name lookups, in order, only while 5+ players are unnamed
 NAMES = {'Winner (incl. overtime)': 'h2h', 'Handicap (incl. overtime)': 'spreads', 'Total (incl. overtime)': 'totals',
@@ -216,6 +225,7 @@ def sweep(sp, M):
     print(sp, len(ev), 'games from OddsPapi,', len(fx) * NGROUPS, 'free calls')
 
 def skipped():
+    if LIVE[0]: return set()
     return {OUR_KEY.get(b, b) for g in GROUPS[NGROUPS:] for b in g}
 
 def carry_books(sp, ev):
@@ -263,11 +273,12 @@ def write_model_props(sp, P):
               open(f'{D}/odds/model_props_{sp}.json', 'w'), separators=(',', ':'))
     print(sp, 'model props:', sum(len(g['p']) for g in P), 'players in', len(P), 'games')
 
-def write_props(sp, sid, P, keep_old=False):
+def write_props(sp, sid, P, keep_old=False, names=None):
     """data/odds/props_{SPORT}.json: {made, games: [{id, k, h, a, players: {name: {stat: {line: {book: {Over|Under|Yes|No: American}}}}}}]}"""
     if not P: return
-    ids = {pid for g in P for pid in g['p']}; N = {}
-    for tid in {g['tid'] for g in P}: N.update(names_for(ids, sid, tid))
+    ids = {pid for g in P for pid in g['p']}; N = dict(names or {})
+    if names is None:
+        for tid in {g['tid'] for g in P}: N.update(names_for(ids, sid, tid))
     # posted: {player: {stat: {line: {book: ISO time the book first posted that line}}}} for the desk's "look ahead"
     games = [dict(id=g['id'], k=g['k'], h=g['h'], a=g['a'], players={N.get(pid, f'id{pid}'): st for pid, st in g['p'].items()},
                   posted={N.get(pid, f'id{pid}'): st for pid, st in g.get('t', {}).items()}) for g in P]
@@ -278,6 +289,78 @@ def write_props(sp, sid, P, keep_old=False):
     json.dump(dict(made=NOW.isoformat(), src='oddspapi', games=games), open(f'{D}/odds/props_{sp}.json', 'w'), separators=(',', ':'))
     print(sp, 'props:', sum(len(g['players']) for g in games), 'players,', sum(1 for g in games for v in g['players'].values() for s in v.values() for _ in s), 'lines;',
           sum(1 for pid in ids if pid not in N), 'players without a name')
+
+def live_budget_ok(need):
+    """Free /account call (no quota). Pull only if what is left after it still covers one pull a day for the rest of the
+    month, so a busy stretch drops the noon/night pulls first and the morning pull always runs."""
+    try: a = call('/account'); sub = next(x for x in a['subscriptions'] if x['subscription_id'] == a['current_subscription_id'])
+    except Exception as ex: print('budget check failed:', ex, '(pulling anyway)'); return True
+    import calendar
+    used, cap = sub.get('request_count', 0), sub.get('request_limit', 250)
+    later = calendar.monthrange(NOW.year, NOW.month)[1] - NOW.day   # days after today (the count resets on the 1st)
+    print(f'OddsPapi requests used {used} of {cap} this month; this pull needs {need}; keeping {need * later} for {later} more days')
+    return cap - used - need >= need * later
+
+def live_names():
+    """participantId -> team name from the cached fixture lists (team ids never change, so no billed fixture calls)."""
+    T = {}
+    for f in os.listdir(OP) if os.path.isdir(OP) else []:
+        if f.startswith('fixtures_'):
+            for x in json.load(open(f'{OP}/{f}')).get('fx', []):
+                T[x.get('participant1Id')] = x.get('participant1Name'); T[x.get('participant2Id')] = x.get('participant2Name')
+    return T
+
+def to_history(bk):
+    """A live book block in the /historical-odds shape props() and main_lines() read: each price as a 1-entry history."""
+    if not bk or bk.get('suspended'): return {}
+    out = {}
+    for mid, m in (bk.get('markets') or {}).items():
+        oc = {}
+        for oid, o in (m.get('outcomes') or {}).items():
+            pl = {}
+            for pid, x in (o.get('players') or {}).items():
+                if isinstance(x, dict) and x.get('price'):
+                    pl[pid] = [dict(price=x['price'], active=bool(x.get('active')) and m.get('marketActive', True), createdAt=x.get('changedAt'))]
+            if pl: oc[oid] = dict(players=pl)
+        if oc: out[mid] = dict(outcomes=oc)
+    return dict(markets=out)
+
+def sweep_live(todo, M):
+    LIVE[0] = True
+    sports = [sp for sp in todo if sp in LIVE_SPORTS]
+    if not sports: return
+    if not live_budget_ok(len(LIVE_BOOKS)):
+        print('LIVE skipped: OddsPapi monthly request pace reached; props keep the previous pull'); return
+    T, names, G = live_names(), {}, {}
+    for book in LIVE_BOOKS:
+        d = call('/odds-by-tournaments', tournamentIds=','.join(str(TIDS[sp]) for sp in sports), bookmaker=book); time.sleep(1.2)
+        print('billed: live odds', book, len(d) if isinstance(d, list) else 0, 'games')
+        for f in d if isinstance(d, list) else []:
+            G.setdefault(f['fixtureId'], dict(f=f, books={}))['books'][book] = (f.get('bookmakerOdds') or {}).get(book)
+    by_sp = {sp: [] for sp in sports}
+    for g in G.values():
+        f = g['f']; sp = next((s for s in sports if TIDS[s] == f.get('tournamentId')), None)
+        if not sp: continue
+        start = dt.datetime.fromisoformat(f['startTime'].replace('Z', '+00:00'))
+        if f.get('statusId') != 0 or not NOW < start < NOW + dt.timedelta(days=SPORTS[sp][2]): continue
+        h, a = T.get(f.get('participant1Id')), T.get(f.get('participant2Id'))
+        if not h or not a: continue   # team not in any cached fixture list yet (new college team): skip, no billed lookup
+        pg = dict(id=f['fixtureId'], k=f['startTime'].replace('.000Z', 'Z'), h=h, a=a, tid=f['tournamentId'], p={}, t={})
+        for b, bk in g['books'].items():
+            for m in ((bk or {}).get('markets') or {}).values():
+                for o in (m.get('outcomes') or {}).values():
+                    for pid, x in (o.get('players') or {}).items():
+                        n = x.get('playerName') if isinstance(x, dict) else None
+                        if pid != '0' and n: names[pid] = ' '.join(reversed([y.strip() for y in n.split(',', 1)])) if ',' in n else n
+            for pid, stat, pt, sd, posted in props(to_history(bk), M):
+                pg['p'].setdefault(pid, {}).setdefault(stat, {}).setdefault(str(pt), {})[OUR_KEY.get(b, b)] = sd
+        if pg['p']: by_sp[sp].append(pg)
+    for sp, P in by_sp.items():
+        for g in P: drop_placeholders(g['p'])
+        if sp in MODEL_PROPS: write_model_props(sp, P)
+        elif P: write_props(sp, SPORTS[sp][0], P, names=names)
+        else: print(sp, 'no live props posted; leaving', f'data/odds/props_{sp}.json')
+    print('LIVE', ', '.join(f'{sp} {len(P)} games' for sp, P in by_sp.items()), '| books', ','.join(LIVE_BOOKS), '|', len(LIVE_BOOKS), 'billed requests')
 
 def rename(sp):
     """Fill names (and drop bet365 placeholders) in an existing props file without re-sweeping: python3 op_live.py --names NFL"""
@@ -345,6 +428,12 @@ if __name__ == '__main__':
         if L.get('owner') == 'op_live' and dt.datetime.fromisoformat(L['until']) > dt.datetime.now(dt.timezone.utc) and not os.environ.get('OP_FORCE'):
             sys.exit(f"another op_live sweep holds the key until {L['until'][:16]} UTC; not starting a second one (OP_FORCE=1 to override)")
     except (FileNotFoundError, ValueError, KeyError): pass
+    if '--live' in sys.argv:   # 2026-11-20: props from the live endpoint (see LIVE_BOOKS)
+        todo = [s for s in sys.argv[1:] if s in SPORTS] or LIVE_SPORTS
+        lock(10)
+        try: sweep_live(todo, M)
+        except Exception as ex: print('LIVE failed:', ex); unlock(); sys.exit(1)
+        unlock(); sys.exit()
     lock(30)   # re-written after every game, so a killed run frees the key within 30 min
     try:
         for sp in todo:
