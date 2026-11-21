@@ -1,29 +1,31 @@
 team,spread,total,out,q
-ATL,,,Jock Landale;Asa Newell;CJ McCollum;Mouhamed Gueye;Henri Veesaar,Kingston Flemings:0.5
-BKN,,,Grant Nelson,
+ATL,,,Kingston Flemings;Jock Landale;Asa Newell;CJ McCollum;Mouhamed Gueye;Henri Veesaar,
+BKN,,,Nolan Traore;Grant Nelson,
+BOS,,,,Jayson Tatum:0.5;Derrick White:0.5
 CHA,,,Grant Williams;Grayson Allen;Kon Knueppel;Dennis Schroder,
-CHI,,,Tobe Awaka;Caleb Wilson,Jalen Smith:0.5;Noa Essengue:0.9
-CLE,,,Jaylon Tyson;Nae'Qwan Tomlin;Evan Mobley,Peyton Watson:0.5
-DAL,,,Dereck Lively II;Tobi Lawal;Sergio de Larrea;Tarik Biberovic,
+CHI,,,Jalen Smith;Tobe Awaka;Caleb Wilson,
+CLE,,,Jaylon Tyson;Nae'Qwan Tomlin;Evan Mobley,
+DAL,,,Dereck Lively II;Tobi Lawal;Sergio de Larrea;Tarik Biberovic,P.J. Washington:0.5;Walter Clayton Jr.:0.5
 DEN,,,Julian Strawther,
-DET,,,Taurean Prince;Ebuka Okorie;Duncan Robinson;Jalen Duren,Ronald Holland II:0.25
+DET,,,Ronald Holland II;Taurean Prince;Ebuka Okorie;Duncan Robinson;Jalen Duren,
 GS,,,Draymond Green;Brandon Williams;Stephen Curry;Kristaps Porzingis;Moses Moody;Jimmy Butler III,
-HOU,,,Clint Capela,Steven Adams:0.5;Alperen Sengun:0.5
-IND,,,Tyrese Haliburton;Johnny Furphy;Ben Sheppard,T.J. McConnell:0.9;Andrew Nembhard:0.5;Braden Smith:0.5
+HOU,,,Clint Capela,
+IND,,,T.J. McConnell;Tyrese Haliburton;Johnny Furphy;Ben Sheppard,
 LAC,,,Brandon Ingram;Bradley Beal;Jordan Miller,
 LAL,,,Austin Reaves,
-MEM,,,Zach Edey;Ty Jerome;GG Jackson;Scotty Pippen Jr.;Richie Saunders,
+MEM,,,Javon Small;Cameron Boozer;Ty Jerome;GG Jackson;Scotty Pippen Jr.;Richie Saunders,
 MIA,,,Myron Gardner,
-MIL,,,Kyle Kuzma;Ousmane Dieng,
+MIL,,,Ousmane Dieng,
 MIN,,,Jaylen Clark;Anthony Edwards;Donte DiVincenzo,
-NO,,,Bryce McGowens;Trendon Watford;Bennedict Mathurin;Trey Murphy III;Dejounte Murray,
-OKC,,,Nikola Topic;Thomas Sorber;Cason Wallace;Chet Holmgren;Jalen Williams,Alex Caruso:0.5
+NO,,,Bryce McGowens;Trendon Watford;Bennedict Mathurin;Dejounte Murray,
+NY,,,Jordan Clarkson,OG Anunoby:0.5
+OKC,,,Alex Caruso;Nikola Topic;Thomas Sorber;Cason Wallace;Chet Holmgren;Jalen Williams,
 ORL,,,Izaiyah Nelson;Jonathan Isaac;Noah Penda;Paolo Banchero,
-PHI,,,Adem Bona;Jaylen Brown;Dominick Barlow;Ariel Hukporti,
-PHX,,,Mark Williams,
-POR,,,Robert Williams III;Deni Avdija;Chris Youngblood;Vit Krejci;Ja Morant;Shaedon Sharpe,
+PHI,,,Dominick Barlow;Dean Wade;Adem Bona;Jaylen Brown;Ariel Hukporti,Tyrese Maxey:0.5
+PHX,,,Ryan Dunn;Mark Williams,
+POR,,,Chris Youngblood;Vit Krejci;Ja Morant;Shaedon Sharpe,Deni Avdija:0.5
 SA,,,Dylan Harper;Tobias Harris;Jayden Quaintance,
-SAC,,,Precious Achiuwa;Maxime Raynaud;Ben Simmons,De'Andre Hunter:0.5
+SAC,,,Precious Achiuwa;Maxime Raynaud;Ben Simmons,
 TOR,,,Kawhi Leonard;Collin Murray-Boyles;RJ Barrett;Nate Bittle,
 UTAH,,,Jusuf Nurkic;Lauri Markkanen;Jaren Jackson Jr.,
-WSH,,,Tristan Vukcevic;Reece Beekman;Justin Champagnie;Jamir Watkins,
+WSH,,,Felix Okpara;Tristan Vukcevic;Reece Beekman;Justin Champagnie;Jamir Watkins,
