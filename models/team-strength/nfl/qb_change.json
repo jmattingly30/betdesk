@@ -173,11 +173,11 @@
    0.0
   ],
   "2026_12_NYG_IND": [
-   0,
+   1,
    2,
-   "Daniel Jones",
+   "Anthony Richardson Sr.",
    "J.J. McCarthy",
-   0.047
+   0.0
   ],
   "2026_12_NYJ_MIA": [
    2,
@@ -356,10 +356,10 @@
   ],
   "2026_14_IND_PHI": [
    2,
-   0,
+   1,
    "Joe Milton III",
-   "Daniel Jones",
-   -0.148
+   "Anthony Richardson Sr.",
+   0.0
   ],
   "2026_14_KC_CIN": [
    0,
@@ -489,10 +489,10 @@
   ],
   "2026_15_IND_TEN": [
    0,
-   0,
+   1,
    "Cam Ward",
-   "Daniel Jones",
-   0.0
+   "Anthony Richardson Sr.",
+   0.031
   ],
   "2026_15_JAX_HOU": [
    0,
@@ -572,11 +572,11 @@
    0.0
   ],
   "2026_16_CIN_IND": [
+   1,
    0,
-   0,
-   "Daniel Jones",
+   "Anthony Richardson Sr.",
    "Joe Burrow",
-   0.0
+   -0.031
   ],
   "2026_16_CLE_BAL": [
    2,
@@ -671,10 +671,10 @@
   ],
   "2026_17_IND_CLE": [
    0,
-   0,
+   1,
    "Deshaun Watson",
-   "Daniel Jones",
-   0.0
+   "Anthony Richardson Sr.",
+   0.031
   ],
   "2026_17_KC_LAC": [
    0,
@@ -789,11 +789,11 @@
    0.0
   ],
   "2026_18_JAX_IND": [
+   1,
    0,
-   0,
-   "Daniel Jones",
+   "Anthony Richardson Sr.",
    "Trevor Lawrence",
-   0.0
+   -0.031
   ],
   "2026_18_LAC_DEN": [
    0,
