@@ -1,6 +1,6 @@
 {
-"made": "2026-11-16 15:58 UTC",
-"through_week": 11,
+"made": "2026-11-22 13:41 UTC",
+"through_week": 12,
 "replacement_v": -0.05,
 "shrink_plays": 203,
 "pts_per_value": 16.7,
@@ -11,20 +11,29 @@
 {
 "pid": "4880272.0",
 "name": "Byrum Brown",
-"v": -0.0018,
-"plays": 484,
-"passes": 343,
-"games": 10,
-"last_wk": 11
+"v": 0.0043,
+"plays": 485,
+"passes": 344,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5210501.0",
 "name": "Tristan Ti'a",
-"v": -0.0455,
-"plays": 28,
-"passes": 19,
-"games": 5,
-"last_wk": 11
+"v": 0.0421,
+"plays": 47,
+"passes": 37,
+"games": 6,
+"last_wk": 12
+},
+{
+"pid": "5269110.0",
+"name": "Rhys Brush",
+"v": -0.0609,
+"plays": 15,
+"passes": 12,
+"games": 1,
+"last_wk": 12
 },
 {
 "pid": "5296027.0",
@@ -43,20 +52,20 @@
 {
 "pid": "5057381.0",
 "name": "Ryder Burton",
-"v": -0.145,
-"plays": 317,
-"passes": 268,
-"games": 10,
-"last_wk": 11
+"v": -0.1539,
+"plays": 347,
+"passes": 294,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "4897730.0",
 "name": "Bam McReynolds",
-"v": -0.0606,
-"plays": 103,
+"v": -0.0604,
+"plays": 116,
 "passes": 1,
-"games": 10,
-"last_wk": 11
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5197123.0",
@@ -84,11 +93,11 @@
 {
 "pid": "4869553.0",
 "name": "Bishop Davenport",
-"v": 0.0812,
-"plays": 138,
-"passes": 105,
-"games": 4,
-"last_wk": 11
+"v": 0.111,
+"plays": 181,
+"passes": 134,
+"games": 5,
+"last_wk": 12
 }
 ]
 },
@@ -98,11 +107,11 @@
 {
 "pid": "5079516.0",
 "name": "KJ Jackson",
-"v": 0.0037,
-"plays": 396,
-"passes": 324,
-"games": 10,
-"last_wk": 11
+"v": 0.0103,
+"plays": 436,
+"passes": 356,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5141473.0",
@@ -112,6 +121,15 @@
 "passes": 32,
 "games": 3,
 "last_wk": 4
+},
+{
+"pid": "5280168.0",
+"name": "Hank Hendrix",
+"v": -0.044,
+"plays": 11,
+"passes": 11,
+"games": 1,
+"last_wk": 12
 },
 {
 "pid": "3116099.0",
@@ -139,20 +157,29 @@
 {
 "pid": "5209295.0",
 "name": "Jake Fette",
-"v": -0.016,
-"plays": 133,
-"passes": 113,
-"games": 5,
-"last_wk": 11
+"v": -0.0173,
+"plays": 175,
+"passes": 143,
+"games": 6,
+"last_wk": 12
 },
 {
 "pid": "5209382.0",
 "name": "Cardae Mack",
-"v": 0.0471,
-"plays": 132,
+"v": 0.0526,
+"plays": 148,
 "passes": 4,
-"games": 9,
-"last_wk": 11
+"games": 10,
+"last_wk": 12
+},
+{
+"pid": "5110535.0",
+"name": "Kyson Brown",
+"v": -0.0001,
+"plays": 72,
+"passes": 2,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "4597499.0",
@@ -164,22 +191,13 @@
 "last_wk": 11
 },
 {
-"pid": "5110535.0",
-"name": "Kyson Brown",
-"v": 0.0008,
-"plays": 70,
-"passes": 2,
-"games": 10,
-"last_wk": 11
-},
-{
 "pid": "5159831.0",
 "name": "Derek Eusebio",
-"v": -0.0395,
-"plays": 4,
+"v": -0.037,
+"plays": 8,
 "passes": 1,
-"games": 2,
-"last_wk": 11
+"games": 3,
+"last_wk": 12
 }
 ]
 },
@@ -189,11 +207,11 @@
 {
 "pid": "4801717.0",
 "name": "Noah Fifita",
-"v": 0.2336,
-"plays": 430,
-"passes": 374,
-"games": 10,
-"last_wk": 11
+"v": 0.2337,
+"plays": 486,
+"passes": 418,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5158407.0",
@@ -265,22 +283,22 @@
 "last_wk": 7
 },
 {
-"pid": "4912453.0",
-"name": "Lucky Sutton",
-"v": -0.0121,
-"plays": 128,
-"passes": 4,
-"games": 7,
-"last_wk": 11
-},
-{
 "pid": "5141664.0",
 "name": "Stone Saunders",
-"v": -0.0609,
-"plays": 107,
-"passes": 101,
-"games": 5,
-"last_wk": 11
+"v": -0.0401,
+"plays": 149,
+"passes": 139,
+"games": 6,
+"last_wk": 12
+},
+{
+"pid": "4912453.0",
+"name": "Lucky Sutton",
+"v": -0.0209,
+"plays": 146,
+"passes": 4,
+"games": 8,
+"last_wk": 12
 },
 {
 "pid": "5302259.0",
@@ -326,11 +344,11 @@
 {
 "pid": "5295238.0",
 "name": "Luke Weaver",
-"v": -0.0121,
-"plays": 329,
-"passes": 280,
-"games": 9,
-"last_wk": 11
+"v": -0.0038,
+"plays": 372,
+"passes": 320,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5215357.0",
@@ -353,11 +371,11 @@
 {
 "pid": "5161012.0",
 "name": "Carson Clark",
-"v": -0.0487,
-"plays": 2,
+"v": -0.045,
+"plays": 3,
 "passes": 1,
-"games": 1,
-"last_wk": 11
+"games": 2,
+"last_wk": 12
 },
 {
 "pid": "5296610.0",
@@ -376,11 +394,20 @@
 {
 "pid": "4878681.0",
 "name": "Davis Warren",
-"v": 0.0154,
-"plays": 370,
-"passes": 352,
-"games": 10,
-"last_wk": 11
+"v": 0.0299,
+"plays": 398,
+"passes": 378,
+"games": 11,
+"last_wk": 12
+},
+{
+"pid": "5143191.0",
+"name": "Micah Ford",
+"v": 0.0071,
+"plays": 204,
+"passes": 1,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5211073.0",
@@ -394,11 +421,11 @@
 {
 "pid": "4914482.0",
 "name": "Charlie Mirer",
-"v": -0.0622,
-"plays": 2,
-"passes": 1,
-"games": 1,
-"last_wk": 6
+"v": -0.0739,
+"plays": 3,
+"passes": 2,
+"games": 2,
+"last_wk": 12
 },
 {
 "pid": "5212732.0",
@@ -417,29 +444,38 @@
 {
 "pid": "5164313.0",
 "name": "Jaron-Keawe Sagapolutele",
-"v": -0.0437,
-"plays": 323,
-"passes": 309,
-"games": 9,
-"last_wk": 11
+"v": -0.0535,
+"plays": 343,
+"passes": 329,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5054036.0",
 "name": "Jackson Brousseau",
-"v": -0.0196,
-"plays": 133,
-"passes": 127,
-"games": 6,
-"last_wk": 11
+"v": -0.0054,
+"plays": 142,
+"passes": 134,
+"games": 7,
+"last_wk": 12
+},
+{
+"pid": "5147861.0",
+"name": "Adam Mohammed",
+"v": -0.019,
+"plays": 113,
+"passes": 2,
+"games": 7,
+"last_wk": 12
 },
 {
 "pid": "5296106.0",
 "name": "Dominic Ingrassia",
-"v": -0.0269,
-"plays": 11,
-"passes": 1,
-"games": 4,
-"last_wk": 11
+"v": -0.0582,
+"plays": 23,
+"passes": 2,
+"games": 5,
+"last_wk": 12
 },
 {
 "pid": "5165154.0",
@@ -467,11 +503,11 @@
 {
 "pid": "5092275.0",
 "name": "Ty Dieffenbach",
-"v": 0.0527,
-"plays": 171,
-"passes": 140,
-"games": 6,
-"last_wk": 11
+"v": 0.0074,
+"plays": 216,
+"passes": 173,
+"games": 7,
+"last_wk": 12
 },
 {
 "pid": "4870799.0",
@@ -481,6 +517,15 @@
 "passes": 123,
 "games": 5,
 "last_wk": 6
+},
+{
+"pid": "5083175.0",
+"name": "Anthony Woods",
+"v": 0.0028,
+"plays": 97,
+"passes": 1,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5142594.0",
@@ -508,20 +553,20 @@
 {
 "pid": "4685454.0",
 "name": "Jayden Maiava",
-"v": 0.181,
-"plays": 369,
-"passes": 352,
-"games": 10,
-"last_wk": 11
+"v": 0.1872,
+"plays": 405,
+"passes": 387,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5161854.0",
 "name": "Jonas Williams",
-"v": -0.0449,
-"plays": 17,
+"v": -0.0433,
+"plays": 18,
 "passes": 15,
-"games": 3,
-"last_wk": 2
+"games": 4,
+"last_wk": 12
 }
 ]
 },
@@ -531,11 +576,11 @@
 {
 "pid": "5079443.0",
 "name": "Hauss Hejny",
-"v": 0.1085,
-"plays": 234,
-"passes": 189,
-"games": 7,
-"last_wk": 11
+"v": 0.1608,
+"plays": 287,
+"passes": 228,
+"games": 8,
+"last_wk": 12
 },
 {
 "pid": "5212610.0",
@@ -558,11 +603,11 @@
 {
 "pid": "5193168.0",
 "name": "Terrence Smith Jr.",
-"v": -0.0426,
-"plays": 5,
+"v": -0.0411,
+"plays": 6,
 "passes": 3,
-"games": 4,
-"last_wk": 11
+"games": 5,
+"last_wk": 12
 }
 ]
 },
@@ -572,11 +617,11 @@
 {
 "pid": "5079771.0",
 "name": "Isaac Wilson",
-"v": -0.0041,
-"plays": 269,
-"passes": 214,
-"games": 8,
-"last_wk": 11
+"v": 0.0118,
+"plays": 299,
+"passes": 241,
+"games": 9,
+"last_wk": 12
 },
 {
 "pid": "5159016.0",
@@ -613,11 +658,11 @@
 {
 "pid": "5079619.0",
 "name": "Kalieb Osborne",
-"v": 0.0982,
-"plays": 388,
-"passes": 300,
-"games": 10,
-"last_wk": 11
+"v": 0.1197,
+"plays": 426,
+"passes": 324,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5077806.0",
@@ -668,11 +713,11 @@
 {
 "pid": "5153846.0",
 "name": "Nick Minicucci",
-"v": 0.1195,
-"plays": 298,
-"passes": 266,
-"games": 8,
-"last_wk": 11
+"v": 0.1633,
+"plays": 347,
+"passes": 311,
+"games": 9,
+"last_wk": 12
 },
 {
 "pid": "5289314.0",
@@ -686,11 +731,11 @@
 {
 "pid": "5161800.0",
 "name": "Viron Ellison Jr.",
-"v": -0.0649,
-"plays": 46,
+"v": -0.0805,
+"plays": 52,
 "passes": 1,
-"games": 10,
-"last_wk": 11
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5224762.0",
@@ -768,11 +813,11 @@
 {
 "pid": "4838679.0",
 "name": "Ashton Daniels",
-"v": 0.1187,
-"plays": 374,
-"passes": 282,
-"games": 10,
-"last_wk": 11
+"v": 0.0702,
+"plays": 423,
+"passes": 321,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5141661.0",
@@ -791,20 +836,20 @@
 {
 "pid": "5122157.0",
 "name": "Caden Creel",
-"v": 0.0976,
-"plays": 408,
-"passes": 274,
-"games": 10,
-"last_wk": 11
+"v": 0.1043,
+"plays": 452,
+"passes": 308,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5087930.0",
 "name": "Jamill Williams",
-"v": -0.0673,
-"plays": 7,
+"v": -0.0711,
+"plays": 8,
 "passes": 1,
-"games": 6,
-"last_wk": 7
+"games": 7,
+"last_wk": 12
 },
 {
 "pid": "5222557.0",
@@ -832,11 +877,11 @@
 {
 "pid": "5132812.0",
 "name": "Aaron Philo",
-"v": 0.0647,
-"plays": 241,
-"passes": 188,
-"games": 8,
-"last_wk": 11
+"v": 0.0929,
+"plays": 287,
+"passes": 218,
+"games": 9,
+"last_wk": 12
 },
 {
 "pid": "5295814.0",
@@ -873,11 +918,11 @@
 {
 "pid": "5079542.0",
 "name": "Luke Kromenhoek",
-"v": 0.023,
-"plays": 147,
-"passes": 86,
-"games": 8,
-"last_wk": 11
+"v": 0.0197,
+"plays": 214,
+"passes": 139,
+"games": 9,
+"last_wk": 12
 },
 {
 "pid": "4870927.0",
@@ -896,29 +941,29 @@
 {
 "pid": "5191162.0",
 "name": "Alberto Mendoza",
-"v": -0.043,
-"plays": 330,
-"passes": 301,
-"games": 10,
-"last_wk": 11
+"v": -0.0516,
+"plays": 340,
+"passes": 310,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5207610.0",
 "name": "Grady Adamson",
-"v": -0.0622,
-"plays": 84,
-"passes": 49,
-"games": 5,
-"last_wk": 11
+"v": 0.0117,
+"plays": 108,
+"passes": 57,
+"games": 6,
+"last_wk": 12
 },
 {
 "pid": "5103639.0",
 "name": "Trelain Maddox",
-"v": -0.0011,
-"plays": 71,
+"v": 0.0176,
+"plays": 83,
 "passes": 1,
-"games": 9,
-"last_wk": 11
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5296224.0",
@@ -937,11 +982,11 @@
 {
 "pid": "4685578.0",
 "name": "Gunner Stockton",
-"v": 0.0933,
-"plays": 279,
-"passes": 230,
-"games": 10,
-"last_wk": 11
+"v": 0.1213,
+"plays": 307,
+"passes": 254,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5079679.0",
@@ -987,29 +1032,29 @@
 {
 "pid": "5101124.0",
 "name": "Micah Alejado",
-"v": -0.0367,
-"plays": 490,
-"passes": 455,
-"games": 10,
-"last_wk": 11
+"v": -0.0414,
+"plays": 513,
+"passes": 477,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5211117.0",
 "name": "Bjorn Jurgensen",
-"v": -0.0583,
-"plays": 15,
-"passes": 9,
-"games": 5,
-"last_wk": 11
+"v": -0.0888,
+"plays": 34,
+"passes": 25,
+"games": 6,
+"last_wk": 12
 },
 {
 "pid": "5218881.0",
 "name": "Tama Uiliata",
-"v": -0.0073,
-"plays": 9,
+"v": 0.0005,
+"plays": 11,
 "passes": 1,
-"games": 6,
-"last_wk": 10
+"games": 7,
+"last_wk": 12
 }
 ]
 },
@@ -1019,20 +1064,20 @@
 {
 "pid": "5080403.0",
 "name": "Jaylen Raynor",
-"v": 0.0189,
-"plays": 337,
-"passes": 262,
-"games": 10,
-"last_wk": 11
+"v": -0.0041,
+"plays": 369,
+"passes": 287,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5219258.0",
 "name": "Aiden Flora",
-"v": 0.0839,
-"plays": 190,
+"v": 0.1046,
+"plays": 213,
 "passes": 4,
-"games": 10,
-"last_wk": 11
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5140620.0",
@@ -1051,11 +1096,11 @@
 {
 "pid": "4870513.0",
 "name": "Maddux Madsen",
-"v": 0.171,
-"plays": 305,
-"passes": 261,
-"games": 9,
-"last_wk": 11
+"v": 0.161,
+"plays": 345,
+"passes": 296,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5160730.0",
@@ -1106,11 +1151,11 @@
 {
 "pid": "4685459.0",
 "name": "Nicco Marchiol",
-"v": 0.0141,
-"plays": 99,
-"passes": 75,
-"games": 4,
-"last_wk": 11
+"v": 0.0518,
+"plays": 130,
+"passes": 100,
+"games": 5,
+"last_wk": 12
 },
 {
 "pid": "4569262.0",
@@ -1161,20 +1206,20 @@
 {
 "pid": "4685401.0",
 "name": "Josh Hoover",
-"v": 0.0972,
-"plays": 236,
-"passes": 215,
-"games": 9,
-"last_wk": 9
+"v": 0.1031,
+"plays": 252,
+"passes": 227,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "4695867.0",
 "name": "Grant Wilson",
-"v": 0.0215,
-"plays": 64,
-"passes": 52,
-"games": 6,
-"last_wk": 11
+"v": -0.0052,
+"plays": 85,
+"passes": 69,
+"games": 7,
+"last_wk": 12
 },
 {
 "pid": "5145553.0",
@@ -1193,11 +1238,11 @@
 {
 "pid": "5079369.0",
 "name": "CJ Carr",
-"v": 0.1317,
-"plays": 326,
-"passes": 295,
-"games": 10,
-"last_wk": 11
+"v": 0.1323,
+"plays": 361,
+"passes": 325,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5159115.0",
@@ -1257,20 +1302,20 @@
 {
 "pid": "4918099.0",
 "name": "Kenny Minchey",
-"v": 0.0462,
-"plays": 352,
-"passes": 310,
-"games": 10,
-"last_wk": 11
+"v": 0.0461,
+"plays": 403,
+"passes": 357,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "4870609.0",
 "name": "CJ Baxter",
-"v": 0.0387,
-"plays": 104,
+"v": 0.0503,
+"plays": 110,
 "passes": 1,
-"games": 9,
-"last_wk": 11
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "4879824.0",
@@ -1289,11 +1334,11 @@
 {
 "pid": "5078278.0",
 "name": "Lincoln Kienholz",
-"v": 0.1282,
-"plays": 367,
-"passes": 280,
-"games": 10,
-"last_wk": 11
+"v": 0.11,
+"plays": 418,
+"passes": 324,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "4836476.0",
@@ -1330,11 +1375,11 @@
 {
 "pid": "4920158.0",
 "name": "Brock Glenn",
-"v": 0.002,
-"plays": 314,
-"passes": 207,
-"games": 10,
-"last_wk": 11
+"v": 0.0115,
+"plays": 380,
+"passes": 257,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5196864.0",
@@ -1348,11 +1393,11 @@
 {
 "pid": "5077114.0",
 "name": "Caleb McMickle",
-"v": -0.0574,
-"plays": 4,
+"v": -0.061,
+"plays": 5,
 "passes": 2,
-"games": 1,
-"last_wk": 4
+"games": 2,
+"last_wk": 12
 },
 {
 "pid": "-6047.0",
@@ -1371,11 +1416,20 @@
 {
 "pid": "5078810.0",
 "name": "Sam Leavitt",
-"v": 0.1163,
-"plays": 438,
-"passes": 357,
-"games": 10,
-"last_wk": 11
+"v": 0.1113,
+"plays": 489,
+"passes": 403,
+"games": 11,
+"last_wk": 12
+},
+{
+"pid": "5079482.0",
+"name": "Dilin Jones",
+"v": -0.0244,
+"plays": 201,
+"passes": 1,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5224789.0",
@@ -1398,11 +1452,11 @@
 {
 "pid": "4921154.0",
 "name": "Eugene Wilson III",
-"v": -0.0609,
-"plays": 6,
+"v": -0.0664,
+"plays": 9,
 "passes": 1,
-"games": 5,
-"last_wk": 10
+"games": 6,
+"last_wk": 12
 },
 {
 "pid": "5114311.0",
@@ -1421,11 +1475,11 @@
 {
 "pid": "5307005.0",
 "name": "Mason McKenzie",
-"v": -0.0725,
-"plays": 413,
-"passes": 273,
-"games": 10,
-"last_wk": 11
+"v": -0.0683,
+"plays": 443,
+"passes": 299,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5276589.0",
@@ -1494,11 +1548,11 @@
 {
 "pid": "5298739.0",
 "name": "Logan Inagawa",
-"v": -0.0129,
-"plays": 94,
-"passes": 66,
-"games": 5,
-"last_wk": 11
+"v": -0.0334,
+"plays": 129,
+"passes": 88,
+"games": 6,
+"last_wk": 12
 },
 {
 "pid": "5327585.0",
@@ -1540,38 +1594,38 @@
 {
 "pid": "5141695.0",
 "name": "Malik Washington",
-"v": -0.0148,
-"plays": 354,
-"passes": 308,
-"games": 9,
-"last_wk": 10
+"v": -0.0068,
+"plays": 392,
+"passes": 345,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5295550.0",
 "name": "DeJuan Williams",
-"v": -0.0665,
-"plays": 95,
+"v": -0.0544,
+"plays": 112,
 "passes": 2,
-"games": 7,
-"last_wk": 11
+"games": 8,
+"last_wk": 12
 },
 {
 "pid": "4872721.0",
 "name": "Cardell Williams",
-"v": 0.0261,
-"plays": 51,
-"passes": 31,
-"games": 4,
-"last_wk": 11
+"v": 0.0217,
+"plays": 55,
+"passes": 34,
+"games": 5,
+"last_wk": 12
 },
 {
 "pid": "5092410.0",
 "name": "Dorian Fleming",
-"v": -0.0285,
-"plays": 3,
+"v": -0.0273,
+"plays": 4,
 "passes": 1,
-"games": 1,
-"last_wk": 10
+"games": 2,
+"last_wk": 12
 },
 {
 "pid": "5086182.0",
@@ -1617,29 +1671,29 @@
 {
 "pid": "5266583.0",
 "name": "Kayd Coffman",
-"v": -0.0812,
-"plays": 20,
-"passes": 15,
-"games": 3,
-"last_wk": 11
+"v": -0.0699,
+"plays": 42,
+"passes": 35,
+"games": 4,
+"last_wk": 12
 },
 {
 "pid": "5164308.0",
 "name": "Leo Hannan",
-"v": -0.0316,
-"plays": 16,
-"passes": 16,
-"games": 1,
-"last_wk": 8
+"v": -0.0275,
+"plays": 20,
+"passes": 20,
+"games": 2,
+"last_wk": 12
 },
 {
 "pid": "4911541.0",
 "name": "Carson Gulker",
-"v": -0.041,
-"plays": 10,
+"v": -0.0407,
+"plays": 11,
 "passes": 1,
-"games": 5,
-"last_wk": 11
+"games": 6,
+"last_wk": 12
 }
 ]
 },
@@ -1649,11 +1703,11 @@
 {
 "pid": "5141741.0",
 "name": "Bryce Underwood",
-"v": -0.0034,
-"plays": 196,
-"passes": 143,
-"games": 8,
-"last_wk": 11
+"v": -0.0125,
+"plays": 227,
+"passes": 166,
+"games": 9,
+"last_wk": 12
 },
 {
 "pid": "5269403.0",
@@ -1672,20 +1726,20 @@
 {
 "pid": "5144959.0",
 "name": "Drake Lindsey",
-"v": -0.034,
-"plays": 347,
-"passes": 330,
-"games": 10,
-"last_wk": 11
+"v": -0.0339,
+"plays": 386,
+"passes": 369,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "4920901.0",
 "name": "Darius Taylor",
-"v": -0.0894,
-"plays": 110,
+"v": -0.0692,
+"plays": 125,
 "passes": 1,
-"games": 9,
-"last_wk": 11
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5214645.0",
@@ -1697,6 +1751,15 @@
 "last_wk": 1
 },
 {
+"pid": "4831976.0",
+"name": "Javon Tracy",
+"v": -0.057,
+"plays": 5,
+"passes": 1,
+"games": 3,
+"last_wk": 12
+},
+{
 "pid": "5150680.0",
 "name": "Max Shikenjanski",
 "v": -0.0281,
@@ -1704,15 +1767,6 @@
 "passes": 3,
 "games": 1,
 "last_wk": 1
-},
-{
-"pid": "4831976.0",
-"name": "Javon Tracy",
-"v": -0.0522,
-"plays": 4,
-"passes": 1,
-"games": 2,
-"last_wk": 9
 }
 ]
 },
@@ -1722,11 +1776,11 @@
 {
 "pid": "5141684.0",
 "name": "Austin Simmons",
-"v": 0.0887,
-"plays": 335,
-"passes": 316,
-"games": 10,
-"last_wk": 11
+"v": 0.1238,
+"plays": 357,
+"passes": 338,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5195300.0",
@@ -1763,20 +1817,38 @@
 {
 "pid": "4911529.0",
 "name": "Trinidad Chambliss",
-"v": 0.1381,
-"plays": 390,
-"passes": 341,
-"games": 9,
-"last_wk": 10
+"v": 0.1694,
+"plays": 450,
+"passes": 392,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5141506.0",
 "name": "Deuce Knight",
-"v": -0.0373,
-"plays": 25,
-"passes": 13,
-"games": 4,
-"last_wk": 10
+"v": -0.0191,
+"plays": 32,
+"passes": 18,
+"games": 5,
+"last_wk": 12
+},
+{
+"pid": "4685391.0",
+"name": "Walker Howard",
+"v": -0.0884,
+"plays": 12,
+"passes": 8,
+"games": 1,
+"last_wk": 12
+},
+{
+"pid": "4870797.0",
+"name": "Luke Hasz",
+"v": -0.0546,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 12
 },
 {
 "pid": "4870912.0",
@@ -1832,20 +1904,20 @@
 {
 "pid": "4694149.0",
 "name": "Walker Eget",
-"v": 0.0521,
-"plays": 294,
-"passes": 286,
-"games": 10,
-"last_wk": 11
+"v": 0.0328,
+"plays": 334,
+"passes": 326,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5164332.0",
 "name": "Nate Sheppard",
-"v": 0.0764,
-"plays": 215,
+"v": 0.0714,
+"plays": 234,
 "passes": 9,
-"games": 10,
-"last_wk": 11
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5185699.0",
@@ -1882,11 +1954,11 @@
 {
 "pid": "5075800.0",
 "name": "Emory Williams",
-"v": -0.1424,
-"plays": 224,
-"passes": 188,
-"games": 8,
-"last_wk": 11
+"v": -0.1445,
+"plays": 251,
+"passes": 211,
+"games": 9,
+"last_wk": 12
 },
 {
 "pid": "4433829.0",
@@ -1900,11 +1972,11 @@
 {
 "pid": "5226083.0",
 "name": "Jason Dickerson",
-"v": -0.0367,
-"plays": 3,
-"passes": 1,
-"games": 3,
-"last_wk": 11
+"v": -0.0265,
+"plays": 4,
+"passes": 2,
+"games": 4,
+"last_wk": 12
 }
 ]
 },
@@ -1914,11 +1986,11 @@
 {
 "pid": "5079301.0",
 "name": "CJ Bailey",
-"v": 0.0612,
-"plays": 374,
-"passes": 310,
-"games": 10,
-"last_wk": 11
+"v": 0.0878,
+"plays": 418,
+"passes": 348,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5148611.0",
@@ -1964,11 +2036,11 @@
 {
 "pid": "5199937.0",
 "name": "Travis Burgess",
-"v": -0.0689,
-"plays": 19,
-"passes": 14,
-"games": 1,
-"last_wk": 11
+"v": 0.0424,
+"plays": 78,
+"passes": 61,
+"games": 2,
+"last_wk": 12
 },
 {
 "pid": "5145396.0",
@@ -1987,20 +2059,29 @@
 {
 "pid": "4920227.0",
 "name": "Gio Lopez",
-"v": 0.2303,
-"plays": 330,
-"passes": 259,
-"games": 9,
-"last_wk": 11
+"v": 0.2458,
+"plays": 357,
+"passes": 281,
+"games": 10,
+"last_wk": 12
+},
+{
+"pid": "5186586.0",
+"name": "Ty Clark III",
+"v": -0.0142,
+"plays": 112,
+"passes": 1,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5141634.0",
 "name": "Steele Pizzella",
-"v": 0.045,
-"plays": 66,
+"v": 0.0343,
+"plays": 71,
 "passes": 42,
-"games": 6,
-"last_wk": 11
+"games": 7,
+"last_wk": 12
 },
 {
 "pid": "5289364.0",
@@ -2051,11 +2132,11 @@
 {
 "pid": "5044387.0",
 "name": "Anthony Colandrea",
-"v": 0.0682,
-"plays": 423,
-"passes": 347,
-"games": 10,
-"last_wk": 11
+"v": 0.0995,
+"plays": 462,
+"passes": 376,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5141556.0",
@@ -2115,11 +2196,11 @@
 {
 "pid": "5079717.0",
 "name": "AJ Surace",
-"v": -0.062,
-"plays": 155,
-"passes": 138,
-"games": 8,
-"last_wk": 11
+"v": -0.0278,
+"plays": 199,
+"passes": 181,
+"games": 9,
+"last_wk": 12
 },
 {
 "pid": "4870900.0",
@@ -2140,18 +2221,18 @@
 "last_wk": 11
 },
 {
-"pid": "-7238.0",
-"name": "TEAM",
-"v": -0.0758,
+"pid": "5221407.0",
+"name": "Jakob Anderson",
+"v": -0.0274,
 "plays": 1,
 "passes": 1,
 "games": 1,
 "last_wk": 3
 },
 {
-"pid": "5221407.0",
-"name": "Jakob Anderson",
-"v": -0.0274,
+"pid": "-7238.0",
+"name": "TEAM",
+"v": -0.0758,
 "plays": 1,
 "passes": 1,
 "games": 1,
@@ -2165,11 +2246,11 @@
 {
 "pid": "5224084.0",
 "name": "Trey Hedden",
-"v": -0.0388,
-"plays": 201,
-"passes": 190,
-"games": 7,
-"last_wk": 11
+"v": -0.0271,
+"plays": 241,
+"passes": 225,
+"games": 8,
+"last_wk": 12
 },
 {
 "pid": "5152503.0",
@@ -2183,11 +2264,20 @@
 {
 "pid": "5076584.0",
 "name": "TJ Washington Jr.",
-"v": -0.0675,
-"plays": 80,
+"v": -0.0723,
+"plays": 89,
 "passes": 1,
-"games": 10,
-"last_wk": 11
+"games": 11,
+"last_wk": 12
+},
+{
+"pid": "5220785.0",
+"name": "TJ Pride",
+"v": -0.0425,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 12
 }
 ]
 },
@@ -2197,20 +2287,20 @@
 {
 "pid": "5261479.0",
 "name": "Toa Fa'avae",
-"v": -0.0804,
-"plays": 237,
+"v": -0.0848,
+"plays": 239,
 "passes": 158,
-"games": 10,
-"last_wk": 11
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5122887.0",
 "name": "Luke Moga",
-"v": -0.0643,
-"plays": 46,
-"passes": 42,
-"games": 5,
-"last_wk": 10
+"v": -0.0138,
+"plays": 92,
+"passes": 83,
+"games": 6,
+"last_wk": 12
 },
 {
 "pid": "5228804.0",
@@ -2224,11 +2314,11 @@
 {
 "pid": "5326947.0",
 "name": "Bailen George",
-"v": -0.0061,
-"plays": 2,
+"v": -0.0151,
+"plays": 3,
 "passes": 2,
-"games": 2,
-"last_wk": 11
+"games": 3,
+"last_wk": 12
 },
 {
 "pid": "5323149.0",
@@ -2247,20 +2337,20 @@
 {
 "pid": "4685694.0",
 "name": "Steve Angeli",
-"v": -0.0179,
-"plays": 280,
-"passes": 265,
-"games": 7,
-"last_wk": 11
+"v": -0.0007,
+"plays": 304,
+"passes": 289,
+"games": 8,
+"last_wk": 12
 },
 {
 "pid": "4870928.0",
 "name": "Malachi Nelson",
-"v": -0.0066,
-"plays": 82,
-"passes": 75,
-"games": 3,
-"last_wk": 7
+"v": 0.0171,
+"plays": 107,
+"passes": 100,
+"games": 4,
+"last_wk": 12
 },
 {
 "pid": "5153782.0",
@@ -2279,6 +2369,15 @@
 "passes": 13,
 "games": 2,
 "last_wk": 7
+},
+{
+"pid": "5216837.0",
+"name": "Rich Belin",
+"v": -0.0425,
+"plays": 10,
+"passes": 6,
+"games": 1,
+"last_wk": 12
 },
 {
 "pid": "5159036.0",
@@ -2324,20 +2423,20 @@
 {
 "pid": "4912647.0",
 "name": "Austin Novosad",
-"v": -0.058,
-"plays": 34,
-"passes": 34,
-"games": 3,
-"last_wk": 11
+"v": -0.066,
+"plays": 60,
+"passes": 59,
+"games": 4,
+"last_wk": 12
 },
 {
 "pid": "5226453.0",
 "name": "Brennan Ridley",
-"v": -0.0633,
-"plays": 9,
+"v": -0.07,
+"plays": 11,
 "passes": 1,
-"games": 6,
-"last_wk": 9
+"games": 7,
+"last_wk": 12
 }
 ]
 },
@@ -2354,6 +2453,15 @@
 "last_wk": 11
 },
 {
+"pid": "5193270.0",
+"name": "D'Shawntae Jones",
+"v": -0.048,
+"plays": 120,
+"passes": 2,
+"games": 11,
+"last_wk": 12
+},
+{
 "pid": "5141549.0",
 "name": "David McComb",
 "v": 0.06,
@@ -2363,31 +2471,22 @@
 "last_wk": 4
 },
 {
-"pid": "5193270.0",
-"name": "D'Shawntae Jones",
-"v": -0.0579,
-"plays": 91,
-"passes": 2,
-"games": 10,
-"last_wk": 11
-},
-{
 "pid": "5280838.0",
 "name": "Drew Bellisari",
-"v": -0.0124,
-"plays": 18,
-"passes": 15,
-"games": 1,
-"last_wk": 11
+"v": 0.0311,
+"plays": 34,
+"passes": 28,
+"games": 2,
+"last_wk": 12
 },
 {
 "pid": "5293035.0",
 "name": "Scoop Smith",
-"v": -0.0159,
-"plays": 11,
+"v": -0.0072,
+"plays": 12,
 "passes": 2,
-"games": 7,
-"last_wk": 11
+"games": 8,
+"last_wk": 12
 },
 {
 "pid": "5079772.0",
@@ -2415,11 +2514,11 @@
 {
 "pid": "5214646.0",
 "name": "Luke Fahey",
-"v": 0.0278,
-"plays": 154,
-"passes": 139,
-"games": 6,
-"last_wk": 11
+"v": 0.0896,
+"plays": 186,
+"passes": 167,
+"games": 7,
+"last_wk": 12
 },
 {
 "pid": "5146824.0",
@@ -2438,11 +2537,11 @@
 {
 "pid": "5228762.0",
 "name": "Nick Poulos",
-"v": -0.0385,
-"plays": 227,
-"passes": 169,
-"games": 7,
-"last_wk": 11
+"v": -0.0163,
+"plays": 248,
+"passes": 182,
+"games": 8,
+"last_wk": 12
 },
 {
 "pid": "5171031.0",
@@ -2456,11 +2555,11 @@
 {
 "pid": "5244755.0",
 "name": "Levi Davis",
-"v": 0.0173,
-"plays": 48,
-"passes": 30,
-"games": 7,
-"last_wk": 11
+"v": 0.0263,
+"plays": 56,
+"passes": 36,
+"games": 8,
+"last_wk": 12
 },
 {
 "pid": "4875744.0",
@@ -2479,20 +2578,20 @@
 {
 "pid": "5219834.0",
 "name": "Drew Mestemaker",
-"v": 0.1411,
-"plays": 397,
-"passes": 363,
-"games": 10,
-"last_wk": 11
+"v": 0.1549,
+"plays": 436,
+"passes": 401,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5258016.0",
 "name": "Caleb Hawkins",
-"v": 0.061,
-"plays": 206,
-"passes": 1,
-"games": 10,
-"last_wk": 11
+"v": 0.0679,
+"plays": 229,
+"passes": 2,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5291690.0",
@@ -2520,11 +2619,11 @@
 {
 "pid": "4915980.0",
 "name": "John Mateer",
-"v": 0.0168,
-"plays": 384,
-"passes": 301,
-"games": 9,
-"last_wk": 10
+"v": 0.0477,
+"plays": 467,
+"passes": 358,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5224237.0",
@@ -2561,29 +2660,38 @@
 {
 "pid": "5224011.0",
 "name": "Baylor Hayes",
-"v": -0.0066,
-"plays": 303,
-"passes": 269,
-"games": 8,
-"last_wk": 11
+"v": 0.0044,
+"plays": 342,
+"passes": 301,
+"games": 9,
+"last_wk": 12
 },
 {
 "pid": "4565355.0",
 "name": "Dexter Williams II",
-"v": -0.0937,
-"plays": 76,
+"v": -0.0956,
+"plays": 77,
 "passes": 63,
-"games": 6,
-"last_wk": 10
+"games": 7,
+"last_wk": 12
 },
 {
 "pid": "4710860.0",
 "name": "Oran Singleton Jr.",
-"v": -0.0515,
-"plays": 10,
+"v": -0.0501,
+"plays": 12,
 "passes": 3,
-"games": 7,
-"last_wk": 11
+"games": 8,
+"last_wk": 12
+},
+{
+"pid": "4429804.0",
+"name": "Jimmy Calloway",
+"v": -0.0613,
+"plays": 11,
+"passes": 1,
+"games": 8,
+"last_wk": 12
 },
 {
 "pid": "5163541.0",
@@ -2609,22 +2717,22 @@
 "last_wk": 10
 },
 {
-"pid": "4917981.0",
-"name": "AJ Newberry",
-"v": -0.0069,
-"plays": 85,
-"passes": 1,
-"games": 10,
-"last_wk": 11
-},
-{
 "pid": "4685497.0",
 "name": "Maalik Murphy",
-"v": 0.0646,
-"plays": 62,
-"passes": 59,
-"games": 4,
-"last_wk": 11
+"v": 0.086,
+"plays": 94,
+"passes": 88,
+"games": 5,
+"last_wk": 12
+},
+{
+"pid": "4917981.0",
+"name": "AJ Newberry",
+"v": -0.0048,
+"plays": 86,
+"passes": 1,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5296163.0",
@@ -2643,11 +2751,11 @@
 {
 "pid": "4801299.0",
 "name": "Rocco Becht",
-"v": 0.0135,
-"plays": 357,
-"passes": 295,
-"games": 10,
-"last_wk": 11
+"v": 0.0131,
+"plays": 388,
+"passes": 318,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5077502.0",
@@ -2702,20 +2810,20 @@
 {
 "pid": "5077787.0",
 "name": "Jaxon Smolik",
-"v": -0.0837,
-"plays": 80,
-"passes": 60,
-"games": 6,
-"last_wk": 10
+"v": -0.0677,
+"plays": 107,
+"passes": 78,
+"games": 7,
+"last_wk": 12
 },
 {
 "pid": "5089003.0",
 "name": "Colin Chase",
-"v": -0.003,
-"plays": 11,
+"v": 0.0132,
+"plays": 15,
 "passes": 4,
-"games": 7,
-"last_wk": 11
+"games": 8,
+"last_wk": 12
 }
 ]
 },
@@ -2734,20 +2842,20 @@
 {
 "pid": "4714300.0",
 "name": "Holden Geriner",
-"v": -0.1087,
-"plays": 154,
-"passes": 136,
-"games": 6,
-"last_wk": 9
+"v": -0.124,
+"plays": 177,
+"passes": 158,
+"games": 7,
+"last_wk": 12
 },
 {
 "pid": "5207640.0",
 "name": "Corey Dailey",
-"v": -0.0412,
-"plays": 82,
-"passes": 72,
-"games": 5,
-"last_wk": 11
+"v": -0.0543,
+"plays": 91,
+"passes": 81,
+"games": 6,
+"last_wk": 12
 }
 ]
 },
@@ -2812,20 +2920,29 @@
 {
 "pid": "5081434.0",
 "name": "Trent Pearman",
-"v": -0.1444,
-"plays": 25,
-"passes": 19,
+"v": -0.0716,
+"plays": 58,
+"passes": 46,
+"games": 4,
+"last_wk": 12
+},
+{
+"pid": "5210003.0",
+"name": "Chris Denson",
+"v": -0.0471,
+"plays": 20,
+"passes": 2,
 "games": 3,
-"last_wk": 11
+"last_wk": 12
 },
 {
 "pid": "5112674.0",
 "name": "Bryant Wesco Jr.",
-"v": -0.0438,
-"plays": 3,
-"passes": 1,
-"games": 2,
-"last_wk": 10
+"v": -0.0619,
+"plays": 4,
+"passes": 2,
+"games": 3,
+"last_wk": 12
 },
 {
 "pid": "5200187.0",
@@ -2890,11 +3007,11 @@
 {
 "pid": "5165807.0",
 "name": "Marcus Stokes",
-"v": 0.1269,
-"plays": 371,
-"passes": 306,
-"games": 10,
-"last_wk": 11
+"v": 0.0938,
+"plays": 413,
+"passes": 341,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5079548.0",
@@ -2916,17 +3033,31 @@
 }
 ]
 },
+"236": {
+"name": "Chattanooga",
+"qbs": [
+{
+"pid": "5220783.0",
+"name": "Parker Awad",
+"v": -0.0505,
+"plays": 16,
+"passes": 14,
+"games": 1,
+"last_wk": 12
+}
+]
+},
 "238": {
 "name": "Vanderbilt",
 "qbs": [
 {
 "pid": "5158948.0",
 "name": "Jared Curtis",
-"v": -0.0233,
-"plays": 353,
-"passes": 283,
-"games": 9,
-"last_wk": 11
+"v": -0.0189,
+"plays": 390,
+"passes": 311,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5121691.0",
@@ -2940,11 +3071,11 @@
 {
 "pid": "5126473.0",
 "name": "Whit Muschamp",
-"v": -0.0459,
-"plays": 4,
+"v": -0.0596,
+"plays": 5,
 "passes": 3,
-"games": 1,
-"last_wk": 5
+"games": 2,
+"last_wk": 12
 },
 {
 "pid": "5209910.0",
@@ -2972,20 +3103,20 @@
 {
 "pid": "5079555.0",
 "name": "DJ Lagway",
-"v": -0.0008,
-"plays": 369,
-"passes": 322,
-"games": 8,
-"last_wk": 11
+"v": -0.0214,
+"plays": 428,
+"passes": 375,
+"games": 9,
+"last_wk": 12
 },
 {
 "pid": "5295723.0",
 "name": "Caden Knighten",
-"v": -0.0472,
-"plays": 84,
+"v": -0.0461,
+"plays": 86,
 "passes": 1,
-"games": 10,
-"last_wk": 11
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5145459.0",
@@ -2999,11 +3130,11 @@
 {
 "pid": "5159106.0",
 "name": "Ryelan Morris",
-"v": -0.0391,
-"plays": 60,
+"v": -0.0404,
+"plays": 68,
 "passes": 1,
-"games": 9,
-"last_wk": 11
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5213685.0",
@@ -3022,29 +3153,29 @@
 {
 "pid": "4685291.0",
 "name": "Jacurri Brown",
-"v": -0.0101,
-"plays": 209,
-"passes": 93,
-"games": 9,
-"last_wk": 11
+"v": -0.0035,
+"plays": 219,
+"passes": 94,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5145788.0",
 "name": "Gael Ochoa",
-"v": 0.0091,
-"plays": 101,
-"passes": 50,
-"games": 6,
-"last_wk": 11
+"v": 0.0013,
+"plays": 122,
+"passes": 65,
+"games": 7,
+"last_wk": 12
 },
 {
 "pid": "5265447.0",
 "name": "Patrick Crayton Jr.",
-"v": 0.0026,
-"plays": 14,
-"passes": 6,
-"games": 3,
-"last_wk": 10
+"v": 0.0403,
+"plays": 26,
+"passes": 17,
+"games": 4,
+"last_wk": 12
 },
 {
 "pid": "5384736.0",
@@ -3072,11 +3203,11 @@
 {
 "pid": "5295969.0",
 "name": "Brady Hart",
-"v": -0.063,
-"plays": 26,
-"passes": 24,
-"games": 4,
-"last_wk": 11
+"v": -0.0606,
+"plays": 49,
+"passes": 47,
+"games": 5,
+"last_wk": 12
 },
 {
 "pid": "5158957.0",
@@ -3104,11 +3235,11 @@
 {
 "pid": "5159035.0",
 "name": "Keisean Henderson",
-"v": -0.0347,
-"plays": 9,
-"passes": 8,
-"games": 2,
-"last_wk": 2
+"v": -0.0111,
+"plays": 49,
+"passes": 37,
+"games": 3,
+"last_wk": 12
 }
 ]
 },
@@ -3125,13 +3256,22 @@
 "last_wk": 11
 },
 {
+"pid": "4911971.0",
+"name": "Jahiem White",
+"v": 0.0596,
+"plays": 204,
+"passes": 1,
+"games": 11,
+"last_wk": 12
+},
+{
 "pid": "5175092.0",
 "name": "Chris Jimerson Jr.",
-"v": -0.035,
-"plays": 42,
-"passes": 18,
-"games": 6,
-"last_wk": 11
+"v": -0.0431,
+"plays": 63,
+"passes": 34,
+"games": 7,
+"last_wk": 12
 },
 {
 "pid": "5215310.0",
@@ -3141,6 +3281,15 @@
 "passes": 22,
 "games": 4,
 "last_wk": 6
+},
+{
+"pid": "5159360.0",
+"name": "James Tyre",
+"v": -0.0565,
+"plays": 15,
+"passes": 8,
+"games": 1,
+"last_wk": 12
 }
 ]
 },
@@ -3150,20 +3299,20 @@
 {
 "pid": "4870906.0",
 "name": "Arch Manning",
-"v": -0.0269,
-"plays": 382,
-"passes": 325,
-"games": 10,
-"last_wk": 11
+"v": -0.0059,
+"plays": 412,
+"passes": 351,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5141509.0",
 "name": "Karle Lacey Jr.",
-"v": -0.0484,
-"plays": 11,
-"passes": 9,
-"games": 3,
-"last_wk": 9
+"v": -0.0344,
+"plays": 14,
+"passes": 12,
+"games": 4,
+"last_wk": 12
 }
 ]
 },
@@ -3173,11 +3322,11 @@
 {
 "pid": "5141367.0",
 "name": "Bear Bachmeier",
-"v": 0.1374,
-"plays": 370,
-"passes": 272,
-"games": 10,
-"last_wk": 11
+"v": 0.1296,
+"plays": 409,
+"passes": 299,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "4688540.0",
@@ -3237,29 +3386,29 @@
 {
 "pid": "5105849.0",
 "name": "Devon Dampier",
-"v": 0.081,
-"plays": 404,
-"passes": 293,
-"games": 10,
-"last_wk": 11
+"v": 0.1172,
+"plays": 452,
+"passes": 325,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5173431.0",
 "name": "Wayshawn Parker",
-"v": 0.0546,
-"plays": 125,
+"v": 0.0534,
+"plays": 126,
 "passes": 1,
-"games": 10,
-"last_wk": 11
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5294263.0",
 "name": "Byrd Ficklin",
-"v": -0.0586,
-"plays": 53,
-"passes": 20,
-"games": 8,
-"last_wk": 9
+"v": -0.0557,
+"plays": 55,
+"passes": 21,
+"games": 9,
+"last_wk": 12
 },
 {
 "pid": "4871040.0",
@@ -3342,20 +3491,20 @@
 {
 "pid": "4685696.0",
 "name": "Beau Pribula",
-"v": -0.0478,
-"plays": 345,
-"passes": 263,
-"games": 10,
-"last_wk": 11
+"v": -0.0193,
+"plays": 378,
+"passes": 288,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "4870819.0",
 "name": "Eli Holstein",
-"v": -0.014,
-"plays": 49,
+"v": -0.0252,
+"plays": 50,
 "passes": 47,
-"games": 4,
-"last_wk": 11
+"games": 5,
+"last_wk": 12
 },
 {
 "pid": "5145789.0",
@@ -3374,11 +3523,11 @@
 {
 "pid": "5144078.0",
 "name": "Ethan Grunkemeyer",
-"v": 0.0602,
-"plays": 421,
-"passes": 362,
-"games": 10,
-"last_wk": 11
+"v": 0.0468,
+"plays": 460,
+"passes": 400,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5141366.0",
@@ -3406,11 +3555,11 @@
 {
 "pid": "5079653.0",
 "name": "Demond Williams Jr.",
-"v": 0.0316,
-"plays": 333,
-"passes": 274,
-"games": 9,
-"last_wk": 11
+"v": 0.0428,
+"plays": 382,
+"passes": 317,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5079318.0",
@@ -3424,17 +3573,26 @@
 {
 "pid": "5166797.0",
 "name": "Dezmen Roebuck",
-"v": -0.0498,
-"plays": 10,
-"passes": 1,
-"games": 4,
-"last_wk": 10
+"v": -0.0419,
+"plays": 11,
+"passes": 2,
+"games": 5,
+"last_wk": 12
 }
 ]
 },
 "265": {
 "name": "Washington State",
 "qbs": [
+{
+"pid": "5263246.0",
+"name": "Owen Eshelman",
+"v": 0.0435,
+"plays": 257,
+"passes": 190,
+"games": 5,
+"last_wk": 12
+},
 {
 "pid": "5226019.0",
 "name": "Caden Pinnick",
@@ -3443,15 +3601,6 @@
 "passes": 196,
 "games": 6,
 "last_wk": 6
-},
-{
-"pid": "5263246.0",
-"name": "Owen Eshelman",
-"v": 0.055,
-"plays": 213,
-"passes": 156,
-"games": 4,
-"last_wk": 11
 },
 {
 "pid": "5155864.0",
@@ -3470,11 +3619,20 @@
 {
 "pid": "5125715.0",
 "name": "Colton Joseph",
-"v": 0.0106,
-"plays": 278,
-"passes": 196,
-"games": 9,
-"last_wk": 11
+"v": 0.0341,
+"plays": 311,
+"passes": 213,
+"games": 10,
+"last_wk": 12
+},
+{
+"pid": "5079378.0",
+"name": "Darrion Dupree",
+"v": -0.0425,
+"plays": 89,
+"passes": 1,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5210475.0",
@@ -3484,6 +3642,15 @@
 "passes": 65,
 "games": 5,
 "last_wk": 11
+},
+{
+"pid": "5141505.0",
+"name": "Eugene Hilton Jr.",
+"v": -0.0221,
+"plays": 11,
+"passes": 1,
+"games": 6,
+"last_wk": 12
 },
 {
 "pid": "-6965.0",
@@ -3502,11 +3669,11 @@
 {
 "pid": "4432691.0",
 "name": "Carlos Del Rio-Wilson",
-"v": -0.0553,
-"plays": 257,
-"passes": 181,
-"games": 8,
-"last_wk": 11
+"v": -0.0459,
+"plays": 294,
+"passes": 205,
+"games": 9,
+"last_wk": 12
 },
 {
 "pid": "4685697.0",
@@ -3552,20 +3719,20 @@
 {
 "pid": "5079465.0",
 "name": "Michael Hawkins Jr.",
-"v": 0.1641,
-"plays": 418,
-"passes": 231,
-"games": 10,
-"last_wk": 11
+"v": 0.1606,
+"plays": 460,
+"passes": 255,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5164314.0",
 "name": "Scotty Fox Jr.",
-"v": -0.0499,
-"plays": 8,
-"passes": 4,
-"games": 1,
-"last_wk": 2
+"v": -0.0643,
+"plays": 12,
+"passes": 6,
+"games": 2,
+"last_wk": 12
 },
 {
 "pid": "5161828.0",
@@ -3584,29 +3751,29 @@
 {
 "pid": "5010409.0",
 "name": "Jayden Mandal",
-"v": 0.0947,
-"plays": 366,
-"passes": 301,
-"games": 10,
-"last_wk": 11
+"v": 0.1073,
+"plays": 383,
+"passes": 317,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5146667.0",
 "name": "Khristian Martin",
-"v": -0.0444,
-"plays": 8,
-"passes": 4,
-"games": 3,
-"last_wk": 6
+"v": -0.0492,
+"plays": 12,
+"passes": 8,
+"games": 4,
+"last_wk": 12
 },
 {
 "pid": "5143919.0",
 "name": "Jordan Malau'ulu",
-"v": -0.0344,
-"plays": 3,
+"v": -0.0404,
+"plays": 4,
 "passes": 1,
-"games": 3,
-"last_wk": 10
+"games": 4,
+"last_wk": 12
 }
 ]
 },
@@ -3662,38 +3829,47 @@
 {
 "pid": "4685740.0",
 "name": "Max Johnson",
-"v": 0.0963,
-"plays": 359,
-"passes": 332,
+"v": 0.0999,
+"plays": 388,
+"passes": 359,
+"games": 11,
+"last_wk": 12
+},
+{
+"pid": "5151112.0",
+"name": "David Mbadinga",
+"v": -0.0444,
+"plays": 70,
+"passes": 1,
 "games": 10,
-"last_wk": 11
+"last_wk": 12
 },
 {
 "pid": "5212641.0",
 "name": "Weston Bryan",
-"v": 0.0113,
-"plays": 59,
-"passes": 14,
-"games": 10,
-"last_wk": 11
-},
-{
-"pid": "4912238.0",
-"name": "Turner Helton",
-"v": 0.0187,
-"plays": 45,
-"passes": 40,
-"games": 3,
-"last_wk": 10
+"v": 0.0167,
+"plays": 67,
+"passes": 17,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5155780.0",
 "name": "Taeo Todd",
-"v": -0.0539,
-"plays": 43,
+"v": -0.0368,
+"plays": 50,
 "passes": 1,
-"games": 10,
-"last_wk": 11
+"games": 11,
+"last_wk": 12
+},
+{
+"pid": "4912238.0",
+"name": "Turner Helton",
+"v": 0.0314,
+"plays": 46,
+"passes": 41,
+"games": 4,
+"last_wk": 12
 },
 {
 "pid": "5123988.0",
@@ -3744,20 +3920,20 @@
 {
 "pid": "5193346.0",
 "name": "Quinn Henicle",
-"v": -0.0792,
-"plays": 198,
-"passes": 120,
-"games": 7,
-"last_wk": 10
+"v": -0.0753,
+"plays": 222,
+"passes": 137,
+"games": 8,
+"last_wk": 12
 },
 {
 "pid": "5091836.0",
 "name": "Jaxon Potter",
-"v": -0.1311,
-"plays": 133,
-"passes": 125,
-"games": 4,
-"last_wk": 10
+"v": -0.0966,
+"plays": 162,
+"passes": 154,
+"games": 5,
+"last_wk": 12
 },
 {
 "pid": "5295919.0",
@@ -3822,11 +3998,11 @@
 {
 "pid": "4871091.0",
 "name": "Lunch Winfield",
-"v": -0.0033,
-"plays": 363,
-"passes": 240,
-"games": 10,
-"last_wk": 11
+"v": -0.0029,
+"plays": 398,
+"passes": 261,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5146661.0",
@@ -3891,11 +4067,11 @@
 {
 "pid": "5296439.0",
 "name": "Deuce Bailey",
-"v": -0.0362,
-"plays": 390,
-"passes": 316,
-"games": 10,
-"last_wk": 11
+"v": -0.0508,
+"plays": 425,
+"passes": 346,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5152029.0",
@@ -3905,6 +4081,15 @@
 "passes": 13,
 "games": 3,
 "last_wk": 10
+},
+{
+"pid": "5211952.0",
+"name": "Osiris Lopez",
+"v": 0.0043,
+"plays": 12,
+"passes": 11,
+"games": 1,
+"last_wk": 12
 }
 ]
 },
@@ -3914,20 +4099,20 @@
 {
 "pid": "5148803.0",
 "name": "Brad Jackson",
-"v": 0.1587,
-"plays": 399,
-"passes": 297,
-"games": 10,
-"last_wk": 11
+"v": 0.1775,
+"plays": 426,
+"passes": 317,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5202460.0",
 "name": "Gavin Parkhurst",
-"v": -0.0499,
-"plays": 17,
+"v": -0.0479,
+"plays": 21,
 "passes": 11,
-"games": 3,
-"last_wk": 7
+"games": 4,
+"last_wk": 12
 },
 {
 "pid": "5236321.0",
@@ -3955,20 +4140,20 @@
 {
 "pid": "4923285.0",
 "name": "McCae Hillstead",
-"v": -0.0782,
-"plays": 162,
-"passes": 117,
-"games": 5,
-"last_wk": 11
+"v": -0.0608,
+"plays": 212,
+"passes": 156,
+"games": 6,
+"last_wk": 12
 },
 {
 "pid": "5151339.0",
 "name": "Anthony Garcia",
-"v": -0.0434,
-"plays": 6,
-"passes": 1,
-"games": 4,
-"last_wk": 10
+"v": -0.0446,
+"plays": 8,
+"passes": 3,
+"games": 5,
+"last_wk": 12
 }
 ]
 },
@@ -4010,11 +4195,20 @@
 {
 "pid": "5079508.0",
 "name": "Austin Mack",
-"v": -0.0343,
-"plays": 11,
-"passes": 5,
+"v": 0.0024,
+"plays": 39,
+"passes": 30,
 "games": 4,
-"last_wk": 11
+"last_wk": 12
+},
+{
+"pid": "5271184.0",
+"name": "Jett Thomalla",
+"v": -0.0332,
+"plays": 7,
+"passes": 5,
+"games": 1,
+"last_wk": 12
 }
 ]
 },
@@ -4033,29 +4227,29 @@
 {
 "pid": "5382898.0",
 "name": "Landon Varnes",
-"v": -0.0344,
-"plays": 107,
-"passes": 98,
-"games": 4,
-"last_wk": 11
+"v": 0.0149,
+"plays": 139,
+"passes": 127,
+"games": 5,
+"last_wk": 12
 },
 {
 "pid": "5265536.0",
 "name": "Skyler Williams",
-"v": -0.1197,
-"plays": 21,
+"v": -0.1192,
+"plays": 22,
 "passes": 6,
-"games": 4,
-"last_wk": 11
+"games": 5,
+"last_wk": 12
 },
 {
 "pid": "5083103.0",
 "name": "Davis Bryson",
-"v": -0.0462,
-"plays": 7,
+"v": -0.0432,
+"plays": 8,
 "passes": 1,
-"games": 5,
-"last_wk": 10
+"games": 6,
+"last_wk": 12
 }
 ]
 },
@@ -4074,11 +4268,11 @@
 {
 "pid": "5294646.0",
 "name": "Parker Puckett",
-"v": -0.1047,
-"plays": 126,
-"passes": 100,
-"games": 6,
-"last_wk": 11
+"v": -0.0887,
+"plays": 156,
+"passes": 127,
+"games": 7,
+"last_wk": 12
 },
 {
 "pid": "5081405.0",
@@ -4133,29 +4327,38 @@
 {
 "pid": "5150297.0",
 "name": "Cale Hellums",
-"v": 0.0937,
-"plays": 273,
-"passes": 90,
-"games": 9,
-"last_wk": 10
+"v": 0.0777,
+"plays": 308,
+"passes": 107,
+"games": 10,
+"last_wk": 12
+},
+{
+"pid": "5150316.0",
+"name": "Samari Howard",
+"v": 0.0386,
+"plays": 51,
+"passes": 1,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5293684.0",
 "name": "Bryson Luter",
-"v": -0.0089,
-"plays": 27,
-"passes": 4,
-"games": 6,
-"last_wk": 10
+"v": -0.0158,
+"plays": 33,
+"passes": 6,
+"games": 7,
+"last_wk": 12
 },
 {
 "pid": "5082118.0",
 "name": "Zach Mundell",
-"v": 0.0609,
-"plays": 19,
+"v": 0.0731,
+"plays": 23,
 "passes": 3,
-"games": 8,
-"last_wk": 10
+"games": 9,
+"last_wk": 12
 },
 {
 "pid": "5219408.0",
@@ -4174,11 +4377,11 @@
 {
 "pid": "4795295.0",
 "name": "Katin Houser",
-"v": 0.0995,
-"plays": 336,
-"passes": 298,
-"games": 9,
-"last_wk": 11
+"v": 0.0864,
+"plays": 378,
+"passes": 339,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5198286.0",
@@ -4243,11 +4446,11 @@
 {
 "pid": "5306440.0",
 "name": "Evan Medders",
-"v": 0.0957,
-"plays": 127,
-"passes": 27,
-"games": 8,
-"last_wk": 11
+"v": 0.1133,
+"plays": 137,
+"passes": 31,
+"games": 9,
+"last_wk": 12
 },
 {
 "pid": "5238868.0",
@@ -4261,20 +4464,29 @@
 {
 "pid": "5223112.0",
 "name": "Kemper Hodges",
-"v": 0.0342,
-"plays": 118,
+"v": 0.0377,
+"plays": 122,
 "passes": 4,
-"games": 9,
-"last_wk": 11
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5449066.0",
 "name": "Howard Fisher IV",
-"v": -0.0537,
-"plays": 24,
-"passes": 12,
-"games": 4,
-"last_wk": 11
+"v": -0.0618,
+"plays": 26,
+"passes": 13,
+"games": 5,
+"last_wk": 12
+},
+{
+"pid": "5295013.0",
+"name": "Mason Hayes",
+"v": -0.0172,
+"plays": 6,
+"passes": 1,
+"games": 5,
+"last_wk": 12
 },
 {
 "pid": "5223108.0",
@@ -4286,13 +4498,13 @@
 "last_wk": 8
 },
 {
-"pid": "5295013.0",
-"name": "Mason Hayes",
-"v": -0.0129,
-"plays": 5,
+"pid": "5223110.0",
+"name": "Maguire Martin",
+"v": -0.0364,
+"plays": 2,
 "passes": 1,
-"games": 4,
-"last_wk": 11
+"games": 1,
+"last_wk": 12
 }
 ]
 },
@@ -4311,20 +4523,20 @@
 {
 "pid": "5198324.0",
 "name": "Cibastian Broughton",
-"v": -0.0661,
-"plays": 175,
-"passes": 128,
-"games": 5,
-"last_wk": 11
+"v": -0.0461,
+"plays": 202,
+"passes": 146,
+"games": 6,
+"last_wk": 12
 },
 {
 "pid": "5084582.0",
 "name": "Jordan Gant",
-"v": 0.0097,
-"plays": 152,
+"v": 0.0168,
+"plays": 173,
 "passes": 1,
-"games": 10,
-"last_wk": 11
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5193341.0",
@@ -4398,20 +4610,20 @@
 {
 "pid": "4870999.0",
 "name": "Malachi Singleton",
-"v": 0.0184,
-"plays": 354,
-"passes": 309,
-"games": 10,
-"last_wk": 11
+"v": -0.0078,
+"plays": 394,
+"passes": 344,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5146664.0",
 "name": "Henry Hasselbeck",
-"v": -0.0042,
-"plays": 90,
+"v": -0.0203,
+"plays": 93,
 "passes": 33,
-"games": 10,
-"last_wk": 11
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5082965.0",
@@ -4471,11 +4683,11 @@
 {
 "pid": "5123665.0",
 "name": "Trey Owens",
-"v": -0.0036,
-"plays": 383,
-"passes": 318,
-"games": 10,
-"last_wk": 11
+"v": -0.0038,
+"plays": 420,
+"passes": 350,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "4713649.0",
@@ -4508,11 +4720,11 @@
 {
 "pid": "5075392.0",
 "name": "Keldric Luster",
-"v": -0.0483,
-"plays": 364,
-"passes": 289,
-"games": 9,
-"last_wk": 11
+"v": -0.0216,
+"plays": 415,
+"passes": 325,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5152153.0",
@@ -4522,6 +4734,15 @@
 "passes": 41,
 "games": 7,
 "last_wk": 8
+},
+{
+"pid": "5222761.0",
+"name": "Jamarion McDougle",
+"v": -0.0615,
+"plays": 4,
+"passes": 1,
+"games": 4,
+"last_wk": 12
 }
 ]
 },
@@ -4586,20 +4807,20 @@
 {
 "pid": "5222591.0",
 "name": "Jason Wright",
-"v": -0.0506,
-"plays": 314,
-"passes": 259,
-"games": 9,
-"last_wk": 11
+"v": -0.0283,
+"plays": 329,
+"passes": 272,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5151369.0",
 "name": "Messiah Burch",
-"v": 0.0042,
-"plays": 199,
+"v": 0.011,
+"plays": 223,
 "passes": 2,
-"games": 10,
-"last_wk": 11
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5328086.0",
@@ -4687,11 +4908,11 @@
 {
 "pid": "4911929.0",
 "name": "Alonza Barnett III",
-"v": -0.0531,
-"plays": 170,
-"passes": 140,
-"games": 5,
-"last_wk": 11
+"v": -0.0173,
+"plays": 208,
+"passes": 167,
+"games": 6,
+"last_wk": 12
 },
 {
 "pid": "5154248.0",
@@ -4719,20 +4940,20 @@
 {
 "pid": "5149056.0",
 "name": "Jadyn Glasser",
-"v": -0.0229,
-"plays": 148,
-"passes": 121,
-"games": 9,
-"last_wk": 11
+"v": -0.0248,
+"plays": 172,
+"passes": 140,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5295480.0",
 "name": "Marcus Beamon",
 "v": -0.0652,
-"plays": 13,
-"passes": 12,
-"games": 3,
-"last_wk": 10
+"plays": 17,
+"passes": 16,
+"games": 4,
+"last_wk": 12
 }
 ]
 },
@@ -4774,11 +4995,11 @@
 {
 "pid": "4685345.0",
 "name": "JC French IV",
-"v": 0.0298,
-"plays": 376,
-"passes": 283,
-"games": 10,
-"last_wk": 11
+"v": 0.0377,
+"plays": 417,
+"passes": 306,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5089327.0",
@@ -4944,20 +5165,20 @@
 {
 "pid": "5094040.0",
 "name": "Brogan McCaughey",
-"v": -0.1084,
-"plays": 75,
-"passes": 64,
-"games": 3,
-"last_wk": 10
+"v": -0.0658,
+"plays": 95,
+"passes": 82,
+"games": 4,
+"last_wk": 12
 },
 {
 "pid": "5144207.0",
 "name": "Jace Stuckey",
-"v": -0.0639,
-"plays": 22,
-"passes": 15,
-"games": 3,
-"last_wk": 10
+"v": -0.0903,
+"plays": 35,
+"passes": 25,
+"games": 4,
+"last_wk": 12
 }
 ]
 },
@@ -4981,11 +5202,11 @@
 {
 "pid": "4869991.0",
 "name": "Caden Veltkamp",
-"v": 0.0954,
-"plays": 452,
-"passes": 414,
-"games": 10,
-"last_wk": 11
+"v": 0.1084,
+"plays": 494,
+"passes": 452,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5219898.0",
@@ -4999,11 +5220,11 @@
 {
 "pid": "5215248.0",
 "name": "Jordan Magwood",
-"v": -0.0643,
-"plays": 12,
+"v": -0.0655,
+"plays": 13,
 "passes": 6,
-"games": 3,
-"last_wk": 11
+"games": 4,
+"last_wk": 12
 },
 {
 "pid": "4914830.0",
@@ -5031,11 +5252,11 @@
 {
 "pid": "4870883.0",
 "name": "JJ Kohl",
-"v": -0.0378,
-"plays": 373,
-"passes": 335,
-"games": 10,
-"last_wk": 11
+"v": -0.0119,
+"plays": 418,
+"passes": 376,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5153845.0",
@@ -5118,11 +5339,11 @@
 {
 "pid": "5083490.0",
 "name": "Ayden Pereira",
-"v": -0.0806,
-"plays": 166,
-"passes": 123,
-"games": 10,
-"last_wk": 11
+"v": -0.0725,
+"plays": 203,
+"passes": 156,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5381375.0",
@@ -5255,11 +5476,11 @@
 {
 "pid": "5089314.0",
 "name": "Hank Brown",
-"v": 0.0402,
-"plays": 256,
-"passes": 228,
-"games": 9,
-"last_wk": 11
+"v": 0.0437,
+"plays": 292,
+"passes": 254,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5121030.0",
@@ -5287,29 +5508,38 @@
 {
 "pid": "5079604.0",
 "name": "Isaiah Marshall",
-"v": 0.0481,
-"plays": 370,
-"passes": 257,
-"games": 9,
-"last_wk": 11
+"v": 0.0422,
+"plays": 410,
+"passes": 283,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5151060.0",
 "name": "Cole Ballard",
-"v": 0.0367,
-"plays": 58,
+"v": 0.0328,
+"plays": 59,
 "passes": 45,
-"games": 4,
-"last_wk": 9
+"games": 5,
+"last_wk": 12
 },
 {
 "pid": "4986096.0",
 "name": "Chase Jenkins",
-"v": -0.0253,
-"plays": 8,
+"v": -0.0293,
+"plays": 9,
 "passes": 3,
+"games": 3,
+"last_wk": 12
+},
+{
+"pid": "5216559.0",
+"name": "Tate Nagy",
+"v": -0.0408,
+"plays": 2,
+"passes": 1,
 "games": 2,
-"last_wk": 9
+"last_wk": 12
 }
 ]
 },
@@ -5326,6 +5556,15 @@
 "last_wk": 7
 },
 {
+"pid": "5164321.0",
+"name": "Dillon Duff",
+"v": 0.0014,
+"plays": 92,
+"passes": 76,
+"games": 4,
+"last_wk": 12
+},
+{
 "pid": "5124584.0",
 "name": "Blake Barnett",
 "v": -0.0329,
@@ -5333,15 +5572,6 @@
 "passes": 51,
 "games": 3,
 "last_wk": 10
-},
-{
-"pid": "5164321.0",
-"name": "Dillon Duff",
-"v": 0.0098,
-"plays": 68,
-"passes": 59,
-"games": 3,
-"last_wk": 11
 },
 {
 "pid": "4736246.0",
@@ -5360,20 +5590,20 @@
 {
 "pid": "5119841.0",
 "name": "Dru DeShields",
-"v": -0.0712,
-"plays": 378,
-"passes": 311,
-"games": 10,
-"last_wk": 11
+"v": -0.0856,
+"plays": 399,
+"passes": 329,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5222633.0",
 "name": "Nolan Good",
-"v": -0.109,
-"plays": 25,
-"passes": 16,
-"games": 5,
-"last_wk": 9
+"v": -0.0927,
+"plays": 36,
+"passes": 22,
+"games": 6,
+"last_wk": 12
 },
 {
 "pid": "5141625.0",
@@ -5442,38 +5672,38 @@
 {
 "pid": "5138131.0",
 "name": "Deshawn Purdie",
-"v": 0.0535,
-"plays": 260,
-"passes": 212,
-"games": 10,
-"last_wk": 11
+"v": 0.0753,
+"plays": 292,
+"passes": 239,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5079364.0",
 "name": "Kam Davis",
-"v": 0.1012,
-"plays": 123,
+"v": 0.0831,
+"plays": 132,
 "passes": 1,
-"games": 10,
-"last_wk": 11
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "4602923.0",
 "name": "Jaylen Henderson",
-"v": -0.054,
-"plays": 29,
+"v": -0.026,
+"plays": 31,
 "passes": 18,
-"games": 6,
-"last_wk": 9
+"games": 7,
+"last_wk": 12
 },
 {
 "pid": "4832918.0",
 "name": "Ethan Vasko",
-"v": -0.032,
-"plays": 22,
+"v": -0.0317,
+"plays": 24,
 "passes": 4,
-"games": 8,
-"last_wk": 11
+"games": 9,
+"last_wk": 12
 },
 {
 "pid": "5295943.0",
@@ -5515,47 +5745,47 @@
 {
 "pid": "5150998.0",
 "name": "Blake Baker",
-"v": 0.0607,
-"plays": 257,
-"passes": 207,
-"games": 9,
-"last_wk": 11
+"v": 0.0992,
+"plays": 285,
+"passes": 231,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5296376.0",
 "name": "Trey Kukuk",
-"v": 0.0393,
-"plays": 156,
-"passes": 103,
-"games": 9,
-"last_wk": 11
+"v": 0.0306,
+"plays": 171,
+"passes": 108,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5296374.0",
 "name": "Andrew Burnette",
-"v": -0.0777,
-"plays": 97,
+"v": -0.0675,
+"plays": 100,
 "passes": 1,
-"games": 10,
-"last_wk": 11
-},
-{
-"pid": "4919037.0",
-"name": "Sergio Snider",
-"v": -0.0559,
-"plays": 30,
-"passes": 1,
-"games": 9,
-"last_wk": 11
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5296386.0",
 "name": "Dylone Brooks",
-"v": -0.0209,
-"plays": 25,
+"v": -0.0165,
+"plays": 33,
 "passes": 1,
-"games": 5,
-"last_wk": 11
+"games": 6,
+"last_wk": 12
+},
+{
+"pid": "4919037.0",
+"name": "Sergio Snider",
+"v": -0.0594,
+"plays": 32,
+"passes": 1,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5184630.0",
@@ -5569,11 +5799,20 @@
 {
 "pid": "5224217.0",
 "name": "Marcus Calwise Jr.",
-"v": 0.007,
-"plays": 5,
+"v": 0.0041,
+"plays": 6,
 "passes": 2,
-"games": 4,
-"last_wk": 11
+"games": 5,
+"last_wk": 12
+},
+{
+"pid": "5121453.0",
+"name": "Eli Finley",
+"v": -0.0538,
+"plays": 2,
+"passes": 1,
+"games": 1,
+"last_wk": 12
 },
 {
 "pid": "5222150.0",
@@ -5679,11 +5918,11 @@
 {
 "pid": "5121169.0",
 "name": "Darian Mensah",
-"v": 0.2942,
-"plays": 360,
-"passes": 326,
-"games": 10,
-"last_wk": 11
+"v": 0.2699,
+"plays": 405,
+"passes": 365,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5141605.0",
@@ -5711,11 +5950,11 @@
 {
 "pid": "5194626.0",
 "name": "Roman Gagliano",
-"v": -0.0081,
-"plays": 403,
-"passes": 351,
-"games": 10,
-"last_wk": 11
+"v": -0.0138,
+"plays": 442,
+"passes": 380,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "4565180.0",
@@ -5803,11 +6042,11 @@
 {
 "pid": "5220473.0",
 "name": "Jackson Gutierrez",
-"v": 0.1331,
-"plays": 288,
-"passes": 90,
-"games": 9,
-"last_wk": 10
+"v": 0.1124,
+"plays": 334,
+"passes": 104,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5158343.0",
@@ -5849,11 +6088,11 @@
 {
 "pid": "4801306.0",
 "name": "Conner Harrell",
-"v": -0.0598,
-"plays": 215,
-"passes": 184,
-"games": 7,
-"last_wk": 11
+"v": -0.0683,
+"plays": 246,
+"passes": 210,
+"games": 8,
+"last_wk": 12
 },
 {
 "pid": "5089540.0",
@@ -5867,11 +6106,11 @@
 {
 "pid": "5272738.0",
 "name": "Jaylen White",
-"v": -0.0924,
-"plays": 13,
-"passes": 8,
-"games": 5,
-"last_wk": 7
+"v": -0.0974,
+"plays": 19,
+"passes": 12,
+"games": 6,
+"last_wk": 12
 }
 ]
 },
@@ -5881,20 +6120,20 @@
 {
 "pid": "5122054.0",
 "name": "Aidan Armenta",
-"v": -0.0007,
-"plays": 265,
-"passes": 221,
-"games": 9,
-"last_wk": 11
+"v": -0.0099,
+"plays": 271,
+"passes": 227,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5207934.0",
 "name": "Austin Carlisle",
-"v": -0.0444,
-"plays": 168,
-"passes": 95,
-"games": 8,
-"last_wk": 11
+"v": -0.0376,
+"plays": 206,
+"passes": 117,
+"games": 9,
+"last_wk": 12
 },
 {
 "pid": "5158127.0",
@@ -5913,20 +6152,20 @@
 {
 "pid": "4870607.0",
 "name": "Jackson Arnold",
-"v": 0.0564,
-"plays": 400,
-"passes": 279,
-"games": 10,
-"last_wk": 11
+"v": 0.0596,
+"plays": 446,
+"passes": 307,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "4685495.0",
 "name": "Alex Orji",
-"v": -0.0783,
-"plays": 27,
+"v": -0.0737,
+"plays": 28,
 "passes": 12,
-"games": 7,
-"last_wk": 11
+"games": 8,
+"last_wk": 12
 },
 {
 "pid": "4872961.0",
@@ -5945,11 +6184,11 @@
 {
 "pid": "4819250.0",
 "name": "AJ Bianco",
-"v": -0.0728,
-"plays": 157,
-"passes": 122,
-"games": 7,
-"last_wk": 11
+"v": -0.0856,
+"plays": 189,
+"passes": 142,
+"games": 8,
+"last_wk": 12
 },
 {
 "pid": "5205097.0",
@@ -5963,11 +6202,11 @@
 {
 "pid": "5220671.0",
 "name": "Herschel Turner",
-"v": 0.0366,
-"plays": 100,
+"v": 0.0229,
+"plays": 113,
 "passes": 1,
-"games": 10,
-"last_wk": 11
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5077500.0",
@@ -5981,11 +6220,11 @@
 {
 "pid": "5265060.0",
 "name": "Reeve Slone",
-"v": -0.0852,
-"plays": 7,
-"passes": 4,
-"games": 2,
-"last_wk": 9
+"v": -0.0865,
+"plays": 9,
+"passes": 5,
+"games": 3,
+"last_wk": 12
 },
 {
 "pid": "5103836.0",
@@ -6059,20 +6298,20 @@
 {
 "pid": "5087156.0",
 "name": "Nathan Hayes",
-"v": 0.0469,
-"plays": 306,
-"passes": 258,
-"games": 10,
-"last_wk": 11
+"v": 0.0529,
+"plays": 331,
+"passes": 283,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5297927.0",
 "name": "Preston Brown",
-"v": -0.0645,
-"plays": 18,
-"passes": 5,
-"games": 6,
-"last_wk": 8
+"v": -0.0742,
+"plays": 30,
+"passes": 8,
+"games": 7,
+"last_wk": 12
 },
 {
 "pid": "5156994.0",
@@ -6169,20 +6408,20 @@
 {
 "pid": "4881032.0",
 "name": "Taron Dickens",
-"v": 0.036,
-"plays": 397,
-"passes": 342,
-"games": 10,
-"last_wk": 11
+"v": 0.0657,
+"plays": 434,
+"passes": 374,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5193302.0",
 "name": "Telly Johnson Jr.",
-"v": -0.0185,
-"plays": 122,
+"v": -0.0125,
+"plays": 133,
 "passes": 1,
-"games": 10,
-"last_wk": 11
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "4884086.0",
@@ -6297,11 +6536,11 @@
 {
 "pid": "5079572.0",
 "name": "Dylan Raiola",
-"v": 0.0535,
-"plays": 234,
-"passes": 220,
-"games": 8,
-"last_wk": 11
+"v": 0.0444,
+"plays": 271,
+"passes": 257,
+"games": 9,
+"last_wk": 12
 },
 {
 "pid": "4870921.0",
@@ -6393,20 +6632,20 @@
 {
 "pid": "5104738.0",
 "name": "Ryan Browne",
-"v": 0.0539,
-"plays": 366,
-"passes": 325,
-"games": 10,
-"last_wk": 11
+"v": 0.0479,
+"plays": 400,
+"passes": 356,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5149006.0",
 "name": "Evans Chuba",
-"v": -0.0392,
-"plays": 30,
-"passes": 23,
-"games": 4,
-"last_wk": 11
+"v": -0.048,
+"plays": 32,
+"passes": 25,
+"games": 5,
+"last_wk": 12
 }
 ]
 },
@@ -6480,11 +6719,11 @@
 {
 "pid": "5148427.0",
 "name": "Landyn Locke",
-"v": -0.0856,
-"plays": 318,
-"passes": 291,
-"games": 9,
-"last_wk": 11
+"v": -0.0886,
+"plays": 322,
+"passes": 295,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5220425.0",
@@ -6498,17 +6737,35 @@
 {
 "pid": "5384797.0",
 "name": "Brett Holloway",
-"v": -0.0751,
-"plays": 23,
-"passes": 6,
-"games": 7,
-"last_wk": 11
+"v": -0.1049,
+"plays": 31,
+"passes": 10,
+"games": 8,
+"last_wk": 12
+},
+{
+"pid": "5212648.0",
+"name": "Mason Holtzclaw",
+"v": -0.0376,
+"plays": 27,
+"passes": 26,
+"games": 1,
+"last_wk": 12
 }
 ]
 },
 "2535": {
 "name": "Samford",
 "qbs": [
+{
+"pid": "5441449.0",
+"name": "Will Shields",
+"v": -0.0418,
+"plays": 37,
+"passes": 35,
+"games": 1,
+"last_wk": 12
+},
 {
 "pid": "4870864.0",
 "name": "Gabarri Johnson",
@@ -6517,6 +6774,24 @@
 "passes": 31,
 "games": 1,
 "last_wk": 5
+},
+{
+"pid": "5077059.0",
+"name": "Charlie Gilliam",
+"v": -0.006,
+"plays": 6,
+"passes": 6,
+"games": 1,
+"last_wk": 12
+},
+{
+"pid": "5085644.0",
+"name": "Coulter Cleland",
+"v": -0.047,
+"plays": 6,
+"passes": 5,
+"games": 1,
+"last_wk": 12
 }
 ]
 },
@@ -6554,11 +6829,11 @@
 {
 "pid": "5084084.0",
 "name": "Kevin Jennings",
-"v": 0.1358,
-"plays": 391,
-"passes": 335,
-"games": 10,
-"last_wk": 11
+"v": 0.1394,
+"plays": 440,
+"passes": 381,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5141487.0",
@@ -6570,18 +6845,27 @@
 "last_wk": 10
 },
 {
-"pid": "5161878.0",
-"name": "Cole Leinart",
-"v": -0.0497,
+"pid": "5084086.0",
+"name": "Charlie Fiser",
+"v": -0.0567,
 "plays": 1,
 "passes": 1,
 "games": 1,
 "last_wk": 2
 },
 {
-"pid": "5084086.0",
-"name": "Charlie Fiser",
-"v": -0.0567,
+"pid": "5381520.0",
+"name": "Wiley Olson",
+"v": -0.0661,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 12
+},
+{
+"pid": "5161878.0",
+"name": "Cole Leinart",
+"v": -0.0497,
 "plays": 1,
 "passes": 1,
 "games": 1,
@@ -6618,11 +6902,11 @@
 {
 "pid": "5079628.0",
 "name": "John White",
-"v": -0.0939,
-"plays": 98,
-"passes": 88,
-"games": 3,
-"last_wk": 11
+"v": -0.0824,
+"plays": 138,
+"passes": 124,
+"games": 4,
+"last_wk": 12
 },
 {
 "pid": "4618083.0",
@@ -6632,15 +6916,6 @@
 "passes": 76,
 "games": 3,
 "last_wk": 3
-},
-{
-"pid": "5394591.0",
-"name": "Eelijah Singleton",
-"v": -0.0624,
-"plays": 2,
-"passes": 2,
-"games": 2,
-"last_wk": 6
 },
 {
 "pid": "5218891.0",
@@ -6659,6 +6934,15 @@
 "passes": 1,
 "games": 2,
 "last_wk": 11
+},
+{
+"pid": "5394591.0",
+"name": "Eelijah Singleton",
+"v": -0.0624,
+"plays": 2,
+"passes": 2,
+"games": 2,
+"last_wk": 6
 }
 ]
 },
@@ -6668,11 +6952,11 @@
 {
 "pid": "4875127.0",
 "name": "LaNorris Sellers",
-"v": 0.0996,
-"plays": 379,
-"passes": 291,
-"games": 9,
-"last_wk": 10
+"v": 0.09,
+"plays": 406,
+"passes": 312,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5164334.0",
@@ -6755,11 +7039,11 @@
 {
 "pid": "4685252.0",
 "name": "Henry Belin IV",
-"v": -0.0108,
-"plays": 233,
-"passes": 207,
-"games": 9,
-"last_wk": 11
+"v": -0.006,
+"plays": 269,
+"passes": 239,
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5083042.0",
@@ -6773,20 +7057,11 @@
 {
 "pid": "5085729.0",
 "name": "Connor Lair",
-"v": -0.0882,
-"plays": 94,
-"passes": 1,
-"games": 10,
-"last_wk": 11
-},
-{
-"pid": "5227766.0",
-"name": "Elijah Leonard",
-"v": -0.0492,
-"plays": 4,
-"passes": 1,
-"games": 1,
-"last_wk": 2
+"v": -0.0938,
+"plays": 107,
+"passes": 2,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "4837193.0",
@@ -6796,6 +7071,15 @@
 "passes": 1,
 "games": 3,
 "last_wk": 9
+},
+{
+"pid": "5227766.0",
+"name": "Elijah Leonard",
+"v": -0.0492,
+"plays": 4,
+"passes": 1,
+"games": 1,
+"last_wk": 2
 }
 ]
 },
@@ -6828,11 +7112,20 @@
 {
 "pid": "5141643.0",
 "name": "Adam Schobel",
-"v": -0.0968,
-"plays": 6,
+"v": -0.1307,
+"plays": 47,
+"passes": 34,
+"games": 4,
+"last_wk": 12
+},
+{
+"pid": "5200482.0",
+"name": "Ed Small",
+"v": -0.0514,
+"plays": 1,
 "passes": 1,
-"games": 3,
-"last_wk": 11
+"games": 1,
+"last_wk": 12
 }
 ]
 },
@@ -6874,20 +7167,20 @@
 {
 "pid": "5158973.0",
 "name": "Faizon Brandon",
-"v": -0.0337,
-"plays": 162,
-"passes": 118,
-"games": 7,
-"last_wk": 11
+"v": -0.0564,
+"plays": 180,
+"passes": 125,
+"games": 8,
+"last_wk": 12
 },
 {
 "pid": "5141571.0",
 "name": "George MacIntyre",
-"v": -0.0991,
-"plays": 155,
-"passes": 142,
-"games": 8,
-"last_wk": 11
+"v": -0.1035,
+"plays": 179,
+"passes": 164,
+"games": 9,
+"last_wk": 12
 },
 {
 "pid": "4917093.0",
@@ -6897,6 +7190,15 @@
 "passes": 3,
 "games": 1,
 "last_wk": 1
+},
+{
+"pid": "5132629.0",
+"name": "Braylon Staley",
+"v": -0.0357,
+"plays": 2,
+"passes": 1,
+"games": 2,
+"last_wk": 12
 }
 ]
 },
@@ -6932,26 +7234,58 @@
 }
 ]
 },
+"2635": {
+"name": "Tennessee Tech",
+"qbs": [
+{
+"pid": "5027925.0",
+"name": "Jax Leatherwood",
+"v": -0.014,
+"plays": 39,
+"passes": 38,
+"games": 1,
+"last_wk": 12
+},
+{
+"pid": "5164721.0",
+"name": "Zolten Osborne",
+"v": -0.072,
+"plays": 10,
+"passes": 8,
+"games": 1,
+"last_wk": 12
+},
+{
+"pid": "5221590.0",
+"name": "Tre' Holloway",
+"v": -0.0744,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 12
+}
+]
+},
 "2636": {
 "name": "UTSA",
 "qbs": [
 {
 "pid": "4775136.0",
 "name": "Owen McCown",
-"v": -0.0086,
-"plays": 360,
-"passes": 318,
-"games": 10,
-"last_wk": 11
+"v": -0.0038,
+"plays": 383,
+"passes": 339,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "4918111.0",
 "name": "A'Marion Peterson",
-"v": 0.1298,
-"plays": 75,
+"v": 0.1419,
+"plays": 84,
 "passes": 1,
-"games": 10,
-"last_wk": 11
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5151316.0",
@@ -6965,11 +7299,20 @@
 {
 "pid": "4917054.0",
 "name": "David Amador II",
-"v": -0.0264,
-"plays": 4,
+"v": -0.034,
+"plays": 5,
 "passes": 3,
-"games": 3,
-"last_wk": 6
+"games": 4,
+"last_wk": 12
+},
+{
+"pid": "5296013.0",
+"name": "Mark Wiepert",
+"v": 0.0002,
+"plays": 4,
+"passes": 1,
+"games": 4,
+"last_wk": 12
 }
 ]
 },
@@ -6979,11 +7322,11 @@
 {
 "pid": "5232049.0",
 "name": "Raymond Moore III",
-"v": -0.0678,
-"plays": 211,
-"passes": 131,
-"games": 10,
-"last_wk": 11
+"v": -0.0911,
+"plays": 238,
+"passes": 153,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5141395.0",
@@ -7002,6 +7345,15 @@
 "passes": 1,
 "games": 7,
 "last_wk": 11
+},
+{
+"pid": "5327568.0",
+"name": "Bodey Weaver",
+"v": -0.0507,
+"plays": 2,
+"passes": 1,
+"games": 2,
+"last_wk": 12
 },
 {
 "pid": "5390014.0",
@@ -7052,11 +7404,11 @@
 {
 "pid": "4773919.0",
 "name": "Thomas Castellanos",
-"v": 0.0649,
-"plays": 151,
-"passes": 90,
-"games": 7,
-"last_wk": 11
+"v": 0.0675,
+"plays": 187,
+"passes": 108,
+"games": 8,
+"last_wk": 12
 },
 {
 "pid": "5151618.0",
@@ -7116,11 +7468,11 @@
 {
 "pid": "5082330.0",
 "name": "John Alan Richter",
-"v": 0.0029,
-"plays": 335,
-"passes": 309,
-"games": 10,
-"last_wk": 11
+"v": -0.0051,
+"plays": 366,
+"passes": 338,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5394415.0",
@@ -7148,20 +7500,20 @@
 {
 "pid": "4431633.0",
 "name": "Goose Crowder",
-"v": -0.0155,
-"plays": 288,
-"passes": 238,
-"games": 8,
-"last_wk": 11
+"v": -0.0362,
+"plays": 319,
+"passes": 267,
+"games": 9,
+"last_wk": 12
 },
 {
 "pid": "4912119.0",
 "name": "Tucker Kilcrease",
-"v": -0.0986,
-"plays": 118,
+"v": -0.1044,
+"plays": 121,
 "passes": 86,
-"games": 5,
-"last_wk": 10
+"games": 6,
+"last_wk": 12
 },
 {
 "pid": "4899096.0",
@@ -7180,11 +7532,11 @@
 {
 "pid": "5291713.0",
 "name": "Trace Johnson",
-"v": -0.0773,
-"plays": 194,
-"passes": 168,
-"games": 6,
-"last_wk": 11
+"v": -0.0498,
+"plays": 222,
+"passes": 191,
+"games": 7,
+"last_wk": 12
 },
 {
 "pid": "5091890.0",
@@ -7198,11 +7550,11 @@
 {
 "pid": "5219709.0",
 "name": "Dagan Bruno",
-"v": -0.0499,
-"plays": 22,
-"passes": 10,
-"games": 6,
-"last_wk": 11
+"v": -0.0563,
+"plays": 24,
+"passes": 11,
+"games": 7,
+"last_wk": 12
 },
 {
 "pid": "4870518.0",
@@ -7212,6 +7564,15 @@
 "passes": 9,
 "games": 1,
 "last_wk": 1
+},
+{
+"pid": "5296695.0",
+"name": "Brooks Moore",
+"v": -0.064,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 12
 }
 ]
 },
@@ -7372,11 +7733,11 @@
 {
 "pid": "5074245.0",
 "name": "Broc Lowry",
-"v": -0.041,
-"plays": 299,
-"passes": 223,
-"games": 10,
-"last_wk": 11
+"v": -0.0407,
+"plays": 328,
+"passes": 242,
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5126475.0",
@@ -7459,11 +7820,20 @@
 {
 "pid": "5203716.0",
 "name": "Ethan Drumm",
-"v": -0.0983,
-"plays": 24,
-"passes": 20,
+"v": -0.1144,
+"plays": 42,
+"passes": 35,
+"games": 2,
+"last_wk": 12
+},
+{
+"pid": "5439484.0",
+"name": "Kaeden Gilstrap",
+"v": -0.089,
+"plays": 17,
+"passes": 13,
 "games": 1,
-"last_wk": 2
+"last_wk": 12
 },
 {
 "pid": "5156255.0",
@@ -7473,6 +7843,15 @@
 "passes": 12,
 "games": 1,
 "last_wk": 2
+},
+{
+"pid": "5412886.0",
+"name": "Cillian Bonner",
+"v": -0.0611,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 12
 }
 ]
 },
@@ -7491,29 +7870,29 @@
 {
 "pid": "5227257.0",
 "name": "Markell Holman",
-"v": -0.0153,
-"plays": 111,
+"v": -0.0149,
+"plays": 120,
 "passes": 3,
-"games": 10,
-"last_wk": 11
+"games": 11,
+"last_wk": 12
 },
 {
 "pid": "5258056.0",
 "name": "Samuel Harris",
 "v": -0.0195,
-"plays": 93,
+"plays": 100,
 "passes": 1,
-"games": 9,
-"last_wk": 11
+"games": 10,
+"last_wk": 12
 },
 {
 "pid": "5296625.0",
 "name": "Landon Sims",
-"v": -0.052,
-"plays": 46,
-"passes": 30,
-"games": 4,
-"last_wk": 11
+"v": -0.0518,
+"plays": 77,
+"passes": 56,
+"games": 5,
+"last_wk": 12
 },
 {
 "pid": "5220376.0",
@@ -7562,18 +7941,18 @@
 "last_wk": 2
 },
 {
-"pid": "5085259.0",
-"name": "Ashton Frye",
-"v": -0.073,
+"pid": "4949488.0",
+"name": "Jacobe Robinson",
+"v": -0.0585,
 "plays": 3,
 "passes": 2,
 "games": 1,
 "last_wk": 2
 },
 {
-"pid": "4949488.0",
-"name": "Jacobe Robinson",
-"v": -0.0585,
+"pid": "5085259.0",
+"name": "Ashton Frye",
+"v": -0.073,
 "plays": 3,
 "passes": 2,
 "games": 1,
