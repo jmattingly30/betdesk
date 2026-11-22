@@ -1,5 +1,5 @@
 {
-"made": "2026-11-22 13:41 UTC",
+"made": "2026-11-22 20:33 UTC",
 "through_week": 12,
 "replacement_v": -0.05,
 "shrink_plays": 203,
@@ -1500,15 +1500,6 @@
 "last_wk": 10
 },
 {
-"pid": "5146747.0",
-"name": "Javarius Green",
-"v": -0.0486,
-"plays": 3,
-"passes": 1,
-"games": 2,
-"last_wk": 10
-},
-{
 "pid": "5144853.0",
 "name": "Landon Wright",
 "v": -0.0526,
@@ -1516,6 +1507,15 @@
 "passes": 1,
 "games": 2,
 "last_wk": 5
+},
+{
+"pid": "5146747.0",
+"name": "Javarius Green",
+"v": -0.0486,
+"plays": 3,
+"passes": 1,
+"games": 2,
+"last_wk": 10
 }
 ]
 },
@@ -1842,15 +1842,6 @@
 "last_wk": 12
 },
 {
-"pid": "4870797.0",
-"name": "Luke Hasz",
-"v": -0.0546,
-"plays": 1,
-"passes": 1,
-"games": 1,
-"last_wk": 12
-},
-{
 "pid": "4870912.0",
 "name": "Traylon Ray",
 "v": -0.0534,
@@ -1858,6 +1849,15 @@
 "passes": 1,
 "games": 1,
 "last_wk": 9
+},
+{
+"pid": "4870797.0",
+"name": "Luke Hasz",
+"v": -0.0546,
+"plays": 1,
+"passes": 1,
+"games": 1,
+"last_wk": 12
 }
 ]
 },
@@ -4480,15 +4480,6 @@
 "last_wk": 12
 },
 {
-"pid": "5295013.0",
-"name": "Mason Hayes",
-"v": -0.0172,
-"plays": 6,
-"passes": 1,
-"games": 5,
-"last_wk": 12
-},
-{
 "pid": "5223108.0",
 "name": "Josh Johnson",
 "v": -0.076,
@@ -4496,6 +4487,15 @@
 "passes": 4,
 "games": 1,
 "last_wk": 8
+},
+{
+"pid": "5295013.0",
+"name": "Mason Hayes",
+"v": -0.0172,
+"plays": 6,
+"passes": 1,
+"games": 5,
+"last_wk": 12
 },
 {
 "pid": "5223110.0",
@@ -5346,18 +5346,18 @@
 "last_wk": 12
 },
 {
-"pid": "5381375.0",
-"name": "Gavin Nuckolls",
-"v": -0.0517,
+"pid": "5216706.0",
+"name": "TJ Stanley",
+"v": -0.0445,
 "plays": 3,
 "passes": 3,
 "games": 1,
 "last_wk": 1
 },
 {
-"pid": "5216706.0",
-"name": "TJ Stanley",
-"v": -0.0445,
+"pid": "5381375.0",
+"name": "Gavin Nuckolls",
+"v": -0.0517,
 "plays": 3,
 "passes": 3,
 "games": 1,
@@ -6927,15 +6927,6 @@
 "last_wk": 11
 },
 {
-"pid": "5394605.0",
-"name": "Dusty Zimmer",
-"v": -0.0025,
-"plays": 2,
-"passes": 1,
-"games": 2,
-"last_wk": 11
-},
-{
 "pid": "5394591.0",
 "name": "Eelijah Singleton",
 "v": -0.0624,
@@ -6943,6 +6934,15 @@
 "passes": 2,
 "games": 2,
 "last_wk": 6
+},
+{
+"pid": "5394605.0",
+"name": "Dusty Zimmer",
+"v": -0.0025,
+"plays": 2,
+"passes": 1,
+"games": 2,
+"last_wk": 11
 }
 ]
 },
@@ -7064,15 +7064,6 @@
 "last_wk": 12
 },
 {
-"pid": "4837193.0",
-"name": "Jmariyae Robinson",
-"v": -0.0367,
-"plays": 4,
-"passes": 1,
-"games": 3,
-"last_wk": 9
-},
-{
 "pid": "5227766.0",
 "name": "Elijah Leonard",
 "v": -0.0492,
@@ -7080,6 +7071,15 @@
 "passes": 1,
 "games": 1,
 "last_wk": 2
+},
+{
+"pid": "4837193.0",
+"name": "Jmariyae Robinson",
+"v": -0.0367,
+"plays": 4,
+"passes": 1,
+"games": 3,
+"last_wk": 9
 }
 ]
 },
@@ -7941,18 +7941,18 @@
 "last_wk": 2
 },
 {
-"pid": "4949488.0",
-"name": "Jacobe Robinson",
-"v": -0.0585,
+"pid": "5085259.0",
+"name": "Ashton Frye",
+"v": -0.073,
 "plays": 3,
 "passes": 2,
 "games": 1,
 "last_wk": 2
 },
 {
-"pid": "5085259.0",
-"name": "Ashton Frye",
-"v": -0.073,
+"pid": "4949488.0",
+"name": "Jacobe Robinson",
+"v": -0.0585,
 "plays": 3,
 "passes": 2,
 "games": 1,
