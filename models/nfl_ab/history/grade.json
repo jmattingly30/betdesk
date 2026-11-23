@@ -1,23 +1,23 @@
 {
- "made": "2026-11-22 20:37 UTC",
+ "made": "2026-11-23 13:41 UTC",
  "A": {
-  "team_scores": 60,
-  "MAE": 7.23,
-  "line_team_scores": 26,
-  "line_MAE": 8.37,
-  "A_closer_share": 0.385
+  "team_scores": 82,
+  "MAE": 7.34,
+  "line_team_scores": 32,
+  "line_MAE": 8.04,
+  "A_closer_share": 0.406
  },
  "B": {
   "spread_B": {
-   "n": 6,
-   "win": 0.667,
-   "roi": 0.287,
-   "clv_pts": -0.06
+   "n": 10,
+   "win": 0.6,
+   "roi": 0.15,
+   "clv_pts": -0.07
   },
   "ml_B": {
-   "n": 4,
-   "win": 0.75,
-   "roi": 0.572,
+   "n": 6,
+   "win": 0.667,
+   "roi": 0.475,
    "clv_pts": 0.0
   },
   "spread_U_watch": {
@@ -27,40 +27,40 @@
    "clv_pts": 0.22
   },
   "total_U_watch": {
-   "n": 16,
-   "win": 0.375,
-   "roi": -0.282,
-   "clv_pts": 0.26
+   "n": 20,
+   "win": 0.4,
+   "roi": -0.233,
+   "clv_pts": 0.2
   },
   "ml_U_watch": {
-   "n": 20,
-   "win": 0.45,
-   "roi": -0.108,
+   "n": 23,
+   "win": 0.478,
+   "roi": -0.056,
    "clv_pts": 0.0
   },
   "spread_U_skip": {
-   "n": 14,
-   "win": 0.786,
-   "roi": 0.502,
-   "clv_pts": 0.02
+   "n": 22,
+   "win": 0.682,
+   "roi": 0.305,
+   "clv_pts": 0.06
   },
   "total_U_skip": {
-   "n": 13,
-   "win": 0.462,
-   "roi": -0.124,
-   "clv_pts": -0.65
+   "n": 20,
+   "win": 0.5,
+   "roi": -0.05,
+   "clv_pts": -0.41
   },
   "ml_U_skip": {
-   "n": 10,
-   "win": 0.5,
-   "roi": -0.222,
+   "n": 18,
+   "win": 0.444,
+   "roi": -0.342,
    "clv_pts": 0.0
   },
   "spread_U_play": {
-   "n": 7,
-   "win": 0.286,
-   "roi": -0.46,
-   "clv_pts": -0.57
+   "n": 10,
+   "win": 0.4,
+   "roi": -0.235,
+   "clv_pts": -0.4
   },
   "total_U_play": {
    "n": 1,

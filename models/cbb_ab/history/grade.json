@@ -1,36 +1,36 @@
 {
- "made": "2026-11-22 20:37 UTC",
+ "made": "2026-11-23 13:41 UTC",
  "rule": "rows logged before the game started only",
- "games_final": 899,
- "games_graded": 897,
+ "games_final": 936,
+ "games_graded": 934,
  "games_without_pregame_row": 2,
  "A": {
-  "team_scores": 1794,
+  "team_scores": 1868,
   "MAE": 8.53,
   "lined": {
-   "games": 805,
+   "games": 839,
    "team_MAE": 8.55,
-   "line_team_MAE": 8.11,
-   "margin_MAE": 10.4,
-   "line_margin_MAE": 9.64,
-   "total_MAE": 13.59,
-   "line_total_MAE": 13.04,
-   "total_bias": -0.94
+   "line_team_MAE": 8.13,
+   "margin_MAE": 10.43,
+   "line_margin_MAE": 9.7,
+   "total_MAE": 13.57,
+   "line_total_MAE": 13.05,
+   "total_bias": -1.06
   },
   "by_line": {
    "under 7": {
-    "games": 301,
-    "margin_MAE": 9.11,
-    "line_margin_MAE": 8.8,
-    "ours_vs_line": -0.28,
-    "result_vs_line": -1.03
+    "games": 323,
+    "margin_MAE": 9.33,
+    "line_margin_MAE": 9.04,
+    "ours_vs_line": -0.26,
+    "result_vs_line": -1.28
    },
    "7 to 14": {
-    "games": 169,
-    "margin_MAE": 10.38,
-    "line_margin_MAE": 9.94,
-    "ours_vs_line": -0.64,
-    "result_vs_line": -2.35
+    "games": 174,
+    "margin_MAE": 10.41,
+    "line_margin_MAE": 9.99,
+    "ours_vs_line": -0.63,
+    "result_vs_line": -2.55
    },
    "14 to 21": {
     "games": 114,
@@ -40,11 +40,11 @@
     "result_vs_line": 0.59
    },
    "21 and up": {
-    "games": 221,
-    "margin_MAE": 11.97,
-    "line_margin_MAE": 10.5,
-    "ours_vs_line": -3.88,
-    "result_vs_line": -0.27
+    "games": 228,
+    "margin_MAE": 11.82,
+    "line_margin_MAE": 10.4,
+    "ours_vs_line": -3.82,
+    "result_vs_line": -0.33
    }
   }
  },
@@ -64,9 +64,9 @@
    "clv_n": 81
   },
   "spread_B": {
-   "n": 148,
-   "win": 0.432,
-   "roi": -0.156,
+   "n": 149,
+   "win": 0.436,
+   "roi": -0.149,
    "clv_pts": 0.67,
    "clv_n": 129
   },
@@ -85,9 +85,9 @@
    "clv_n": 25
   },
   "spread_B_dog": {
-   "n": 90,
-   "win": 0.433,
-   "roi": -0.146,
+   "n": 91,
+   "win": 0.44,
+   "roi": -0.134,
    "clv_pts": 0.87,
    "clv_n": 78
   },
@@ -141,53 +141,53 @@
    "clv_n": 32
   },
   "spread_U_play": {
-   "n": 201,
-   "win": 0.517,
-   "roi": -0.002,
-   "clv_pts": 0.18,
-   "clv_n": 166
+   "n": 205,
+   "win": 0.522,
+   "roi": 0.005,
+   "clv_pts": 0.19,
+   "clv_n": 168
   },
   "spread_U_play_fav": {
-   "n": 52,
-   "win": 0.462,
+   "n": 54,
+   "win": 0.463,
    "roi": -0.123,
    "clv_pts": 0.01,
    "clv_n": 37
   },
   "spread_U_skip": {
-   "n": 302,
-   "win": 0.523,
-   "roi": 0.007,
+   "n": 315,
+   "win": 0.517,
+   "roi": -0.004,
    "clv_pts": 0.06,
-   "clv_n": 259
+   "clv_n": 263
   },
   "spread_U_skip_fav": {
-   "n": 146,
-   "win": 0.514,
-   "roi": -0.018,
+   "n": 155,
+   "win": 0.497,
+   "roi": -0.049,
    "clv_pts": 0.15,
-   "clv_n": 127
+   "clv_n": 130
   },
   "spread_U_play_dog": {
-   "n": 149,
-   "win": 0.537,
-   "roi": 0.04,
-   "clv_pts": 0.23,
-   "clv_n": 129
+   "n": 151,
+   "win": 0.543,
+   "roi": 0.051,
+   "clv_pts": 0.24,
+   "clv_n": 131
   },
   "spread_U_watch": {
-   "n": 215,
-   "win": 0.474,
-   "roi": -0.092,
-   "clv_pts": 0.23,
-   "clv_n": 171
+   "n": 231,
+   "win": 0.476,
+   "roi": -0.089,
+   "clv_pts": 0.26,
+   "clv_n": 185
   },
   "spread_U_watch_fav": {
-   "n": 106,
-   "win": 0.406,
-   "roi": -0.228,
-   "clv_pts": 0.1,
-   "clv_n": 88
+   "n": 111,
+   "win": 0.396,
+   "roi": -0.247,
+   "clv_pts": 0.09,
+   "clv_n": 92
   },
   "spread_U_play_bigdog20": {
    "n": 48,
@@ -197,67 +197,67 @@
    "clv_n": 43
   },
   "spread_U_skip_dog": {
-   "n": 156,
-   "win": 0.532,
-   "roi": 0.029,
-   "clv_pts": -0.02,
-   "clv_n": 132
+   "n": 160,
+   "win": 0.537,
+   "roi": 0.04,
+   "clv_pts": -0.03,
+   "clv_n": 133
   },
   "ml_U_watch": {
-   "n": 287,
-   "win": 0.366,
-   "roi": -0.16,
+   "n": 303,
+   "win": 0.383,
+   "roi": -0.125,
    "clv_pts": null,
    "clv_n": 0
   },
   "ml_U_watch_fav": {
-   "n": 111,
+   "n": 118,
    "win": 0.559,
-   "roi": -0.054,
+   "roi": -0.061,
    "clv_pts": null,
    "clv_n": 0
   },
   "ml_U_skip": {
-   "n": 489,
-   "win": 0.452,
+   "n": 507,
+   "win": 0.45,
    "roi": -0.256,
    "clv_pts": null,
    "clv_n": 0
   },
   "ml_U_skip_dog": {
-   "n": 268,
-   "win": 0.153,
-   "roi": -0.474,
+   "n": 277,
+   "win": 0.155,
+   "roi": -0.467,
    "clv_pts": null,
    "clv_n": 0
   },
   "ml_U_watch_dog": {
-   "n": 176,
-   "win": 0.244,
-   "roi": -0.227,
+   "n": 185,
+   "win": 0.27,
+   "roi": -0.166,
    "clv_pts": null,
    "clv_n": 0
   },
   "ml_U_skip_fav": {
-   "n": 221,
-   "win": 0.814,
-   "roi": 0.008,
+   "n": 230,
+   "win": 0.804,
+   "roi": -0.002,
    "clv_pts": null,
    "clv_n": 0
   },
   "total_U_skip": {
-   "n": 299,
-   "win": 0.485,
-   "roi": -0.073,
-   "clv_pts": -0.1,
-   "clv_n": 261
+   "n": 311,
+   "win": 0.495,
+   "roi": -0.054,
+   "clv_pts": -0.09,
+   "clv_n": 270
   },
   "total_U_watch": {
-   "n": 280,
-   "win": 0.507,
-   "roi": -0.028,
-   "clv_pts": -0.12,
-   "clv_n": 202
+   "n": 302,
+   "win": 0.517,
+   "roi": -0.01,
+   "clv_pts": -0.13,
+   "clv_n": 213
   },
   "total_U_play": {
    "n": 151,
@@ -267,25 +267,25 @@
    "clv_n": 128
   },
   "spread_U_skip_bigdog20": {
-   "n": 56,
-   "win": 0.554,
-   "roi": 0.091,
+   "n": 57,
+   "win": 0.561,
+   "roi": 0.107,
    "clv_pts": -0.22,
    "clv_n": 45
   },
   "spread_U_watch_dog": {
-   "n": 109,
-   "win": 0.541,
-   "roi": 0.04,
-   "clv_pts": 0.38,
-   "clv_n": 83
+   "n": 120,
+   "win": 0.55,
+   "roi": 0.057,
+   "clv_pts": 0.42,
+   "clv_n": 93
   },
   "spread_U_watch_bigdog20": {
-   "n": 39,
-   "win": 0.564,
-   "roi": 0.087,
-   "clv_pts": -0.23,
-   "clv_n": 32
+   "n": 43,
+   "win": 0.581,
+   "roi": 0.122,
+   "clv_pts": -0.11,
+   "clv_n": 36
   }
  }
 }
