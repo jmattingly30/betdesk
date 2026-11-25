@@ -250,6 +250,15 @@ async function api(req, env, ctx, who, url) {
   return err(404, 'not found');
 }
 
+// Owner routes: '/' is the owner desk (today.html), the old full desk moves to '/desk'.
+// Assets use auto-trailing-slash, so fetch '/today' and '/' (not the .html names) to avoid a redirect.
+function ownerAsset(req, env, url) {
+  const p = url.pathname;
+  if (p === '/' || p === '/index.html') return env.ASSETS.fetch(new Request(`${url.origin}/today`, req));
+  if (p === '/desk' || p === '/desk.html' || p === '/desk/') return env.ASSETS.fetch(new Request(`${url.origin}/`, req));
+  return env.ASSETS.fetch(req);
+}
+
 // ---------- entry ----------
 export default {
   scheduled, // Cloudflare cron -> GitHub Actions runs on time (worker/schedule.js)
@@ -258,7 +267,7 @@ export default {
     // Not set up yet (no secrets): serve the site exactly as before so a merge never locks J out.
     if (!env.SESSION_SECRET || !env.OWNER_TOKEN) {
       if (/^\/(api|join|invite|guest)(\/|$)/.test(url.pathname)) return err(404, 'sign-in is not set up yet');
-      return env.ASSETS.fetch(req);
+      return ownerAsset(req, env, url);
     }
 
     let pasted = null;
@@ -323,7 +332,7 @@ export default {
     }
     if (!who) return lockedPage();
 
-    if (who.role === 'owner') return withHeaders(await env.ASSETS.fetch(req));
+    if (who.role === 'owner') return withHeaders(await ownerAsset(req, env, url));
     // guest: their page and icons only
     if (url.pathname === '/' || url.pathname === '/index.html') return withHeaders(await env.ASSETS.fetch(new Request(`${url.origin}/guest/`, req)));
     if (GUEST_FILES.test(url.pathname)) return withHeaders(await env.ASSETS.fetch(req));

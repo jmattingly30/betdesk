@@ -230,6 +230,14 @@ def _erfinv(y):
     return s * math.sqrt(math.sqrt(t * t - l / a) - t)
 
 GAMES = []
+def _move(sp, gid, keep=16):
+    """[[time, home margin, total], ...] from line_history.json, thinned to `keep` points (first and last always kept)"""
+    s = (LH.get(f"{sp}:{gid}") or {}).get('s') or []
+    now = NOW.strftime('%Y-%m-%d %H:%M UTC')   # a replay (--now) must not show later snapshots
+    s = [x for x in s if (x.get('mu') is not None or x.get('mt') is not None) and str(x.get('t', '')) <= now]
+    if len(s) > keep: s = [s[round(i * (len(s) - 1) / (keep - 1))] for i in range(keep)]
+    return [[x['t'], None if x.get('mu') is None else round(x['mu'], 2), None if x.get('mt') is None else round(x['mt'], 2)] for x in s]
+
 def price_game(sp, g, ours, dist_mkt, demote):
     """g: {id, k, h, a, bk}; ours: Dist + p_home; dist_mkt(market, mu) -> Dist centred on the books' number. Returns rows."""
     bk, k = g['bk'], ts(g['k']); tm = g['timing']; out = []
@@ -237,7 +245,11 @@ def price_game(sp, g, ours, dist_mkt, demote):
     med = lambda i: (lambda v: statistics.median(v) if v else None)([r[i] for r in bk.values() if r and len(r) > i and r[i] is not None])
     sc = getattr(ours, 'score', None)
     GAMES.append(dict(sp=sp, id=g['id'], k=g['k'], h=g['h'], a=g['a'], hs=None if not sc else round(sc[0], 1), as_=None if not sc else round(sc[1], 1),
-                      p_home=None if ours.p_home is None else round(ours.p_home, 3), spread=med(0), total=med(3), ml=[med(6), med(7)], timing=tm))
+                      p_home=None if ours.p_home is None else round(ours.p_home, 3), spread=med(0), total=med(3), ml=[med(6), med(7)], timing=tm,
+                      # owner desk Details (J 2026-11-25): every Colorado book plus Pinnacle as [home spread, home price, away price,
+                      # total, over, under, home ML, away ML], and the consensus line since it was first seen (home margin, total)
+                      books={NAMES.get(b, b): bk[b] for b in list(CO_BOOKS) + ['pinnacle'] if bk.get(b)},
+                      move=_move(sp, g['id'])))
     names = {'home': g['h'], 'away': g['a'], 'Over': 'Over', 'Under': 'Under'}
     for market, idx, sides in (('spread', 0, ('home', 'away')), ('total', 3, ('Over', 'Under'))):
         lines = [r[idx] for r in bk.values() if r and r[idx] is not None and r[idx + 1] and r[idx + 2]]
@@ -551,6 +563,8 @@ def props(sp, demote):
                 top = max(cnt, key=cnt.get); pool = [r for r in mine if r['L'] == top and not r['odd']]
             for side in ('Over', 'Under'):
                 O = side == 'Over'; best = best_long = None
+                side_books = [[NAMES.get(q['b'], q['b']), q['L'], q['o'] if O else q['u']] for q in mine
+                              if q['main'] and not q['odd'] and (q['o'] if O else q['u']) is not None]   # owner desk Details: every CO book's main line
                 for r in pool + [q for q in mine if q not in pool and not q['odd']]:
                     am = r['o'] if O else r['u']
                     if am is None: continue
@@ -565,7 +579,7 @@ def props(sp, demote):
                     row = dict(market='prop', stat=stat, side=side, pick=f"{p['n']} {side.lower()} {r['L']} {stat}", player=p['n'], team=p['t'], line=r['L'],
                                book=r['b'], book_name=NAMES.get(r['b'], r['b']), price=am, proj=s.get('m'), ours=round(oc, 4),
                                fair=None if fc is None else round(fc, 4), trusted=round(tr, 4), push=round(pp, 4), ev=round(ev_t, 4), ev_ours=round(ev_o, 4),
-                               trust=trust, fair_from=fsrc, _pw=pw, _pl=pl, _d=d)
+                               trust=trust, fair_from=fsrc, books=side_books, _pw=pw, _pl=pl, _d=d)
                     if is_long:
                         if best_long is None or row['ev'] > best_long['ev']: best_long = row
                     elif best is None or row['ev'] > best['ev']: best = row
@@ -623,10 +637,15 @@ def main():
                demoted=[dict(sp=k[0], market=k[1], why=v) for k, v in sorted(D.items())],
                counts={l: sum(1 for r in rows if r['label'] == l) for l in ('Bet', 'Lean', 'Pass')}, quiet_prop_passes=quiet,
                compare=compare(rows), guarded_counts=gsum, errors=errors, games=sorted(GAMES, key=lambda x: (x['k'], x['sp'])), bets=rows, guarded=guarded)
-    json.dump(out, open(f"{APP}/priced_bets.json", 'w'), separators=(',', ':'))
-    # history: last pregame row per bet (key sp|game|market|stat|side), first-seen label and price kept for opener grading
     hf = f"{HERE}/history/priced.json.gz"; os.makedirs(os.path.dirname(hf), exist_ok=True)
     H = jload(hf, {}) or {}; n = 0
+    # owner desk Details: when we first priced this bet, at what line and price (from the history, else now)
+    hkey = lambda r: '|'.join(str(r.get(x) or '') for x in ('sp', 'game', 'market', 'stat', 'side'))
+    for r in rows:
+        f0 = (H.get(hkey(r)) or {}).get('first') or {}
+        r['first'] = dict(made=f0.get('made') or out['made'], line=f0.get('line', r.get('line')), price=f0.get('price', r.get('price')), label=f0.get('label', r['label']))
+    json.dump(out, open(f"{APP}/priced_bets.json", 'w'), separators=(',', ':'))
+    # history: last pregame row per bet (key sp|game|market|stat|side), first-seen label and price kept for opener grading
     # EVERY priced row is kept, Pass included: step 2's trust refit needs the bets we passed on too (fitting only on the
     # rows we liked would overstate how much of our gap is real)
     for r in rows + guarded + quiet_rows:
@@ -634,7 +653,7 @@ def main():
         if any(x in r['guards'] for x in ('off_line', 'long')): key += '|' + ('off_line' if 'off_line' in r['guards'] else 'long')   # a second row for the same bet
         first = (H.get(key) or {}).get('first') or dict(made=out['made'], **{x: r.get(x) for x in ('label', 'would_be', 'guards', 'line', 'book', 'price', 'ev', 'ev_ours',
                                                                                                  'ours', 'fair', 'trusted', 'push', 'trust', 'timing', 'stake_u')})
-        H[key] = {**r, 'made': out['made'], 'first': first}; n += 1
+        H[key] = {**{x: v for x, v in r.items() if x != 'books'}, 'made': out['made'], 'first': first}; n += 1   # per-book prices: display only
     json.dump(H, gzip.open(hf, 'wt'), separators=(',', ':'))
     print('guarded', len(guarded), gsum)
     print('priced', len(rows), 'rows', out['counts'], 'quiet prop passes', quiet, 'history', len(H), f'(+{n})')
