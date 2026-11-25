@@ -1,0 +1,39 @@
+name: MLB engine test
+# Runs J's MLB app tests and a dry slate export on a past date whenever the MLB code changes on a working branch.
+# Writes nothing to the repo.
+on:
+  workflow_dispatch:
+    inputs:
+      date: { description: 'Slate date (YYYY-MM-DD)', required: false, default: '2026-09-20' }
+  push:
+    branches: ['claude/**']
+    paths: ['models/mlb/**', '.github/workflows/mlb-test.yml']
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - name: App unit tests (210) and Apps Script tests (45)
+        working-directory: models/mlb/app
+        run: node test/tests.js | tail -3 && node test/run_gas_test.js | tail -3
+      - name: Apps Script copy is unchanged after a rebuild
+        run: git diff --exit-code models/mlb/app/apps_script/Bundle.gs models/mlb/app/apps_script/Server.gs models/mlb/app/apps_script/Index.html
+      - name: Dry slate export
+        env:
+          MLB_SLATE_OUT: ${{ runner.temp }}/mlb_slate.json
+        run: |
+          D="${{ github.event.inputs.date || '2026-09-20' }}"
+          time node models/mlb/live.js "$D"
+          python3 - "$MLB_SLATE_OUT" <<'PY'
+          import json, sys
+          d = json.load(open(sys.argv[1]))
+          print('meta.primary', d['meta']['primary'], '| updatedAt', d['updatedAt'], '| games', len(d['games']))
+          for g in d['games'][:20]:
+              e = (g.get('models') or {}).get('eff') or {}
+              print(f"{g['away'][:22]:22} @ {g['home'][:22]:22} {g['status']:8} eff {e.get('runsAway', 0):.2f}-{e.get('runsHome', 0):.2f} home {e.get('homeWinProb', 0):.3f} total {e.get('total', 0):.2f} | eff in {(g.get('inputs') or {}).get('away', {}).get('efficiencySource')}")
+          PY
