@@ -16,80 +16,99 @@
      (our model, never blended), one label per bet (Bet, Lean or Pass) with one plain reason and a stake.
      Reads priced_bets.json (models/pricing/price.py). Bets save to the same account as the full desk (/api/db/bets),
      or on this phone when the site has no sign-in. Source app/front.html, published to public/today.html by tools/ci.sh. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Michroma&display=swap">
 <style>
+/* The full desk's own look (Concept E, J 2026-10-29; J 2026-11-25: keep it): always dark, Shrikhand display, Michroma details.
+   Tokens copied from app/bet-desk.html's Concept E block. */
 :root{
-  --bg:#eef2ef; --surface:#ffffff; --sunk:#e3e9e5; --ink:#15211c; --muted:#5a6a62; --line:#d3dcd6;
-  --accent:#1d6b57; --accent-ink:#ffffff; --good:#17713f; --bad:#b0281f; --warn:#9a6200; --chip:#dfe9e4;
-  --bet:#1d6b57; --bet-ink:#ffffff; --lean:#e7d9a8; --lean-ink:#4d3c00; --pass:#dfe3e1; --pass-ink:#4a5550; --home:#3b5fa8;
-  --f-body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif; --f-num:ui-monospace,"SF Mono",Menlo,monospace;
-}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0e1412; --surface:#151d1a; --sunk:#1b2521; --ink:#e4ebe7; --muted:#92a39a; --line:#29352f;
-  --accent:#4fb497; --accent-ink:#06120d; --good:#4cc07e; --bad:#ef6b5f; --warn:#e0a640; --chip:#20302a;
-  --bet:#4fb497; --bet-ink:#06120d; --lean:#4a3f1a; --lean-ink:#f0d98a; --pass:#27302c; --pass-ink:#a9b6af; --home:#7b9be0; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#0e1412; --surface:#151d1a; --sunk:#1b2521; --ink:#e4ebe7; --muted:#92a39a; --line:#29352f;
-  --accent:#4fb497; --accent-ink:#06120d; --good:#4cc07e; --bad:#ef6b5f; --warn:#e0a640; --chip:#20302a;
-  --bet:#4fb497; --bet-ink:#06120d; --lean:#4a3f1a; --lean-ink:#f0d98a; --pass:#27302c; --pass-ink:#a9b6af; --home:#7b9be0; color-scheme:dark}
+  --bg:#0f1115; --surface:#161a21; --sunk:#1d222b; --nav:#161a21; --line:#232934; --ink:#d9dee7; --muted:#7e8796; --soft:#b4bcc8;
+  --accent:#3ddc84; --accent-ink:#062b1e; --lean:#7aa7ff; --lean-ink:#0b1a3a; --pass:#1f2630; --pass-ink:#b4bcc8;
+  --good:#3ddc84; --bad:#ff6b6b; --warn:#ffc94a; --home:#7aa7ff;
+  --f-display:"Shrikhand",Georgia,serif; --f-body:"Michroma",system-ui,sans-serif; --f-logo:var(--f-display); color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:12px;line-height:1.5;letter-spacing:.01em;-webkit-text-size-adjust:100%}
+a{color:var(--accent)}
 .wrap{max-width:640px;margin:0 auto;padding:0 16px calc(96px + env(safe-area-inset-bottom))}
-header{position:sticky;top:0;z-index:5;background:var(--bg);margin:0 -16px;padding:calc(10px + env(safe-area-inset-top)) 16px 8px;border-bottom:1px solid var(--line)}
+header{position:sticky;top:0;z-index:5;background:var(--bg);margin:0 -16px;padding:calc(12px + env(safe-area-inset-top)) 16px 8px}
 .top{display:flex;align-items:center;justify-content:space-between;gap:8px}
-h1{font-size:20px;margin:0;letter-spacing:.02em;text-transform:uppercase}
-.gear{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;min-height:40px;min-width:40px;font-size:18px;cursor:pointer}
-.chips{display:flex;gap:6px;overflow-x:auto;padding:8px 0 2px;scrollbar-width:none}
+h1{font-family:var(--f-logo);font-weight:400;font-size:24px;white-space:nowrap;margin:0;color:var(--accent)}
+.topr{display:flex;gap:8px;align-items:center}
+.age{font-size:10px;color:var(--muted)}
+.gear{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:22px;width:44px;height:44px;font-size:18px;cursor:pointer}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
-.chips button{flex:none;min-height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font:600 13px var(--f-body);cursor:pointer}
-.chips button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-h2{font-size:16px;margin:18px 0 8px}
-.sub{color:var(--muted);font-size:13px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;margin:10px 0}
-.pick{display:flex;flex-direction:column;gap:6px}
-.pick .row1{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.lab{font-size:11px;font-weight:700;letter-spacing:.04em;padding:3px 8px;border-radius:999px}
-.lab.Bet{background:var(--bet);color:var(--bet-ink)} .lab.Lean{background:var(--lean);color:var(--lean-ink)} .lab.Pass{background:var(--pass);color:var(--pass-ink)}
-.ttl{font-size:16px;font-weight:700}
-.price{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:14px}
-.num{font-family:var(--f-num)}
-.why{font-size:13px;color:var(--muted)}
-.btn{min-height:44px;border-radius:12px;border:0;background:var(--accent);color:var(--accent-ink);font:700 14px var(--f-body);padding:0 14px;cursor:pointer}
-.btn.ghost{background:var(--sunk);color:var(--ink);border:1px solid var(--line);font-weight:600}
-.btn:disabled{opacity:.5}
-.btns{display:flex;gap:8px}
+.chips button{flex:none;min-height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font:600 11px var(--f-body);letter-spacing:.03em;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+.day{font:400 22px var(--f-display);margin:10px 0 0}
+.lede{font-size:11px;color:var(--muted);margin:2px 0 12px}
+.hrow{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:18px 0 8px}
+.hrow h2{font:400 19px var(--f-display);margin:0}
+.hrow .sub{font-size:10px}
+.sub{color:var(--muted);font-size:10px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px}
+.list{padding:2px 12px}
+.list>.pick+.pick,.list>details>.pick,.list>.pick+details{border-top:1px solid var(--line)}
+.pick{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 10px;padding:10px 0}
+.pick .row1{display:flex;gap:6px;align-items:center;min-width:0}
+.pick .ttl{font:400 16px var(--f-display);line-height:1.2}
+.pick .edge{font:600 13px var(--f-body);text-align:right}
+.pick .why{grid-column:1/-1;font-size:11px;color:var(--soft)}
+.pick.Pass .why{color:var(--muted)}
+.edge.Bet{color:var(--accent)} .edge.Lean{color:var(--lean)} .edge.Pass{color:var(--muted)}
+.lab{flex:none;font:600 9px var(--f-body);letter-spacing:.05em;padding:3px 8px;border-radius:999px}
+.lab.Bet{background:var(--accent);color:var(--accent-ink)} .lab.Lean{background:var(--lean);color:var(--lean-ink)} .lab.Pass{background:var(--pass);color:var(--pass-ink)}
+.log{min-height:44px;min-width:52px;border:0;background:none;color:var(--accent);font:600 11px var(--f-body);letter-spacing:.04em;cursor:pointer;padding:0 0 0 8px;text-align:right}
+.log:disabled{color:var(--muted);cursor:default}
+.btn{min-height:44px;border-radius:12px;border:0;background:var(--accent);color:var(--accent-ink);font:600 11px var(--f-body);letter-spacing:.06em;padding:0 14px;cursor:pointer}
+.btn.ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line);font-weight:600}
+.btns{display:flex;gap:8px;grid-column:1/-1;margin-top:4px}
 .btns .btn{flex:1}
-.empty{color:var(--muted);text-align:center;padding:28px 8px}
-.game{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:8px 0;color:var(--ink);font:inherit;cursor:pointer}
-.game .t{font-weight:600}
-.game .sc{font-family:var(--f-num);font-weight:600;text-align:right}
-.score{display:flex;justify-content:space-between;align-items:baseline;font-size:15px}
-.score b{font-size:24px;font-family:var(--f-num)}
-.bar{height:6px;border-radius:999px;background:var(--sunk);overflow:hidden;margin:6px 0}
+.empty{color:var(--muted);text-align:center;padding:24px 8px;font-size:11px}
+.games{display:flex;flex-direction:column;gap:8px}
+.game{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;align-items:center;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px;color:var(--ink);font:inherit;cursor:pointer}
+.game .t{font:400 16px var(--f-display);line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.game .sc{font:400 19px var(--f-display);white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums}
+.game .m{font-size:10px;color:var(--muted)}
+.game .tags{text-align:right;display:flex;gap:4px;justify-content:flex-end}
+.gh{font:400 22px var(--f-display);margin:4px 0 0}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:14px}
+.two>div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.two>div+div{border-left:1px solid var(--line);padding-left:12px}
+.kick{font-size:10px;letter-spacing:.08em;color:var(--muted);font-weight:600;text-transform:uppercase}
+.score{display:flex;justify-content:space-between;align-items:baseline;gap:6px;font-size:11px}
+.score b{font:400 24px var(--f-display)}
+.bar{height:6px;border-radius:999px;background:var(--sunk);overflow:hidden;margin:4px 0}
 .bar i{display:block;height:100%;background:var(--home)}
-.kick{font-size:10px;letter-spacing:.08em;color:var(--muted);font-weight:700;text-transform:uppercase}
-.back{background:none;border:0;color:var(--accent);font:inherit;font-size:14px;padding:10px 0;cursor:pointer}
-nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(3,1fr);padding-bottom:env(safe-area-inset-bottom)}
-nav.tabs button{min-height:60px;background:none;border:0;color:var(--muted);font:600 14px var(--f-body);cursor:pointer}
-nav.tabs button[aria-current="page"]{color:var(--accent);font-weight:700}
+.back{background:none;border:0;color:var(--accent);font:inherit;font-size:11px;padding:10px 0;min-height:44px;cursor:pointer}
+details>summary{cursor:pointer;list-style:none;color:var(--accent);font-size:11px;font-weight:600;padding:14px 0;min-height:44px}
+details>summary::-webkit-details-marker{display:none}
+.linkbtn{display:flex;align-items:center;justify-content:center;min-height:44px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:11px;font-weight:600;letter-spacing:.04em;text-decoration:none;margin-top:12px}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--nav);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(3,1fr);padding-bottom:env(safe-area-inset-bottom)}
+nav.tabs button{min-height:64px;background:none;border:0;color:var(--muted);font:400 16px var(--f-display);cursor:pointer}
+nav.tabs button[aria-current="page"]{color:var(--accent);box-shadow:inset 0 3px 0 var(--accent)}
 .sum{margin-top:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .sum>div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px}
-.sum .k{font-size:12px;color:var(--muted)} .sum .v{font-family:var(--f-num);font-size:18px;font-weight:600}
+.sum .k{font-size:10px;letter-spacing:.06em;color:var(--muted)} .sum .v{font:600 15px var(--f-body)}
 .pos{color:var(--good)} .neg{color:var(--bad)}
+.num{font-variant-numeric:tabular-nums}
 dialog{border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink);width:min(92vw,420px);padding:16px}
-dialog::backdrop{background:rgba(0,0,0,.45)}
-label{display:block;font-size:13px;color:var(--muted);margin:8px 0 4px}
-input{width:100%;min-height:44px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:16px var(--f-num);padding:0 10px}
-.menu a{display:block;padding:12px 0;border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none;font-weight:600}
-.menu a span{display:block;font-weight:400;font-size:13px;color:var(--muted)}
-details summary{cursor:pointer;color:var(--muted);font-size:14px;padding:6px 0}
-.toast{position:fixed;left:50%;bottom:calc(80px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:10px;font-size:14px;z-index:30}
+dialog::backdrop{background:rgba(0,0,0,.55)}
+dialog .ttl{font:400 18px var(--f-display)}
+dialog .why{font-size:11px;color:var(--muted)}
+label{display:block;font-size:10px;letter-spacing:.06em;color:var(--muted);margin:10px 0 4px}
+input{width:100%;min-height:44px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:16px system-ui,-apple-system,"Segoe UI",sans-serif;padding:0 10px}
+.menu a{display:block;padding:12px 0;font:400 17px var(--f-display);border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none;font-weight:600}
+.menu a span{display:block;font:400 10px var(--f-body);color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:10px;font-size:11px;z-index:30}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-  <div class="top"><h1>Bet Desk</h1><button class="gear" type="button" id="gearBtn" aria-label="Menu">⚙</button></div>
+  <div class="top"><h1>Bet Desk</h1><div class="topr"><span class="age" id="age"></span><button class="gear" type="button" id="gearBtn" aria-label="Menu">⚙</button></div></div>
   <div class="chips" id="sportChips" role="group" aria-label="Sport"></div>
 </header>
 <main>
@@ -153,28 +172,50 @@ function title(r){
 }
 const live = r => !r.k || Date.parse(r.k) > Date.now();
 const inSport = r => S.sp === 'All' || r.sp === S.sp;
-function pickCard(r, opts = {}){
+const edgeOf = r => r.label === 'Pass' && !(r.ev > 0) ? '' : sgn(r.ev);
+function pickRow(r, opts = {}){
   const logged = S.bets.some(b => b.pkey === key(r));
-  return `<div class="card pick">
+  const meta = [opts.noGame ? '' : r.sp, `${r.book_name} ${amS(r.price)}`, r.label === 'Bet' ? r.stake_u + ' units' : r.label === 'Lean' ? 'tracked, not staked' : ''].filter(Boolean).join(' · ');
+  return `<div class="pick ${r.label}">
     <div class="row1"><span class="lab ${r.label}">${r.label.toUpperCase()}</span><span class="ttl">${esc(title(r))}</span></div>
-    ${opts.noGame ? '' : `<div class="sub">${esc(r.sp)} · ${esc(r.matchup)} · ${esc(when(r.k))}</div>`}
-    <div class="price"><span><b>${esc(r.book_name)}</b> <span class="num">${amS(r.price)}</span></span><span class="num">${r.label === 'Bet' ? r.stake_u + 'u' : r.label === 'Lean' ? 'track only' : ''}</span></div>
+    <div class="edge ${r.label}">${edgeOf(r)}</div>
+    <div class="sub">${esc(meta)}${opts.noGame ? '' : `<br>${esc(r.matchup)} · ${esc(when(r.k))}`}</div>
+    ${r.label === 'Pass' ? '<span></span>' : `<button class="log" type="button" data-log="${esc(key(r))}" ${logged ? 'disabled' : ''}>${logged ? 'Logged' : 'Log'}</button>`}
     <div class="why">${esc(r.reason)}</div>
-    ${r.label === 'Pass' ? '' : `<div class="btns"><button class="btn${r.label === 'Bet' ? '' : ' ghost'}" type="button" data-log="${esc(key(r))}" ${logged ? 'disabled' : ''}>${logged ? 'In My bets' : 'I bet this'}</button></div>`}
   </div>`;
 }
 const sc = x => x == null || !isFinite(x) ? '–' : (+x).toFixed(1);
 const key = r => [r.sp, r.game, r.market, r.stat || '', r.side].join('|');
 
 // ---------- Today ----------
+const tm = k => new Date(k).toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'});
+function mkt(g){
+  if (g.spread != null && g.spread !== 0 && !['NHL', 'MLB'].includes(g.sp)) return `market ${g.spread < 0 ? g.h : g.a} ${-Math.abs(g.spread)}`;
+  const ml = g.ml || [];
+  if (ml[0] != null && ml[1] != null) return ml[0] <= ml[1] ? `market ${g.h} ${amS(Math.round(ml[0]))}` : `market ${g.a} ${amS(Math.round(ml[1]))}`;
+  return g.total != null ? `total ${g.total}` : '';
+}
+function gameRow(g){
+  const picks = (S.P.bets || []).filter(r => r.sp === g.sp && r.game === g.id && r.label !== 'Pass');
+  const nb = picks.filter(r => r.label === 'Bet').length, nl = picks.filter(r => r.label === 'Lean').length;
+  return `<button class="game" type="button" data-game="${esc(g.sp + '|' + g.id)}"><span class="t">${esc(g.a)} @ ${esc(g.h)}</span><span class="sc">${sc(g.as_)} – ${sc(g.hs)}</span>
+    <span class="m">${esc([g.sp, tm(g.k), mkt(g)].filter(Boolean).join(' · '))}</span><span class="tags">${nb ? `<span class="lab Bet">${nb} BET${nb > 1 ? 'S' : ''}</span>` : ''}${nl ? `<span class="lab Lean">${nl} LEAN${nl > 1 ? 'S' : ''}</span>` : ''}</span></button>`;
+}
 function renderToday(){
   const B = (S.P.bets || []).filter(r => live(r) && inSport(r));
   const bet = B.filter(r => r.label === 'Bet'), lean = B.filter(r => r.label === 'Lean');
-  const u = bet.reduce((a, r) => a + (r.stake_u || 0), 0);
-  $('#v-today').innerHTML = `<h2>${bet.length ? `${bet.length} bet${bet.length === 1 ? '' : 's'} · ${u.toFixed(1)}u` : 'No bets right now'}</h2>
-    <p class="sub">Our projection, checked against every Colorado book's price. A Bet still has 5%+ edge after the check; a Lean is a smaller edge we track but don't stake.</p>
-    ${bet.map(r => pickCard(r)).join('') || '<div class="empty">Nothing clears the price check right now. That is a normal day.</div>'}
-    ${lean.length ? `<details><summary>${lean.length} lean${lean.length === 1 ? '' : 's'}</summary>${lean.slice(0, 40).map(r => pickCard(r)).join('')}</details>` : ''}`;
+  const sps = new Set([...bet, ...lean].map(r => r.sp)).size;
+  const G = (S.P.games || []).filter(g => live(g) && inSport(g));
+  const first = G.length ? dayOf(G[0].k) : '', todayG = G.filter(g => dayOf(g.k) === first);
+  const n = (x, w) => `${x} ${w}${x === 1 ? '' : 's'}`;
+  $('#v-today').innerHTML = `<div class="day">${esc(new Date().toLocaleDateString([], {weekday: 'long', month: 'short', day: 'numeric'}))}</div>
+    <div class="lede">${bet.length || lean.length ? `${n(bet.length, 'bet')} and ${n(lean.length, 'lean')} across ${n(sps, 'sport')}` : 'Nothing clears the price check right now. That is a normal day.'}</div>
+    <div class="card list"><div class="hrow" style="margin:10px 0 0"><h2>Best bets</h2><span class="sub">edge after the price check</span></div>
+      ${bet.map(r => pickRow(r)).join('') || '<div class="empty">No bets right now.</div>'}
+      ${lean.length ? `<details><summary>Show ${n(lean.length, 'lean')}</summary>${lean.slice(0, 40).map(r => pickRow(r)).join('')}</details>` : ''}
+    </div>
+    ${todayG.length ? `<div class="hrow"><h2>${first === 'Today' ? "Today's games" : esc(first) + "'s games"}</h2><span class="sub">our projected score</span></div>
+      <div class="games">${todayG.map(gameRow).join('')}</div>` : ''}`;
 }
 // ---------- Games ----------
 function renderGames(){
@@ -185,28 +226,33 @@ function renderGames(){
     S.game = null;
   }
   let out = '', day = '';
-  G.forEach(g => { const d = new Date(g.k).toDateString(); if (d !== day){ day = d; out += `<h2>${esc(dayOf(g.k))}</h2>`; }
-    const picks = (S.P.bets || []).filter(r => r.sp === g.sp && r.game === g.id && r.label !== 'Pass' && r.market !== 'prop');
-    out += `<button class="game" type="button" data-game="${esc(g.sp + '|' + g.id)}"><span class="t">${esc(g.a)} @ ${esc(g.h)}</span><span class="sc">${sc(g.as_)}–${sc(g.hs)}</span>
-      <span class="sub">${esc(g.sp)} · ${esc(new Date(g.k).toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'}))}${picks.length ? ' · ' + picks.map(r => `<span class="lab ${r.label}">${r.label.toUpperCase()}</span>`).join(' ') : ''}</span><span class="sub" style="text-align:right">our score</span></button>`; });
-  $('#v-games').innerHTML = out || '<div class="empty">No upcoming games with lines for this sport.</div>';
+  G.forEach(g => { const d = dayOf(g.k); if (d !== day){ out += `${day ? '</div>' : ''}<div class="hrow"><h2>${esc(d)}</h2>${day ? '' : '<span class="sub">our projected score</span>'}</div><div class="games">`; day = d; } out += gameRow(g); });
+  $('#v-games').innerHTML = out ? out + '</div>' : '<div class="empty">No upcoming games with lines for this sport.</div>';
 }
 function renderGame(g){
   const R = (S.P.bets || []).filter(r => r.sp === g.sp && r.game === g.id);
-  const games = R.filter(r => r.market !== 'prop').sort((a, b) => ({Bet: 0, Lean: 1, Pass: 2}[a.label] - {Bet: 0, Lean: 1, Pass: 2}[b.label]));
-  const props = R.filter(r => r.market === 'prop' && r.label !== 'Pass');
+  const ord = {Bet: 0, Lean: 1, Pass: 2}, byLab = (a, b) => ord[a.label] - ord[b.label] || (b.ev || 0) - (a.ev || 0);
+  const games = R.filter(r => r.market !== 'prop').sort(byLab), shown = games.filter(r => r.label !== 'Pass'), passes = games.filter(r => r.label === 'Pass');
+  const props = R.filter(r => r.market === 'prop' && r.label !== 'Pass').sort(byLab);
   const ph = g.p_home, fav = ph == null ? null : ph >= .5 ? [g.h, ph] : [g.a, 1 - ph];
-  const ln = g.spread == null ? '' : g.spread === 0 ? 'Books have it even' : `Books have ${g.spread < 0 ? g.h : g.a} by ${Math.abs(g.spread)}`;
-  $('#v-games').innerHTML = `<button class="back" type="button" data-back>‹ All games</button>
-    <div class="kick">${esc(g.sp)} · ${esc(when(g.k))}</div>
-    <div class="card"><div class="kick">Our predicted score</div>
-      <div class="score"><span>${esc(g.a)}</span><b>${sc(g.as_)}</b></div><div class="score"><span>${esc(g.h)}</span><b>${sc(g.hs)}</b></div>
-      ${ph == null ? '' : `<div class="bar" role="img" aria-label="${esc(g.h)} win chance ${pct(ph)}"><i style="width:${(ph * 100).toFixed(0)}%"></i></div>`}
-      <div class="why">${fav ? `${esc(fav[0])} win about ${Math.round(fav[1] * 10)} times in 10. ` : ''}${esc(ln)}${g.total != null ? `, total ${g.total}.` : '.'}</div></div>
-    <h2>Our picks in this game</h2>
-    ${games.map(r => pickCard(r, {noGame: true})).join('') || '<div class="empty">No game lines priced.</div>'}
-    ${props.length ? `<h2>Player props</h2>${props.map(r => pickCard(r, {noGame: true})).join('')}` : ''}
-    <a class="btn ghost" style="display:flex;align-items:center;justify-content:center;text-decoration:none;margin-top:12px" href="./">Watch the sim and more on the full desk</a>`;
+  const ml = g.ml || [], fairH = ml[0] != null && ml[1] != null ? (1 / dec(ml[0])) / (1 / dec(ml[0]) + 1 / dec(ml[1])) : null;
+  const ffav = fairH == null ? null : fairH >= .5 ? [g.h, fairH] : [g.a, 1 - fairH];
+  const spr = g.spread == null ? '' : g.spread === 0 ? 'Pick’em' : `${g.spread < 0 ? g.h : g.a} ${-Math.abs(g.spread)}`;
+  $('#v-games').innerHTML = `<button class="back" type="button" data-back>‹ All ${S.sp === 'All' ? '' : esc(S.sp) + ' '}games</button>
+    <div class="gh">${esc(g.a)} @ ${esc(g.h)}</div><div class="sub">${esc(g.sp)} · ${esc(when(g.k))}</div>
+    <div class="card two" style="margin-top:12px">
+      <div><div class="kick">Our projection</div>
+        <div class="score"><span>${esc(g.a)}</span><b>${sc(g.as_)}</b></div><div class="score"><span>${esc(g.h)}</span><b>${sc(g.hs)}</b></div>
+        ${ph == null ? '' : `<div class="bar" role="img" aria-label="${esc(g.h)} win chance ${pct(ph)}"><i style="width:${(ph * 100).toFixed(0)}%"></i></div><div class="sub">${esc(fav[0])} win ${pct(fav[1])}</div>`}</div>
+      <div><div class="kick">Market</div>
+        ${spr ? `<div style="font-size:12px">${esc(spr)}</div>` : ''}${g.total != null ? `<div style="font-size:12px">Total ${g.total}</div>` : ''}
+        ${ffav ? `<div class="sub">Fair: ${esc(ffav[0])} win ${pct(ffav[1])}</div>` : ''}</div>
+    </div>
+    <div class="hrow"><h2>Bets in this game</h2></div>
+    <div class="card list">${shown.map(r => pickRow(r, {noGame: true})).join('') || '<div class="empty" style="padding:14px 4px">No game line clears the price check.</div>'}
+      ${passes.length ? `<details><summary>Show ${passes.length} pass${passes.length === 1 ? '' : 'es'}</summary>${passes.map(r => pickRow(r, {noGame: true})).join('')}</details>` : ''}</div>
+    ${props.length ? `<div class="hrow"><h2>Player props</h2></div><div class="card list">${props.map(r => pickRow(r, {noGame: true})).join('')}</div>` : ''}
+    <a class="linkbtn" href="./">Watch the sim on the full desk</a>`;
 }
 // ---------- My bets ----------
 function calc(b){ const d = dec(b.odds), u = +b.units || 0; return b.result === 'win' ? u * (d - 1) : b.result === 'loss' ? -u : b.result === 'pending' ? null : 0; }
@@ -215,15 +261,15 @@ function renderBets(){
   const st = B.filter(b => ['win', 'loss', 'push'].includes(b.result)), pl = st.reduce((a, b) => a + calc(b), 0), risk = st.filter(b => b.result !== 'push' && b.why !== 'Promo').reduce((a, b) => a + (+b.units || 0), 0);
   const w = st.filter(b => b.result === 'win').length, l = st.filter(b => b.result === 'loss').length;
   const pend = B.filter(b => b.result === 'pending'), done = B.filter(b => b.result !== 'pending').slice(0, 40);
-  const row = b => `<div class="card pick"><div class="row1">${b.label ? `<span class="lab ${esc(b.label)}">${esc(b.label.toUpperCase())}</span>` : ''}<span class="ttl">${esc(b.desc || b.player || 'Bet')}</span></div>
-    <div class="sub">${esc(b.sport || '')} · ${esc(b.date || '')} · ${esc(b.book || '')} <span class="num">${amS(+b.odds)}</span> · ${esc(b.units)}u</div>
+  const row = b => `<div class="pick"><div class="row1">${b.label ? `<span class="lab ${esc(b.label)}">${esc(b.label.toUpperCase())}</span>` : ''}<span class="ttl">${esc(b.desc || b.player || 'Bet')}</span></div><span></span>
+    <div class="sub" style="grid-column:1/-1">${esc(b.sport || '')} · ${esc(b.date || '')} · ${esc(b.book || '')} <span class="num">${amS(+b.odds)}</span> · ${esc(b.units)}u</div>
     ${b.result === 'pending' ? `<div class="btns"><button class="btn ghost" type="button" data-res="win" data-id="${esc(b.id)}">Won</button><button class="btn ghost" type="button" data-res="loss" data-id="${esc(b.id)}">Lost</button><button class="btn ghost" type="button" data-res="push" data-id="${esc(b.id)}">Push</button></div>`
-      : `<div class="price"><span class="sub">${esc({win: 'Won', loss: 'Lost', push: 'Push', void: 'Void'}[b.result] || b.result)}</span><span class="num ${calc(b) >= 0 ? 'pos' : 'neg'}">${calc(b) >= 0 ? '+' : ''}${calc(b).toFixed(2)}u</span></div>`}</div>`;
+      : `<div class="price" style="grid-column:1/-1;display:flex;justify-content:space-between"><span class="sub">${esc({win: 'Won', loss: 'Lost', push: 'Push', void: 'Void'}[b.result] || b.result)}</span><span class="num ${calc(b) >= 0 ? 'pos' : 'neg'}">${calc(b) >= 0 ? '+' : ''}${calc(b).toFixed(2)}u</span></div>`}</div>`;
   $('#v-bets').innerHTML = `${S.api === false ? '<p class="sub">Saved on this phone.</p>' : ''}
     <div class="sum"><div><div class="k">Record</div><div class="v">${w}-${l}</div></div><div><div class="k">Units</div><div class="v ${pl >= 0 ? 'pos' : 'neg'}">${pl >= 0 ? '+' : ''}${pl.toFixed(1)}</div></div><div><div class="k">ROI</div><div class="v">${risk ? sgn(pl / risk) : '–'}</div></div></div>
-    <h2>Open (${pend.length})</h2>${pend.map(row).join('') || '<div class="empty">No open bets.</div>'}
-    ${done.length ? `<h2>Settled</h2>${done.map(row).join('')}` : ''}
-    <p class="sub">Every bet here also shows on the full desk, with CLV and charts.</p>`;
+    <div class="hrow"><h2>Open (${pend.length})</h2></div><div class="card list">${pend.map(row).join('') || '<div class="empty">No open bets.</div>'}</div>
+    ${done.length ? `<div class="hrow"><h2>Settled</h2></div><div class="card list">${done.map(row).join('')}</div>` : ''}
+    <p class="sub" style="margin-top:12px">Every bet here also shows on the full desk, with CLV and charts.</p>`;
 }
 // ---------- storage: same account as the full desk (/api/db/bets), else this phone (betdesk.v1) ----------
 const H = {'content-type': 'application/json', 'x-desk': '1'};
@@ -283,6 +329,8 @@ async function start(){
   catch (e){ $('#v-today').innerHTML = `<div class="empty">Could not load today's prices (${esc(e.message)}). Try again in a minute.</div>`; }
   await loadBets();
   $('#menuMade').textContent = S.P ? 'Prices from ' + S.P.made : '';
+  const m = S.P && Date.parse(String(S.P.made).replace(' UTC', 'Z').replace(' ', 'T'));
+  if (m){ const mins = Math.max(0, Math.round((Date.now() - m) / 6e4)); $('#age').textContent = 'odds ' + (mins < 60 ? mins + 'm' : mins < 2880 ? Math.round(mins / 60) + 'h' : Math.round(mins / 1440) + 'd') + ' ago'; }
   fetch('monitor.html', {method: 'HEAD', cache: 'no-cache'}).then(r => { $('#monLink').hidden = !(r.ok && /html/.test(r.headers.get('content-type') || '')); }).catch(() => { $('#monLink').hidden = true; });
   render();
 }
