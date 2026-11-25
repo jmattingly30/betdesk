@@ -537,6 +537,7 @@ tr.click{cursor:pointer}
     <div class="row"><button class="btn ghost" type="button" id="ioCheck">Check backup</button><button class="btn" type="button" id="ioGo" hidden>Import</button><button class="btn ghost" type="button" id="ioExport">Copy my bets</button></div>
     <div id="ioOut" class="small"></div>
   </div>
+  <div class="card" id="monCard" hidden><h3>Monitor</h3><div class="row"><a class="btn ghost" href="monitor.html">Open Monitor</a></div></div>
   <div class="card" id="backupCard">
     <h3>Backup</h3>
     <p class="small muted">Your bets and settings save on this phone. Export a backup now and then, and use Import to move them to another device (or to bring them over from the old Bet Desk).</p>
@@ -848,6 +849,7 @@ function toast(t){ const d=document.createElement('div'); d.className='toast'; d
 
 // ---------- tabs ----------
 document.querySelectorAll('nav.tabs button').forEach(b => b.addEventListener('click', () => show(b.dataset.v)));
+if (!/claude/i.test(location.hostname)) fetch('monitor.html',{cache:'no-cache'}).then(r=>{ if(r.ok && /html/.test(r.headers.get('content-type')||'')) $('#monCard').hidden=false; }).catch(()=>{});
 $('#gearBtn').addEventListener('click', () => show($('#v-settings').hidden ? 'settings' : 'home'));
 const OLD_TAB = {props:'slate', price:'slate', track:'bets', charts:'results', models:'settings'};
 function show(v){

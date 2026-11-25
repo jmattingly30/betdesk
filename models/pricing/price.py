@@ -229,9 +229,15 @@ def _erfinv(y):
     a = 0.147; s = math.copysign(1, y); l = math.log(1 - y * y); t = 2 / (math.pi * a) + l / 2
     return s * math.sqrt(math.sqrt(t * t - l / a) - t)
 
+GAMES = []
 def price_game(sp, g, ours, dist_mkt, demote):
     """g: {id, k, h, a, bk}; ours: Dist + p_home; dist_mkt(market, mu) -> Dist centred on the books' number. Returns rows."""
     bk, k = g['bk'], ts(g['k']); tm = g['timing']; out = []
+    # one summary per game for the front end's Games tab: our score (never blended) beside the books' median line
+    med = lambda i: (lambda v: statistics.median(v) if v else None)([r[i] for r in bk.values() if r and len(r) > i and r[i] is not None])
+    sc = getattr(ours, 'score', None)
+    GAMES.append(dict(sp=sp, id=g['id'], k=g['k'], h=g['h'], a=g['a'], hs=None if not sc else round(sc[0], 1), as_=None if not sc else round(sc[1], 1),
+                      p_home=None if ours.p_home is None else round(ours.p_home, 3), spread=med(0), total=med(3), ml=[med(6), med(7)], timing=tm))
     names = {'home': g['h'], 'away': g['a'], 'Over': 'Over', 'Under': 'Under'}
     for market, idx, sides in (('spread', 0, ('home', 'away')), ('total', 3, ('Over', 'Under'))):
         lines = [r[idx] for r in bk.values() if r and r[idx] is not None and r[idx + 1] and r[idx + 2]]
@@ -304,7 +310,7 @@ def ab_games(sp, fname, slate, demote):
         k = ts(x['k'])
         if not k or k <= NOW: continue
         mu_m, mu_t = A['hs'] - A['as'], A['hs'] + A['as']
-        ours = Dist.normal(sp, mu_m, mu_t); ours.p_home = A.get('p_home')
+        ours = Dist.normal(sp, mu_m, mu_t); ours.p_home = A.get('p_home'); ours.score = (A['hs'], A['as'])
         def dist_mkt(market, bk, sp=sp, mu_m=mu_m, mu_t=mu_t):
             mm = market_mean(bk, 'spread', sdm(mu_m), 0) if market == 'spread' else mu_m
             mt = market_mean(bk, 'total', sdt, 3) if market == 'total' else mu_t
@@ -367,7 +373,7 @@ def nhl_games(demote):
         for i in range(len(dh)):
             for j in range(len(da)): pm[i - j + len(da) - 1] += M[i, j]
         # puck line straight from the sim (pl = P(home by 2+), P(away by 2+)); rescale the pmf tails to match it
-        ours = _NHLDist(mgs, pm, np.arange(len(dtot)), dtot, x.get('pl')); ours.p_home = x.get('pw')
+        ours = _NHLDist(mgs, pm, np.arange(len(dtot)), dtot, x.get('pl')); ours.p_home = x.get('pw'); ours.score = (x['hs'], x['as'])
         g = dict(id=str(x['id']), k=x['k'], h=x['h'], a=x['a'], bk=odds_api_rows(ev))
         g['timing'] = timing('NHL', k, seen.get(ev['id']))
         def dist_mkt(market, bk, ours=ours):
@@ -400,7 +406,7 @@ def mlb_games(slate, demote):
         for i in range(K):
             for j in range(K): pm[i - j + K - 1] += ph[i] * pa[j]; pt[i + j] += ph[i] * pa[j]
         z = pm[K - 1]; pm[K - 1] = 0; pm[K] += z * tie_home; pm[K - 2] += z * (1 - tie_home)   # extra innings: one-run games
-        ours = _MLBDist(mgs, pm, tg, pt, e.get('totals') or []); ours.p_home = e.get('homeWinProb')
+        ours = _MLBDist(mgs, pm, tg, pt, e.get('totals') or []); ours.p_home = e.get('homeWinProb'); ours.score = (e['runsHome'], e['runsAway'])
         g = dict(id=str(x['gamePk']), k=s['k'], h=s['h'], a=s['a'], bk=s['ln']['bk'])
         g['timing'] = timing('MLB', k, first_seen('MLB', g['id']))
         rows += [dict(r, old=None) for r in price_game('MLB', g, ours, lambda market, bk: None, demote)]   # MLB had no tiers
@@ -606,7 +612,7 @@ def main():
                rules=dict(trust='trusted = logit(fair) + trust x (logit(ours) - logit(fair))', labels=LAB, timing=TIM, demote=CFG['demote']),
                demoted=[dict(sp=k[0], market=k[1], why=v) for k, v in sorted(D.items())],
                counts={l: sum(1 for r in rows if r['label'] == l) for l in ('Bet', 'Lean', 'Pass')}, quiet_prop_passes=quiet,
-               compare=compare(rows), guarded_counts=gsum, errors=errors, bets=rows, guarded=guarded)
+               compare=compare(rows), guarded_counts=gsum, errors=errors, games=sorted(GAMES, key=lambda x: (x['k'], x['sp'])), bets=rows, guarded=guarded)
     json.dump(out, open(f"{APP}/priced_bets.json", 'w'), separators=(',', ':'))
     # history: last pregame row per bet (key sp|game|market|stat|side), first-seen label and price kept for opener grading
     hf = f"{HERE}/history/priced.json.gz"; os.makedirs(os.path.dirname(hf), exist_ok=True)
