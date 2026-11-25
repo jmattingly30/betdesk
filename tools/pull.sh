@@ -13,6 +13,7 @@ step "injury scan (NBA Model A sees news since the morning)" python3 models/inju
 if [ "$T" = nfl ]; then step "slates (Odds API NFL lines: 3 credits)" bash -c "cd app && ODDS_FORCE=NFL python3 export_slates.py"
 else step "slates (no Odds API credits; morning lines reused)" bash -c "cd app && env -u ODDS_API_KEY python3 export_slates.py"; fi
 step "line tools" bash -c "cd app && python3 line_tools.py"
+if [ "$T" != nfl ]; then step "MLB slate (lineups posted since the morning; finals for grading)" node models/mlb/live.js; fi
 if [ "$T" != nfl ]; then step "CBB Model B (cbb_ab live)" python3 models/cbb_ab/live.py; fi
 step "NFL Model B (nfl_ab live)" python3 models/nfl_ab/live.py
 if [ "$T" != nfl ]; then step "NBA Model B (nba_ab live)" python3 models/nba_ab/live.py; fi
