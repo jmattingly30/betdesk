@@ -3,7 +3,7 @@
  "timing": {"open_hours": 24, "min_hours_to_start": 8, "nfl_lookahead_hours": 96},
  "labels": {"bet_ev": 0.05, "lean_ev": 0.02, "ours_must_clear_bet_ev": true, "far_prob": 0.15, "max_price": 300,
             "stake": {"bankroll_u": 100, "kelly": 0.25, "max_u": 3}},
- "demote": {"min_bets": 50, "roi_below": -0.05, "games_clv_pts_below": 0.5, "props_clv_below": 0.01},
+ "demote": {"min_bets": 50, "roi_below": -0.05, "games_clv_pts_below": 0.5, "games_clv_below": 0.01, "props_clv_below": 0.01},
  "games": {
   "NFL": {"spread": {"open": 0.35, "close": 0.14, "cap": "Lean", "why": "NFL game lines are a lean at most: our spread gaps have not held up at the close (2018-26)", "src": "nfl_ab blend_test w .14 game week, .35 look-ahead; NFL game tiers max B (J)"},
           "total":  {"open": 0.08, "close": 0.08, "cap": "Lean", "why": "NFL game lines are a lean at most: our total gaps have not held up at the close (2018-26)", "src": "nfl_ab blend_test totals w .084"},
