@@ -34,7 +34,7 @@ SEASON_CFB, SEASON_CBB, SEASON_NBA = 2026, 2027, 2027
 # J 2026-10-27 (line shopping): up to 10 named books cost the same credits as one region, so Pinnacle and BetOnline (the sharp
 # prices that set fair odds in line_tools.py) come free. The other 8 are the books J can bet in Colorado (free feed only).
 BOOKS = ['pinnacle', 'betonlineag', 'draftkings', 'fanduel', 'betmgm', 'williamhill_us', 'espnbet', 'fanatics', 'betrivers', 'ballybet']
-ODDS_KEYS = dict(NFL='americanfootball_nfl', CFB='americanfootball_ncaaf', CBB='basketball_ncaab', NBA='basketball_nba', NHL='icehockey_nhl')
+ODDS_KEYS = dict(NFL='americanfootball_nfl', CFB='americanfootball_ncaaf', CBB='basketball_ncaab', NBA='basketball_nba', NHL='icehockey_nhl', MLB='baseball_mlb')
 NFL_MASCOT = {**dict(Cardinals='ARI', Falcons='ATL', Ravens='BAL', Bills='BUF', Panthers='CAR', Bears='CHI', Bengals='CIN', Browns='CLE',
                   Cowboys='DAL', Broncos='DEN', Lions='DET', Packers='GB', Texans='HOU', Colts='IND', Jaguars='JAX', Chiefs='KC',
                   Raiders='LV', Chargers='LAC', Rams='LA', Dolphins='MIA', Vikings='MIN', Patriots='NE', Saints='NO', Giants='NYG',
@@ -197,6 +197,25 @@ def espn(url, days, name_col, mascot=False):
     return dict(games=[dict(id=str(r['game_id']), k=r['k'].isoformat().replace('+00:00', 'Z'), d=r['d'], h=r['home_' + name_col],
                             a=r['away_' + name_col], n=int(bool(r['neutral_site'])), **fs(r)) for r in up.to_dict('records')], names=names)
 
+def mlb():
+    """MLB (J 2026-11-25, step 2 of moving MLB onto the desk): the day's games from app/data/mlb_slate.json, which
+    models/mlb/live.js (J's own app code) writes in the morning chain and the noon/night pulls. id = MLB gamePk; d = the
+    game's MLB date; fs from the slate's finals. Lines come from The Odds API like every other sport (all CO books + sharps)."""
+    f = f'{HERE}/data/mlb_slate.json'
+    if not os.path.exists(f): return None
+    s = json.load(open(f)); fin = {str(x['gamePk']): x for x in s.get('finals') or []}
+    games, names = [], {}
+    for g in s.get('games') or []:
+        if not g.get('startUtc') or not g.get('home') or not g.get('away'): continue
+        k = pd.Timestamp(g['startUtc'])
+        x = fin.get(str(g['gamePk']))
+        if k < RECENT and not x: continue
+        r = dict(id=str(g['gamePk']), k=k.isoformat().replace('+00:00', 'Z'), d=g.get('date') or s.get('date'), h=g['home'], a=g['away'], n=0)
+        if x and x.get('homeRuns') is not None: r['fs'] = [int(x['homeRuns']), int(x['awayRuns'])]
+        games.append(r)
+        for t in (g['home'], g['away']): names.setdefault(t, {t} | ({'oakland athletics'} if t == 'Athletics' else set()))
+    return dict(games=games, names=names) if games else None
+
 PLACEHOLDER = {'', 'tbd', 'tba', 'tbd tbd', 'to be determined', 'to be announced'}
 def real_game(g):
     """False for a placeholder row: a tournament slot ESPN lists before the teams are known ("TBD" vs "TBD"), or any
@@ -245,7 +264,7 @@ if __name__ == '__main__':
     J = dict(made=NOW.strftime('%Y-%m-%d %H:%M UTC'))
     jobs = dict(NFL=lambda: nfl(sys.argv[1] if len(sys.argv) > 1 else '/tmp/claude-0/nfldl/games.csv'), CFB=cfb,
                 CBB=lambda: espn(f'{SV}/espn_mens_college_basketball_schedules/mbb_schedule_{SEASON_CBB}.parquet', 6, 'location'),
-                NBA=lambda: espn(f'{SV}/espn_nba_schedules/nba_schedule_{SEASON_NBA}.parquet', 6, 'abbreviation', mascot=True))
+                NBA=lambda: espn(f'{SV}/espn_nba_schedules/nba_schedule_{SEASON_NBA}.parquet', 6, 'abbreviation', mascot=True), MLB=mlb)
     for sp, f in jobs.items():
         try: x = f()
         except Exception as e: print(sp, 'failed:', e); x = None
@@ -274,3 +293,12 @@ if __name__ == '__main__':
             H[NOW.isoformat(timespec='minutes')] = ev; json.dump(H, gzip.open(hf, 'wt'), separators=(',', ':'))
             print('NHL', len(ev), 'games of lines saved (+ history)')
     except Exception as e: print('NHL odds failed:', e)
+    # MLB (J 2026-11-25): keep every fresh pull's raw MLB lines too (opener-to-close history for grading vs closing team totals)
+    try:
+        f = f'{HERE}/data/odds/MLB.json'
+        if os.path.exists(f) and json.load(open(f)).get('made') == NOW.isoformat():
+            import gzip; hf = f'{HERE}/data/odds/mlb_line_history.json.gz'
+            H = json.load(gzip.open(hf, 'rt')) if os.path.exists(hf) else {}
+            H[NOW.isoformat(timespec='minutes')] = json.load(open(f))['events']; json.dump(H, gzip.open(hf, 'wt'), separators=(',', ':'))
+            print('MLB', len(H[NOW.isoformat(timespec='minutes')]), 'games of lines saved to history')
+    except Exception as e: print('MLB line history failed:', e)

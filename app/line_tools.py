@@ -26,7 +26,7 @@ NAMES = dict(pinnacle='Pinnacle', betonlineag='BetOnline', lowvig='LowVig', draf
              williamhill_us='Caesars', espnbet='ESPN BET', fanatics='Fanatics', betrivers='BetRivers', hardrockbet='Hard Rock',
              ballybet='Bally Bet', betus='BetUS', mybookieag='MyBookie', bovada='Bovada', fliff='Fliff', betparx='BetParx')
 MY_BOOKS = ['draftkings', 'fanduel', 'betmgm', 'williamhill_us', 'espnbet', 'fanatics', 'betrivers', 'ballybet', 'bet365', 'hardrockbet', 'circasports']   # J: Colorado, any legal book (2026-11-02: all CO books, no picking)
-MOVE = dict(NFL=1.0, CFB=1.5, NBA=1.0, CBB=1.0)        # sharp line move worth flagging (points)
+MOVE = dict(NFL=1.0, CFB=1.5, NBA=1.0, CBB=1.0, MLB=0.5)   # sharp line move worth flagging (points; MLB runs)
 KEYS = dict(NFL=[3, 7, 10, 6, 4, 14])
 MIN_EV = -0.005                                        # list middles down to -0.5% EV
 W_TEAM = 0.30                                          # Bet Desk default model weight for team bets (Settings)
@@ -84,6 +84,40 @@ def build_landing():
     for sp in src: m = out[sp]['m']; print(sp, 'margin n', m['n'], 'fav by 3/7:', m['mult'][3 - m['lo']], m['mult'][7 - m['lo']], 'dog by 3:', m['mult'][-3 - m['lo']], 'total n', out[sp]['t']['n'])
     return out
 
+def build_landing_mlb():
+    """MLB landing curve (J 2026-11-25, step 2 of moving MLB onto the desk), added to landing.json beside the others.
+    Source: models/team-strength/data/mlb_odds_games.csv, 2021-25 regular season, consensus closing no-vig home win chance and
+    closing total. MLB has no closing run line in that file, so the expected home margin for each game is read off its
+    closing win chance: margin = c x logit(p), c fit by least squares (2021-25 fit: about 2.4 runs per unit of log-odds), rounded to the
+    half run. Totals use the closing total. Same method as the other sports from there (normal around the expected value,
+    times how often each exact result happens; no ties in MLB, so margin 0 gets weight 0)."""
+    import pandas as pd, numpy as np
+    g = pd.read_csv(f'{HERE}/../models/team-strength/data/mlb_odds_games.csv')
+    g = g[g.status.astype(str).str.startswith('Final') & g.ph_close.between(0.05, 0.95)].copy()
+    g['margin'] = g.hs - g.as_; g['total'] = g.hs + g.as_
+    lg = np.log(g.ph_close / (1 - g.ph_close)); c = float((lg * g.margin).sum() / (lg * lg).sum())
+    g['line'] = (c * lg * 2).round() / 2
+    o = {}
+    for kind, y, x in (('m', 'margin', 'line'), ('t', 'total', 'total_close')):
+        d = g[[y, x]].dropna(); d = d[(d[x] % 0.5 == 0)]
+        yv, xv = d[y].round().astype(int).values, d[x].values
+        if kind == 'm': sg = np.where(xv < 0, -1, 1); yv, xv = yv * sg, np.abs(xv)
+        r = yv - xv; ax = np.abs(xv) if kind == 'm' else xv
+        A = np.vstack([np.ones_like(ax), ax]).T; beta = np.linalg.lstsq(A, r ** 2, rcond=None)[0]
+        sd = np.sqrt(np.clip(A @ beta, 4, None))
+        lo, hi = int(yv.min()), int(yv.max())
+        O, E = np.zeros(hi - lo + 1), np.zeros(hi - lo + 1)
+        for k in range(lo, hi + 1):
+            O[k - lo] = np.sum(yv == k); E[k - lo] = (Phi_v(k + .5, xv, sd) - Phi_v(k - .5, xv, sd)).sum()
+        mult = (O + 3) / (E + 3)
+        if kind == 'm': mult[-lo] = O[-lo] / max(E[-lo], 1e-9)
+        o[kind] = dict(sd=[round(float(beta[0]), 2), round(float(beta[1]), 3)], lo=lo, mult=[round(float(v), 3) for v in mult], n=int(len(d)))
+    o['m']['c_logit'] = round(c, 3); o['m']['sd_floor'] = 4; o['t']['sd_floor'] = 4
+    L = json.load(open(f'{D}/landing.json')) if os.path.exists(f'{D}/landing.json') else {}
+    L['MLB'] = o; json.dump(L, open(f'{D}/landing.json', 'w'), separators=(',', ':'))
+    print('MLB landing: c', round(c, 2), 'margin n', o['m']['n'], 'sd', o['m']['sd'], 'total n', o['t']['n'], 'sd', o['t']['sd'])
+    return o
+
 def Phi_v(x, mu, sd):
     import numpy as np
     return 0.5 * (1 + np.vectorize(math.erf)((x - mu) / (sd * math.sqrt(2))))
@@ -91,7 +125,7 @@ def Phi_v(x, mu, sd):
 LAND = None
 def pmf(sp, kind, mu):
     """{k: P(result = k)} for an expected home margin (kind 'm') or total ('t') of mu."""
-    L = LAND[sp][kind]; v = max(L['sd'][0] + L['sd'][1] * abs(mu), 25); sd = math.sqrt(v)
+    L = LAND[sp][kind]; v = max(L['sd'][0] + L['sd'][1] * abs(mu), L.get('sd_floor', 25)); sd = math.sqrt(v)
     out = {}
     for k in range(int(mu - 6 * sd), int(mu + 6 * sd) + 2):
         i = (k * (-1 if mu < 0 else 1) if kind == 'm' else k) - L['lo']
@@ -232,7 +266,7 @@ def game_tools(sp, g, hist, model=None):
                 mids.append(dict(mk=mk, kind=kind, gap=gap, a=[x['b'], S1, x['pt'], x['pr']], b=[y['b'], S2, y['pt'], y['pr']],
                                  both=round(m['both'], 4), ev=round(m['ev'], 4), worst=round(m['worst'], 4), best=round(m['best'], 4), stake=m['stake']))
     # a leg whose point sits far from every other book's is more often a stale or mislabelled price than a gift: flag it
-    far = dict(NFL=2, CFB=2.5, NBA=3, CBB=3)[sp]
+    far = dict(NFL=2, CFB=2.5, NBA=3, CBB=3, MLB=1)[sp]   # MLB: run line is almost always 1.5; totals 1 run apart = stale
     for mk, col in (('spread', 0), ('total', 3)):
         pts = [r[col] for r in bk.values() if r[col] is not None]
         if len(pts) < 3: continue
@@ -276,6 +310,7 @@ def fair_pt(x): return round(x * 4) / 4
 def main():
     global LAND
     if '--landing' in sys.argv or not os.path.exists(f'{D}/landing.json'): build_landing()
+    if '--landing' in sys.argv or 'MLB' not in json.load(open(f'{D}/landing.json')): build_landing_mlb()
     LAND = json.load(open(f'{D}/landing.json'))
     S = json.load(open(f'{D}/game_slates.json'))
     hp = f'{D}/line_history.json'; hist = json.load(open(hp)) if os.path.exists(hp) else {}
@@ -288,7 +323,7 @@ def main():
         models = {(x['sp'], x['id']): x for x in json.load(open(tmp))['games']}
     except Exception as e: print('model probe failed, market-only:', e)
     out = dict(made=NOW.strftime('%Y-%m-%d %H:%M UTC'), lines_from=stamp, books=NAMES, my_books=MY_BOOKS, sports={})
-    for sp in ('NFL', 'CFB', 'NBA', 'CBB'):
+    for sp in ('NFL', 'CFB', 'NBA', 'CBB', 'MLB'):
         x = S.get(sp)
         if not x or sp not in LAND: continue
         G = []
