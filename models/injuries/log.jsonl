@@ -1989,3 +1989,18 @@
 {"t": "2026-11-25 05:16 UTC", "lg": "NFL", "team": "PIT", "n": "Mason McCormick", "from": 0.0, "to": "absent"}
 {"t": "2026-11-25 05:16 UTC", "lg": "NFL", "team": "TEN", "n": "Jaylen Harrell", "from": 0.0, "to": "absent"}
 {"t": "2026-11-25 05:16 UTC", "lg": "NFL", "team": "TEN", "n": "Tyjae Spears", "from": 0.0, "to": "absent"}
+{"t": "2026-11-25 19:06 UTC", "lg": "NBA", "team": "CHA", "n": "Ryan Kalkbrenner", "from": 0.25, "to": 0.0}
+{"t": "2026-11-25 19:06 UTC", "lg": "NBA", "team": "NO", "n": "Julian Reese", "from": "absent", "to": null}
+{"t": "2026-11-25 19:06 UTC", "lg": "NBA", "team": "NY", "n": "Jalen Brunson", "from": "absent", "to": 0.5}
+{"t": "2026-11-25 19:06 UTC", "lg": "NBA", "team": "NY", "n": "Josh Hart", "from": 0.5, "to": 0.9}
+{"t": "2026-11-25 19:06 UTC", "lg": "NBA", "team": "NY", "n": "Karl-Anthony Towns", "from": 0.5, "to": 0.9}
+{"t": "2026-11-25 19:06 UTC", "lg": "NBA", "team": "NY", "n": "Miles McBride", "from": 0.5, "to": 0.0}
+{"t": "2026-11-25 19:06 UTC", "lg": "NFL", "team": "KC", "n": "Jaylon Moore", "from": "absent", "to": 0.0}
+{"t": "2026-11-25 19:06 UTC", "lg": "NFL", "team": "KC", "n": "Kenneth Walker III", "from": "absent", "to": 0.0}
+{"t": "2026-11-25 19:06 UTC", "lg": "NFL", "team": "KC", "n": "Omarr Norman-Lott", "from": "absent", "to": 0.0}
+{"t": "2026-11-25 19:06 UTC", "lg": "NFL", "team": "NYJ", "n": "David Onyemata", "from": 0.0, "to": "absent"}
+{"t": "2026-11-25 19:06 UTC", "lg": "NFL", "team": "PHI", "n": "Arnold Ebiketie", "from": "absent", "to": 0.0}
+{"t": "2026-11-25 19:06 UTC", "lg": "NFL", "team": "PHI", "n": "Jonathan Jones", "from": "absent", "to": 0.0}
+{"t": "2026-11-25 19:06 UTC", "lg": "NFL", "team": "SF", "n": "Nate Hobbs", "from": 0.0, "to": "absent"}
+{"t": "2026-11-25 19:06 UTC", "lg": "NFL", "team": "TB", "n": "Jalen McMillan", "from": "absent", "to": 0.0}
+{"t": "2026-11-25 19:06 UTC", "lg": "NFL", "team": "TB", "n": "Josh Hayes", "from": 0.0, "to": "absent"}
