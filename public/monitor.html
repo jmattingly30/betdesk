@@ -275,7 +275,7 @@ function renderChal(){
   $('#chalTable').innerHTML = rows.length ? table(['Model', 'Games', 'Team miss', 'Margin miss', 'Total miss', 'Line margin miss', 'Winners'], rows) : '<p class="note">No challengers for this sport.</p>';
 }
 // ---------- 4 price check ----------
-const BUCKETS = [['staked', 'Bets'], ['label', 'By label'], ['guard', 'Guarded'], ['big_dog', 'Big dogs'], ['timing', 'Open vs close']];
+const BUCKETS = [['staked', 'Bets'], ['label', 'By label'], ['guard', 'Guarded'], ['big_dog', 'Big dogs'], ['timing', 'Open vs close'], ['conf', 'Confidence 1-5']];
 function renderPrice(){
   const P = D.price, G = P.graded || {}, c = P.counts || {}, gc = P.guarded_counts || {};
   const tiles = [['Priced now', `${c.Bet ?? 0} Bet · ${c.Lean ?? 0} Lean`, `${c.Pass ?? 0} Pass · as of ${esc(P.made || '–')}`],
@@ -284,7 +284,7 @@ function renderPrice(){
     ['Demoted to Lean', (P.demoted || []).length, (P.demoted || []).map(d => d.sp + ' ' + d.market).join(', ') || 'none']];
   $('#priceTiles').innerHTML = tiles.map(([k, v, s]) => `<div class="tile"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join('');
   seg($('#bucketSeg'), BUCKETS, S.bucket, k => { S.bucket = k; lsSet('mon.bk', k); renderPrice(); });
-  const B = Object.entries(G[S.bucket] || {}).filter(([k]) => S.sp === 'All' || S.bucket === 'guard' || k.startsWith(S.sp + '|')).sort((a, b) => b[1].n - a[1].n);
+  const B = Object.entries(G[S.bucket] || {}).filter(([k]) => S.sp === 'All' || S.bucket === 'guard' || k.startsWith(S.sp + '|')).sort((a, b) => S.bucket === 'conf' ? b[0].localeCompare(a[0]) : b[1].n - a[1].n);
   $('#evBars').innerHTML = B.length ? bars(B.slice(0, 10).map(([k, x]) => ({label: k.split('|').slice(S.bucket === 'guard' ? 0 : 1).join(' '), sub: `${S.bucket === 'guard' ? '' : k.split('|')[0] + ' · '}${x.n}`,
       vals: {ev: x.ev, roi: x.roi, clv: x.clv}, tips: Object.fromEntries(['ev', 'roi', 'clv'].map(m => [m, `<b>${esc(k.replace(/\|/g, ' '))}</b> · ${x.n} bets (${x.w}-${x.l}${x.p ? '-' + x.p : ''})<br>EV shown ${pct(x.ev)}<br>ROI ${pct(x.roi)} · ${x.units >= 0 ? '+' : ''}${x.units}u<br>CLV ${pct(x.clv)} (${x.nclv})`]))})),
     [{key: 'ev', label: 'EV', color: 'var(--model)'}, {key: 'roi', label: 'ROI', color: 'var(--mkt)'}, {key: 'clv', label: 'CLV', color: 'var(--act)'}], {fmt: v => Math.round(v * 100) + '%', aria: 'stated EV vs return'})

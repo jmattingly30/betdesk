@@ -122,6 +122,9 @@ input{width:100%;min-height:44px;border-radius:10px;border:1px solid var(--line)
 .panel2>summary{color:var(--ink);font:400 17px var(--f-display);padding:4px 0;min-height:0}
 .pills{display:flex;gap:6px;margin:12px 0}
 .pills button{min-height:36px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font:600 11px var(--f-body);cursor:pointer}
+.pills.sm{margin:0}.pills.sm button{min-height:32px;padding:0 10px;font-size:10px}
+.cdots{display:inline-flex;gap:3px;vertical-align:middle;margin-left:6px}.cdots i{width:8px;height:8px;border-radius:50%;background:var(--line)}.cdots i.on{background:var(--accent)}
+.cwhy{margin:4px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:2px}.cwhy li{font-size:10px;color:var(--muted)}.cwhy b{display:inline-block;width:12px;color:var(--ink)}
 .pills button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .tbl{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;gap:4px 10px;font-size:10px}
 .tbl .h{font-size:9px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
@@ -197,7 +200,7 @@ const STAT = {pass_att:'pass attempts', cmp:'completions', pass_yds:'passing yar
   rec:'receptions', rec_yds:'receiving yards', td:'anytime TD', pts:'points', reb:'rebounds', ast:'assists', fg3m:'threes', pra:'pts + reb + ast', stl:'steals',
   blk:'blocks', tov:'turnovers', sog:'shots on goal', points:'points', goals:'goals', assists:'assists', saves:'saves'};
 const MK = {spread:'Spread', total:'Total', ml:'Moneyline', prop:'Player prop'};
-const S = {v: 'today', sp: ls('front.sp', 'All'), game: null, bets: [], api: null, P: null};
+const S = {v: 'today', ord: ls('front.ord', 'edge'), sp: ls('front.sp', 'All'), game: null, bets: [], api: null, P: null};
 const dayOf = k => { const t = new Date(k), now = new Date(); return t.toDateString() === now.toDateString() ? 'Today' : t.toDateString() === new Date(now.getTime() + 864e5).toDateString() ? 'Tomorrow' : t.toLocaleDateString([], {weekday: 'short', month: 'short', day: 'numeric'}); };
 const when = k => { const t = new Date(k); return dayOf(k) + ' ' + t.toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'}); };
 const localDay = () => { const t = new Date(); return `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`; };
@@ -216,7 +219,7 @@ const edgeOf = r => r.label === 'Pass' && !(r.ev > 0) ? '' : sgn(r.ev);
 const open = new Set();   // pick keys with their Details drawer open
 function pickRow(r, opts = {}){
   const logged = S.bets.some(b => b.pkey === key(r)), k = key(r), o = open.has(k);
-  const meta = [opts.noGame ? '' : r.sp, `${r.book_name} ${amS(r.price)}`, r.label === 'Bet' ? r.stake_u + ' units' : r.label === 'Lean' ? 'tracked, not staked' : ''].filter(Boolean).join(' · ');
+  const meta = [opts.noGame ? '' : r.sp, `${r.book_name} ${amS(r.price)}`, r.label === 'Bet' ? r.stake_u + ' units' : r.label === 'Lean' ? 'tracked, not staked' : '', S.ord === 'conf' && r.conf ? `confidence ${r.conf}/5` : ''].filter(Boolean).join(' · ');
   return `<div class="pick ${r.label}">
     <div class="row1"><span class="lab ${r.label}">${r.label.toUpperCase()}</span><span class="ttl">${esc(title(r))}</span></div>
     <div class="edge ${r.label}">${edgeOf(r)}</div>
@@ -256,7 +259,10 @@ function details(r){
   const mv = moveOf(r), G = S.G && S.G.label ? S.G.label[`${r.sp}|${r.market}|${r.label}`] : null, f = r.first || {};
   const guards = (r.guards || []).map(g => ({far: 'our number is far from the books', long: 'price longer than +300', off_line: "book's line is off the others", one_sided: 'one-sided prop prices'}[g] || g));
   const firstTxt = f.made && f.made !== S.P.made ? `First priced ${esc(f.made.slice(5, 16))} UTC at ${f.line == null ? '' : esc(f.line) + ' '}${amS(f.price)} (${esc(f.label)}).` : 'First priced in this run.';
+  const cw = r.conf_why || [];
   return `<div class="det">
+    ${r.conf ? `<div><div class="kick">Confidence <b style="color:var(--ink)">${r.conf} of 5</b><span class="cdots" aria-hidden="true">${[1, 2, 3, 4, 5].map(i => `<i class="${i <= r.conf ? 'on' : ''}"></i>`).join('')}</span></div>
+      <ul class="cwhy">${cw.map(([g, t]) => `<li><b>${g === '+' ? '+' : g === '-' ? '−' : '·'}</b>${esc(t)}</li>`).join('')}</ul></div>` : ''}
     <div class="tri"><div><div class="kick">Ours</div><b>${pct(r.ours, 1)}</b></div><div><div class="kick">Books (fair)</div><b>${r.fair == null ? '–' : pct(r.fair, 1)}</b></div><div><div class="kick">After check</div><b style="color:var(--accent)">${pct(r.trusted, 1)}</b></div></div>
     <div class="meter" role="img" aria-label="ours ${pct(r.ours, 1)}, books ${pct(r.fair, 1)}, after the check ${pct(r.trusted, 1)}"><i style="width:${(r.trusted * 100).toFixed(1)}%"></i>${r.fair == null ? '' : `<span style="left:${(r.fair * 100).toFixed(1)}%;background:var(--muted)"></span>`}<span style="left:${(r.ours * 100).toFixed(1)}%;background:var(--ink)"></span></div>
     <div class="note">Trust ${r.trust} for ${esc(r.sp)} ${MKW[r.market]}${r.timing ? ' at the ' + esc(r.timing) : ''}: we keep ${Math.round(r.trust * 100)}% of our gap from the books. ${r.proj != null ? `We project ${esc(r.proj)}. ` : ''}${r.fair_from === 'one-sided' ? 'Fair price estimated from one side only. ' : ''}${firstTxt}${r.hours_to_start != null ? ` Starts in ${Math.round(r.hours_to_start)} h.` : ''}</div>
@@ -295,7 +301,8 @@ function stripHTML(){
 }
 function renderToday(){
   const B = (S.P.bets || []).filter(r => live(r) && inSport(r));
-  const bet = B.filter(r => r.label === 'Bet'), lean = B.filter(r => r.label === 'Lean');
+  const by = S.ord === 'conf' ? (a, b) => (b.conf || 0) - (a.conf || 0) || b.ev - a.ev : (a, b) => b.ev - a.ev;
+  const bet = B.filter(r => r.label === 'Bet').sort(by), lean = B.filter(r => r.label === 'Lean').sort(by);
   const sps = new Set([...bet, ...lean].map(r => r.sp)).size;
   const G = (S.P.games || []).filter(g => live(g) && inSport(g));
   const first = G.length ? dayOf(G[0].k) : '', todayG = G.filter(g => dayOf(g.k) === first);
@@ -303,7 +310,7 @@ function renderToday(){
   $('#v-today').innerHTML = `<div class="day">${esc(new Date().toLocaleDateString([], {weekday: 'long', month: 'short', day: 'numeric'}))}</div>
     <div class="lede">${bet.length || lean.length ? `${n(bet.length, 'bet')} and ${n(lean.length, 'lean')} across ${n(sps, 'sport')}` : 'Nothing clears the price check right now. That is a normal day.'}</div>
     ${stripHTML()}
-    <div class="card list"><div class="hrow" style="margin:10px 0 0"><h2>Best bets</h2><span class="sub">edge after the price check</span></div>
+    <div class="card list"><div class="hrow" style="margin:10px 0 0"><h2>Best bets</h2><div class="pills sm" role="group" aria-label="Sort by">${[['edge', 'Edge'], ['conf', 'Confidence']].map(([k, t]) => `<button type="button" data-ord="${k}" aria-pressed="${S.ord === k}">${t}</button>`).join('')}</div></div>
       ${bet.map(r => pickRow(r)).join('') || '<div class="empty">No bets right now.</div>'}
       ${lean.length ? `<details><summary>Show ${n(lean.length, 'lean')}</summary>${lean.slice(0, 40).map(r => pickRow(r)).join('')}</details>` : ''}
     </div>
@@ -454,7 +461,7 @@ $('#betForm').addEventListener('submit', async e => {
   const b = {id: 'b' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), date: localDay(), sport: r.sp, market: MK[r.market], model, desc: title(r) + ` (${r.matchup})`,
     side: r.market === 'total' || r.market === 'prop' ? r.side : r.pick, line: r.line == null ? '' : String(r.line), odds: String(o), units: String(u), book: $('#bdBook').value.trim(),
     why: 'Model edge, no news', pm: (r.ours * 100).toFixed(1), pf: r.fair == null ? '' : (r.fair * 100).toFixed(1), pb: (r.trusted * 100).toFixed(1), push: r.push || 0,
-    stat: r.stat || '', player: r.player || '', label: r.label, src: 'price check', pkey: key(r), gm: r.game, created: new Date().toISOString(), result: 'pending'};
+    stat: r.stat || '', player: r.player || '', label: r.label, conf: r.conf || '', src: 'price check', pkey: key(r), gm: r.game, created: new Date().toISOString(), result: 'pending'};
   try { await saveBet(b); $('#betDlg').close(); toast('Saved to My bets'); render(); } catch (err){ $('#bdMsg').textContent = 'Could not save: ' + (err.message || err); }
 });
 // ---------- wiring ----------
@@ -464,6 +471,7 @@ document.addEventListener('click', async e => {
   else if (t.dataset.game){ S.game = t.dataset.game; renderGames(); scrollTo(0, 0); }
   else if (t.hasAttribute('data-back')){ S.game = null; renderGames(); }
   else if (t.dataset.det){ open.has(t.dataset.det) ? open.delete(t.dataset.det) : open.add(t.dataset.det); render(); }
+  else if (t.dataset.ord){ S.ord = t.dataset.ord; lsSet('front.ord', S.ord); render(); }
   else if (t.dataset.per){ S.per = t.dataset.per; lsSet('front.per', S.per); renderBets(); }
   else if (t.dataset.res){ const b = S.bets.find(x => x.id === t.dataset.id); if (!b) return;
     try { await saveBet({...b, result: t.dataset.res, updated: new Date().toISOString()}); renderBets(); } catch (err){ toast('Could not save: ' + (err.message || err)); } }
