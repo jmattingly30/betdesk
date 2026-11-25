@@ -60,8 +60,8 @@ B6. Sundays (and any day pbp_2026.parquet gained a full week since the last rebu
     in models/cfb-v3/README.md (pbp_2026.parquet + cfb_schedules_2026.csv, build.py --roster roster_prior.csv, export_app.py) -> cfb_model.json.
     B6b (same day, after B6): `python3 models/cfb_ab/qb_apv.py models/cfb-v3/pbp_2026.parquet` -> models/cfb_ab/apv/qb_apv.json (QB APV to date; step 4 SHADOW for CFB missing-QB sizes, J 2026-11-16).
     The CBB ratings rebuild (models/cbb/export_app.py) waits until ~8 games per team (late November).
-B7. Google Drive: search_files for title = 'mlb_slate.json' (folder "Bet Desk MLB"), download_file_content, decode base64 to
-    app/data/mlb_slate.json. Skip quietly if missing or its updatedAt is over 2 days old. Never publish it.
+B7. MLB (2026-11-25): `node models/mlb/live.js` runs J's live Apps Script code (models/mlb/app, unchanged) and writes
+    app/data/mlb_slate.json (games + finals with pregame projections for grade.py). Published like the other data files.
 B8. Model A (J 2026-10-30 redesign, the rebuild shown beside the desk model on every game card): NBA lineup feed
     `cd /mnt/project-files/sports-analytics/models/rebuild/basketball && python3 live_lineup.py` (about 8 min, run_in_background),
     then `cd /mnt/project-files/sports-analytics/models/rebuild/shadow && DL=<scratchpad> python3 shadow.py nba nfl nhl cbb`

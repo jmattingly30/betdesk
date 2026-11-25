@@ -1,5 +1,5 @@
 #!/bin/bash
-# Morning chain, per app/routines/morning_chain.md parts A-E. MLB (B7, Google Drive) is skipped: no Drive outside Claude.
+# Morning chain, per app/routines/morning_chain.md parts A-E. MLB (B7) runs J's Apps Script code here (models/mlb/live.js), not from Drive.
 source "$(dirname "$0")/ci.sh"; setup_paths
 TODAY=$(TZ=$TZ_LOCAL date +%F); DOW=$(TZ=$TZ_LOCAL date +%u)   # 1=Mon .. 7=Sun
 DL=/tmp/claude-0; mkdir -p $DL/nhldl $DL/nbadl $DL/nfldl
@@ -41,6 +41,8 @@ if [ "$DOW" = 1 ] || [ "$DOW" = 4 ] || python3 -c "import json,sys,datetime as d
   # week lookup retries with backoff; if every try fails the step fails with a clear message (2026-11-19: one 503 left WK empty)
   sh_step "B6a CFB v2" "WK=\$(python3 tools/cfb_week.py) && echo \"CFB v2 week \$WK\" && cd models/cfb-v2 && python3 export_v2_ratings.py 2026 \$WK && cp cfb_v2.json $SA/app/data/cfb_v2.json"
 fi
+# B7 MLB (2026-11-25): J's live app code, unchanged, writes app/data/mlb_slate.json (no API credits; off-season = no games)
+step "B7 MLB slate (J's efficiency model)" node models/mlb/live.js
 sh_step "B8 Model A NBA lineups + shadow" "cd models/rebuild/basketball && python3 live_lineup.py && cd ../shadow && DL=${RUNNER_TEMP:-/tmp} python3 shadow.py nba nfl nhl cbb"
 
 # C. after the sweep

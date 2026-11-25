@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Game Win Probability</title>
+<style>
+  :root { --bg:#f6f7f9; --card:#fff; --ink:#1b1f24; --mute:#5b6570; --line:#dfe3e8; --accent:#1f6feb; --bad:#b42318; --badbg:#fef3f2; --ok:#067647; --okbg:#ecfdf3; --warn:#93370d; --warnbg:#fffaeb; --hi:#e8f0fe; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#14171a; --card:#1d2126; --ink:#eef1f4; --mute:#9aa5b1; --line:#2d343b; --accent:#5b9bff; --bad:#ff8f85; --badbg:#3a1c1a; --ok:#6ce9a6; --okbg:#12301f; --warn:#fdb022; --warnbg:#38290e; --hi:#1d2c44; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }
+  main { max-width: 880px; margin: 0 auto; padding: 20px 16px 60px; }
+  h1 { font-size: 20px; margin: 0 0 14px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; margin:14px 0; }
+  .row { display:flex; gap:10px; flex-wrap:wrap; align-items:end; }
+  label { display:block; font-size:12px; color:var(--mute); margin-bottom:3px; }
+  input, select, textarea { padding:8px 10px; border:1px solid var(--line); border-radius:6px; background:var(--card); color:var(--ink); font:inherit; }
+  input, select, textarea, button { font-size:16px; min-height:44px; }  /* 16px = no iOS zoom on focus; 44px tap targets */
+  textarea { width:100%; }
+  button { padding:9px 16px; border:0; border-radius:6px; background:var(--accent); color:#fff; font:inherit; cursor:pointer; }
+  button.secondary { background:transparent; color:var(--accent); border:1px solid var(--accent); }
+  button.danger { background:transparent; color:var(--bad); border:1px solid var(--bad); }
+  button:disabled { opacity:.5; cursor:default; }
+  .msg { padding:10px 12px; border-radius:6px; margin:8px 0; }
+  .bad { background:var(--badbg); color:var(--bad); } .ok { background:var(--okbg); color:var(--ok); } .warn { background:var(--warnbg); color:var(--warn); }
+  .cols { display:grid; grid-template-columns: 1fr 1fr; gap:16px; } @media (max-width:640px){ .cols { grid-template-columns:1fr; } }
+  ol { margin:6px 0 0; padding-left:22px; } h3 { margin:0 0 4px; font-size:16px; } .mute { color:var(--mute); font-size:13px; }
+  table { border-collapse:collapse; width:100%; } td, th { padding:6px 8px; border-bottom:1px solid var(--line); text-align:left; }
+  td.n, th.n { text-align:right; font-variant-numeric: tabular-nums; } .big { font-size:22px; font-weight:650; }
+  th { white-space:normal; } td { overflow-wrap:break-word; } td.n { white-space:nowrap; }
+  pre { overflow:auto; font-size:12px; background:var(--bg); padding:10px; border-radius:6px; }
+  .scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  @media (max-width:520px) { .big { font-size:18px; } td, th { padding:6px 4px; } main { padding:12px 12px 60px; } }
+  nav { display:flex; gap:8px; margin:0 0 6px; } nav button { flex:1; background:transparent; color:var(--accent); border:1px solid var(--accent); }
+  nav button.on { background:var(--accent); color:#fff; }
+  .seg { display:flex; gap:6px; flex-wrap:wrap; } .seg button { flex:1; min-width:88px; background:transparent; color:var(--ink); border:1px solid var(--line); }
+  .seg button.on { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .field { margin:10px 0; } .odds { display:flex; gap:6px; } .odds input { flex:1; min-width:0; } .odds button { min-width:52px; }
+  .pair { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:10px; }
+  .pair input, .pair select, .odds input { width:100%; min-width:0; }
+  .kv { display:grid; grid-template-columns:auto 1fr; gap:2px 10px; font-size:14px; } .kv div:nth-child(odd) { color:var(--mute); }
+  .stats { display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:10px; }
+  .stat { border:1px solid var(--line); border-radius:8px; padding:10px; } .stat b { display:block; font-size:18px; }
+  .pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:13px; background:var(--bg); border:1px solid var(--line); }
+  a.btn { display:inline-flex; align-items:center; min-height:44px; padding:0 16px; border:1px solid var(--accent); border-radius:6px; color:var(--accent); text-decoration:none; }
+  td.best { background:var(--hi); font-weight:650; } td.tap { cursor:pointer; }
+  details > summary { min-height:44px; display:flex; align-items:center; cursor:pointer; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Game win probability</h1>
+  <nav><button id="tabRun" class="on">Run a game</button><button id="tabLog">Play log</button></nav>
+  <section id="runView">
+    <div class="card">
+      <div class="row">
+        <div><label for="team">Team</label><input id="team" placeholder="e.g. Yankees" autocomplete="off"></div>
+        <div><label for="date">Date (blank = today)</label><input id="date" type="date"></div>
+        <button id="lookup">Look up game</button>
+      </div>
+      <div class="field"><label>Use FanGraphs data (bullpen, wRC+, FRV)?</label><div id="fgSeg"></div>
+        <div class="mute">Off = no files needed: model v3 uses league-average bullpens; the sheet models use no bullpen term, wRC+ 100, FRV 0. On = model v3 also uses your FanGraphs bullpen file.</div></div>
+    </div>
+    <div id="out"></div>
+  </section>
+  <section id="logView" hidden></section>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const out = $('out');
+function el(tag, props, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(props || {})) { if (k === 'class') e.className = v; else if (k.startsWith('on')) e.addEventListener(k.slice(2), v); else e.setAttribute(k, v); }
+  for (const k of kids.flat()) if (k != null) e.append(k.nodeType ? k : document.createTextNode(String(k)));
+  return e;
+}
+const msg = (kind, text) => el('div', { class: 'msg ' + kind }, text);
+const pct = x => (x * 100).toFixed(2) + '%';
+const ml = v => (v > 0 ? '+' : '') + Math.round(v);
+const fmtMl = v => v == null || v === '' ? '-' : ml(v);
+const units = v => v == null ? '-' : (v >= 0 ? '+' : '') + v.toFixed(2) + 'u';
+const pp = v => v == null ? '-' : (v >= 0 ? '+' : '') + v.toFixed(1) + 'pp';
+const MODEL_LABELS = { eff: 'Efficiency model', effmkt: 'Efficiency model + market', v3mkt: 'Model v3 + market', v3: 'Model v3', v3d: 'Model v3 + defense', v3f: 'Model v3 full', mc: 'Monte Carlo', pyth: 'Pythagorean', ppat: 'Pythagenpat (proj.)', ppatSeason: 'Pythagenpat (season)' };
+let INFO = { books: ['BetMGM', 'Bet365', 'DraftKings', 'FanDuel', 'Caesars', 'Other'], settings: { useFangraphs: true }, oddsFeed: false, csvUrl: '' };
+
+// One call API. Served by Apps Script -> google.script.run; served by the local server -> POST /api/call.
+const GAS = typeof google !== 'undefined' && google.script && google.script.run;
+function api(name, payload) {
+  if (GAS) return new Promise((res, rej) => google.script.run.withSuccessHandler(res).withFailureHandler(e => rej(new Error(e && e.message || String(e)))).api(name, payload || {}));
+  return fetch('/api/call', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, payload: payload || {} }) })
+    .then(r => r.json()).then(d => { if (d && d.error && Object.keys(d).length === 1) throw new Error(d.error); return d; });
+}
+
+function seg(options, value, onPick) {
+  const wrap = el('div', { class: 'seg' });
+  const draw = v => wrap.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.v === String(v)));
+  options.forEach(([v, label]) => wrap.append(el('button', { type: 'button', 'data-v': String(v), onclick: () => { draw(v); onPick(v); } }, label)));
+  draw(value);
+  return wrap;
+}
+
+// American odds input with a +/- button (phone number pads have no minus key)
+function oddsInput(value, placeholder, label) {
+  let sign = value == null ? -1 : Math.sign(value);
+  const input = el('input', { inputmode: 'numeric', placeholder: placeholder || 'e.g. 135', 'aria-label': label || 'American odds' });
+  if (value != null) input.value = Math.abs(value);
+  const btn = el('button', { type: 'button', class: 'secondary', 'aria-label': 'Switch plus/minus' }, sign < 0 ? '−' : '+');
+  btn.addEventListener('click', () => { sign = -sign; btn.textContent = sign < 0 ? '−' : '+'; });
+  return {
+    node: el('div', { class: 'odds' }, btn, input),
+    get value() { return input.value ? sign * Math.abs(Number(input.value)) : ''; },
+    set(v) { if (v == null || v === '') { input.value = ''; return; } input.value = Math.abs(v); sign = Math.sign(v); btn.textContent = sign < 0 ? '−' : '+'; },
+    isEmpty() { return !input.value; },
+  };
+}
+
+function lineupList(side) {
+  return el('div', {},
+    el('h3', {}, side.name),
+    el('div', { class: 'mute' }, 'Probable starter: ', side.probable ? side.probable.name : 'not listed yet'),
+    side.lineup.length ? el('ol', {}, side.lineup.map(p => el('li', {}, p.name, p.pos ? ` (${p.pos})` : ''))) : el('div', { class: 'mute' }, 'Lineup not posted yet'));
+}
+
+function gameCard(g, date) {
+  const start = new Date(g.startUtc).toLocaleString([], { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+  const card = el('div', { class: 'card' },
+    el('div', { class: 'big' }, `${g.away.name} @ ${g.home.name}`),
+    el('div', { class: 'mute' }, (g.gameType && g.gameType !== 'R' ? el('span', { class: 'pill' }, g.seriesDescription) : null), ` ${g.venue ? g.venue.name : 'venue unknown'} · ${start} · ${g.status}` + (g.doubleHeader !== 'N' ? ` · doubleheader game ${g.gameNumber}` : '')),
+    el('div', { class: 'cols', style: 'margin-top:12px' }, lineupList(g.away), lineupList(g.home)));
+  g.readiness.problems.forEach(p => card.append(msg(p.startsWith('Note:') ? 'warn' : 'bad', p)));
+  const result = el('div');
+  if (g.readiness.ready) {
+    card.append(msg('ok', 'Lineups and probable pitchers are in. Is this the right game?'));
+    const btn = el('button', { onclick: () => runIt(g, date, btn, result) }, 'Yes, confirm - pull stats and run');
+    card.append(btn);
+  } else {
+    card.append(msg('warn', 'Not running with incomplete data. Try again closer to game time.'));
+  }
+  card.append(result);
+  return card;
+}
+
+async function runIt(g, date, btn, box) {
+  btn.disabled = true; btn.textContent = 'Pulling stats and simulating...'; box.replaceChildren();
+  try {
+    const data = await api('run', { gamePk: g.gamePk, date, useFangraphs: INFO.settings.useFangraphs });
+    if (data.error) throw new Error(data.error);
+    (data.warnings || []).forEach(w => box.append(msg('warn', w)));
+    if (!data.ok) { box.append(msg('bad', 'Could not run - missing data (nothing was guessed):'), el('ul', {}, data.missing.map(m => el('li', {}, m)))); return; }
+    box.append(renderResult(data.result));
+    let form = null;
+    if (data.books && data.books.length) box.append(booksTable(data.books, data.result, pick => form && form.takeBook(pick)));
+    if (data.logRow) { form = entryForm(data.logRow); box.append(el('div', { class: 'card' }, el('h3', {}, 'Saved to your play log - did you play it?'), form.node)); }
+  } catch (e) { box.append(msg('bad', 'Error: ' + e.message)); }
+  finally { btn.disabled = false; btn.textContent = 'Yes, confirm - pull stats and run'; }
+}
+
+// One row per win-probability method: each team's probability with its no-vig fair moneyline under it.
+function methodRow(label, m) {
+  const cell = (prob, fair) => el('td', { class: 'n' }, el('div', { class: 'big' }, pct(prob)), el('div', { class: 'mute' }, 'fair ' + ml(fair)));
+  return el('tr', {}, el('td', {}, label), cell(m.awayWinProb, m.awayFairMl), cell(m.homeWinProb, m.homeFairMl));
+}
+
+function renderResult(r) {
+  const h = r.hierarchical, p = r.projectedRuns;
+  const rows = [el('tr', {}, el('th', {}, ''), el('th', { class: 'n' }, r.away + ' (away)'), el('th', { class: 'n' }, r.home + ' (home)')),
+    el('tr', {}, el('td', {}, 'Starting pitcher'), el('td', { class: 'n' }, r.starters.away), el('td', { class: 'n' }, r.starters.home))];
+  const ef = r.eff, es = s => `${s.efficiency.toFixed(3)} (${s.source})`;
+  if (ef) rows.push(el('tr', {}, el('td', { colspan: 3, class: 'mute' }, 'Efficiency model (primary): your season runs per game read against your wOBA/xwOBA quality, moved by tonight\'s matchup')),
+    el('tr', {}, el('td', {}, 'Run efficiency'), el('td', { class: 'n mute' }, es(ef.sides.away)), el('td', { class: 'n mute' }, es(ef.sides.home))),
+    el('tr', {}, el('td', {}, 'Projected runs (park included)'), el('td', { class: 'n' }, ef.runsAway.toFixed(2)), el('td', { class: 'n' }, ef.runsHome.toFixed(2))),
+    methodRow('Efficiency model (primary)', ef));
+  const v3 = r.v3, cmp = [];
+  if (v3) cmp.push(el('tr', {}, el('td', { colspan: 3, class: 'mute' }, 'Model v3 (comparison only): wOBA/xwOBA matchup + lineup strikeout, walk and power rates + temperature')),
+    el('tr', {}, el('td', {}, 'Model v3 projected runs (park included)'), el('td', { class: 'n' }, v3.runsAway.toFixed(2)), el('td', { class: 'n' }, v3.runsHome.toFixed(2))),
+    methodRow('Model v3', v3),
+    methodRow(`Pythagorean on v3 runs (exponent ${v3.pythagorean.exponent})`, { ...v3.pythagorean, awayFairMl: fairOf(v3.pythagorean.awayWinProb), homeFairMl: fairOf(v3.pythagorean.homeWinProb) }),
+    methodRow('Monte Carlo on v3 runs', { ...v3.monteCarlo, awayFairMl: fairOf(v3.monteCarlo.awayWinProb), homeFairMl: fairOf(v3.monteCarlo.homeWinProb) }));
+  const v3d = r.v3d, dz = d => d ? `framing ${d.framing >= 0 ? '+' : ''}${d.framing.toFixed(2)} pts${d.catcher ? ' (' + d.catcher + ')' : ''}, fielders ${d.fielding >= 0 ? '+' : ''}${d.fielding.toFixed(2)}` : 'n/a';
+  if (v3d) cmp.push(el('tr', {}, el('td', { colspan: 3, class: 'mute' }, 'Model v3 + defense (logging only, not used for picks yet): v3 + catcher framing + tonight\'s fielders, both from Savant')),
+    el('tr', {}, el('td', {}, 'Defense of each team'), el('td', { class: 'n mute' }, dz(v3d.defense.away)), el('td', { class: 'n mute' }, dz(v3d.defense.home))),
+    el('tr', {}, el('td', {}, 'Model v3 + defense projected runs'), el('td', { class: 'n' }, v3d.runsAway.toFixed(2)), el('td', { class: 'n' }, v3d.runsHome.toFixed(2))),
+    methodRow('Model v3 + defense', v3d));
+  const v3f = r.v3f, fx = (x, d) => x != null && Number.isFinite(x) ? (x >= 0 ? '+' : '') + x.toFixed(d) : 'n/a';
+  if (v3f) cmp.push(el('tr', {}, el('td', { colspan: 3, class: 'mute' }, 'Model v3 full (logging only): v3 + defense + each lineup\'s handedness vs the starter + the starter-catcher pairing')),
+    el('tr', {}, el('td', {}, 'Handedness edge / pairing (hitting vs it)'), el('td', { class: 'n mute' }, `${fx(v3f.extra.away.platoon, 2)} vs ${v3f.extra.home.starterThrows}HP / pair ${fx(v3f.extra.home.tandem, 2)}`),
+      el('td', { class: 'n mute' }, `${fx(v3f.extra.home.platoon, 2)} vs ${v3f.extra.away.starterThrows}HP / pair ${fx(v3f.extra.away.tandem, 2)}`)),
+    el('tr', {}, el('td', {}, 'Model v3 full projected runs'), el('td', { class: 'n' }, v3f.runsAway.toFixed(2)), el('td', { class: 'n' }, v3f.runsHome.toFixed(2))),
+    methodRow('Model v3 full', v3f));
+  if (h) rows.push(el('tr', {}, el('td', { colspan: 3, class: 'mute' }, 'Your original sheet models (run-efficiency chain: season runs per game read against lineup QPA)')),
+    el('tr', {}, el('td', {}, 'Projected runs (sheet C37 / K37)'), el('td', { class: 'n' }, p.awayRaw.toFixed(3)), el('td', { class: 'n' }, p.homeRaw.toFixed(3))),
+    el('tr', {}, el('td', {}, `Runs after park factor ${r.parkFactor} (λ)`), el('td', { class: 'n' }, p.awayScaled.toFixed(3)), el('td', { class: 'n' }, p.homeScaled.toFixed(3))),
+    methodRow('Hierarchical Monte Carlo', h),
+    methodRow(`Pythagorean (exponent ${r.pythagorean.exponent})`, r.pythagorean),
+    methodRow(`Pythagenpat, projected runs (exponent ${r.pythagenpat.exponent.toFixed(3)})`, r.pythagenpat),
+    methodRow(`Pythagenpat, season R/G (exponent ${r.pythagenpatSeason.exponent.toFixed(3)})`, r.pythagenpatSeason));
+  const box = el('div', { style: 'margin-top:14px' }, el('div', { class: 'scroll' }, el('table', {}, rows)));
+  if (ef) box.append(totalsTable(ef, 'Efficiency model', 'Chances are shrunk toward 50% the way the 2021-2025 backtest says they should be against a real line: this model\'s totals carry little beyond the opening total, so a big lean here is rare.'));
+  if (ef) box.append(el('div', { class: 'mute', style: 'margin-top:8px' }, `Efficiency model: runs = your run efficiency x tonight's PA per game x the runs that matchup quality scores at league conversion x park. Matchup quality = tonight's lineup wOBA/xwOBA + (starter ${Math.round(100 * 0.581)}% / bullpen ${Math.round(100 * 0.419)}% (${ef.bullpen}) - league), every player pulled toward league average by sample size. Run efficiency = the team's actual runs vs the runs its wOBA should have scored: last season's number for the first 29 games, then this season's counted at games/162 (full strength by game 162). Win chance = Pythagorean 1.83, calibrated. Picks come from this model.`));
+  if (cmp.length) box.append(el('details', { style: 'margin-top:10px' }, el('summary', {}, 'Comparison models (logged for grading, not used for picks)'), el('div', { class: 'scroll' }, el('table', {}, cmp))));
+  const v = v3, efs = side => v && v.sides && v.sides[side].efficiency != null ? r[side] + ' ' + v.sides[side].efficiency.toFixed(3) : r[side] + ' n/a';
+  if (v) box.append(el('div', { class: 'mute', style: 'margin-top:8px' }, `Model v3 (comparison): every hitter and starter regressed toward league average (this season + last season at 0.6 weight), park-neutral player rates, starter ${Math.round(100 * 0.581)}% / bullpen ${Math.round(100 * 0.419)}% (${v.bullpen}), home edge, negative-binomial runs, the team's own season runs per game (pulls toward it when the pitcher is average), tonight's lineup strikeout, walk and power rates, game-time temperature, and a partial run-efficiency term (${efs('away')}, ${efs('home')}; counted at a fitted weight, the approach you replaced with the efficiency model). League: wOBA ${v.inputs.league.woba.toFixed(3)}, ${v.inputs.league.runs.toFixed(2)} runs per team-game.`));
+  if (h) {
+    box.append(el('div', { class: 'mute', style: 'margin-top:8px' }, `Sheet inputs: ${r.inputs === 'no-fangraphs' ? 'no FanGraphs (no bullpen, wRC+ 100, FRV 0)' : 'with FanGraphs bullpen, wRC+, FRV'}. ${h.iterations.toLocaleString()} simulations, stage-1 error mean ${h.errorMean} / std ${h.errorStd}; ±${pct(h.standardError)} (1 SE); ties excluded. Stats from: ${r.seasonsUsed.join(' + ')}.`));
+    r.sensitivity.forEach(s => box.append(el('div', { class: 'mute' }, `Sensitivity - stage-1 std ${s.errorStd}: ${r.away} ${pct(s.awayWinProb)}, ${r.home} ${pct(s.homeWinProb)}`)));
+    box.append(el('div', { class: 'mute' }, `"fair" = no-vig moneyline. Pythagorean uses the 162-game scores (sheet C36/K36), exactly like "Probability of Win" on your Tester sheet. Pythagenpat exponent = (runs per game)^${r.pythagenpat.constant}: "projected" uses both teams' park-adjusted runs (${r.pythagenpat.runsPerGame.toFixed(2)}), "season" uses both teams' season R/G (${r.pythagenpatSeason.runsPerGame.toFixed(2)}). For comparison (${r.away}): plug-in Poisson ${pct(r.comparison.plugInPoissonAway)}.`));
+    box.append(el('details', { style: 'margin-top:10px' }, el('summary', {}, 'Every intermediate value (Tester cell names)'), el('pre', {}, JSON.stringify(r.cells, null, 1))));
+  }
+  if (v) box.append(el('details', { style: 'margin-top:10px' }, el('summary', {}, 'Model v3 inputs (rates after regression and park adjustment)'), el('pre', {}, JSON.stringify(v.inputs, (k, x) => typeof x === 'number' ? Math.round(x * 10000) / 10000 : x, 1))));
+  return box;
+}
+
+const fairOf = p => (p > 0.5 ? -100 * p / (1 - p) : p < 0.5 ? 100 * (1 - p) / p : 100);
+
+// Model v3 total runs: projected total and the chance of over/under each line (pushes refunded)
+function totalsTable(v3, label, note) {
+  const near = v3.totals.filter(t => Math.abs(t.line - v3.total) <= 2.6);
+  return el('div', { class: 'card', style: 'margin-top:12px' },
+    el('h3', {}, `${label || 'Model v3'} total runs: ${v3.total.toFixed(2)} projected` + (v3.tempF !== undefined ? (v3.tempF != null ? ` (${v3.tempF}F at first pitch)` : ' (no temperature posted yet)') : '')),
+    el('div', { class: 'scroll' }, el('table', {}, el('tr', {}, el('th', {}, 'Total'), el('th', { class: 'n' }, 'Over'), el('th', { class: 'n' }, 'Under')),
+      near.map(t => el('tr', {}, el('td', {}, String(t.line)),
+        el('td', { class: 'n' }, el('div', { class: 'big' }, pct(t.pOver)), el('div', { class: 'mute' }, 'fair ' + ml(fairOf(t.pOver)))),
+        el('td', { class: 'n' }, el('div', { class: 'big' }, pct(t.pUnder)), el('div', { class: 'mute' }, 'fair ' + ml(fairOf(t.pUnder)))))))),
+    el('div', { class: 'mute', style: 'margin-top:6px' }, note || 'Chances are shrunk toward 50% the way the 2021-2025 backtest says they should be against a real line, so read them against the book total and price. Backtest 2023-2025: when this said 55% or more for a side of the opening total, that side won 54.9% (1,957 games).'));
+}
+
+// Every book's price (only when an odds feed is set up). Tap a price to fill it in as your bet.
+function booksTable(books, r, onPick) {
+  const bestA = Math.max(...books.map(b => b.awayMl > 0 ? b.awayMl - 100 : b.awayMl + 100));
+  const bestH = Math.max(...books.map(b => b.homeMl > 0 ? b.homeMl - 100 : b.homeMl + 100));
+  const c = v => v > 0 ? v - 100 : v + 100;
+  const cell = (b, side) => { const v = side === 'away' ? b.awayMl : b.homeMl, best = c(v) === (side === 'away' ? bestA : bestH);
+    return el('td', { class: 'n tap' + (best ? ' best' : ''), onclick: () => onPick({ side, ml: v, book: b.book }) }, ml(v)); };
+  return el('div', { class: 'card' }, el('h3', {}, `Every book (${books.length}) - best price highlighted, tap one to fill in your bet`),
+    el('div', { class: 'scroll' }, el('table', {}, el('tr', {}, el('th', {}, 'Book'), el('th', { class: 'n' }, r.away), el('th', { class: 'n' }, r.home)),
+      books.map(b => el('tr', {}, el('td', {}, b.book), cell(b, 'away'), cell(b, 'home'))))));
+}
+
+// ---------- play log entry ----------
+// Market odds (what you found shopping, or the feed's best), your bet, and optionally the closing line.
+function entryForm(row) {
+  const st = { played: row.played || '', side: row.side || '' };
+  const status = el('div');
+  const mA = oddsInput(row.mkt_awayMl, 'away', 'Away market price'), mH = oddsInput(row.mkt_homeMl, 'home', 'Home market price');
+  const taken = oddsInput(row.oddsTaken, 'e.g. 135', 'Odds you took');
+  const stake = el('input', { inputmode: 'decimal', placeholder: '1', 'aria-label': 'Stake in units' }); if (row.stake != null) stake.value = row.stake;
+  const book = el('select', { 'aria-label': 'Sportsbook' }, el('option', { value: '' }, '-'), INFO.books.map(b => el('option', { value: b }, b)));
+  const setBook = name => { if (!name) return; if (![...book.options].some(o => o.value === name)) book.append(el('option', { value: name }, name)); book.value = name; };
+  setBook(row.book);
+  const notes = el('textarea', { rows: '2', placeholder: 'Notes (optional)' }); notes.value = row.notes || '';
+  const cA = oddsInput(row.close_awayMl, 'away', 'Away closing price'), cH = oddsInput(row.close_homeMl, 'home', 'Home closing price');
+  const sideSeg = seg([['away', row.away], ['home', row.home]], st.side, v => { st.side = v; if (taken.isEmpty()) { const m = v === 'away' ? mA.value : mH.value; if (m !== '') taken.set(m); } });
+  const playedSeg = seg([['yes', 'Played'], ['no', 'Passed']], st.played, v => { st.played = v; });
+  const save = el('button', { type: 'button' }, 'Save');
+  save.addEventListener('click', async () => {
+    const patch = { played: st.played, side: st.side, oddsTaken: taken.value, stake: stake.value, book: book.value, notes: notes.value };
+    // market/closing odds only if you changed them here (the timer may have filled them in since this form opened)
+    const changed = (input, was) => String(input.value) !== String(was == null ? '' : was);
+    if (changed(mA, row.mkt_awayMl) || changed(mH, row.mkt_homeMl)) { patch.mkt_awayMl = mA.value; patch.mkt_homeMl = mH.value; }
+    if (changed(cA, row.close_awayMl) || changed(cH, row.close_homeMl)) { patch.close_awayMl = cA.value; patch.close_homeMl = cH.value; }
+    save.disabled = true; status.replaceChildren();
+    try {
+      const r = await api('update', { id: row.id, patch });
+      if (r.errors) status.append(msg('bad', r.errors.join(' · ')));
+      else if (r.error) status.append(msg('bad', r.error));
+      else { Object.assign(row, r.row); status.append(msg('ok', 'Saved.' + (r.row.pick_side ? ` Model pick: ${r.row.pick_side === 'away' ? row.away : row.home}, edge ${pp(r.row.pick_edgePp)}.` : ''))); }
+    } catch (e) { status.append(msg('bad', 'Error: ' + e.message)); }
+    finally { save.disabled = false; }
+  });
+  const node = el('div', {},
+    el('div', { class: 'field' }, el('label', {}, `Market odds when you shopped (optional - gives each model's pick and edge)${row.mkt_source === 'feed' ? ' · best of the feed\'s books' : ''}`),
+      el('div', { class: 'pair' }, el('div', {}, el('label', {}, row.away), mA.node), el('div', {}, el('label', {}, row.home), mH.node))),
+    el('div', { class: 'field' }, el('label', {}, 'Did you play it?'), playedSeg),
+    el('div', { class: 'field' }, el('label', {}, 'Side you took'), sideSeg),
+    el('div', { class: 'field' }, el('label', {}, 'Odds you took (American)'), taken.node),
+    el('div', { class: 'pair' }, el('div', {}, el('label', {}, 'Stake (units, optional)'), stake), el('div', {}, el('label', {}, 'Sportsbook (optional)'), book)),
+    el('div', { class: 'field' }, notes),
+    el('details', {}, el('summary', {}, 'Closing line (optional - filled in automatically if an odds feed is set up)'),
+      el('div', { class: 'pair' }, el('div', {}, el('label', {}, row.away), cA.node), el('div', {}, el('label', {}, row.home), cH.node))),
+    save, status);
+  return { node, takeBook(p) { st.side = p.side; sideSeg.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.v === p.side)); taken.set(p.ml); setBook(p.book); node.scrollIntoView({ behavior: 'smooth', block: 'center' }); } };
+}
+
+// ---------- play log view ----------
+function statCard(title, t) {
+  return el('div', { class: 'stat' }, el('div', { class: 'mute' }, title), el('b', {}, t.n ? t.record : '-'),
+    el('div', { class: 'mute' }, t.n ? `${units(t.units)} · ROI ${t.roi == null ? '-' : (t.roi * 100).toFixed(1) + '%'}${t.pending ? ` · ${t.pending} pending` : ''}` : 'none yet'),
+    t.clvN ? el('div', { class: 'mute' }, `avg CLV ${pp(t.avgClvPp)} (${t.clvN})`) : null);
+}
+
+function renderSummary(s) {
+  const tbl = (head, rows) => el('div', { class: 'scroll' }, el('table', {}, el('tr', {}, head.map(h => el('th', {}, h))), rows));
+  const line = t => [el('td', { class: 'n' }, t.n ? t.record : '-'), el('td', { class: 'n' }, t.n ? units(t.units) : '-'), el('td', { class: 'n' }, t.clvN ? pp(t.avgClvPp) : '-')];
+  return el('div', {},
+    el('div', { class: 'stats' }, statCard('Games you played', s.played), statCard(`Passed games: the model's pick (${s.passedCount} passed)`, s.passedModelPick),
+      el('div', { class: 'stat' }, el('div', { class: 'mute' }, 'Average CLV on your plays'), el('b', {}, pp(s.avgClvPp)), el('div', { class: 'mute' }, 'your odds vs closing no-vig'))),
+    el('h3', { style: 'margin-top:14px' }, 'By model (each model\'s own picks, 1u at the market odds on the entry)'),
+    tbl(['Model', 'Record', 'Units', 'CLV', 'Your plays agreeing'], s.byModel.map(m => el('tr', {}, el('td', {}, m.label), line(m.picks), el('td', { class: 'n' }, m.yourPlaysAgreeing.n ? `${m.yourPlaysAgreeing.record} ${units(m.yourPlaysAgreeing.units)}` : '-')))),
+    el('h3', { style: 'margin-top:14px' }, 'Your plays by edge (primary model, cents vs the odds you took)'),
+    tbl(['Edge', 'Record', 'Units', 'CLV'], s.byEdge.map(b => el('tr', {}, el('td', {}, b.bucket), line(b.played)))));
+}
+
+function logCard(r) {
+  const status = r.played === 'yes' ? (r.result ? `Played · ${r.result} ${units(r.plUnits)}` : 'Played · pending') : r.played === 'no' ? 'Passed' : 'Not marked yet';
+  const probs = el('div', { class: 'scroll' }, el('table', {}, el('tr', {}, el('th', {}, ''), el('th', { class: 'n' }, r.away), el('th', { class: 'n' }, r.home)),
+    Object.keys(MODEL_LABELS).filter(k => r[k + '_away'] != null).map(k => el('tr', {}, el('td', {}, MODEL_LABELS[k] + (r.pick_model === k ? ' ★' : '')),
+      el('td', { class: 'n' }, pct(r[k + '_away']), el('div', { class: 'mute' }, fmtMl(r[k + '_awayFair']))),
+      el('td', { class: 'n' }, pct(1 - r[k + '_away']), el('div', { class: 'mute' }, fmtMl(r[k + '_homeFair'])))))));
+  const del = el('button', { type: 'button', class: 'danger' }, 'Delete entry');
+  del.addEventListener('click', async () => { if (!confirm(`Delete this log entry (${r.away} @ ${r.home}, ${r.gameDate})?`)) return; await api('remove', { id: r.id }); loadLog(); });
+  const mkt = r.mkt_awayMl != null ? `${fmtMl(r.mkt_awayMl)}${r.mkt_awayBook ? ' ' + r.mkt_awayBook : ''} / ${fmtMl(r.mkt_homeMl)}${r.mkt_homeBook ? ' ' + r.mkt_homeBook : ''}${r.mkt_source === 'feed' ? ` (best of ${r.mkt_nBooks} books)` : ' (yours)'}` : 'not entered';
+  return el('div', { class: 'card' },
+    el('div', { class: 'big' }, `${r.away} @ ${r.home}`),
+    el('div', { class: 'mute' }, `${r.gameDate}${r.gameType && r.gameType !== 'R' ? ' · postseason (' + ({ F: 'Wild Card', D: 'Division Series', L: 'LCS', W: 'World Series' }[r.gameType] || r.gameType) + ')' : ''} · run ${new Date(r.runAt).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })} · ${r.inputs === 'no-fangraphs' ? 'no FanGraphs' : 'FanGraphs'} `, el('span', { class: 'pill' }, status)),
+    el('div', { class: 'kv', style: 'margin:8px 0' },
+      el('div', {}, 'Starters'), el('div', {}, `${r.awaySP} / ${r.homeSP}`),
+      el('div', {}, 'Projected runs'), el('div', {}, `${Number(r.awayLambda).toFixed(2)} - ${Number(r.homeLambda).toFixed(2)} (after park)`),
+      el('div', {}, 'Market odds'), el('div', {}, mkt),
+      el('div', {}, 'Model pick'), el('div', {}, r.pick_side ? `${r.pick_side === 'away' ? r.away : r.home}, edge ${pp(r.pick_edgePp)} / ${Math.round(r.pick_edgeCents)}c` : (r.mkt_awayMl != null ? 'no side clears the threshold' : '-')),
+      r.played === 'yes' ? [el('div', {}, 'Your bet'), el('div', {}, `${r.side === 'away' ? r.away : r.home} ${fmtMl(r.oddsTaken)}${r.stake ? ` · ${r.stake}u` : ''}${r.book ? ` · ${r.book}` : ''}`)] : null,
+      el('div', {}, 'Closing line'), el('div', {}, r.close_awayMl != null ? `${fmtMl(r.close_awayMl)} / ${fmtMl(r.close_homeMl)}${r.close_book ? ` (${r.close_book})` : ''}` : '-'),
+      el('div', {}, 'Final'), el('div', {}, r.finalAway != null ? `${r.finalAway} - ${r.finalHome}` : (r.gameStatus || '-')),
+      r.played === 'yes' ? [el('div', {}, 'Your CLV'), el('div', {}, r.clvPp != null ? `${pp(r.clvPp)} (EV ${r.clvEvPct >= 0 ? '+' : ''}${r.clvEvPct.toFixed(1)}%)` : '-')] : null,
+      r.notes ? [el('div', {}, 'Notes'), el('div', {}, r.notes)] : null),
+    probs,
+    el('details', { style: 'margin-top:10px' }, el('summary', {}, 'Edit'), entryForm(r).node, el('div', { style: 'margin-top:12px' }, del)));
+}
+
+function fangraphsCard() {
+  const kind = el('select', { 'aria-label': 'Which export' }, [['bullpen', 'Bullpen (Team, IP, TBF, wOBA; split = Reliever)'], ['team_wrc', 'Team wRC+ (Team, wRC+)'], ['team_frv', 'Team FRV (Team, FRV)']].map(([v, l]) => el('option', { value: v }, l)));
+  const season = el('input', { inputmode: 'numeric', value: String(new Date().getFullYear()), 'aria-label': 'Season', style: 'width:100px' });
+  const file = el('input', { type: 'file', accept: '.csv,text/csv' });
+  const status = el('div');
+  const up = el('button', { type: 'button' }, 'Upload');
+  up.addEventListener('click', async () => {
+    status.replaceChildren(); if (!file.files[0]) { status.append(msg('bad', 'Choose the CSV you exported from FanGraphs first.')); return; }
+    up.disabled = true;
+    try { const text = await file.files[0].text(); const r = await api('uploadFangraphs', { kind: kind.value, season: season.value, text });
+      status.append(r.error ? msg('bad', r.error) : msg('ok', `Saved ${r.saved} (${r.teams} teams).`)); }
+    catch (e) { status.append(msg('bad', 'Error: ' + e.message)); } finally { up.disabled = false; }
+  });
+  return el('details', { class: 'card' }, el('summary', {}, 'FanGraphs files (only needed with "Use FanGraphs data" on)'),
+    el('div', { class: 'field' }, el('label', {}, 'Which export'), kind), el('div', { class: 'row' }, el('div', {}, el('label', {}, 'Season'), season), el('div', {}, el('label', {}, 'CSV file'), file)),
+    el('div', { class: 'field' }, up), status);
+}
+
+async function loadLog() {
+  const view = $('logView');
+  view.replaceChildren(msg('warn', 'Loading the log...'));
+  try {
+    const data = await api('log');
+    const refresh = el('button', { type: 'button' }, 'Update results & closing lines');
+    refresh.addEventListener('click', async () => { refresh.disabled = true; refresh.textContent = 'Updating...'; try { await api('refresh'); } finally { loadLog(); } });
+    view.replaceChildren(
+      el('div', { class: 'card' }, el('div', { class: 'row' }, refresh, INFO.csvUrl ? el('a', { class: 'btn', href: INFO.csvUrl, target: '_blank', rel: 'noopener' }, 'Download CSV') : null),
+        el('div', { style: 'margin-top:12px' }, renderSummary(data.summary))),
+      data.rows.length ? el('div', {}, data.rows.map(logCard)) : msg('warn', 'No games logged yet. Every game you run is saved here automatically.'),
+      fangraphsCard());
+  } catch (e) { view.replaceChildren(msg('bad', 'Error: ' + e.message)); }
+}
+
+function showTab(which) {
+  $('runView').hidden = which !== 'run'; $('logView').hidden = which !== 'log';
+  $('tabRun').classList.toggle('on', which === 'run'); $('tabLog').classList.toggle('on', which === 'log');
+  if (which === 'log') loadLog();
+}
+$('tabRun').addEventListener('click', () => showTab('run'));
+$('tabLog').addEventListener('click', () => showTab('log'));
+
+function drawFgSeg() {
+  $('fgSeg').replaceChildren(seg([['true', 'Use FanGraphs'], ['false', 'No FanGraphs']], String(INFO.settings.useFangraphs), async v => {
+    INFO.settings.useFangraphs = v === 'true';
+    try { INFO.settings = await api('saveSettings', { useFangraphs: INFO.settings.useFangraphs }); } catch (e) { /* stays local for this visit */ }
+  }));
+}
+
+async function lookup() {
+  out.replaceChildren(msg('warn', 'Looking up...'));
+  try {
+    // blank date = today on this phone/computer's own clock (not the server's time zone)
+    const d = new Date(), localToday = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    const data = await api('lookup', { team: $('team').value.trim(), date: $('date').value || localToday });
+    out.replaceChildren();
+    if (data.error) { out.append(msg('bad', data.error)); return; }
+    out.append(el('div', { class: 'mute' }, `${data.team} - ${data.date}`));
+    data.games.forEach(g => out.append(gameCard(g, data.date)));
+  } catch (e) { out.replaceChildren(msg('bad', 'Error: ' + e.message)); }
+}
+$('lookup').addEventListener('click', lookup);
+$('team').addEventListener('keydown', e => { if (e.key === 'Enter') lookup(); });
+drawFgSeg();
+api('info').then(i => { INFO = Object.assign(INFO, i); drawFgSeg(); }).catch(() => {});
+</script>
+</body>
+</html>

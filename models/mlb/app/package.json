@@ -1,0 +1,11 @@
+{
+  "name": "baseball-win-tool",
+  "version": "1.0.0",
+  "private": true,
+  "description": "On-demand, private (localhost) game win-probability tool: MLB lineups -> Tester-sheet projection -> hierarchical Monte Carlo",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/tests.js"
+  },
+  "engines": { "node": ">=18" }
+}
