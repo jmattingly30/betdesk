@@ -28,7 +28,12 @@ J 2026-11-24: "Model B" was never a second model. It devigs the books and handic
    - **Caps** from `trust.json`.
    - **One-sided props**: ladders and anytime scorer prices are held to Lean, because their fair price is an estimate.
    - **Auto-demote**.
-6. **Stake**: quarter Kelly on the trusted chance, 100-unit bankroll, 3u max.
+6. **Guarded rows are graded, not dropped** (J 2026-11-25). A row held to Pass by the far check, the +300 limit or an
+   off-median line keeps `would_be` (the label it would have had) and `guards`. It goes to `guarded` in
+   `priced_bets.json` and into the history, so step 2 can grade each guard on its own. Rows also carry a `big_dog` flag:
+   a spread of NFL 7+, CFB 14+, NBA 9+ or CBB 15+ points, or a moneyline of +250 or longer. If a guard keeps winning
+   against the close, it gets lifted.
+7. **Stake**: quarter Kelly on the trusted chance, 100-unit bankroll, 3u max.
 
 **Timing.** A line is *open* if it was first seen 24 h ago or less and the game starts 8+ h from now. NFL lines 96+ h before kickoff (look-ahead) also count as open. Everything else is *close*, including a line whose post time is unknown.
 

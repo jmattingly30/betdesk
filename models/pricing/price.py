@@ -125,6 +125,7 @@ def amS(a): return f"+{a}" if a > 0 else str(a)
 def reason(r):
     k = r['why']
     if k == 'far': return f"Our chance ({pct(r['ours'])}) is far from the books' ({pct(r['fair'])}): usually news we are missing, so no bet"
+    if k == 'off_line': return f"This line ({r['line']}) is more than {r.get('tol', 3):g} off the other books' line: usually stale or a different market, so no bet"
     if k == 'long': return f"Price {amS(r['price'])} is longer than +300: our long-shot chances are untested"
     if k == 'demoted': return f"Held to Lean: {r['demoted']}"
     if k == 'capped': return f"Held to {r['label']}: {r['cap_why']}"
@@ -133,10 +134,18 @@ def reason(r):
     if r['ev_ours'] >= LAB['bet_ev']: return f"Our number likes it ({r['ev_ours']:+.1%}) but the market has been right more often here: {r['ev']:+.1%} after the price check"
     return 'No edge at the best Colorado price'
 
-def finish(r, cap_lab, cap_why, demoted):
-    lab = label(r['ev'], r['ev_ours']); r['why'] = None
-    if r['fair'] is not None and abs(r['ours'] - r['fair']) > LAB['far_prob']: lab, r['why'] = 'Pass', 'far'
-    elif r['price'] > LAB['max_price']: lab, r['why'] = 'Pass', 'long'
+def finish(r, cap_lab, cap_why, demoted, guards=()):
+    """label + reason + stake. A GUARD (far from the books, longer than +300, line off the books' median, one-sided prop
+    price) never stakes, but the row keeps the label it would have had (would_be) and is graded on its own
+    (J 2026-11-25: these may be our best bets if we disagree with the line and keep being right, e.g. big underdogs)."""
+    lab = label(r['ev'], r['ev_ours']); r['why'] = None; g = list(guards)
+    if r['fair'] is not None and abs(r['ours'] - r['fair']) > LAB['far_prob']: g.append('far')
+    if r['price'] > LAB['max_price']: g.append('long')
+    r['would_be'] = cap(lab, cap_lab) if cap_lab != 'Pass' else lab
+    r['guards'] = g
+    if 'far' in g: lab, r['why'] = 'Pass', 'far'
+    elif 'long' in g: lab, r['why'] = 'Pass', 'long'
+    elif 'off_line' in g: lab, r['why'] = 'Pass', 'off_line'
     else:
         c = cap(lab, cap_lab)
         if c != lab: lab, r['why'], r['cap_why'] = c, 'capped', cap_why
@@ -221,10 +230,11 @@ def price_game(sp, g, ours, dist_mkt, demote):
         med = statistics.median(lines); tol = 1.0 if sp in ('NHL', 'MLB') else 3.0
         trust, cap_lab, cap_src = trust_for(sp, market, tm)
         mu_mkt = None
-        best = {}
+        best, best_off = {}, {}
         for b in CO_BOOKS:
             r = bk.get(b)
-            if not r or r[idx] is None or not r[idx + 1] or not r[idx + 2] or abs(r[idx] - med) > tol: continue
+            if not r or r[idx] is None or not r[idx + 1] or not r[idx + 2]: continue
+            off = abs(r[idx] - med) > tol
             pt = r[idx]
             same = {bb: (rr[idx + 1], rr[idx + 2]) for bb, rr in bk.items() if rr and rr[idx] == pt}
             f1 = fair_two_way(same)
@@ -243,9 +253,13 @@ def price_game(sp, g, ours, dist_mkt, demote):
                 row = dict(market=market, side=s, pick=names[s], line=line, book=b, book_name=NAMES.get(b, b), price=am,
                            ours=round(oc, 4), fair=round(fc, 4), trusted=round(tr, 4), push=round(push, 4), ev=round(ev_t, 4), ev_ours=round(ev_o, 4),
                            trust=trust, _pw=pw, _pl=pl, _d=d)
-                if s not in best or row['ev'] > best[s]['ev']: best[s] = row
+                B = best_off if off else best
+                if s not in B or row['ev'] > B[s]['ev']: B[s] = row
         if best:   # one row per market: the side with the better price-checked EV (the old tiers were one per market too)
             out.append(finish(max(best.values(), key=lambda r: r['ev']), cap_lab, cap_src, demote.get((sp, market))))
+        if best_off:   # a book far off the median line: guarded, tracked only if it would have been a Bet or Lean
+            x = finish(dict(max(best_off.values(), key=lambda r: r['ev']), tol=tol), cap_lab, cap_src, demote.get((sp, market)), ('off_line',))
+            if x['would_be'] != 'Pass': out.append(x)
     # moneyline: ours = the projection's win chance; fair = books' devigged moneyline (ml_anchor)
     pm = MLA.market_home(bk, sp) if sp != 'NHL' else _nhl_ml_fair(bk)
     if pm is not None and ours.p_home is not None:
@@ -260,8 +274,12 @@ def price_game(sp, g, ours, dist_mkt, demote):
                            fair=round(fc, 4), trusted=round(tr, 4), push=0.0, ev=round(ev_t, 4), ev_ours=round(ev_o, 4), trust=trust, _pw=pw, _pl=pl, _d=d)
                 if s not in best or row['ev'] > best[s]['ev']: best[s] = row
         if best: out.append(finish(max(best.values(), key=lambda r: r['ev']), cap_lab, cap_src, demote.get((sp, 'ml'))))
-    for r in out: r.update(sp=sp, game=g['id'], matchup=f"{g['a']} @ {g['h']}", k=g['k'], timing=tm, hours_to_start=round(hours(k, NOW), 1))
+    for r in out:
+        r.update(sp=sp, game=g['id'], matchup=f"{g['a']} @ {g['h']}", k=g['k'], timing=tm, hours_to_start=round(hours(k, NOW), 1))
+        r['big_dog'] = bool((r['market'] == 'spread' and sp not in ('NHL', 'MLB') and r['line'] >= BIG_DOG_PTS.get(sp, 10))
+                            or (r['market'] == 'ml' and r['price'] >= 250))
     return out
+BIG_DOG_PTS = {'NFL': 7, 'CFB': 14, 'NBA': 9, 'CBB': 15}   # spread a big underdog gets (and moneylines +250 or longer)
 
 def _nhl_ml_fair(bk):
     return MLA.market_home(bk, 'NHL')
@@ -504,10 +522,12 @@ def props(sp, demote):
                 for r in mine: cnt[r['L']] = cnt.get(r['L'], 0) + 1
                 top = max(cnt, key=cnt.get); pool = [r for r in mine if r['L'] == top and not r['odd']]
             for side in ('Over', 'Under'):
-                O = side == 'Over'; best = None
-                for r in pool:
+                O = side == 'Over'; best = best_long = None
+                for r in pool + [q for q in mine if q not in pool and not q['odd']]:
                     am = r['o'] if O else r['u']
-                    if am is None or am > LAB['max_price']: continue   # long-shot rungs are never picked (untested tails)
+                    if am is None: continue
+                    is_long = am > LAB['max_price']   # long-shot rungs are never the pick, but are tracked on their own
+                    if not is_long and r not in pool: continue
                     imp = sorted(1 / dec(q['o'] if O else q['u']) for q in allr if q['L'] == r['L'] and not q['odd'] and (q['o'] if O else q['u']) is not None)
                     if len(imp) >= 3 and 1 / dec(am) < 0.8 * imp[len(imp) >> 1]: continue   # stale or different market
                     c, pp = cond(stat, s, r['L']); fo, fsrc = prop_fair(stat, s, allr, r['L'])
@@ -518,19 +538,25 @@ def props(sp, demote):
                                book=r['b'], book_name=NAMES.get(r['b'], r['b']), price=am, proj=s.get('m'), ours=round(oc, 4),
                                fair=None if fc is None else round(fc, 4), trusted=round(tr, 4), push=round(pp, 4), ev=round(ev_t, 4), ev_ours=round(ev_o, 4),
                                trust=trust, fair_from=fsrc, _pw=pw, _pl=pl, _d=d)
-                    if best is None or row['ev'] > best['ev']: best = row
+                    if is_long:
+                        if best_long is None or row['ev'] > best_long['ev']: best_long = row
+                    elif best is None or row['ev'] > best['ev']: best = row
+                tag = dict(sp=sp, game=str(p.get('g')), matchup=f"{g['a']} @ {g['h']}", k=g['k'], timing=None, hours_to_start=round(hours(k, NOW), 1), big_dog=False)
+                if best_long:
+                    x = finish(best_long, *prop_caps(sp, stat, side), demote.get((sp, 'props')))
+                    if x['would_be'] != 'Pass': x.update(tag, old=None); out.append(x)
                 if not best: continue
                 r_far = best['line'] >= 3 and abs(s['m'] - best['line']) / best['line'] > 0.25
-                cap_lab, cap_why = prop_caps(sp, stat, side)
+                cap_lab, cap_why = prop_caps(sp, stat, side); gd = []
                 if best['fair_from'] != 'two-sided' and cap_lab != 'Pass':   # ladders / anytime scorer: the fair price is a guess
-                    cap_lab, cap_why = 'Lean', 'only one-sided prices are posted, so the books\' fair price is an estimate'
-                best = finish(best, cap_lab, cap_why, demote.get((sp, 'props')))
+                    cap_lab, cap_why = 'Lean', 'only one-sided prices are posted, so the books\' fair price is an estimate'; gd.append('one_sided')
+                best = finish(best, cap_lab, cap_why, demote.get((sp, 'props')), gd)
+                if r_far and 'far' not in best['guards']: best['guards'].append('far_proj')
                 if r_far and best['label'] != 'Pass':
                     best['label'], best['stake_u'] = 'Pass', 0.0
                     best['reason'] = f"We project {s['m']} against a line of {best['line']}: a gap this size usually means news we are missing, so no bet"
-                best.update(sp=sp, game=str(p.get('g')), matchup=f"{g['a']} @ {g['h']}", k=g['k'], timing=None, hours_to_start=round(hours(k, NOW), 1),
-                            old=old.get('|'.join(str(x) for x in (sp, p.get('g'), p['n'], stat, side))) or 'Pass')
-                if best['label'] == 'Pass' and best['old'] == 'Pass': n_pass += 1; continue   # keep the file small: quiet passes counted only
+                best.update(tag, old=old.get('|'.join(str(x) for x in (sp, p.get('g'), p['n'], stat, side))) or 'Pass')
+                if best['label'] == 'Pass' and best['old'] == 'Pass' and best['would_be'] == 'Pass': n_pass += 1; continue   # keep the file small: quiet passes counted only
                 out.append(best)
     return out, n_pass
 
@@ -557,21 +583,30 @@ def main():
             r, q = props(sp, D); rows += r; quiet[sp] = q
         except Exception as e: errors[f"{sp} props"] = repr(e); print(sp, 'props failed:', repr(e))
     rows.sort(key=lambda r: (-RANK[r['label']], -r['ev']))
+    # guarded = would have been a Bet or Lean but a guard held it to Pass: kept apart and graded per guard
+    blocked = lambda r: r['label'] == 'Pass' and r['would_be'] != 'Pass' and r['guards']
+    guarded = [r for r in rows if blocked(r)]; rows = [r for r in rows if not blocked(r)]
+    gsum = {}
+    for r in guarded:
+        for gd in r['guards']:
+            c = gsum.setdefault(gd, {'Bet': 0, 'Lean': 0, 'big_dog': 0}); c[r['would_be']] += 1; c['big_dog'] += r['big_dog']
     out = dict(made=NOW.strftime('%Y-%m-%d %H:%M UTC'), step='1 (shadow: nothing on the desk reads this yet)',
                rules=dict(trust='trusted = logit(fair) + trust x (logit(ours) - logit(fair))', labels=LAB, timing=TIM, demote=CFG['demote']),
                demoted=[dict(sp=k[0], market=k[1], why=v) for k, v in sorted(D.items())],
                counts={l: sum(1 for r in rows if r['label'] == l) for l in ('Bet', 'Lean', 'Pass')}, quiet_prop_passes=quiet,
-               compare=compare(rows), errors=errors, bets=rows)
+               compare=compare(rows), guarded_counts=gsum, errors=errors, bets=rows, guarded=guarded)
     json.dump(out, open(f"{APP}/priced_bets.json", 'w'), separators=(',', ':'))
     # history: last pregame row per bet (key sp|game|market|stat|side), first-seen label and price kept for opener grading
     hf = f"{HERE}/history/priced.json.gz"; os.makedirs(os.path.dirname(hf), exist_ok=True)
     H = jload(hf, {}) or {}; n = 0
-    for r in rows:
-        if r['label'] == 'Pass' and r.get('old') in (None, 'Pass'): continue
+    for r in rows + guarded:
+        if r['label'] == 'Pass' and r.get('old') in (None, 'Pass') and r['would_be'] == 'Pass': continue
         key = '|'.join(str(r.get(x) or '') for x in ('sp', 'game', 'market', 'stat', 'side'))
+        if any(x in r['guards'] for x in ('off_line', 'long')): key += '|' + ('off_line' if 'off_line' in r['guards'] else 'long')   # a second row for the same bet
         first = (H.get(key) or {}).get('first') or dict(made=out['made'], label=r['label'], line=r['line'], book=r['book'], price=r['price'], ev=r['ev'], timing=r.get('timing'))
         H[key] = {**r, 'made': out['made'], 'first': first}; n += 1
     json.dump(H, gzip.open(hf, 'wt'), separators=(',', ':'))
+    print('guarded', len(guarded), gsum)
     print('priced', len(rows), 'rows', out['counts'], 'quiet prop passes', quiet, 'history', len(H), f'(+{n})')
     for d in out['demoted']: print('demoted', d['sp'], d['market'], '-', d['why'])
     for k, v in out['compare'].items(): print(' ', k, v)
