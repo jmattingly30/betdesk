@@ -120,7 +120,7 @@ def main():
                challengers=dict(scorecard=SC.get('games') or [], model_a=(MA.get('grade') or {}).get('sports') or {}),
                price=dict(made=PB.get('made'), counts=PB.get('counts'), demoted=PB.get('demoted'), guarded_counts=PB.get('guarded_counts'),
                           trust=dict(games=T.get('games'), props=T.get('props'), labels=T.get('labels'), timing=T.get('timing'), refit=T.get('refit')),
-                          graded={k: PG.get(k) for k in ('made', 'graded', 'pending', 'staked', 'label', 'guard', 'big_dog', 'timing')},
+                          graded={k: PG.get(k) for k in ('made', 'graded', 'pending', 'staked', 'label', 'guard', 'big_dog', 'timing', 'conf')},
                           rows=(PG.get('rows') or [])[:300], old_flags=SC.get('lineflags', {}).get('by'), old_daily=SC.get('lineflags', {}).get('daily'), old_games=old_games),
                feeds=dict(files=fd, credits=credits))
     json.dump(out, open(f"{APP}/monitor.json", 'w'), separators=(',', ':'))

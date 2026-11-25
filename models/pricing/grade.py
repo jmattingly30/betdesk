@@ -7,6 +7,7 @@ grades each finished one at its FIRST line and price, the way J would have bet i
            shows clv_pts instead: points gained, games only)
   buckets  staked     sp|market, rows first labelled Bet (feeds auto-demote: 50+ bets, ROI -5% or worse, CLV under +1%)
            label      sp|market|label
+           conf       All|N and sp|N, the 1-5 confidence rating on Bets and Leans
            guard      guard|would_be (far, long, off_line, one_sided, far_proj) - J: grade what the guards hold back
            big_dog    sp|market|label for big underdogs
            timing     sp|market|open/close
@@ -87,9 +88,9 @@ def main():
         rows.append(dict(key=key, sp=r['sp'], market=r['market'], stat=r.get('stat'), side=r['side'], d=r['k'][:10], label=f.get('label'),
                          would_be=f.get('would_be') or f.get('label'), guards=f.get('guards') or [], big_dog=bool(r.get('big_dog')), timing=f.get('timing'),
                          line=f['line'], price=f['price'], ours=f.get('ours'), fair=f.get('fair'), trusted=f.get('trusted'), trust=f.get('trust'),
-                         ev=f.get('ev') or 0.0, close_fair=r.get('fair'), close_line=r.get('line'), close_ours=r.get('ours'),
+                         ev=f.get('ev') or 0.0, conf=f.get('conf', r.get('conf')), close_fair=r.get('fair'), close_line=r.get('line'), close_ours=r.get('ours'),
                          res=res, act=act, u=round(u, 3), clv=c, clv_pts=cp))
-    B = {'staked': {}, 'label': {}, 'guard': {}, 'big_dog': {}, 'timing': {}}
+    B = {'staked': {}, 'label': {}, 'guard': {}, 'big_dog': {}, 'timing': {}, 'conf': {}}
     def add(kind, k, x): B[kind].setdefault(k, []).append(x)
     for x in rows:
         if x['label'] == 'Bet': add('staked', f"{x['sp']}|{x['market']}", x)
@@ -98,6 +99,8 @@ def main():
             if x['would_be'] != 'Pass': add('guard', f"{g}|{x['would_be']}", x)
         if x['big_dog']: add('big_dog', f"{x['sp']}|{x['market']}|{x['would_be']}", x)
         if x['timing']: add('timing', f"{x['sp']}|{x['market']}|{x['timing']}", x)
+        # confidence rating (J 2026-11-25): do 5s beat 3s? all sports together, then by sport; unstaked guarded rows left out
+        if x['conf'] and not x['guards']: add('conf', f"All|{x['conf']}", x); add('conf', f"{x['sp']}|{x['conf']}", x)
     out = dict(made=NOW.strftime('%Y-%m-%d %H:%M UTC'), graded=len(rows), pending=pending,
                **{k: {kk: agg(v) for kk, v in sorted(d.items())} for k, d in B.items()})
     json.dump(out, open(OUT, 'w'), indent=1)

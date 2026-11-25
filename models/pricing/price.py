@@ -313,7 +313,7 @@ def _nhl_ml_fair(bk):
 
 # ---- per-sport adapters: our projection + book rows -------------------------------------------------------------------------
 def ab_games(sp, fname, slate, demote):
-    V = jload(f"{APP}/{fname}") or {}; rows = []
+    V = jload(f"{APP}/{fname}") or {}; rows = []; MW[sp] = market_wide(sp, V)
     S = {str(g['id']): g for g in (slate.get(sp) or {}).get('games') or []}
     mg, sdm, wm, tg, sdt, wt = GRID[sp]
     for gid, v in (V.get('games') or {}).items():
@@ -330,8 +330,47 @@ def ab_games(sp, fname, slate, demote):
         g = dict(id=str(gid), k=x['k'], h=x['h'], a=x['a'], bk=x['ln']['bk'])
         g['timing'] = timing(sp, k, first_seen(sp, gid))
         for r in price_game(sp, g, ours, dist_mkt, demote):
-            r['old'] = old_game_label(v, r['market']); rows.append(r)
+            r['old'] = old_game_label(v, r['market']); r['ctx'] = context(v, r, MW.get(sp, set())); rows.append(r)
     return rows
+
+# ---------------------------------------------------------------- confidence (J 2026-11-25) ----
+# One 1-5 number per Bet/Lean, the same on every desk, shown only in Details and as a sort. It starts from the label and the
+# edge after the price check, then moves one step for the context signals the old tiers used (model-b-confidence research
+# 2026-11-01: both engines agree, news-driven gaps, basketball underdogs, game types). Timing is already in the trust number,
+# so timing reasons are left out, and so are caveats that hit every game in a sport and market (they are not about this game).
+# Props and NHL/MLB games have no context feed: their rating is the edge alone. Graded by bucket in price_grades.json (conf).
+CTX_SKIP = ('Kickoff in', 'No post time', 'Moneyline ', 'Chance = ', 'Measured against', 'Key numbers', 'Tempo:')
+MW = {}   # sport -> reasons seen on 90%+ of that sport's games (market-wide caveats)
+def market_wide(sp, V):
+    from collections import Counter
+    n = 0; c = Counter()
+    for v in (V.get('games') or {}).values():
+        B = v.get('B') or {}
+        if not B: continue
+        n += 1; c.update({t for b in B.values() if isinstance(b, dict) for _, t in b.get('reasons') or []})
+    return {t for t, k in c.items() if n and k >= 0.9 * n}
+
+def context(v, r, wide):
+    """the old tier's +/- reasons for this game and market, only when they argued for the same side we pick"""
+    b = (v.get('B') or {}).get('spread' if r['market'] == 'ml' else r['market'])
+    if not isinstance(b, dict) or not b.get('side'): return []
+    side = b['side']
+    mine = {'home': v.get('h'), 'away': v.get('a')}.get(r['side'], r['side'])
+    if str(side).lower() != str(mine).lower(): return []
+    return [[sg_, t] for sg_, t in b.get('reasons') or [] if sg_ in '+-' and t not in wide and not t.startswith(CTX_SKIP)]
+
+def confidence(r):
+    if r['label'] == 'Pass': return None, []
+    why = []
+    if r['label'] == 'Bet': c = 4 if r['ev'] >= 0.08 else 3; why.append(['=', f"Bet, {r['ev']:+.1%} after the price check: starts at {c}"])
+    else: c = 2; why.append(['=', f"Lean ({r['ev']:+.1%} after the price check): starts at 2"])
+    ctx = r.get('ctx') or []; net = sum(1 if x[0] == '+' else -1 for x in ctx)
+    if net >= 2: c += 1; why.append(['+', f"{net} more signals for than against: up one"])
+    elif net <= -1: c -= 1; why.append(['-', f"More signals against than for: down one"])
+    elif net == 1: why.append(['=', 'One more signal for than against: not enough to move it'])
+    elif ctx: why.append(['=', 'Signals for and against even out'])
+    else: why.append(['=', 'No context signals for this kind of bet: edge only'])
+    return max(1, min(5, c)), why + ctx
 
 def old_game_label(v, market):
     b = ((v.get('B') or {}).get(market) or {})
@@ -624,10 +663,13 @@ def main():
         try:
             r, q, qr = props(sp, D); rows += r; quiet[sp] = q; quiet_rows += qr
         except Exception as e: errors[f"{sp} props"] = repr(e); print(sp, 'props failed:', repr(e))
+    for r in rows:
+        r['conf'], r['conf_why'] = confidence(r); r.pop('ctx', None)
     rows.sort(key=lambda r: (-RANK[r['label']], -r['ev']))
     # guarded = would have been a Bet or Lean but a guard held it to Pass: kept apart and graded per guard
     blocked = lambda r: r['label'] == 'Pass' and r['would_be'] != 'Pass' and r['guards']
     guarded = [r for r in rows if blocked(r)]; rows = [r for r in rows if not blocked(r)]
+    for r in guarded: r['conf'] = confidence(dict(r, label=r['would_be']))[0]
     gsum = {}
     for r in guarded:
         for gd in r['guards']:
@@ -652,8 +694,8 @@ def main():
         key = '|'.join(str(r.get(x) or '') for x in ('sp', 'game', 'market', 'stat', 'side'))
         if any(x in r['guards'] for x in ('off_line', 'long')): key += '|' + ('off_line' if 'off_line' in r['guards'] else 'long')   # a second row for the same bet
         first = (H.get(key) or {}).get('first') or dict(made=out['made'], **{x: r.get(x) for x in ('label', 'would_be', 'guards', 'line', 'book', 'price', 'ev', 'ev_ours',
-                                                                                                 'ours', 'fair', 'trusted', 'push', 'trust', 'timing', 'stake_u')})
-        H[key] = {**{x: v for x, v in r.items() if x != 'books'}, 'made': out['made'], 'first': first}; n += 1   # per-book prices: display only
+                                                                                                 'ours', 'fair', 'trusted', 'push', 'trust', 'timing', 'stake_u', 'conf')})
+        H[key] = {**{x: v for x, v in r.items() if x not in ('books', 'conf_why')}, 'made': out['made'], 'first': first}; n += 1   # per-book prices: display only
     json.dump(H, gzip.open(hf, 'wt'), separators=(',', ':'))
     print('guarded', len(guarded), gsum)
     print('priced', len(rows), 'rows', out['counts'], 'quiet prop passes', quiet, 'history', len(H), f'(+{n})')
