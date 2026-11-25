@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Bet Desk Monitor</title>
+<!-- J's Monitor (desk simplification step 3, 2026-11-25). Owner only: the Worker serves guests /guest/* alone.
+     Reads data/monitor.json (models/pricing/monitor.py, morning C8b). Source app/monitor.html, published to public/ by tools/ci.sh. -->
+<style>
+:root{
+  --bg:#eef2ef; --surface:#ffffff; --sunk:#e3e9e5; --ink:#15211c; --muted:#5a6a62; --line:#d3dcd6; --grid:#e4eae6;
+  --accent:#1d6b57; --good:#17713f; --bad:#b0281f; --warn:#9a6200; --chip:#dfe9e4;
+  --model:#3b5fa8; --mkt:#c0612e; --act:#5a6a62;
+  --f-body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif; --f-num:ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1412; --surface:#151d1a; --sunk:#1b2521; --ink:#e4ebe7; --muted:#92a39a; --line:#29352f; --grid:#212b27;
+  --accent:#4fb497; --good:#4cc07e; --bad:#ef6b5f; --warn:#e0a640; --chip:#20302a; --model:#7b9be0; --mkt:#e5895a; --act:#92a39a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1412; --surface:#151d1a; --sunk:#1b2521; --ink:#e4ebe7; --muted:#92a39a; --line:#29352f; --grid:#212b27;
+  --accent:#4fb497; --good:#4cc07e; --bad:#ef6b5f; --warn:#e0a640; --chip:#20302a; --model:#7b9be0; --mkt:#e5895a; --act:#92a39a; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px 64px}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin:0 -16px;padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between}
+h1{font-size:20px;margin:0;letter-spacing:.02em;text-transform:uppercase}
+h2{font-size:17px;margin:28px 0 4px}
+h3{font-size:14px;margin:16px 0 6px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+p.note{color:var(--muted);font-size:13px;margin:4px 0 10px;max-width:780px}
+a{color:var(--accent)}
+nav.jump{display:flex;gap:6px;flex-wrap:wrap;font-size:13px}
+nav.jump a{padding:4px 8px;border-radius:999px;background:var(--chip);text-decoration:none;color:var(--ink)}
+.controls{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:12px 0}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:transparent;color:var(--ink);font:inherit;font-size:13px;padding:7px 10px;min-height:36px;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--surface);font-weight:600}
+.seg button:disabled{opacity:.4;cursor:default}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;margin:10px 0}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr))}
+.tiles{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.tile .k{font-size:12px;color:var(--muted)}
+.tile .v{font-family:var(--f-num);font-size:20px;font-weight:600}
+.tile .s{font-size:12px;color:var(--muted)}
+.good{color:var(--good)} .bad{color:var(--bad)} .warn{color:var(--warn)}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th,.tbl td{padding:5px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+.tbl th:first-child,.tbl td:first-child{text-align:left}
+.tbl th{color:var(--muted);font-weight:600}
+.scroll{overflow-x:auto}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--muted);margin:4px 0}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+svg{display:block;width:100%;height:auto;overflow:visible}
+svg text{fill:var(--muted);font-size:11px;font-family:var(--f-body)}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12px;padding:6px 8px;border-radius:8px;z-index:20;max-width:260px;display:none}
+details summary{cursor:pointer;color:var(--muted);font-size:13px;margin-top:6px}
+.pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;background:var(--chip)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Monitor</h1>
+  <nav class="jump"><a href="#acc">Accuracy</a><a href="#props">Players</a><a href="#chal">Challengers</a><a href="#price">Price check</a><a href="#feeds">Feeds</a><a href="#bets">Bets</a><a href="./">Desk</a></nav>
+  <span id="made" class="note" style="font-size:12px;color:var(--muted)"></span>
+</header>
+
+<div class="controls">
+  <span class="seg" id="sportSeg" role="group" aria-label="Sport"></span>
+  <span class="seg" id="cmpSeg" role="group" aria-label="Compare"></span>
+</div>
+
+<section id="acc">
+  <h2>1 · Our projection: how close to the final score</h2>
+  <p class="note">Model A, never blended, graded as J set it: team scores against the closing line's implied team totals. Only games that had a line are counted, so the model and the line are compared on the same games. Lower is better.</p>
+  <div class="controls"><span class="seg" id="metSeg" role="group" aria-label="Measure"></span></div>
+  <div class="tiles" id="accTiles"></div>
+  <div class="grid">
+    <div class="card"><h3>Average miss by sport</h3><div class="legend" id="accLeg"></div><div id="accBars"></div></div>
+    <div class="card"><h3>Average miss by week</h3><div class="legend" id="trLeg"></div><div id="accTrend"></div></div>
+  </div>
+  <details><summary>Table</summary><div class="scroll" id="accTable"></div></details>
+</section>
+
+<section id="props">
+  <h2>2 · Player stats</h2>
+  <p class="note" id="propNote"></p>
+  <div class="grid">
+    <div class="card"><h3>Average miss: our projection vs the player's own average</h3><div class="legend"><span><i style="background:var(--model)"></i>Our projection</span><span><i style="background:var(--act)"></i>Player's average</span></div><div id="propBars"></div></div>
+    <div class="card"><h3>Calibration: chance we gave the over vs how often it went over</h3><div id="calib"></div></div>
+  </div>
+</section>
+
+<section id="chal">
+  <h2>3 · Challengers</h2>
+  <p class="note">Every other model we still grade, beside ours. These run in shadow and never set a price.</p>
+  <div class="scroll card" id="chalTable"></div>
+</section>
+
+<section id="price">
+  <h2>4 · Price check</h2>
+  <p class="note">One price check for every sport: the books' no-vig price, our chance, the trust number, then Bet / Lean / Pass. Bets are graded at the first price shown. Closing line value (CLV) is that price's payout at the last pregame no-vig chance, minus 1.</p>
+  <div class="tiles" id="priceTiles"></div>
+  <div class="grid">
+    <div class="card"><h3>Stated EV vs what it returned</h3><div class="controls" style="margin:4px 0"><span class="seg" id="bucketSeg" role="group" aria-label="Bucket"></span></div><div class="legend"><span><i style="background:var(--model)"></i>EV we showed</span><span><i style="background:var(--mkt)"></i>ROI</span><span><i style="background:var(--act)"></i>CLV</span></div><div id="evBars"></div><details><summary>Table</summary><div class="scroll" id="bucketTable"></div></details></div>
+    <div class="card"><h3>Old system for comparison: prop flags, units over time</h3><div id="oldDaily"></div><details><summary>Old tiers and flags</summary><div class="scroll" id="oldTable"></div></details></div>
+  </div>
+  <div class="card"><h3>Trust table</h3><p class="note">Share of our gap from the market that the price check keeps, in log-odds. Refit every Monday from graded results, pulled toward the research seed.</p><div class="scroll" id="trustTable"></div><div id="demoted"></div></div>
+</section>
+
+<section id="feeds">
+  <h2>5 · Feeds and jobs</h2>
+  <p class="note">Every data file the desk reads, and how old it is. The morning run refreshes most of them, and the noon and night pulls refresh lines and props.</p>
+  <div class="tiles" id="credTiles"></div>
+  <div class="scroll card" id="feedTable"></div>
+</section>
+
+<section id="bets">
+  <h2>6 · Graded bets</h2>
+  <p class="note">Recent graded price-check rows, Pass and guarded ones included.</p>
+  <div class="scroll card" id="betTable"></div>
+</section>
+</div>
+<div class="tip" id="tip"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const f2 = x => x == null || !isFinite(x) ? '–' : x.toFixed(2);
+const pct = (x, d = 1) => x == null || !isFinite(x) ? '–' : (x >= 0 ? '+' : '') + (x * 100).toFixed(d) + '%';
+const SPORTS = ['All', 'NFL', 'NBA', 'CBB', 'CFB', 'NHL', 'MLB'];
+const CMP = [['model', 'Model vs reality'], ['line', 'Line vs reality'], ['both', 'Both vs reality'], ['ml', 'Model vs line']];
+const MET = [['team', 'Team score'], ['margin', 'Margin'], ['total', 'Total']];
+const ls = (k, d) => { try { return localStorage.getItem(k) || d; } catch (e) { return d; } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
+let S = { sp: ls('mon.sp', 'All'), cmp: ls('mon.cmp', 'both'), met: ls('mon.met', 'team'), bucket: ls('mon.bk', 'staked') };
+let D = null;
+
+function seg(el, opts, cur, on, disabled = new Set()){
+  el.innerHTML = opts.map(([k, l]) => `<button type="button" data-k="${k}" aria-pressed="${k === cur}" ${disabled.has(k) ? 'disabled' : ''}>${esc(l)}</button>`).join('');
+  el.onclick = e => { const b = e.target.closest('button'); if (b && !b.disabled) on(b.dataset.k); };
+}
+// ---------- tooltip ----------
+const tip = $('#tip');
+document.addEventListener('pointermove', e => {
+  const t = e.target.closest && e.target.closest('[data-tip]');
+  if (!t) { tip.style.display = 'none'; return; }
+  tip.innerHTML = t.dataset.tip; tip.style.display = 'block';
+  const x = Math.min(e.clientX + 12, innerWidth - tip.offsetWidth - 8); tip.style.left = x + 'px'; tip.style.top = (e.clientY + 14) + 'px';
+});
+// ---------- charts (inline SVG, one y-axis, thin marks, rounded data-ends) ----------
+function bars(groups, series, opt = {}){
+  // groups: [{label, vals: {key: number|null}, tips: {key: html}}]; series: [{key, label, color}]
+  const W = 520, H = opt.h || 220, L = 40, B = 34, T = 8, n = groups.length || 1, sN = series.length;
+  const all = groups.flatMap(g => series.map(s => g.vals[s.key])).filter(v => v != null && isFinite(v));
+  let lo = Math.min(0, ...all), hi = Math.max(0, ...all); if (hi === lo) hi = lo + 1;
+  const pad = (hi - lo) * 0.08; hi += hi > 0 ? pad : 0; lo -= lo < 0 ? pad : 0;
+  const y = v => T + (H - T - B) * (hi - v) / (hi - lo), gw = (W - L) / n, bw = Math.min(22, (gw - 10) / sN - 2);
+  const ticks = niceTicks(lo, hi, 4), fmt = opt.fmt || (v => +v.toFixed(2));
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(opt.aria || 'bar chart')}">`;
+  ticks.forEach(t => s += `<line x1="${L}" x2="${W}" y1="${y(t)}" y2="${y(t)}" stroke="var(--grid)"/><text x="${L - 6}" y="${y(t) + 4}" text-anchor="end">${fmt(t)}</text>`);
+  s += `<line x1="${L}" x2="${W}" y1="${y(0)}" y2="${y(0)}" stroke="var(--line)"/>`;
+  groups.forEach((g, i) => {
+    const x0 = L + i * gw + (gw - sN * (bw + 2)) / 2;
+    series.forEach((se, j) => { const v = g.vals[se.key]; if (v == null || !isFinite(v)) return;
+      const x = x0 + j * (bw + 2), ya = y(Math.max(v, 0)), yb = y(Math.min(v, 0)), h = Math.max(1, yb - ya), r = Math.min(4, bw / 2, h);
+      const path = v >= 0 ? `M${x},${yb}V${ya + r}Q${x},${ya} ${x + r},${ya}H${x + bw - r}Q${x + bw},${ya} ${x + bw},${ya + r}V${yb}Z`
+                          : `M${x},${ya}V${yb - r}Q${x},${yb} ${x + r},${yb}H${x + bw - r}Q${x + bw},${yb} ${x + bw},${yb - r}V${ya}Z`;
+      const tp = (g.tips && g.tips[se.key]) || `<b>${esc(g.label)}</b><br>${esc(se.label)}: ${fmt(v)}`;
+      s += `<path d="${path}" fill="${se.color}" data-tip="${esc(tp)}"/><rect x="${x - 1}" y="${T}" width="${bw + 2}" height="${H - T - B}" fill="transparent" data-tip="${esc(tp)}"/>`; });
+    s += `<text x="${L + i * gw + gw / 2}" y="${H - B + 16}" text-anchor="middle">${esc(g.label)}</text>`;
+    if (g.sub) s += `<text x="${L + i * gw + gw / 2}" y="${H - B + 29}" text-anchor="middle" style="font-size:10px">${esc(g.sub)}</text>`;
+  });
+  return s + '</svg>';
+}
+function lines(xs, series, opt = {}){
+  // xs: labels; series: [{label, color, ys: [number|null], tips:[html]}]
+  const W = 520, H = opt.h || 220, L = 40, B = 26, T = 8, n = xs.length;
+  const all = series.flatMap(s => s.ys).filter(v => v != null && isFinite(v));
+  if (!all.length) return '<p class="note">No graded games yet.</p>';
+  let lo = Math.min(...all), hi = Math.max(...all); if (opt.zero) lo = Math.min(lo, 0), hi = Math.max(hi, 0); if (hi === lo) { hi += 1; lo -= 1; }
+  const pad = (hi - lo) * 0.1; hi += pad; lo -= opt.zero ? 0 : pad;
+  const x = i => L + (n === 1 ? (W - L) / 2 : (W - L - 10) * i / (n - 1)), y = v => T + (H - T - B) * (hi - v) / (hi - lo);
+  const fmt = opt.fmt || (v => +v.toFixed(2));
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(opt.aria || 'line chart')}">`;
+  niceTicks(lo, hi, 4).forEach(t => s += `<line x1="${L}" x2="${W}" y1="${y(t)}" y2="${y(t)}" stroke="var(--grid)"/><text x="${L - 6}" y="${y(t) + 4}" text-anchor="end">${fmt(t)}</text>`);
+  const every = Math.ceil(n / 6); xs.forEach((l, i) => { if (i % every === 0 || i === n - 1) s += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle">${esc(l)}</text>`; });
+  series.forEach(se => { let d = '', pen = false;
+    se.ys.forEach((v, i) => { if (v == null || !isFinite(v)) { pen = false; return; } d += (pen ? 'L' : 'M') + x(i) + ',' + y(v); pen = true; });
+    s += `<path d="${d}" fill="none" stroke="${se.color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+    se.ys.forEach((v, i) => { if (v == null || !isFinite(v)) return; const tp = (se.tips && se.tips[i]) || `<b>${esc(xs[i])}</b><br>${esc(se.label)}: ${fmt(v)}`;
+      s += `<circle cx="${x(i)}" cy="${y(v)}" r="4" fill="${se.color}" stroke="var(--surface)" stroke-width="2" data-tip="${esc(tp)}"/><circle cx="${x(i)}" cy="${y(v)}" r="11" fill="transparent" data-tip="${esc(tp)}"/>`; }); });
+  return s + '</svg>';
+}
+function niceTicks(lo, hi, n){
+  const span = hi - lo, step0 = span / n, mag = Math.pow(10, Math.floor(Math.log10(step0))), err = step0 / mag;
+  const step = (err >= 7.5 ? 10 : err >= 3.5 ? 5 : err >= 1.5 ? 2 : 1) * mag, out = [];
+  for (let t = Math.ceil(lo / step) * step; t <= hi + 1e-9; t += step) out.push(+t.toFixed(10));
+  return out;
+}
+const legend = items => items.map(([c, l]) => `<span><i style="background:${c}"></i>${esc(l)}</span>`).join('');
+function table(cols, rows){
+  return `<table class="tbl"><thead><tr>${cols.map(c => `<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map(v => `<td>${v ?? '–'}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+}
+
+// ---------- 1 accuracy ----------
+// one game row -> errors for a measure: model vs actual, line vs actual, model vs line (team: mean of both teams)
+function errs(r, met){
+  const [sp, d, ph, pa, lh, la, yh, ya] = r, lined = lh != null && la != null;
+  const pick = (h, a, H, A) => met === 'team' ? (Math.abs(h - H) + Math.abs(a - A)) / 2 : met === 'margin' ? Math.abs((h - a) - (H - A)) : Math.abs((h + a) - (H + A));
+  return { model: pick(ph, pa, yh, ya), line: lined ? pick(lh, la, yh, ya) : null, ml: lined ? pick(ph, pa, lh, la) : null, lined };
+}
+function accAgg(rows){
+  const E = rows.map(r => errs(r, S.met)).filter(e => e.lined), n = E.length, m = k => n ? E.reduce((a, e) => a + e[k], 0) / n : null;
+  return { n, model: m('model'), line: m('line'), ml: m('ml'), closer: n ? E.filter(e => e.model < e.line).length / n : null };
+}
+const ser = () => S.cmp === 'both' ? [{key: 'model', label: 'Our projection vs result', color: 'var(--model)'}, {key: 'line', label: 'Closing line vs result', color: 'var(--mkt)'}]
+  : S.cmp === 'model' ? [{key: 'model', label: 'Our projection vs result', color: 'var(--model)'}]
+  : S.cmp === 'line' ? [{key: 'line', label: 'Closing line vs result', color: 'var(--mkt)'}]
+  : [{key: 'ml', label: 'Our projection vs closing line', color: 'var(--act)'}];
+const unit = sp => sp === 'NHL' ? 'goals' : sp === 'MLB' ? 'runs' : 'pts';
+function renderAcc(){
+  const R = D.accuracy.rows, sps = ['NFL', 'NBA', 'CBB', 'CFB', 'NHL'].filter(sp => R.some(r => r[0] === sp && r[4] != null));
+  const show = S.sp === 'All' ? sps : sps.filter(s => s === S.sp);
+  // tiles
+  let tiles = show.map(sp => { const a = accAgg(R.filter(r => r[0] === sp)), beat = a.model != null && a.model < a.line;
+    return `<div class="tile"><div class="k">${sp} · ${a.n} games with a line</div><div class="v ${beat ? 'good' : 'bad'}">${f2(a.model)} <span style="font-size:13px;color:var(--muted)">vs ${f2(a.line)}</span></div><div class="s">${beat ? 'Closer than the line' : 'Line is closer'} · ours closer in ${a.closer == null ? '–' : Math.round(a.closer * 100)}% of games · ${unit(sp)}</div></div>`; }).join('');
+  const mlb = (D.accuracy.mlb || [])[0];
+  if (mlb && (S.sp === 'All' || S.sp === 'MLB')) tiles += `<div class="tile"><div class="k">MLB · ${mlb.n} games</div><div class="v">${f2(mlb.mae_team)}</div><div class="s">team runs miss · no closing lines graded yet (off-season)</div></div>`;
+  $('#accTiles').innerHTML = tiles || '<p class="note">No graded games for this sport yet.</p>';
+  // bars by sport
+  const se = ser(); $('#accLeg').innerHTML = legend(se.map(s => [s.color, s.label]));
+  $('#accBars').innerHTML = bars(show.map(sp => { const a = accAgg(R.filter(r => r[0] === sp));
+    return { label: sp, sub: `${a.n} games`, vals: {model: a.model, line: a.line, ml: a.ml},
+      tips: Object.fromEntries(['model', 'line', 'ml'].map(k => [k, `<b>${sp}</b> · ${a.n} games<br>Ours vs result ${f2(a.model)}<br>Line vs result ${f2(a.line)}<br>Ours vs line ${f2(a.ml)} ${unit(sp)}`])) }; }), se, {aria: 'average miss by sport'});
+  // weekly trend (selected sport, or the sport with most games)
+  const tsp = S.sp !== 'All' ? S.sp : show.slice().sort((a, b) => R.filter(r => r[0] === b).length - R.filter(r => r[0] === a).length)[0];
+  const wk = d => { const t = new Date(d + 'T12:00:00Z'), day = (t.getUTCDay() + 6) % 7; t.setUTCDate(t.getUTCDate() - day); return t.toISOString().slice(5, 10); };
+  const byW = {}; R.filter(r => r[0] === tsp && r[1]).forEach(r => (byW[wk(r[1])] = byW[wk(r[1])] || []).push(r));
+  const W = Object.keys(byW).sort(), ag = W.map(w => accAgg(byW[w]));
+  $('#trLeg').innerHTML = legend(se.map(s => [s.color, s.label])) + `<span>${esc(tsp || '')} · weeks starting Monday</span>`;
+  $('#accTrend').innerHTML = lines(W, se.map(s => ({label: s.label, color: s.color, ys: ag.map(a => a.n >= 3 ? a[s.key] : null),
+    tips: ag.map((a, i) => `<b>${tsp} week of ${W[i]}</b> · ${a.n} games<br>Ours vs result ${f2(a.model)}<br>Line vs result ${f2(a.line)}<br>Ours vs line ${f2(a.ml)}`)})), {aria: 'average miss by week'});
+  $('#accTable').innerHTML = table(['Sport', 'Games', 'Ours vs result', 'Line vs result', 'Ours vs line', 'Ours closer'],
+    show.map(sp => { const a = accAgg(R.filter(r => r[0] === sp)); return [sp, a.n, f2(a.model), f2(a.line), f2(a.ml), a.closer == null ? '–' : Math.round(a.closer * 100) + '%']; }));
+}
+// ---------- 2 props ----------
+function renderProps(){
+  const P = D.props.stats.filter(r => S.sp === 'All' || r.sport === S.sp), C = D.props.calib.filter(r => S.sp === 'All' || r.sport === S.sp);
+  $('#propNote').textContent = D.props.note + (S.cmp === 'line' || S.cmp === 'ml' ? ' The line comparison will appear once prop lines are graded.' : '');
+  // miss relative to the player's own average (ratio, so stats of different size share one axis)
+  const top = P.slice().sort((a, b) => b.n - a.n).slice(0, 12);
+  $('#propBars').innerHTML = top.length ? bars(top.map(r => ({label: r.stat, sub: r.sport, vals: {m: r.mae, a: r.mae_avg},
+      tips: {m: `<b>${r.sport} ${r.stat}</b> · ${r.n}<br>Ours ${r.mae} · player avg ${r.mae_avg}<br>${r.mae < r.mae_avg ? 'Ours closer' : 'Average closer'}`,
+             a: `<b>${r.sport} ${r.stat}</b> · ${r.n}<br>Ours ${r.mae} · player avg ${r.mae_avg}`}})),
+    [{key: 'm', label: 'Ours', color: 'var(--model)'}, {key: 'a', label: 'Average', color: 'var(--act)'}], {aria: 'player stat miss', h: 240}) : '<p class="note">No graded player stats for this sport.</p>';
+  // calibration: one line per sport, said vs went over, with the diagonal
+  const sps = [...new Set(C.map(r => r.sport))], cols = {NFL: 'var(--model)', NBA: 'var(--mkt)', NHL: 'var(--good)'};
+  const W = 520, H = 240, L = 40, B = 26, T = 8, x = v => L + (W - L - 10) * v, y = v => T + (H - T - B) * (1 - v);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="calibration">`;
+  [0, .25, .5, .75, 1].forEach(t => s += `<line x1="${L}" x2="${W}" y1="${y(t)}" y2="${y(t)}" stroke="var(--grid)"/><text x="${L - 6}" y="${y(t) + 4}" text-anchor="end">${t * 100}%</text><text x="${x(t)}" y="${H - 8}" text-anchor="middle">${t * 100}%</text>`);
+  s += `<line x1="${x(0)}" y1="${y(0)}" x2="${x(1)}" y2="${y(1)}" stroke="var(--line)" stroke-dasharray="4 4"/>`;
+  sps.forEach(sp => { const R = C.filter(r => r.sport === sp); s += `<path d="${R.map((r, i) => (i ? 'L' : 'M') + x(r.said) + ',' + y(r.went_over)).join('')}" fill="none" stroke="${cols[sp] || 'var(--act)'}" stroke-width="2"/>`;
+    R.forEach(r => { const tp = `<b>${sp}</b> · ${r.n} props<br>We said ${Math.round(r.said * 100)}% · went over ${Math.round(r.went_over * 100)}%`;
+      s += `<circle cx="${x(r.said)}" cy="${y(r.went_over)}" r="4" fill="${cols[sp] || 'var(--act)'}" stroke="var(--surface)" stroke-width="2" data-tip="${esc(tp)}"/><circle cx="${x(r.said)}" cy="${y(r.went_over)}" r="11" fill="transparent" data-tip="${esc(tp)}"/>`; }); });
+  $('#calib').innerHTML = `<div class="legend">${legend(sps.map(sp => [cols[sp] || 'var(--act)', sp]))}<span>dashed = perfect</span></div>` + s + '</svg>';
+}
+// ---------- 3 challengers ----------
+function renderChal(){
+  const G = D.challengers.scorecard.filter(r => S.sp === 'All' || r.sport === S.sp);
+  let rows = G.map(r => [`${r.sport} · ${esc(r.model)}`, r.n, f2(r.mae_team), f2(r.mae_margin), f2(r.mae_total), r.mae_margin_line == null ? '–' : f2(r.mae_margin_line), r.win_acc == null ? '–' : Math.round(r.win_acc * 100) + '%']);
+  Object.entries(D.challengers.model_a || {}).filter(([sp]) => S.sp === 'All' || sp === S.sp).forEach(([sp, v]) => Object.entries(v).forEach(([k, x]) => { if (x && x.n) rows.push([`${sp} · ${esc(k.replace(/_/g, ' '))}`, x.n, f2(x.team_mae), f2(x.margin_mae), f2(x.total_mae), '–', '–']); }));
+  $('#chalTable').innerHTML = rows.length ? table(['Model', 'Games', 'Team miss', 'Margin miss', 'Total miss', 'Line margin miss', 'Winners'], rows) : '<p class="note">No challengers for this sport.</p>';
+}
+// ---------- 4 price check ----------
+const BUCKETS = [['staked', 'Bets'], ['label', 'By label'], ['guard', 'Guarded'], ['big_dog', 'Big dogs'], ['timing', 'Open vs close']];
+function renderPrice(){
+  const P = D.price, G = P.graded || {}, c = P.counts || {}, gc = P.guarded_counts || {};
+  const tiles = [['Priced now', `${c.Bet ?? 0} Bet · ${c.Lean ?? 0} Lean`, `${c.Pass ?? 0} Pass · as of ${esc(P.made || '–')}`],
+    ['Guarded now', Object.values(gc).reduce((a, x) => a + x.Bet + x.Lean, 0), Object.entries(gc).map(([k, x]) => `${k} ${x.Bet + x.Lean}`).join(' · ') || 'none'],
+    ['Graded so far', G.graded ?? 0, `${G.pending ?? 0} waiting on results`],
+    ['Demoted to Lean', (P.demoted || []).length, (P.demoted || []).map(d => d.sp + ' ' + d.market).join(', ') || 'none']];
+  $('#priceTiles').innerHTML = tiles.map(([k, v, s]) => `<div class="tile"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join('');
+  seg($('#bucketSeg'), BUCKETS, S.bucket, k => { S.bucket = k; lsSet('mon.bk', k); renderPrice(); });
+  const B = Object.entries(G[S.bucket] || {}).filter(([k]) => S.sp === 'All' || S.bucket === 'guard' || k.startsWith(S.sp + '|')).sort((a, b) => b[1].n - a[1].n);
+  $('#evBars').innerHTML = B.length ? bars(B.slice(0, 10).map(([k, x]) => ({label: k.split('|').slice(S.bucket === 'guard' ? 0 : 1).join(' '), sub: `${S.bucket === 'guard' ? '' : k.split('|')[0] + ' · '}${x.n}`,
+      vals: {ev: x.ev, roi: x.roi, clv: x.clv}, tips: Object.fromEntries(['ev', 'roi', 'clv'].map(m => [m, `<b>${esc(k.replace(/\|/g, ' '))}</b> · ${x.n} bets (${x.w}-${x.l}${x.p ? '-' + x.p : ''})<br>EV shown ${pct(x.ev)}<br>ROI ${pct(x.roi)} · ${x.units >= 0 ? '+' : ''}${x.units}u<br>CLV ${pct(x.clv)} (${x.nclv})`]))})),
+    [{key: 'ev', label: 'EV', color: 'var(--model)'}, {key: 'roi', label: 'ROI', color: 'var(--mkt)'}, {key: 'clv', label: 'CLV', color: 'var(--act)'}], {fmt: v => Math.round(v * 100) + '%', aria: 'stated EV vs return'})
+    : '<p class="note">Nothing graded in this bucket yet. Grading starts with the first morning run after the price check went live (2026-11-25).</p>';
+  $('#bucketTable').innerHTML = table(['Bucket', 'Bets', 'W-L-P', 'Units', 'ROI', 'EV shown', 'CLV', 'CLV pts'], B.map(([k, x]) => [esc(k.replace(/\|/g, ' ')), x.n, `${x.w}-${x.l}-${x.p}`, x.units, pct(x.roi), pct(x.ev), pct(x.clv), x.clv_pts ?? '–']));
+  // old system
+  const od = P.old_daily || [];
+  $('#oldDaily').innerHTML = lines(od.map(d => d.d.slice(5)), [{label: 'Cumulative units', color: 'var(--mkt)', ys: od.map(d => d.cum), tips: od.map(d => `<b>${d.d}</b><br>${d.n} flags · ${d.units >= 0 ? '+' : ''}${d.units}u<br>Running ${d.cum >= 0 ? '+' : ''}${d.cum}u`)}], {zero: true, aria: 'old prop flags cumulative units'});
+  const oldRows = (P.old_flags || []).filter(r => S.sp === 'All' || r.sp === S.sp).map(r => [`${r.sp} props · ${r.kind}`, r.n, pct(r.roi), pct(r.ev), pct(r.clv)]);
+  Object.entries(P.old_games || {}).filter(([sp]) => S.sp === 'All' || sp === S.sp).forEach(([sp, v]) => Object.entries(v).forEach(([k, x]) => oldRows.push([`${sp} ${k.replace('_', ' tier ')}`, x.n, pct(x.roi), '–', x.clv_pts == null ? '–' : x.clv_pts + ' pts'])));
+  $('#oldTable').innerHTML = table(['Old bucket', 'Bets', 'ROI', 'EV shown', 'CLV'], oldRows);
+  // trust table
+  const T = P.trust || {}, g = T.games || {};
+  const rows = Object.entries(g).filter(([sp]) => S.sp === 'All' || sp === S.sp).flatMap(([sp, m]) => Object.entries(m).map(([mk, t]) => {
+    const fo = (t.fit || {}).open, fc = (t.fit || {}).close;
+    return [`${sp} ${mk === 'ml' ? 'moneyline' : mk}`, t.open, t.close, t.cap ? `<span class="pill">${t.cap} max</span>` : '–', fo ? `${fo.n} · data ${fo.data_only}` : '–', fc ? `${fc.n} · data ${fc.data_only}` : '–']; }));
+  const pb = (T.props || {}).by_sport || {};
+  ['NFL', 'NBA', 'NHL'].filter(sp => S.sp === 'All' || sp === S.sp).forEach(sp => { const e = pb[sp] || {trust: (T.props || {}).default?.trust}; rows.push([`${sp} props`, e.trust, e.trust, '–', e.fit ? `${e.fit.n} · data ${e.fit.data_only}` : '–', '–']); });
+  $('#trustTable').innerHTML = table(['Market', 'Open', 'Close', 'Cap', 'Last fit (open)', 'Last fit (close)'], rows) + `<p class="note">Last refit: ${esc((T.refit || {}).date || 'not yet (first one runs Monday)')}</p>`;
+  $('#demoted').innerHTML = (P.demoted || []).length ? '<h3>Held to Lean</h3>' + (P.demoted || []).map(d => `<p class="note"><b>${esc(d.sp)} ${esc(d.market)}</b>: ${esc(d.why)}</p>`).join('') : '';
+}
+// ---------- 5 feeds ----------
+function age(m){
+  if (!m) return null; const t = Date.parse(String(m).replace(' UTC', 'Z').replace(' ', 'T')); return isFinite(t) ? (Date.now() - t) / 36e5 : null;
+}
+function renderFeeds(){
+  const F = D.feeds.files.map(f => ({...f, h: age(f.made)})).sort((a, b) => (b.h ?? 1e9) - (a.h ?? 1e9));
+  $('#feedTable').innerHTML = table(['File', 'Updated', 'Age', 'Size'], F.map(f => [esc(f.file), esc(f.made || '–'),
+    f.h == null ? '<span class="warn">no time</span>' : `<span class="${f.h > 72 ? 'bad' : f.h > 26 ? 'warn' : 'good'}">${f.h < 48 ? f.h.toFixed(0) + ' h' : (f.h / 24).toFixed(0) + ' days'}</span>`, f.kb + ' KB']));
+  const c = D.feeds.credits || {}, left = Object.values(c).filter(v => v != null).map(Number);
+  $('#credTiles').innerHTML = `<div class="tile"><div class="k">Odds API credits left</div><div class="v">${left.length ? Math.min(...left) : '–'}</div><div class="s">${Object.entries(c).map(([k, v]) => `${k} ${v}`).join(' · ')}</div></div>
+    <div class="tile"><div class="k">Stale files (over 3 days)</div><div class="v ${F.filter(f => f.h > 72).length ? 'bad' : 'good'}">${F.filter(f => f.h > 72).length}</div><div class="s">of ${F.length} files</div></div>`;
+}
+// ---------- 6 bets ----------
+function renderBets(){
+  const R = (D.price.rows || []).filter(r => S.sp === 'All' || r.sp === S.sp).slice(0, 150);
+  $('#betTable').innerHTML = R.length ? table(['Date', 'Bet', 'Label', 'Price', 'EV', 'Result', 'Units', 'CLV'], R.map(r => [r.d, `${r.sp} ${esc(r.market === 'prop' ? r.stat : r.market)} ${esc(r.side)} ${r.line ?? ''}${r.guards && r.guards.length ? ' <span class="pill">' + esc(r.guards.join(', ')) + '</span>' : ''}${r.big_dog ? ' <span class="pill">big dog</span>' : ''}`,
+    r.label + (r.would_be && r.would_be !== r.label ? ` (${r.would_be})` : ''), r.price > 0 ? '+' + r.price : r.price, pct(r.ev), `<span class="${r.res === 'W' ? 'good' : r.res === 'L' ? 'bad' : ''}">${r.res}</span>`, r.u, pct(r.clv)]))
+    : '<p class="note">No graded bets yet.</p>';
+}
+function render(){
+  seg($('#sportSeg'), SPORTS.map(s => [s, s]), S.sp, k => { S.sp = k; lsSet('mon.sp', k); render(); });
+  seg($('#cmpSeg'), CMP, S.cmp, k => { S.cmp = k; lsSet('mon.cmp', k); render(); });
+  seg($('#metSeg'), MET, S.met, k => { S.met = k; lsSet('mon.met', k); render(); });
+  $('#made').textContent = 'Data ' + D.made;
+  for (const f of [renderAcc, renderProps, renderChal, renderPrice, renderFeeds, renderBets]) { try { f(); } catch (e) { console.error(f.name, e); } }
+}
+fetch('monitor.json', {cache: 'no-store'}).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(j => { D = j; render(); })
+  .catch(e => { document.querySelector('.wrap').insertAdjacentHTML('beforeend', `<p class="note bad">Could not load monitor.json (${esc(e.message)}). It is written by the morning run.</p>`); });
+</script>
+</body>
+</html>
