@@ -5,7 +5,7 @@
    "new_se": 5.85,
    "cont_per_epa": 11.33,
    "cont_se": 4.85,
-   "rmse": 12.961,
+   "rmse": 12.96,
    "rmse_without": 13.078
   },
   "line": {
@@ -47,11 +47,11 @@
    0.157
   ],
   "2026_12_DEN_PIT": [
+   1,
    0,
-   0,
-   "Aaron Rodgers",
+   "Mason Rudolph",
    "Bo Nix",
-   0.0
+   -0.041
   ],
   "2026_12_ATL_MIN": [
    2,
@@ -173,11 +173,11 @@
    0.0
   ],
   "2026_13_HOU_PIT": [
+   1,
    0,
-   0,
-   "Aaron Rodgers",
+   "Mason Rudolph",
    "C.J. Stroud",
-   0.0
+   -0.041
   ],
   "2026_13_JAX_CHI": [
    0,
@@ -328,10 +328,10 @@
   ],
   "2026_14_PIT_JAX": [
    0,
-   0,
+   1,
    "Trevor Lawrence",
-   "Aaron Rodgers",
-   0.0
+   "Mason Rudolph",
+   0.041
   ],
   "2026_15_SF_LAC": [
    0,
@@ -362,11 +362,11 @@
    0.0
   ],
   "2026_15_BAL_PIT": [
-   0,
+   1,
    2,
-   "Aaron Rodgers",
+   "Mason Rudolph",
    "Jacoby Brissett",
-   0.166
+   0.0
   ],
   "2026_15_CIN_CAR": [
    0,
@@ -481,11 +481,11 @@
    0.087
   ],
   "2026_16_CAR_PIT": [
+   1,
    0,
-   0,
-   "Aaron Rodgers",
+   "Mason Rudolph",
    "Bryce Young",
-   0.0
+   -0.041
   ],
   "2026_16_CIN_IND": [
    1,
@@ -643,10 +643,10 @@
   ],
   "2026_17_PIT_TEN": [
    0,
-   0,
+   1,
    "Cam Ward",
-   "Aaron Rodgers",
-   0.0
+   "Mason Rudolph",
+   0.041
   ],
   "2026_17_SEA_CAR": [
    0,
@@ -748,10 +748,10 @@
   ],
   "2026_18_PIT_BAL": [
    2,
-   0,
+   1,
    "Jacoby Brissett",
-   "Aaron Rodgers",
-   -0.166
+   "Mason Rudolph",
+   0.0
   ],
   "2026_18_SEA_LA": [
    0,
