@@ -63,8 +63,11 @@ step "C4h Watch the sim" python3 models/sims/build.py NBA CBB NFL CFB
 step "C6 parlays + promo" bash -c "python3 models/parlay/suggest.py && python3 models/promo/promo.py"
 step "C7 snapshots" bash -c "node models/grading/snap_games.js && node models/grading/snap_flags.js"
 # C7a (J 2026-11-25, desk simplification step 1): one price check for every sport, in SHADOW -> app/data/priced_bets.json
+# C7 refit (step 2, Mondays): trust per sport x market x timing from last week's graded price checks, before pricing today
+if [ "$DOW" = 1 ]; then step "C7 trust refit (weekly)" python3 models/pricing/refit.py; fi
 step "C7a price check (shadow)" python3 models/pricing/price.py
 step "C8 grade" python3 models/grading/grade.py
+step "C8a grade the price check (Bet/Lean/Pass, guards, big dogs)" python3 models/pricing/grade.py
 
 # D. publish = commit; E. report = the job fails if any step failed
 publish; commit "morning chain" || echo "commit" >> "$FAILS"; finish

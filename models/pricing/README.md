@@ -6,6 +6,8 @@ J 2026-11-24: "Model B" was never a second model. It devigs the books and handic
 | File | What it is |
 |---|---|
 | `trust.json` | How much of our gap from the market the price check keeps, per sport × market × timing (open / close). Also holds caps, label thresholds, stake rules and the auto-demote rule. Seeds come from each sport's earlier research (`src` on every row). Step 2 refits it weekly from live grades. |
+| `grade.py` | Daily (morning C8a). Grades every priced row, Pass included, at its first line and price: W/L/P, units, and closing line value against the last pregame snapshot. Buckets: Bets per sport × market (these feed auto-demote), each label, each guard by the label it would have had, big dogs, open vs close. Writes `history/grade.json`, `history/graded.json.gz` and `app/data/price_grades.json` (for the monitor). |
+| `refit.py` | Weekly (Mondays, before pricing). For each sport × market × timing and each sport's props, finds the trust that best explains graded results, pulled toward the research seed (prior sd 0.15). It needs 30+ graded rows before it changes anything. It never lifts a cap: buckets that reach their cap's bar are listed for J. `history/refit.json` logs every change, including `close_says`, the trust implied by where the market closed. |
 | `price.py` | Prices every upcoming game line (NFL, NBA, CBB, CFB, NHL, MLB: spread / puck line / run line, total, moneyline) and every pro prop (NFL, NBA, NHL). Writes `app/data/priced_bets.json` and keeps the last pregame row of each Bet/Lean in `history/priced.json.gz`, along with the first price and label seen. |
 
 ## The steps, for every bet
@@ -37,7 +39,9 @@ J 2026-11-24: "Model B" was never a second model. It devigs the books and handic
 
 **Timing.** A line is *open* if it was first seen 24 h ago or less and the game starts 8+ h from now. NFL lines 96+ h before kickoff (look-ahead) also count as open. Everything else is *close*, including a line whose post time is unknown.
 
-**Auto-demote (stopgap until step 2 grades the new labels).** A sport × market is held to Lean when the old staked bets meet all three conditions:
+**Auto-demote.** Once a sport × market has 50+ graded Bets under the new labels, that record replaces the old tiers' (price CLV bar +1% for games and props). Until then, the stopgap below applies.
+
+**Stopgap.** A sport × market is held to Lean when the old staked bets meet all three conditions:
 - 50 or more live bets,
 - ROI of −5% or worse,
 - CLV not clearly positive: under +0.5 pts for games, under +1% for props.

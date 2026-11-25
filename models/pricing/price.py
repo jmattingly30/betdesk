@@ -181,6 +181,15 @@ def demotions():
         nc = sum(x.get('nclv') or 0 for x in rows); clv = sum((x.get('nclv') or 0) * (x.get('clv') or 0) for x in rows) / nc if nc else None
         if roi <= rule['roi_below'] and (clv is None or clv < rule['props_clv_below']):
             D[(sp, 'props')] = f"old {sp} prop flags went {roi:+.1%} ROI over {n} live bets" + (f", closing line value {clv:+.1%}" if clv is not None else '')
+    # step 2: once a bucket has 50+ graded Bets under the NEW labels, their record replaces the old tiers' (either way)
+    G = (jload(f"{HERE}/history/grade.json") or {}).get('staked') or {}
+    for key, x in G.items():
+        sp, mk = key.split('|'); mk = 'props' if mk == 'prop' else mk
+        if x['n'] < rule['min_bets']: continue
+        D.pop((sp, mk), None)
+        bar = rule['props_clv_below'] if mk == 'props' else rule.get('games_clv_below', 0.01)
+        if x['roi'] <= rule['roi_below'] and (x.get('clv') is None or x['clv'] < bar):
+            D[(sp, mk)] = f"{sp} {mk} Bets went {x['roi']:+.1%} ROI over {x['n']} graded bets" + (f", closing line value {x['clv']:+.1%}" if x.get('clv') is not None else '')
     return D
 
 # ---------------------------------------------------------------- timing: opener-like or close-like -----------------------
@@ -443,6 +452,9 @@ def model_probs(stat, s, L):
 def cond(stat, s, L):
     po, pu, pp = model_probs(stat, s, L); return po / max(po + pu, 1e-9), pp
 
+def prop_trust(sp):
+    return (CFG['props'].get('by_sport') or {}).get(sp, CFG['props']['default'])['trust']
+
 def prop_caps(sp, stat, side):
     for c in CFG['props']['caps']:
         if c['sp'] != sp: continue
@@ -502,7 +514,7 @@ def props(sp, demote):
     old = {}
     for r in (jload(f"{APP}/prop_picks.json") or {}).get('rows') or []:
         old['|'.join(str(r.get(x)) for x in ('sp', 'g', 'n', 'k', 'side'))] = {'proven': 'Bet', 'flag': 'Bet', 'check': 'Pass'}.get(r.get('kind'))
-    trust = CFG['props']['default']['trust']; out = []; n_pass = 0
+    trust = prop_trust(sp); out = []; n_pass = 0; quiet = []
     for p in PJ.get('players') or []:
         cand = idx.get('f:' + norm(p['n']), []) + idx.get('i:' + init(p['n']), [])
         ok = [x for x in cand if (_team_ok(p['t'], x[0]['h']) and _team_ok(p['o'], x[0]['a'])) or (_team_ok(p['t'], x[0]['a']) and _team_ok(p['o'], x[0]['h']))]
@@ -541,7 +553,7 @@ def props(sp, demote):
                     if is_long:
                         if best_long is None or row['ev'] > best_long['ev']: best_long = row
                     elif best is None or row['ev'] > best['ev']: best = row
-                tag = dict(sp=sp, game=str(p.get('g')), matchup=f"{g['a']} @ {g['h']}", k=g['k'], timing=None, hours_to_start=round(hours(k, NOW), 1), big_dog=False)
+                tag = dict(sp=sp, game=str(p.get('g')), d=p.get('d'), matchup=f"{g['a']} @ {g['h']}", k=g['k'], timing=None, hours_to_start=round(hours(k, NOW), 1), big_dog=False)
                 if best_long:
                     x = finish(best_long, *prop_caps(sp, stat, side), demote.get((sp, 'props')))
                     if x['would_be'] != 'Pass': x.update(tag, old=None); out.append(x)
@@ -556,9 +568,9 @@ def props(sp, demote):
                     best['label'], best['stake_u'] = 'Pass', 0.0
                     best['reason'] = f"We project {s['m']} against a line of {best['line']}: a gap this size usually means news we are missing, so no bet"
                 best.update(tag, old=old.get('|'.join(str(x) for x in (sp, p.get('g'), p['n'], stat, side))) or 'Pass')
-                if best['label'] == 'Pass' and best['old'] == 'Pass' and best['would_be'] == 'Pass': n_pass += 1; continue   # keep the file small: quiet passes counted only
+                if best['label'] == 'Pass' and best['old'] == 'Pass' and best['would_be'] == 'Pass': n_pass += 1; quiet.append(best); continue   # keep the file small: quiet passes counted only
                 out.append(best)
-    return out, n_pass
+    return out, n_pass, quiet
 
 # ---------------------------------------------------------------- run ---------------------------------------------------------
 def compare(rows):
@@ -571,7 +583,7 @@ def compare(rows):
 
 def main():
     slate = jload(f"{APP}/game_slates.json") or {}
-    D = demotions(); rows = []; quiet = {}; errors = {}
+    D = demotions(); rows = []; quiet = {}; quiet_rows = []; errors = {}
     jobs = [('NFL', lambda: ab_games('NFL', 'nfl_ab.json', slate, D)), ('NBA', lambda: ab_games('NBA', 'nba_ab.json', slate, D)),
             ('CBB', lambda: ab_games('CBB', 'cbb_ab.json', slate, D)), ('CFB', lambda: ab_games('CFB', 'cfb_ab.json', slate, D)),
             ('NHL', lambda: nhl_games(D)), ('MLB', lambda: mlb_games(slate, D))]
@@ -580,7 +592,7 @@ def main():
         except Exception as e: errors[sp] = repr(e); print(sp, 'games failed:', repr(e))
     for sp in ('NFL', 'NBA', 'NHL'):
         try:
-            r, q = props(sp, D); rows += r; quiet[sp] = q
+            r, q, qr = props(sp, D); rows += r; quiet[sp] = q; quiet_rows += qr
         except Exception as e: errors[f"{sp} props"] = repr(e); print(sp, 'props failed:', repr(e))
     rows.sort(key=lambda r: (-RANK[r['label']], -r['ev']))
     # guarded = would have been a Bet or Lean but a guard held it to Pass: kept apart and graded per guard
@@ -599,11 +611,13 @@ def main():
     # history: last pregame row per bet (key sp|game|market|stat|side), first-seen label and price kept for opener grading
     hf = f"{HERE}/history/priced.json.gz"; os.makedirs(os.path.dirname(hf), exist_ok=True)
     H = jload(hf, {}) or {}; n = 0
-    for r in rows + guarded:
-        if r['label'] == 'Pass' and r.get('old') in (None, 'Pass') and r['would_be'] == 'Pass': continue
+    # EVERY priced row is kept, Pass included: step 2's trust refit needs the bets we passed on too (fitting only on the
+    # rows we liked would overstate how much of our gap is real)
+    for r in rows + guarded + quiet_rows:
         key = '|'.join(str(r.get(x) or '') for x in ('sp', 'game', 'market', 'stat', 'side'))
         if any(x in r['guards'] for x in ('off_line', 'long')): key += '|' + ('off_line' if 'off_line' in r['guards'] else 'long')   # a second row for the same bet
-        first = (H.get(key) or {}).get('first') or dict(made=out['made'], label=r['label'], line=r['line'], book=r['book'], price=r['price'], ev=r['ev'], timing=r.get('timing'))
+        first = (H.get(key) or {}).get('first') or dict(made=out['made'], **{x: r.get(x) for x in ('label', 'would_be', 'guards', 'line', 'book', 'price', 'ev', 'ev_ours',
+                                                                                                 'ours', 'fair', 'trusted', 'push', 'trust', 'timing', 'stake_u')})
         H[key] = {**r, 'made': out['made'], 'first': first}; n += 1
     json.dump(H, gzip.open(hf, 'wt'), separators=(',', ':'))
     print('guarded', len(guarded), gsum)
