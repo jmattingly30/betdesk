@@ -68,6 +68,7 @@ if [ "$DOW" = 1 ]; then step "C7 trust refit (weekly)" python3 models/pricing/re
 step "C7a price check (shadow)" python3 models/pricing/price.py
 step "C8 grade" python3 models/grading/grade.py
 step "C8a grade the price check (Bet/Lean/Pass, guards, big dogs)" python3 models/pricing/grade.py
+step "C8b Monitor data" python3 models/pricing/monitor.py
 
 # D. publish = commit; E. report = the job fails if any step failed
 publish; commit "morning chain" || echo "commit" >> "$FAILS"; finish
