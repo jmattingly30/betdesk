@@ -1,0 +1,37 @@
+{
+ "note": "Step 1 of the desk simplification (J 2026-11-24). One price check for every sport. trust = share of our projection's gap from the market that the price check keeps, applied in log-odds: trusted = logit(fair) + trust x (logit(ours) - logit(fair)). Seeds come from the research each sport already used (points-share b and blend weights; near 50% a points share and a log-odds share are about equal). Step 2 refits these weekly from live grades.",
+ "timing": {"open_hours": 24, "min_hours_to_start": 8, "nfl_lookahead_hours": 96},
+ "labels": {"bet_ev": 0.05, "lean_ev": 0.02, "ours_must_clear_bet_ev": true, "far_prob": 0.15, "max_price": 300,
+            "stake": {"bankroll_u": 100, "kelly": 0.25, "max_u": 3}},
+ "demote": {"min_bets": 50, "roi_below": -0.05, "games_clv_pts_below": 0.5, "props_clv_below": 0.01},
+ "games": {
+  "NFL": {"spread": {"open": 0.35, "close": 0.14, "cap": "Lean", "why": "NFL game lines are a lean at most: our spread gaps have not held up at the close (2018-26)", "src": "nfl_ab blend_test w .14 game week, .35 look-ahead; NFL game tiers max B (J)"},
+          "total":  {"open": 0.08, "close": 0.08, "cap": "Lean", "why": "NFL game lines are a lean at most: our total gaps have not held up at the close (2018-26)", "src": "nfl_ab blend_test totals w .084"},
+          "ml":     {"open": 0.35, "close": 0.14, "cap": "Lean", "why": "Moneylines are a lean at most until live bets test them", "src": "spread trust; moneyline untested -> Lean max"}},
+  "NBA": {"spread": {"open": 0.18, "close": 0.04, "src": "model-b-confidence b opener .18 / close .04"},
+          "total":  {"open": 0.30, "close": 0.0, "src": "b opener .30 / close -.06 -> 0"},
+          "ml":     {"open": 0.18, "close": 0.04, "cap": "Lean", "why": "Moneylines are a lean at most until live bets test them", "src": "spread trust; moneyline untested"}},
+  "CBB": {"spread": {"open": 0.50, "close": 0.13, "src": "cbb_ab: opener confidence share (avg ~.5, capped .85), close .13"},
+          "total":  {"open": 0.505, "close": 0.0, "src": "cbb_ab B_TOT_OPEN .505; close 0"},
+          "ml":     {"open": 0.50, "close": 0.13, "cap": "Lean", "why": "Moneylines are a lean at most until live bets test them", "src": "spread trust; moneyline untested on CBB openers"}},
+  "CFB": {"spread": {"open": 0.441, "close": 0.339, "src": "cfb_ab model_b_test b_v4 open .441 / close .339"},
+          "total":  {"open": 0.212, "close": 0.0, "src": "cfb_ab b_total_v4 open .212; close 0"},
+          "ml":     {"open": 0.441, "close": 0.339, "cap": "Lean", "why": "Moneylines are a lean at most until live bets test them", "src": "spread trust; moneyline untested"}},
+  "NHL": {"ml":     {"open": 0.15, "close": 0.15, "cap": "Lean", "why": "NHL game lines are new: a lean at most until 100 live bets", "src": "no market research yet; new in step 1, Lean max until 100 live bets"},
+          "spread": {"open": 0.15, "close": 0.15, "cap": "Lean", "why": "NHL game lines are new: a lean at most until 100 live bets", "src": "puck line; as above"},
+          "total":  {"open": 0.15, "close": 0.15, "cap": "Lean", "why": "NHL game lines are new: a lean at most until 100 live bets", "src": "as above"}},
+  "MLB": {"ml":     {"open": 0.03, "close": 0.03, "cap": "Lean", "why": "MLB game lines are new on the desk: a lean at most until 100 live bets", "src": "eff market blend weight .0275 (J's app); Lean max until 100 live bets"},
+          "spread": {"open": 0.03, "close": 0.03, "cap": "Lean", "why": "MLB game lines are new on the desk: a lean at most until 100 live bets", "src": "run line; as above"},
+          "total":  {"open": 0.03, "close": 0.03, "cap": "Lean", "why": "MLB game lines are new on the desk: a lean at most until 100 live bets", "src": "as above"}}
+ },
+ "props": {
+  "default": {"trust": 0.5, "src": "desk prop flags: 50/50 log-odds blend of ours and the books (the one prop test vs real lines)"},
+  "caps": [
+   {"sp": "NFL", "stats": ["pass_att", "rush_yds", "carries"], "cap": "Pass", "why": "lost in testing (NFL props tier C)"},
+   {"sp": "NFL", "side": "Over", "not_stats": ["rec"], "cap": "Lean", "why": "NFL overs other than receptions: 53.5% at the opener, 43% at the close"},
+   {"sp": "NBA", "stats": ["blk", "stl"], "cap": "Pass", "why": "blocks and steals lost in testing"},
+   {"sp": "NBA", "side": "Over", "stats": ["reb", "tov"], "cap": "Lean", "why": "rebound and turnover overs lost at 5%+ EV"},
+   {"sp": "NBA", "side": "Under", "cap": "Pass", "why": "NBA unders held back: no edge in the 2026 test, CLV negative"}
+  ]
+ }
+}

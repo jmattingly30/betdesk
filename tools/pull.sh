@@ -22,5 +22,6 @@ if [ "$T" = night ]; then step "CFB usage" bash -c "cd models/oddspapi && python
 if [ "$T" != nfl ]; then step "CFB Model B (cfb_ab live)" python3 models/cfb_ab/live.py; fi
 # Tennis Model A+B and grading held (J 2026-11-11: tennis off the desk; models/tennis_ab kept for later)
 step "Guest prop picks (headless desk)" node models/grading/snap_flags.js --picks-only
+step "Price check (shadow, desk simplification step 1)" python3 models/pricing/price.py
 if [ "$T" = nfl ]; then step "Watch the sim (NFL)" python3 models/sims/build.py NFL; else step "Watch the sim" python3 models/sims/build.py NBA CBB NFL CFB; fi
 publish; commit "$T pull" || echo "commit" >> "$FAILS"; finish
