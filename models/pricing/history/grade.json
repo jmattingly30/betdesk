@@ -1,0 +1,97 @@
+{
+ "made": "2026-11-25 13:51 UTC",
+ "graded": 3,
+ "pending": 974,
+ "staked": {},
+ "label": {
+  "CBB|ml|Pass": {
+   "n": 1,
+   "w": 1,
+   "l": 0,
+   "p": 0,
+   "units": 0.06,
+   "roi": 0.062,
+   "ev": -0.0072,
+   "clv": null,
+   "nclv": 0,
+   "clv_pts": null
+  },
+  "CBB|spread|Pass": {
+   "n": 1,
+   "w": 0,
+   "l": 1,
+   "p": 0,
+   "units": -1.0,
+   "roi": -1.0,
+   "ev": -0.0179,
+   "clv": null,
+   "nclv": 0,
+   "clv_pts": null
+  },
+  "CBB|total|Pass": {
+   "n": 1,
+   "w": 0,
+   "l": 1,
+   "p": 0,
+   "units": -1.0,
+   "roi": -1.0,
+   "ev": -0.0386,
+   "clv": null,
+   "nclv": 0,
+   "clv_pts": null
+  }
+ },
+ "guard": {},
+ "big_dog": {
+  "CBB|spread|Pass": {
+   "n": 1,
+   "w": 0,
+   "l": 1,
+   "p": 0,
+   "units": -1.0,
+   "roi": -1.0,
+   "ev": -0.0179,
+   "clv": null,
+   "nclv": 0,
+   "clv_pts": null
+  }
+ },
+ "timing": {
+  "CBB|ml|close": {
+   "n": 1,
+   "w": 1,
+   "l": 0,
+   "p": 0,
+   "units": 0.06,
+   "roi": 0.062,
+   "ev": -0.0072,
+   "clv": null,
+   "nclv": 0,
+   "clv_pts": null
+  },
+  "CBB|spread|close": {
+   "n": 1,
+   "w": 0,
+   "l": 1,
+   "p": 0,
+   "units": -1.0,
+   "roi": -1.0,
+   "ev": -0.0179,
+   "clv": null,
+   "nclv": 0,
+   "clv_pts": null
+  },
+  "CBB|total|close": {
+   "n": 1,
+   "w": 0,
+   "l": 1,
+   "p": 0,
+   "units": -1.0,
+   "roi": -1.0,
+   "ev": -0.0386,
+   "clv": null,
+   "nclv": 0,
+   "clv_pts": null
+  }
+ }
+}
