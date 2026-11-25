@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Bet Desk</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Bet Desk">
+<meta name="theme-color" content="#0f1115">
+<!-- The simple desk (desk simplification step 4, J 2026-11-25): Today / Games / My bets. One projected score per game
+     (our model, never blended), one label per bet (Bet, Lean or Pass) with one plain reason and a stake.
+     Reads priced_bets.json (models/pricing/price.py). Bets save to the same account as the full desk (/api/db/bets),
+     or on this phone when the site has no sign-in. Source app/front.html, published to public/today.html by tools/ci.sh. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Michroma&display=swap">
+<style>
+/* The full desk's own look (Concept E, J 2026-10-29; J 2026-11-25: keep it): always dark, Shrikhand display, Michroma details.
+   Tokens copied from app/bet-desk.html's Concept E block. */
+:root{
+  --bg:#0f1115; --surface:#161a21; --sunk:#1d222b; --nav:#161a21; --line:#232934; --ink:#d9dee7; --muted:#7e8796; --soft:#b4bcc8;
+  --accent:#3ddc84; --accent-ink:#062b1e; --lean:#7aa7ff; --lean-ink:#0b1a3a; --pass:#1f2630; --pass-ink:#b4bcc8;
+  --good:#3ddc84; --bad:#ff6b6b; --warn:#ffc94a; --home:#7aa7ff;
+  --f-display:"Shrikhand",Georgia,serif; --f-body:"Michroma",system-ui,sans-serif; --f-logo:var(--f-display); color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:12px;line-height:1.5;letter-spacing:.01em;-webkit-text-size-adjust:100%}
+a{color:var(--accent)}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px calc(96px + env(safe-area-inset-bottom))}
+header{position:sticky;top:0;z-index:5;background:var(--bg);margin:0 -16px;padding:calc(12px + env(safe-area-inset-top)) 16px 8px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+h1{font-family:var(--f-logo);font-weight:400;font-size:24px;white-space:nowrap;margin:0;color:var(--accent)}
+.topr{display:flex;gap:8px;align-items:center}
+.age{font-size:10px;color:var(--muted)}
+.gear{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:22px;width:44px;height:44px;font-size:18px;cursor:pointer}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips button{flex:none;min-height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font:600 11px var(--f-body);letter-spacing:.03em;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+.day{font:400 22px var(--f-display);margin:10px 0 0}
+.lede{font-size:11px;color:var(--muted);margin:2px 0 12px}
+.hrow{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:18px 0 8px}
+.hrow h2{font:400 19px var(--f-display);margin:0}
+.hrow .sub{font-size:10px}
+.sub{color:var(--muted);font-size:10px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px}
+.list{padding:2px 12px}
+.list>.pick+.pick,.list>details>.pick,.list>.pick+details{border-top:1px solid var(--line)}
+.pick{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 10px;padding:10px 0}
+.pick .row1{display:flex;gap:6px;align-items:center;min-width:0}
+.pick .ttl{font:400 16px var(--f-display);line-height:1.2}
+.pick .edge{font:600 13px var(--f-body);text-align:right}
+.pick .why{grid-column:1/-1;font-size:11px;color:var(--soft)}
+.pick.Pass .why{color:var(--muted)}
+.edge.Bet{color:var(--accent)} .edge.Lean{color:var(--lean)} .edge.Pass{color:var(--muted)}
+.lab{flex:none;font:600 9px var(--f-body);letter-spacing:.05em;padding:3px 8px;border-radius:999px}
+.lab.Bet{background:var(--accent);color:var(--accent-ink)} .lab.Lean{background:var(--lean);color:var(--lean-ink)} .lab.Pass{background:var(--pass);color:var(--pass-ink)}
+.log{min-height:44px;min-width:52px;border:0;background:none;color:var(--accent);font:600 11px var(--f-body);letter-spacing:.04em;cursor:pointer;padding:0 0 0 8px;text-align:right}
+.log:disabled{color:var(--muted);cursor:default}
+.btn{min-height:44px;border-radius:12px;border:0;background:var(--accent);color:var(--accent-ink);font:600 11px var(--f-body);letter-spacing:.06em;padding:0 14px;cursor:pointer}
+.btn.ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line);font-weight:600}
+.btns{display:flex;gap:8px;grid-column:1/-1;margin-top:4px}
+.btns .btn{flex:1}
+.empty{color:var(--muted);text-align:center;padding:24px 8px;font-size:11px}
+.games{display:flex;flex-direction:column;gap:8px}
+.game{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;align-items:center;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px;color:var(--ink);font:inherit;cursor:pointer}
+.game .t{font:400 16px var(--f-display);line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.game .sc{font:400 19px var(--f-display);white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums}
+.game .m{font-size:10px;color:var(--muted)}
+.game .tags{text-align:right;display:flex;gap:4px;justify-content:flex-end}
+.gh{font:400 22px var(--f-display);margin:4px 0 0}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:14px}
+.two>div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.two>div+div{border-left:1px solid var(--line);padding-left:12px}
+.kick{font-size:10px;letter-spacing:.08em;color:var(--muted);font-weight:600;text-transform:uppercase}
+.score{display:flex;justify-content:space-between;align-items:baseline;gap:6px;font-size:11px}
+.score b{font:400 24px var(--f-display)}
+.bar{height:6px;border-radius:999px;background:var(--sunk);overflow:hidden;margin:4px 0}
+.bar i{display:block;height:100%;background:var(--home)}
+.back{background:none;border:0;color:var(--accent);font:inherit;font-size:11px;padding:10px 0;min-height:44px;cursor:pointer}
+details>summary{cursor:pointer;list-style:none;color:var(--accent);font-size:11px;font-weight:600;padding:14px 0;min-height:44px}
+details>summary::-webkit-details-marker{display:none}
+.linkbtn{display:flex;align-items:center;justify-content:center;min-height:44px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:11px;font-weight:600;letter-spacing:.04em;text-decoration:none;margin-top:12px}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--nav);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(3,1fr);padding-bottom:env(safe-area-inset-bottom)}
+nav.tabs button{min-height:64px;background:none;border:0;color:var(--muted);font:400 16px var(--f-display);cursor:pointer}
+nav.tabs button[aria-current="page"]{color:var(--accent);box-shadow:inset 0 3px 0 var(--accent)}
+.sum{margin-top:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sum>div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px}
+.sum .k{font-size:10px;letter-spacing:.06em;color:var(--muted)} .sum .v{font:600 15px var(--f-body)}
+.pos{color:var(--good)} .neg{color:var(--bad)}
+.num{font-variant-numeric:tabular-nums}
+dialog{border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink);width:min(92vw,420px);padding:16px}
+dialog::backdrop{background:rgba(0,0,0,.55)}
+dialog .ttl{font:400 18px var(--f-display)}
+dialog .why{font-size:11px;color:var(--muted)}
+label{display:block;font-size:10px;letter-spacing:.06em;color:var(--muted);margin:10px 0 4px}
+input{width:100%;min-height:44px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:16px system-ui,-apple-system,"Segoe UI",sans-serif;padding:0 10px}
+.menu a{display:block;padding:12px 0;font:400 17px var(--f-display);border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none;font-weight:600}
+.menu a span{display:block;font:400 10px var(--f-body);color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:10px;font-size:11px;z-index:30}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="top"><h1>Bet Desk</h1><div class="topr"><span class="age" id="age"></span><button class="gear" type="button" id="gearBtn" aria-label="Menu">⚙</button></div></div>
+  <div class="chips" id="sportChips" role="group" aria-label="Sport"></div>
+</header>
+<main>
+  <section id="v-today"></section>
+  <section id="v-games" hidden></section>
+  <section id="v-bets" hidden></section>
+</main>
+</div>
+<nav class="tabs" aria-label="Main">
+  <button type="button" data-v="today" aria-current="page">Today</button>
+  <button type="button" data-v="games">Games</button>
+  <button type="button" data-v="bets">My bets</button>
+</nav>
+
+<dialog id="betDlg">
+  <form method="dialog" id="betForm">
+    <div class="ttl" id="bdTitle"></div>
+    <div class="why" id="bdSub"></div>
+    <label for="bdOdds">Price you got</label><input id="bdOdds" inputmode="text" autocomplete="off">
+    <label for="bdUnits">Units</label><input id="bdUnits" inputmode="decimal" autocomplete="off">
+    <label for="bdBook">Book</label><input id="bdBook" autocomplete="off" style="font-family:var(--f-body)">
+    <p class="why" id="bdMsg"></p>
+    <div class="btns"><button class="btn ghost" value="cancel" type="button" id="bdCancel">Cancel</button><button class="btn" type="submit" id="bdSave">Save bet</button></div>
+  </form>
+</dialog>
+<dialog id="menuDlg">
+  <div class="menu">
+    <a href="./">Full desk<span>Every tool: line shop, props, parlays, promos, calculators, settings.</span></a>
+    <a href="monitor.html" id="monLink">Monitor<span>Accuracy, the price check's record, feeds and jobs.</span></a>
+  </div>
+  <p class="why" id="menuMade"></p>
+  <div class="btns"><button class="btn ghost" type="button" id="menuClose">Close</button></div>
+</dialog>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const amS = a => a == null ? '–' : a > 0 ? '+' + a : String(a);
+const pct = (x, d = 0) => x == null || !isFinite(x) ? '–' : (x * 100).toFixed(d) + '%';
+const sgn = x => x == null || !isFinite(x) ? '–' : (x >= 0 ? '+' : '') + (x * 100).toFixed(1) + '%';
+const dec = a => { a = +a; return a > 0 ? 1 + a / 100 : 1 + 100 / -a; };
+const ls = (k, d) => { try { return localStorage.getItem(k) ?? d; } catch (e) { return d; } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
+const SPORTS = ['All', 'NFL', 'NBA', 'CBB', 'CFB', 'NHL', 'MLB'];
+const STAT = {pass_att:'pass attempts', cmp:'completions', pass_yds:'passing yards', pass_td:'passing TDs', carries:'rush attempts', rush_yds:'rushing yards',
+  rec:'receptions', rec_yds:'receiving yards', td:'anytime TD', pts:'points', reb:'rebounds', ast:'assists', fg3m:'threes', pra:'pts + reb + ast', stl:'steals',
+  blk:'blocks', tov:'turnovers', sog:'shots on goal', points:'points', goals:'goals', assists:'assists', saves:'saves'};
+const MK = {spread:'Spread', total:'Total', ml:'Moneyline', prop:'Player prop'};
+const S = {v: 'today', sp: ls('front.sp', 'All'), game: null, bets: [], api: null, P: null};
+const dayOf = k => { const t = new Date(k), now = new Date(); return t.toDateString() === now.toDateString() ? 'Today' : t.toDateString() === new Date(now.getTime() + 864e5).toDateString() ? 'Tomorrow' : t.toLocaleDateString([], {weekday: 'short', month: 'short', day: 'numeric'}); };
+const when = k => { const t = new Date(k); return dayOf(k) + ' ' + t.toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'}); };
+const localDay = () => { const t = new Date(); return `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`; };
+function toast(t){ const d = document.createElement('div'); d.className = 'toast'; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 2200); }
+
+// ---------- what a bet says, in words ----------
+function title(r){
+  if (r.market === 'prop') return `${r.player} ${r.side.toLowerCase()} ${r.line} ${STAT[r.stat] || r.stat}`;
+  if (r.market === 'total') return `${r.side} ${r.line}`;
+  if (r.market === 'ml') return `${r.pick} to win`;
+  return `${r.pick} ${r.line > 0 ? '+' + r.line : r.line}`;
+}
+const live = r => !r.k || Date.parse(r.k) > Date.now();
+const inSport = r => S.sp === 'All' || r.sp === S.sp;
+const edgeOf = r => r.label === 'Pass' && !(r.ev > 0) ? '' : sgn(r.ev);
+function pickRow(r, opts = {}){
+  const logged = S.bets.some(b => b.pkey === key(r));
+  const meta = [opts.noGame ? '' : r.sp, `${r.book_name} ${amS(r.price)}`, r.label === 'Bet' ? r.stake_u + ' units' : r.label === 'Lean' ? 'tracked, not staked' : ''].filter(Boolean).join(' · ');
+  return `<div class="pick ${r.label}">
+    <div class="row1"><span class="lab ${r.label}">${r.label.toUpperCase()}</span><span class="ttl">${esc(title(r))}</span></div>
+    <div class="edge ${r.label}">${edgeOf(r)}</div>
+    <div class="sub">${esc(meta)}${opts.noGame ? '' : `<br>${esc(r.matchup)} · ${esc(when(r.k))}`}</div>
+    ${r.label === 'Pass' ? '<span></span>' : `<button class="log" type="button" data-log="${esc(key(r))}" ${logged ? 'disabled' : ''}>${logged ? 'Logged' : 'Log'}</button>`}
+    <div class="why">${esc(r.reason)}</div>
+  </div>`;
+}
+const sc = x => x == null || !isFinite(x) ? '–' : (+x).toFixed(1);
+const key = r => [r.sp, r.game, r.market, r.stat || '', r.side].join('|');
+
+// ---------- Today ----------
+const tm = k => new Date(k).toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'});
+function mkt(g){
+  if (g.spread != null && g.spread !== 0 && !['NHL', 'MLB'].includes(g.sp)) return `market ${g.spread < 0 ? g.h : g.a} ${-Math.abs(g.spread)}`;
+  const ml = g.ml || [];
+  if (ml[0] != null && ml[1] != null) return ml[0] <= ml[1] ? `market ${g.h} ${amS(Math.round(ml[0]))}` : `market ${g.a} ${amS(Math.round(ml[1]))}`;
+  return g.total != null ? `total ${g.total}` : '';
+}
+function gameRow(g){
+  const picks = (S.P.bets || []).filter(r => r.sp === g.sp && r.game === g.id && r.label !== 'Pass');
+  const nb = picks.filter(r => r.label === 'Bet').length, nl = picks.filter(r => r.label === 'Lean').length;
+  return `<button class="game" type="button" data-game="${esc(g.sp + '|' + g.id)}"><span class="t">${esc(g.a)} @ ${esc(g.h)}</span><span class="sc">${sc(g.as_)} – ${sc(g.hs)}</span>
+    <span class="m">${esc([g.sp, tm(g.k), mkt(g)].filter(Boolean).join(' · '))}</span><span class="tags">${nb ? `<span class="lab Bet">${nb} BET${nb > 1 ? 'S' : ''}</span>` : ''}${nl ? `<span class="lab Lean">${nl} LEAN${nl > 1 ? 'S' : ''}</span>` : ''}</span></button>`;
+}
+function renderToday(){
+  const B = (S.P.bets || []).filter(r => live(r) && inSport(r));
+  const bet = B.filter(r => r.label === 'Bet'), lean = B.filter(r => r.label === 'Lean');
+  const sps = new Set([...bet, ...lean].map(r => r.sp)).size;
+  const G = (S.P.games || []).filter(g => live(g) && inSport(g));
+  const first = G.length ? dayOf(G[0].k) : '', todayG = G.filter(g => dayOf(g.k) === first);
+  const n = (x, w) => `${x} ${w}${x === 1 ? '' : 's'}`;
+  $('#v-today').innerHTML = `<div class="day">${esc(new Date().toLocaleDateString([], {weekday: 'long', month: 'short', day: 'numeric'}))}</div>
+    <div class="lede">${bet.length || lean.length ? `${n(bet.length, 'bet')} and ${n(lean.length, 'lean')} across ${n(sps, 'sport')}` : 'Nothing clears the price check right now. That is a normal day.'}</div>
+    <div class="card list"><div class="hrow" style="margin:10px 0 0"><h2>Best bets</h2><span class="sub">edge after the price check</span></div>
+      ${bet.map(r => pickRow(r)).join('') || '<div class="empty">No bets right now.</div>'}
+      ${lean.length ? `<details><summary>Show ${n(lean.length, 'lean')}</summary>${lean.slice(0, 40).map(r => pickRow(r)).join('')}</details>` : ''}
+    </div>
+    ${todayG.length ? `<div class="hrow"><h2>${first === 'Today' ? "Today's games" : esc(first) + "'s games"}</h2><span class="sub">our projected score</span></div>
+      <div class="games">${todayG.map(gameRow).join('')}</div>` : ''}`;
+}
+// ---------- Games ----------
+function renderGames(){
+  const G = (S.P.games || []).filter(g => live(g) && inSport(g));
+  if (S.game){
+    const g = (S.P.games || []).find(x => x.sp + '|' + x.id === S.game);
+    if (g) return renderGame(g);
+    S.game = null;
+  }
+  let out = '', day = '';
+  G.forEach(g => { const d = dayOf(g.k); if (d !== day){ out += `${day ? '</div>' : ''}<div class="hrow"><h2>${esc(d)}</h2>${day ? '' : '<span class="sub">our projected score</span>'}</div><div class="games">`; day = d; } out += gameRow(g); });
+  $('#v-games').innerHTML = out ? out + '</div>' : '<div class="empty">No upcoming games with lines for this sport.</div>';
+}
+function renderGame(g){
+  const R = (S.P.bets || []).filter(r => r.sp === g.sp && r.game === g.id);
+  const ord = {Bet: 0, Lean: 1, Pass: 2}, byLab = (a, b) => ord[a.label] - ord[b.label] || (b.ev || 0) - (a.ev || 0);
+  const games = R.filter(r => r.market !== 'prop').sort(byLab), shown = games.filter(r => r.label !== 'Pass'), passes = games.filter(r => r.label === 'Pass');
+  const props = R.filter(r => r.market === 'prop' && r.label !== 'Pass').sort(byLab);
+  const ph = g.p_home, fav = ph == null ? null : ph >= .5 ? [g.h, ph] : [g.a, 1 - ph];
+  const ml = g.ml || [], fairH = ml[0] != null && ml[1] != null ? (1 / dec(ml[0])) / (1 / dec(ml[0]) + 1 / dec(ml[1])) : null;
+  const ffav = fairH == null ? null : fairH >= .5 ? [g.h, fairH] : [g.a, 1 - fairH];
+  const spr = g.spread == null ? '' : g.spread === 0 ? 'Pick’em' : `${g.spread < 0 ? g.h : g.a} ${-Math.abs(g.spread)}`;
+  $('#v-games').innerHTML = `<button class="back" type="button" data-back>‹ All ${S.sp === 'All' ? '' : esc(S.sp) + ' '}games</button>
+    <div class="gh">${esc(g.a)} @ ${esc(g.h)}</div><div class="sub">${esc(g.sp)} · ${esc(when(g.k))}</div>
+    <div class="card two" style="margin-top:12px">
+      <div><div class="kick">Our projection</div>
+        <div class="score"><span>${esc(g.a)}</span><b>${sc(g.as_)}</b></div><div class="score"><span>${esc(g.h)}</span><b>${sc(g.hs)}</b></div>
+        ${ph == null ? '' : `<div class="bar" role="img" aria-label="${esc(g.h)} win chance ${pct(ph)}"><i style="width:${(ph * 100).toFixed(0)}%"></i></div><div class="sub">${esc(fav[0])} win ${pct(fav[1])}</div>`}</div>
+      <div><div class="kick">Market</div>
+        ${spr ? `<div style="font-size:12px">${esc(spr)}</div>` : ''}${g.total != null ? `<div style="font-size:12px">Total ${g.total}</div>` : ''}
+        ${ffav ? `<div class="sub">Fair: ${esc(ffav[0])} win ${pct(ffav[1])}</div>` : ''}</div>
+    </div>
+    <div class="hrow"><h2>Bets in this game</h2></div>
+    <div class="card list">${shown.map(r => pickRow(r, {noGame: true})).join('') || '<div class="empty" style="padding:14px 4px">No game line clears the price check.</div>'}
+      ${passes.length ? `<details><summary>Show ${passes.length} pass${passes.length === 1 ? '' : 'es'}</summary>${passes.map(r => pickRow(r, {noGame: true})).join('')}</details>` : ''}</div>
+    ${props.length ? `<div class="hrow"><h2>Player props</h2></div><div class="card list">${props.map(r => pickRow(r, {noGame: true})).join('')}</div>` : ''}
+    <a class="linkbtn" href="./">Watch the sim on the full desk</a>`;
+}
+// ---------- My bets ----------
+function calc(b){ const d = dec(b.odds), u = +b.units || 0; return b.result === 'win' ? u * (d - 1) : b.result === 'loss' ? -u : b.result === 'pending' ? null : 0; }
+function renderBets(){
+  const B = S.bets.filter(b => S.sp === 'All' || b.sport === S.sp).sort((a, b) => ((a.result === 'pending') === (b.result === 'pending') ? 0 : a.result === 'pending' ? -1 : 1) || (b.date || '').localeCompare(a.date || '') || (b.created || '').localeCompare(a.created || ''));
+  const st = B.filter(b => ['win', 'loss', 'push'].includes(b.result)), pl = st.reduce((a, b) => a + calc(b), 0), risk = st.filter(b => b.result !== 'push' && b.why !== 'Promo').reduce((a, b) => a + (+b.units || 0), 0);
+  const w = st.filter(b => b.result === 'win').length, l = st.filter(b => b.result === 'loss').length;
+  const pend = B.filter(b => b.result === 'pending'), done = B.filter(b => b.result !== 'pending').slice(0, 40);
+  const row = b => `<div class="pick"><div class="row1">${b.label ? `<span class="lab ${esc(b.label)}">${esc(b.label.toUpperCase())}</span>` : ''}<span class="ttl">${esc(b.desc || b.player || 'Bet')}</span></div><span></span>
+    <div class="sub" style="grid-column:1/-1">${esc(b.sport || '')} · ${esc(b.date || '')} · ${esc(b.book || '')} <span class="num">${amS(+b.odds)}</span> · ${esc(b.units)}u</div>
+    ${b.result === 'pending' ? `<div class="btns"><button class="btn ghost" type="button" data-res="win" data-id="${esc(b.id)}">Won</button><button class="btn ghost" type="button" data-res="loss" data-id="${esc(b.id)}">Lost</button><button class="btn ghost" type="button" data-res="push" data-id="${esc(b.id)}">Push</button></div>`
+      : `<div class="price" style="grid-column:1/-1;display:flex;justify-content:space-between"><span class="sub">${esc({win: 'Won', loss: 'Lost', push: 'Push', void: 'Void'}[b.result] || b.result)}</span><span class="num ${calc(b) >= 0 ? 'pos' : 'neg'}">${calc(b) >= 0 ? '+' : ''}${calc(b).toFixed(2)}u</span></div>`}</div>`;
+  $('#v-bets').innerHTML = `${S.api === false ? '<p class="sub">Saved on this phone.</p>' : ''}
+    <div class="sum"><div><div class="k">Record</div><div class="v">${w}-${l}</div></div><div><div class="k">Units</div><div class="v ${pl >= 0 ? 'pos' : 'neg'}">${pl >= 0 ? '+' : ''}${pl.toFixed(1)}</div></div><div><div class="k">ROI</div><div class="v">${risk ? sgn(pl / risk) : '–'}</div></div></div>
+    <div class="hrow"><h2>Open (${pend.length})</h2></div><div class="card list">${pend.map(row).join('') || '<div class="empty">No open bets.</div>'}</div>
+    ${done.length ? `<div class="hrow"><h2>Settled</h2></div><div class="card list">${done.map(row).join('')}</div>` : ''}
+    <p class="sub" style="margin-top:12px">Every bet here also shows on the full desk, with CLV and charts.</p>`;
+}
+// ---------- storage: same account as the full desk (/api/db/bets), else this phone (betdesk.v1) ----------
+const H = {'content-type': 'application/json', 'x-desk': '1'};
+async function loadBets(){
+  try { const r = await fetch('/api/db/bets', {headers: H, credentials: 'same-origin'});
+    if (r.ok && /json/.test(r.headers.get('content-type') || '')){ S.api = true; S.bets = (await r.json()).docs.map(d => ({...d.data, id: d.id})); return; } } catch (e) {}
+  S.api = false; try { S.bets = (JSON.parse(ls('betdesk.v1', 'null')) || {}).bets || []; } catch (e) { S.bets = []; }
+}
+async function saveBet(b){
+  if (S.api){ const r = await fetch('/api/db/bets/' + encodeURIComponent(b.id), {method: 'PUT', headers: H, credentials: 'same-origin', body: JSON.stringify(b)}); if (!r.ok) throw new Error(r.status === 401 ? 'signed out' : 'server ' + r.status); }
+  const i = S.bets.findIndex(x => x.id === b.id); i >= 0 ? S.bets[i] = b : S.bets.push(b);
+  if (!S.api){ let L = {}; try { L = JSON.parse(ls('betdesk.v1', 'null')) || {}; } catch (e) {} L.bets = S.bets; lsSet('betdesk.v1', JSON.stringify(L)); }
+}
+// ---------- log a bet from a pick ----------
+let PEND = null;
+function openLog(r){
+  PEND = r; $('#bdTitle').textContent = title(r); $('#bdSub').textContent = `${r.sp} · ${r.matchup} · ${r.label}${r.label === 'Bet' ? ', ' + r.stake_u + 'u suggested' : ''}`;
+  $('#bdOdds').value = amS(r.price); $('#bdUnits').value = r.label === 'Bet' ? r.stake_u : ''; $('#bdBook').value = r.book_name; $('#bdMsg').textContent = '';
+  $('#betDlg').showModal();
+}
+$('#bdCancel').onclick = () => $('#betDlg').close();
+$('#betForm').addEventListener('submit', async e => {
+  e.preventDefault(); const r = PEND; if (!r) return;
+  const o = +String($('#bdOdds').value).replace(/^\+/, ''), u = +$('#bdUnits').value;
+  if (!(Math.abs(o) >= 100)){ $('#bdMsg').textContent = 'Enter the American price you got, like -110 or +125.'; return; }
+  if (!(u > 0)){ $('#bdMsg').textContent = 'Enter the units you staked.'; return; }
+  const model = r.market === 'prop' ? `${r.sp} props` : ({NFL: 'NFL card', NBA: 'NBA card', CBB: 'CBB card', CFB: 'CFB card', MLB: 'MLB app'}[r.sp] || 'Own read');
+  const b = {id: 'b' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), date: localDay(), sport: r.sp, market: MK[r.market], model, desc: title(r) + ` (${r.matchup})`,
+    side: r.market === 'total' || r.market === 'prop' ? r.side : r.pick, line: r.line == null ? '' : String(r.line), odds: String(o), units: String(u), book: $('#bdBook').value.trim(),
+    why: 'Model edge, no news', pm: (r.ours * 100).toFixed(1), pf: r.fair == null ? '' : (r.fair * 100).toFixed(1), pb: (r.trusted * 100).toFixed(1), push: r.push || 0,
+    stat: r.stat || '', player: r.player || '', label: r.label, src: 'price check', pkey: key(r), gm: r.game, created: new Date().toISOString(), result: 'pending'};
+  try { await saveBet(b); $('#betDlg').close(); toast('Saved to My bets'); render(); } catch (err){ $('#bdMsg').textContent = 'Could not save: ' + (err.message || err); }
+});
+// ---------- wiring ----------
+document.addEventListener('click', async e => {
+  const t = e.target.closest('button,a'); if (!t) return;
+  if (t.dataset.log){ const r = (S.P.bets || []).find(x => key(x) === t.dataset.log); if (r) openLog(r); }
+  else if (t.dataset.game){ S.game = t.dataset.game; renderGames(); scrollTo(0, 0); }
+  else if (t.hasAttribute('data-back')){ S.game = null; renderGames(); }
+  else if (t.dataset.res){ const b = S.bets.find(x => x.id === t.dataset.id); if (!b) return;
+    try { await saveBet({...b, result: t.dataset.res, updated: new Date().toISOString()}); renderBets(); } catch (err){ toast('Could not save: ' + (err.message || err)); } }
+});
+document.querySelectorAll('nav.tabs button').forEach(b => b.onclick = () => { S.v = b.dataset.v; if (S.v !== 'games') S.game = null; render(); scrollTo(0, 0); });
+$('#gearBtn').onclick = () => $('#menuDlg').showModal();
+$('#menuClose').onclick = () => $('#menuDlg').close();
+function render(){
+  $('#sportChips').innerHTML = SPORTS.map(s => `<button type="button" aria-pressed="${s === S.sp}" data-sp="${s}">${s}</button>`).join('');
+  document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-current', b.dataset.v === S.v ? 'page' : 'false'));
+  ['today', 'games', 'bets'].forEach(v => $('#v-' + v).hidden = v !== S.v);
+  if (!S.P) return;
+  ({today: renderToday, games: renderGames, bets: renderBets})[S.v]();
+}
+$('#sportChips').onclick = e => { const b = e.target.closest('button'); if (!b) return; S.sp = b.dataset.sp; S.game = null; lsSet('front.sp', S.sp); render(); };
+document.addEventListener('visibilitychange', () => { if (!document.hidden) start(); });
+async function start(){
+  try { const r = await fetch('priced_bets.json', {cache: 'no-cache'}); if (!r.ok) throw new Error(r.status); S.P = await r.json(); }
+  catch (e){ $('#v-today').innerHTML = `<div class="empty">Could not load today's prices (${esc(e.message)}). Try again in a minute.</div>`; }
+  await loadBets();
+  $('#menuMade').textContent = S.P ? 'Prices from ' + S.P.made : '';
+  const m = S.P && Date.parse(String(S.P.made).replace(' UTC', 'Z').replace(' ', 'T'));
+  if (m){ const mins = Math.max(0, Math.round((Date.now() - m) / 6e4)); $('#age').textContent = 'odds ' + (mins < 60 ? mins + 'm' : mins < 2880 ? Math.round(mins / 60) + 'h' : Math.round(mins / 1440) + 'd') + ' ago'; }
+  fetch('monitor.html', {method: 'HEAD', cache: 'no-cache'}).then(r => { $('#monLink').hidden = !(r.ok && /html/.test(r.headers.get('content-type') || '')); }).catch(() => { $('#monLink').hidden = true; });
+  render();
+}
+start();
+</script>
+</body>
+</html>
