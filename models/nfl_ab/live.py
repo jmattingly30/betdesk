@@ -154,7 +154,7 @@ def main():
                 R = [["+" if early else "-", f"Kickoff in {kick_h / 24:.1f} days: " + ("look-ahead line, so the blend counts 35% of our gap (2026 openers moved our way 82-86% of the time at gaps of 3+)" if early else f"game-week line, so the blend counts {share:.0%} of our gap (best fit of our model plus the line on 2018-26 results); our NFL spread gaps have not held up at the close (2018-26)")],
                      ["+" if agree else "-", "The desk model is on the same side of the line" if agree else "The desk model is on the other side of the line"],
                      ["·", "NFL spreads are a lean at most: the 2026 openers covered 49-56% (27-35 games) and the backtest knew the starting QB, which an opener often does not"]]
-                if abs(gap) >= 3: R.append(["·", f"Key numbers: Model A puts {A['p3']:.0%} on a 3-point margin and {A['p7']:.0%} on 7"])
+                if abs(gap) >= 3: R.append(["·", f"Key numbers: our projection puts {A['p3']:.0%} on a 3-point margin and {A['p7']:.0%} on 7"])
                 B["spread"] = dict(market=round(mu_m, 2), books=used, ours=round(mA, 2), gap=round(gap, 2), share=share, real=round(real, 2), fresh=early, agree=bool(agree),
                                    tier=tier, side=v["h"] if side_home else v["a"], bet=bp, reasons=R)
             mu_t, used_t = market(bk, "t")
@@ -162,7 +162,7 @@ def main():
                 gap_t = tA - mu_t - TSHIFT; ov = gap_t > 0; real_t = gap_t * W_TOT
                 bp = best_price(bk, po, ov, "t", mu_t + real_t)
                 B["total"] = dict(market=round(mu_t, 2), books=used_t, ours=round(tA, 2), gap=round(gap_t, 2), real=round(real_t, 2), share=W_TOT, fresh=early, tier="C", side="Over" if ov else "Under", bet=bp,
-                                  reasons=[["·", f"Chance = the line plus {W_TOT:.0%} of our gap (best fit on 2018-26 results)"], ["·", f"Measured against this slate: Model A sits {TSHIFT:+.1f} pts vs the market's totals on the median game, so only the part beyond that counts"],
+                                  reasons=[["·", f"Chance = the line plus {W_TOT:.0%} of our gap (best fit on 2018-26 results)"], ["·", f"Measured against this slate: our projection sits {TSHIFT:+.1f} pts vs the market's totals on the median game, so only the part beyond that counts"],
                                            ["-", "NFL total gaps have lost: 2026 openers 3+ hit 39-44%, 2026 closes 43-48%. Shown for the number only, never a bet"]])
             sp_ = B.get("spread")
             if sp_:
