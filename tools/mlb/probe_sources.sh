@@ -41,9 +41,30 @@ probe statsapi_team_bat "https://statsapi.mlb.com/api/v1/teams/stats?stats=seaso
 probe savant_team_frv   "$SV/leaderboard/fielding-run-value?gameType=Regular&seasonStart=$Y&seasonEnd=$Y&type=team&position=&minInnings=0&minResults=1&csv=true"
 probe savant_park       "$SV/leaderboard/statcast-park-factors?type=year&year=$Y&batSide=&stat=index_wOBA&condition=All&rolling=no&csv=true"
 probe chadwick_people   "https://raw.githubusercontent.com/chadwickbureau/register/master/data/people-0.csv"
+probe savant_framing2     "$SV/leaderboard/catcher-framing?type=catcher&seasonStart=$Y&seasonEnd=$Y&team=&min=q&sortColumn=rv_tot&sortDirection=desc&csv=true"
+probe savant_framing3     "$SV/catcher_framing?year=$Y&team=&min=q&type=catcher&sort=4,1&csv=true"
+# --- details for the stand-ins (printed so they show in the job log) ---
+python3 - "$OUT" <<'PY' || true
+import json, sys, csv, io
+o = sys.argv[1]
+try:
+    d = json.load(open(f'{o}/statsapi_team_rp')); sp = d['stats'][0]['splits']
+    s = sp[0]; print('team_rp rows', len(sp), '| first', s['team']['name'], '| split', s.get('split'), '| keys', sorted(s['stat'].keys()))
+    print('team_rp sample', {k: s['stat'].get(k) for k in ('inningsPitched','battersFaced','atBats','baseOnBalls','intentionalWalks','hitByPitch','hits','doubles','triples','homeRuns','sacFlies','gamesStarted','gamesPitched')})
+    t = json.load(open(f'{o}/statsapi_team_bat'))['stats'][0]['splits'][0]['stat']
+    print('team_bat sample', {k: t.get(k) for k in ('gamesPlayed','plateAppearances','runs','atBats','hits','homeRuns','baseOnBalls')})
+except Exception as e: print('statsapi parse failed', e)
+for f in ('savant_team_frv', 'savant_oaa'):
+    try:
+        r = list(csv.reader(io.StringIO(open(f'{o}/{f}', encoding='utf-8-sig').read())))
+        print(f, 'rows', len(r) - 1, '| header', r[0][:14], '| row1', r[1][:6])
+    except Exception as e: print(f, 'parse failed', e)
+for f in ('savant_framing', 'savant_framing2', 'savant_framing3'):
+    b = open(f'{o}/{f}', encoding='utf-8', errors='replace').read(300); print(f, 'CSV' if not b.lstrip('\ufeff').startswith('<') else 'HTML', b[:120].replace('\n', ' '))
+PY
 # --- odds feed (0-credit endpoint) ---
 if [ -n "${ODDS_API_KEY:-}" ]; then
-  code=$(curl -sS --max-time 30 -o "$OUT/odds_sports.json" -w '%{http_code}' "https://api.the-odds-api.com/v4/sports?apiKey=$ODDS_API_KEY" || echo ERR)
+  code=$(curl -sS --max-time 30 -o "$OUT/odds_sports.json" -w '%{http_code}' "https://api.the-odds-api.com/v4/sports?all=true&apiKey=$ODDS_API_KEY" || echo ERR)
   mlb=$(grep -o '"key":"baseball_mlb[^"]*"' "$OUT/odds_sports.json" | tr '\n' ' ')
   printf '%-28s %-4s  %s\n' odds_api_sports "$code" "${mlb:-baseball_mlb not listed (offseason?)}"
   echo "| odds_api_sports | $code | ${mlb:-no baseball_mlb in list} | |" >> "$OUT/summary.md"
