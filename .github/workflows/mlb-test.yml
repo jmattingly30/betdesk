@@ -26,6 +26,7 @@ jobs:
       - name: Dry slate export
         env:
           MLB_SLATE_OUT: ${{ runner.temp }}/mlb_slate.json
+          MLB_SHOW_BULLPEN: '1'
         run: |
           D="${{ github.event.inputs.date || '2026-09-20' }}"
           time node models/mlb/live.js "$D"
@@ -37,9 +38,12 @@ jobs:
               e = (g.get('models') or {}).get('eff') or {}
               print(f"{g['away'][:22]:22} @ {g['home'][:22]:22} {g['status']:8} eff {e.get('runsAway', 0):.2f}-{e.get('runsHome', 0):.2f} home {e.get('homeWinProb', 0):.3f} total {e.get('total', 0):.2f} | eff in {(g.get('inputs') or {}).get('away', {}).get('efficiencySource')}")
           PY
-      - name: Parity with J's live app (2026 World Series pregame projections)
+      - name: Parity with J's live app (2026 World Series pregame projections, bullpens off as in the live app)
         run: |
           for D in 2026-10-23 2026-10-24 2026-10-26 2026-10-27 2026-10-28; do
-            MLB_SLATE_OUT=$RUNNER_TEMP/ws_$D.json node models/mlb/live.js $D | tail -2
+            MLB_BULLPEN=off MLB_SLATE_OUT=$RUNNER_TEMP/ws_$D.json node models/mlb/live.js $D | tail -2
+            MLB_SLATE_OUT=$RUNNER_TEMP/bp_$D.json node models/mlb/live.js $D | tail -1
           done
           python3 models/mlb/parity.py $RUNNER_TEMP/ws_*.json
+          echo "--- same games with MLB Stats API bullpens (what changes) ---"
+          python3 models/mlb/parity.py $RUNNER_TEMP/bp_*.json
