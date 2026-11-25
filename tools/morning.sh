@@ -62,6 +62,8 @@ step "C4c Model A export" python3 app/export_model_a.py
 step "C4h Watch the sim" python3 models/sims/build.py NBA CBB NFL CFB
 step "C6 parlays + promo" bash -c "python3 models/parlay/suggest.py && python3 models/promo/promo.py"
 step "C7 snapshots" bash -c "node models/grading/snap_games.js && node models/grading/snap_flags.js"
+# C7a (J 2026-11-25, desk simplification step 1): one price check for every sport, in SHADOW -> app/data/priced_bets.json
+step "C7a price check (shadow)" python3 models/pricing/price.py
 step "C8 grade" python3 models/grading/grade.py
 
 # D. publish = commit; E. report = the job fails if any step failed

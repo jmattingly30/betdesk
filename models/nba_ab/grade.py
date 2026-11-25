@@ -17,7 +17,7 @@ for r in runs:
         if z["tier"] in "AB" and z.get("bet") and (r["id"], k) not in first: first[(r["id"], k)] = (r, z)
         elif z["tier"] == "C" and z.get("bet") and (r["id"], k) not in firstU and (u := unproven.grade_tier("NBA", k, z)): firstU[(r["id"], k)] = (r, dict(z, tier=u))
 out = {"made": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), "A": {}, "B": {}}
-eA, eB, eL, closer = [], [], [], 0
+eA, eB, eL, eP, closer = [], [], [], [], 0   # eP = our miss on the SAME games as eL (J 2026-11-25: MAE vs line was unpaired)
 for i, f in fin.items():
     r = last.get(i)
     if not r: continue
@@ -26,10 +26,10 @@ for i, f in fin.items():
     if sp and tt and sp.get("market") is not None and tt.get("market") is not None:
         ih, ia = (tt["market"] + sp["market"]) / 2, (tt["market"] - sp["market"]) / 2
         for j, side, im in ((0, "h", ih), (1, "a", ia)):
-            eL.append(abs(im - f[side])); closer += abs(r["A"][j] - f[side]) < abs(im - f[side])
+            eL.append(abs(im - f[side])); eP.append(abs(r["A"][j] - f[side])); closer += abs(r["A"][j] - f[side]) < abs(im - f[side])
 if eA: out["A"] = {"team_scores": len(eA), "MAE": round(sum(eA) / len(eA), 2), "base_MAE": round(sum(eB) / len(eB), 2)}
-if eL: out["A"].update({"line_team_scores": len(eL), "line_MAE": round(sum(eL) / len(eL), 2), "A_closer_share": round(closer / len(eL), 3)})
-T = collections.defaultdict(lambda: {"n": 0, "w": 0, "pnl": 0.0, "clv": 0.0})
+if eL: out["A"].update({"line_team_scores": len(eL), "line_MAE": round(sum(eL) / len(eL), 2), "MAE_same_games": round(sum(eP) / len(eP), 2), "A_closer_share": round(closer / len(eL), 3)})
+T = collections.defaultdict(lambda: {"n": 0, "w": 0, "pnl": 0.0, "clv": 0.0, "clv_n": 0})
 for (gid, k), (r, z) in [*first.items(), *firstU.items()]:
     f = fin.get(gid)
     if not f: continue
@@ -41,6 +41,6 @@ for (gid, k), (r, z) in [*first.items(), *firstU.items()]:
         t = f["h"] + f["a"]; res = (t - pt) if z["side"] == "Over" else (pt - t); clv = None if lk is None else ((lk - z["market"]) if z["side"] == "Over" else (z["market"] - lk))
     else: res = (f["h"] - f["a"]) if z["side"] == r["h"] else (f["a"] - f["h"]); clv = None
     if res == 0: continue
-    s2 = T[f"{k}_{z['tier']}"]; s2["n"] += 1; s2["w"] += res > 0; s2["pnl"] += (d - 1) if res > 0 else -1; s2["clv"] += clv or 0
-for k, s in T.items(): out["B"][k] = {"n": s["n"], "win": round(s["w"] / s["n"], 3), "roi": round(s["pnl"] / s["n"], 3), "clv_pts": round(s["clv"] / s["n"], 2)}
+    s2 = T[f"{k}_{z['tier']}"]; s2["n"] += 1; s2["w"] += res > 0; s2["pnl"] += (d - 1) if res > 0 else -1; s2["clv"] += clv or 0; s2["clv_n"] += clv is not None   # moneyline / no later market: no CLV
+for k, s in T.items(): out["B"][k] = {"n": s["n"], "win": round(s["w"] / s["n"], 3), "roi": round(s["pnl"] / s["n"], 3), "clv_pts": round(s["clv"] / s["clv_n"], 2) if s["clv_n"] else None, "clv_n": s["clv_n"]}
 json.dump(out, open(f"{H}/grade.json", "w"), indent=1); print(json.dumps(out))
