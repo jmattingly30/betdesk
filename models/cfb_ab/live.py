@@ -193,10 +193,10 @@ def main():
                       else "game-week line: gaps of 4+ at the close still covered 55% (1,005 bets, 2022-25), so a lean at most")],
                      ["+" if agree else "-", "The desk model (v3) is on the same side of the line" if agree else "The desk model (v3) is on the other side of the line"]]
                 if 7.5 <= fav <= 24: R.append(["+", "Favourite of 7.5-24: the size where our CFB gaps have held up best at the opener"])
-                if (v.get("wk") or 0) >= 8: R.append(["+", "Week 8+: Model A's in-season ratings carry the most weight by now"])
-                if ab: R.append(["·", "Missing starters priced into Model A: " + "; ".join(f"{z['player']} ({z['team']}, {'QB' if z['kind'] == 'qb' else 'top skill player'}{', elite' if z['elite'] else ''}) {z['pts']:+.1f}" for z in ab)])
+                if (v.get("wk") or 0) >= 8: R.append(["+", "Week 8+: our projection's in-season ratings carry the most weight by now"])
+                if ab: R.append(["·", "Missing starters priced into our projection: " + "; ".join(f"{z['player']} ({z['team']}, {'QB' if z['kind'] == 'qb' else 'top skill player'}{', elite' if z['elite'] else ''}) {z['pts']:+.1f}" for z in ab)])
                 if ush: R.append(["·", f"Player usage prior (prop-implied offense): {ush:+.1f} pts to {v['h']}, included"])
-                if abs(gap) >= 3: R.append(["·", f"Key numbers: Model A puts {A['p3']:.0%} on a 3-point margin and {A['p7']:.0%} on 7"])
+                if abs(gap) >= 3: R.append(["·", f"Key numbers: our projection puts {A['p3']:.0%} on a 3-point margin and {A['p7']:.0%} on 7"])
                 if tier != "C" and (not bp or bp["ev"] < 0): tier = "C"; R.append(["-", "No Colorado book offers a positive-EV price on this side right now"])
                 B["spread"] = dict(market=round(mu_m, 2), books=used, ours=round(mA, 2), gap=round(gap, 2), share=share, real=round(real, 2), fresh=early, agree=bool(agree),
                                    tier=tier, side=v["h"] if side_home else v["a"], bet=bp, reasons=R)
@@ -207,7 +207,7 @@ def main():
                 tier = "B" if early and not ov and gap_t <= -4 and bp and bp["ev"] >= 0 else "C"
                 RT = [["+" if tier == "B" else "-", "Look-ahead under with a gap of 4+: 2022-25 openers hit 58% (343 bets, 3 of 4 seasons); a lean until live tracking" if tier == "B" else
                        ("Overs at the opener lost (49.5%, 489 bets)" if early and ov else "Total gaps below 4 or on game-week lines have not held up (2022-25 closes 51%)")],
-                      ["·", f"Tempo: Model A's total uses both teams' plays per game this season, shrunk toward each head coach's pace"]]
+                      ["·", f"Tempo: our projection's total uses both teams' plays per game this season, shrunk toward each head coach's pace"]]
                 B["total"] = dict(market=round(mu_t, 2), books=used_t, ours=round(tA, 2), gap=round(gap_t, 2), real=round(real_t, 2), share=SHARE["total_early"] if early else 0.0,
                                   fresh=early, tier=tier, side="Over" if ov else "Under", bet=bp, reasons=RT)
             sp_ = B.get("spread")

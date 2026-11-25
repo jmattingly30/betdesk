@@ -74,7 +74,7 @@ details summary{cursor:pointer;color:var(--muted);font-size:13px;margin-top:6px}
 
 <section id="acc">
   <h2>1 · Our projection: how close to the final score</h2>
-  <p class="note">Model A, never blended, graded as J set it: team scores against the closing line's implied team totals. Only games that had a line are counted, so the model and the line are compared on the same games. Lower is better.</p>
+  <p class="note">Our projection, never blended, graded as J set it: team scores against the closing line's implied team totals. Only games that had a line are counted, so the model and the line are compared on the same games. Lower is better.</p>
   <div class="controls"><span class="seg" id="metSeg" role="group" aria-label="Measure"></span></div>
   <div class="tiles" id="accTiles"></div>
   <div class="grid">
@@ -105,7 +105,7 @@ details summary{cursor:pointer;color:var(--muted);font-size:13px;margin-top:6px}
   <div class="tiles" id="priceTiles"></div>
   <div class="grid">
     <div class="card"><h3>Stated EV vs what it returned</h3><div class="controls" style="margin:4px 0"><span class="seg" id="bucketSeg" role="group" aria-label="Bucket"></span></div><div class="legend"><span><i style="background:var(--model)"></i>EV we showed</span><span><i style="background:var(--mkt)"></i>ROI</span><span><i style="background:var(--act)"></i>CLV</span></div><div id="evBars"></div><details><summary>Table</summary><div class="scroll" id="bucketTable"></div></details></div>
-    <div class="card"><h3>Old system for comparison: prop flags, units over time</h3><div id="oldDaily"></div><details><summary>Old tiers and flags</summary><div class="scroll" id="oldTable"></div></details></div>
+    <div class="card"><h3>Old system for comparison: prop flags, units over time</h3><div id="oldDaily"></div><details><summary>Old tiers and flags, in the new labels</summary><div class="scroll" id="oldTable"></div></details></div>
   </div>
   <div class="card"><h3>Trust table</h3><p class="note">Share of our gap from the market that the price check keeps, in log-odds. Refit every Monday from graded results, pulled toward the research seed.</p><div class="scroll" id="trustTable"></div><div id="demoted"></div></div>
 </section>
@@ -293,8 +293,10 @@ function renderPrice(){
   // old system
   const od = P.old_daily || [];
   $('#oldDaily').innerHTML = lines(od.map(d => d.d.slice(5)), [{label: 'Cumulative units', color: 'var(--mkt)', ys: od.map(d => d.cum), tips: od.map(d => `<b>${d.d}</b><br>${d.n} flags · ${d.units >= 0 ? '+' : ''}${d.units}u<br>Running ${d.cum >= 0 ? '+' : ''}${d.cum}u`)}], {zero: true, aria: 'old prop flags cumulative units'});
-  const oldRows = (P.old_flags || []).filter(r => S.sp === 'All' || r.sp === S.sp).map(r => [`${r.sp} props · ${r.kind}`, r.n, pct(r.roi), pct(r.ev), pct(r.clv)]);
-  Object.entries(P.old_games || {}).filter(([sp]) => S.sp === 'All' || sp === S.sp).forEach(([sp, v]) => Object.entries(v).forEach(([k, x]) => oldRows.push([`${sp} ${k.replace('_', ' tier ')}`, x.n, pct(x.roi), '–', x.clv_pts == null ? '–' : x.clv_pts + ' pts'])));
+  // step 5 (J 2026-11-25): the old names map onto the new labels: tier A, flag, proven -> Bet; tier B, lean -> Lean; tier C, unproven, check -> Pass
+  const NEWL = {A: 'Bet', B: 'Lean', C: 'Pass', proven: 'Bet', flag: 'Bet', lean: 'Lean', unproven: 'Pass', check: 'Pass'};
+  const oldRows = (P.old_flags || []).filter(r => S.sp === 'All' || r.sp === S.sp).map(r => [`${r.sp} props · ${NEWL[r.kind] || r.kind} (was ${r.kind})`, r.n, pct(r.roi), pct(r.ev), pct(r.clv)]);
+  Object.entries(P.old_games || {}).filter(([sp]) => S.sp === 'All' || sp === S.sp).forEach(([sp, v]) => Object.entries(v).forEach(([k, x]) => oldRows.push([`${sp} ${k.split('_')[0]} · ${NEWL[k.split('_')[1]] || k} (was tier ${k.split('_')[1]})`, x.n, pct(x.roi), '–', x.clv_pts == null ? '–' : x.clv_pts + ' pts'])));
   $('#oldTable').innerHTML = table(['Old bucket', 'Bets', 'ROI', 'EV shown', 'CLV'], oldRows);
   // trust table
   const T = P.trust || {}, g = T.games || {};

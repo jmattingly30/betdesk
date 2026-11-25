@@ -93,14 +93,14 @@ def conf_share(feat):
 def reasons(feat, fresh, age, tip_h, miss):
     R = []
     R.append(["+" if feat["engines_same_side"] else "-", "The desk's NBA team model is on the same side of the line" if feat["engines_same_side"] else "The desk's NBA team model is on the other side of the line (gaps lost when the engines split)"])
-    if feat["lineup_drives"]: R.append(["+", f"Tonight's projected lineup moves Model A {feat['ls_abs']:.1f} pts toward this side (lineup news is where NBA opener gaps were real)"])
-    elif feat["ls_abs"] >= 1: R.append(["·", f"Projected lineup moves Model A {feat['ls_abs']:.1f} pts, toward the other side"])
+    if feat["lineup_drives"]: R.append(["+", f"Tonight's projected lineup moves our projection {feat['ls_abs']:.1f} pts toward this side (lineup news is where NBA opener gaps were real)"])
+    elif feat["ls_abs"] >= 1: R.append(["·", f"Projected lineup moves our projection {feat['ls_abs']:.1f} pts, toward the other side"])
     if miss: R.append(["·", "Not in tonight's projected lineup (from recent games played, not the injury report): " + "; ".join(miss)])
     g = int(feat["gp_min"])
     R.append(["+" if feat["gp_mid"] else "-" if g <= 5 else "·", f"Fewest games played by either team: {g}" + (" (16-40 games in has been the best window)" if feat["gp_mid"] else " (5 or fewer: early-season gaps lost 46%, so tier A waits)" if g <= 5 else "")])
     if feat["b2b_any"]: R.append(["+", "A team is on a back-to-back"])
     if feat["fav_size"] >= 10.5: R.append(["-", f"Big favorite ({feat['fav_size']:.1f}): gaps at 10.5+ have held up least"])
-    if feat["model_split"] >= 4: R.append(["-", f"Model A and the desk model are {feat['model_split']:.1f} pts apart"])
+    if feat["model_split"] >= 4: R.append(["-", f"Our projection and the desk model are {feat['model_split']:.1f} pts apart"])
     if age is None: R.append(["·", "No post time for this price"])
     elif fresh: R.append(["+", f"Line posted {age:.0f} h ago, tip in {tip_h:.0f} h: opener-like, where our NBA gaps have been real (tier A 57-62% out of sample)"])
     else: R.append(["-", f"Line up {age:.0f} h, tip in {tip_h:.0f} h: close-like, where NBA spread gaps lost at every size"])

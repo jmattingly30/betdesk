@@ -1,176 +1,97 @@
-// Guest pick sheet: turns J's models into a short, plain-language list. Guests get this list, never the raw model files.
-// Sources: game Model B files (cbb_ab, nfl_ab, nba_ab, cfb_ab), tennis_ab.json, and prop_picks.json (the desk's own
-// prop flags with their Model B tiers, written by models/grading/snap_flags.js from the headless desk).
-//   tier A -> "Strong pick" (3 stars, tested)   tier B -> "Lean" (2 stars)
-//   tier C rated "play" by the unproven rating (z.u, models/model-b/unproven.py) -> "Long shot" (1 star, less
-//   proven: shown from level 2). Moneylines are never long shots: their chance is converted from the spread and
-//   that conversion makes big underdogs look +EV on its own. Files from before z.u existed fall back to 3%+ EV.
-
-const TENNIS_ON = false;   // J 2026-11-11: tennis off the desk (pulls kept failing); set true to bring it back
-const FILES = { CBB: 'cbb_ab.json', NFL: 'nfl_ab.json', NBA: 'nba_ab.json', CFB: 'cfb_ab.json' };
-const MARKETS = { spread: 'spread', total: 'total', ml: 'moneyline' };
-const LONG_SHOT_EV = 0.03;
+// Guest pick sheet (desk simplification step 5, J 2026-11-25): the same price check as J's desk, in plain words.
+// Source: priced_bets.json (models/pricing/price.py), one file for all six sports, game lines and pro props.
+//   Bet  -> "Bet"  (3 stars; shown at every level)
+//   Lean -> "Lean" (2 stars; shown from the Guided level, as in the approved mockup)
+//   Pass -> never shown to guests.
+// The old tiers (Strong pick / Lean / Long shot from the *_ab files) are retired; bets guests logged under those names are
+// shown with the new names on their page.
+const SPORTS = ['NFL', 'NBA', 'CBB', 'CFB', 'NHL', 'MLB'];
+const LABEL = { Bet: 'Bet', Lean: 'Lean' }, TIER = { Bet: 'A', Lean: 'B' }, STARS = { Bet: 3, Lean: 2 };
 let memo = { at: 0, picks: null, games: null };
-const LABEL = { A: 'Strong pick', B: 'Lean', C: 'Long shot' }, STARS = { A: 3, B: 2, C: 1 };
-const BOOKS = { draftkings: 'DraftKings', fanduel: 'FanDuel', betmgm: 'BetMGM', williamhill_us: 'Caesars', caesars: 'Caesars', espnbet: 'ESPN BET',
-  bet365: 'bet365', betrivers: 'BetRivers', fanatics: 'Fanatics', ballybet: 'Bally Bet', pinnacle: 'Pinnacle', hardrockbet: 'Hard Rock', circasports: 'Circa', betonlineag: 'BetOnline' };
-const bookName = b => BOOKS[b] || b;
-const amer = dec => (dec >= 2 ? Math.round((dec - 1) * 100) : Math.round(-100 / (dec - 1)));
 const STAT = { pass_att: 'pass attempts', cmp: 'completions', pass_yds: 'passing yards', pass_td: 'passing TDs', carries: 'rush attempts',
-  rush_yds: 'rushing yards', targets: 'targets', rec: 'receptions', rec_yds: 'receiving yards', rush_rec_yds: 'rush + rec yards', td: 'anytime TD',
-  pts: 'points', reb: 'rebounds', ast: 'assists', fg3m: 'threes', stl: 'steals', blk: 'blocks', tov: 'turnovers', pra: 'pts + reb + ast',
-  sog: 'shots on goal', points: 'points', goals: 'goals', assists: 'assists', hits: 'hits', saves: 'saves', goal: 'anytime goal', assist: 'assist', ga: 'goal or assist' };
-// Desk prop kinds -> guest tiers. NHL flags are a lean at most: that model has not beaten the closing line yet.
-const PROP_TIER = (sp, kind) => (kind === 'proven' || kind === 'flag' ? (sp === 'NHL' ? 'B' : 'A') : kind === 'lean' ? 'B' : kind === 'unproven' ? 'C' : null);
-
-// Every upcoming game with Model A's projected score (the Games list on the guest desk), and the market numbers.
-function buildGames(sport, d, today, now) {
-  const out = [];
-  for (const [gid, g] of Object.entries(d.games || {})) {
-    if (!g.A || g.pre || (g.d && g.d < today) || (g.k && Date.parse(g.k) <= now)) continue;
-    const B = g.B || {};
-    out.push({ key: `${sport}:${gid}`, sport, home: g.h, away: g.a, date: g.d || null, kickoff: g.k || null,
-      hs: r1(g.A.hs), as: r1(g.A.as), p_home: g.A.p_home ?? null,
-      spread: B.spread && B.spread.market != null ? r1(B.spread.market) : null, total: B.total && B.total.market != null ? r1(B.total.market) : null });
-  }
-  return out;
-}
-// NHL games from the shot-state sim (nhl_sim.json, models/nhl_sim/live.py). Games only: there is no NHL bet engine
-// (Model B) yet, so the sim adds no game picks. The books' number beside it is the total (lt); NHL has no spread.
-function buildNhlGames(d, today, now) {
-  const out = [];
-  for (const g of d.games || []) {
-    if (g.hs == null || g.fs || (g.d && g.d < today) || (g.k && Date.parse(g.k) <= now)) continue;
-    out.push({ key: `NHL:${g.id}`, sport: 'NHL', home: g.h, away: g.a, date: g.d || null, kickoff: g.k || null,
-      hs: r1(g.hs), as: r1(g.as), p_home: g.pw ?? null, p_ot: g.pot ?? null, spread: null, total: g.lt ?? null });
-  }
-  return out;
-}
-function buildTennisGames(d, now) {
-  const out = [];
-  for (const m of d.matches || []) {
-    const A = m.A || {};
-    if (A.win_p1 == null || m.pre || (m.start && Date.parse(m.start) <= now)) continue;
-    out.push({ key: `TENNIS:${m.tex_mid || m.fid || m.p1 + m.p2}`, sport: 'TENNIS', home: m.p1, away: m.p2, date: (m.start || '').slice(0, 10) || null,
-      kickoff: m.start || null, event: m.tournament || m.cat || '', p1_win: A.win_p1, games: A.tot_med ?? null,
-      sets: A.sets ? Object.entries(A.sets).sort((a, b) => b[1] - a[1])[0][0] : null });
-  }
-  return out.sort((a, b) => (a.kickoff || '9').localeCompare(b.kickoff || '9')).slice(0, 80);
-}
-
-function buildTennis(d, now) {
-  const out = [];
-  for (const m of d.matches || []) {
-    const B = m.B || {}, A = m.A || {};
-    if (!B.price || !B.pick || m.pre || (m.start && Date.parse(m.start) <= now)) continue;
-    const tier = B.tier === 'A' || B.tier === 'B' ? B.tier : B.u && B.u.rec === 'play' ? 'C' : null;
-    if (!tier) continue;
-    const pA = A.win_p1 == null ? null : B.side === 1 ? A.win_p1 : 1 - A.win_p1;
-    const opp = B.side === 1 ? m.p2 : m.p1;
-    out.push({
-      id: `TENNIS:${m.tex_mid || m.fid || m.p1 + m.p2}:ml`, game: `TENNIS:${m.tex_mid || m.fid || m.p1 + m.p2}`, sport: 'TENNIS', date: (m.start || '').slice(0, 10) || null, kickoff: m.start || null,
-      home: m.p1, away: m.p2, matchup: `${m.p1} vs ${m.p2}`, event: m.tournament || m.cat || '', market: 'moneyline', pick: `${B.pick} to win`,
-      tier, label: LABEL[tier], stars: STARS[tier], proven: tier !== 'C', book: bookName(B.book), price: amer(B.price),
-      chance: pA, ev: Math.round(((B.u && B.u.evU) ?? B.edge ?? 0) * 1000) / 10,
-      why: pA != null ? `Our model gives ${B.pick} a ${Math.round(pA * 100)}% chance to beat ${opp}.` : `Our model likes ${B.pick} here.`,
-      reasons: [...(tier === 'C' && B.u && B.u.why ? [{ s: '·', t: `Less proven: ${B.u.why}` }] : []), ...(B.note ? [{ s: '·', t: B.note }] : [])],
-      score: tier === 'C' && B.u ? B.u.score : null, model: null,
-    });
-  }
-  return out;
-}
-
-// Plain reason for a prop. When our projection sits on the bet's side of the line, say that; otherwise (an under on a
-// player we project just over a low line, a long-priced over) the edge is the price, so compare our chance with the book's.
-const implied = am => (am > 0 ? 100 / (am + 100) : -am / (-am + 100));
-function propWhy(r, stat, yes) {
-  const ours = Math.round((r.ours || 0) * 100), book = Math.round(implied(r.price) * 100);
-  const agrees = !yes && r.proj != null && (r.side === 'Over' ? r.proj > r.line : r.proj < r.line);
-  if (agrees) return `Our model projects ${r.n} for about ${r.proj} ${stat}; the line is ${r.line}.`;
-  return `Our model gives this a ${ours}% chance; at ${r.price > 0 ? '+' : ''}${r.price} the book pays like it's only ${book}%.`;
-}
-function buildProps(d, today, now) {
-  const out = [];
-  for (const r of d.rows || []) {
-    const tier = PROP_TIER(r.sp, r.kind);
-    if (!tier || (r.kick && Date.parse(r.kick) <= now) || (!r.kick && r.d && r.d < today)) continue;
-    const stat = STAT[r.k] || r.k, yes = ['td', 'goal', 'assist', 'ga'].includes(r.k) && r.line <= 0.5;
-    out.push({
-      id: `${r.sp}:prop:${r.g}:${r.n}:${r.k}:${r.side}`, teams: [r.t, r.o], gref: r.g, sport: r.sp, date: r.d || null, kickoff: r.kick || null,
-      home: r.t, away: r.o, matchup: `${r.n} (${r.t} vs ${r.o})`, market: 'prop', player: r.n,
-      pick: yes ? (r.side === 'Under' ? `${r.n} no ${stat}` : `${r.n} ${stat}`) : `${r.n} ${r.side} ${r.line} ${stat}`,
-      tier, label: LABEL[tier], stars: STARS[tier], proven: tier !== 'C', book: bookName(r.book), price: r.price,
-      chance: r.ours ?? null, ev: Math.round((r.ev ?? 0) * 1000) / 10,
-      why: propWhy(r, stat, yes),
-      reasons: tier === 'C' ? [{ s: '·', t: 'Less proven: this kind of prop has not made money in our testing yet, so bet small or just track it.' }] : [],
-      score: null, model: null,
-    });
-  }
-  return out;
-}
+  rush_yds: 'rushing yards', targets: 'targets', rec: 'catches', rec_yds: 'receiving yards', rush_rec_yds: 'rush + rec yards', td: 'touchdowns',
+  pts: 'points', reb: 'rebounds', ast: 'assists', fg3m: 'threes', stl: 'steals', blk: 'blocks', tov: 'turnovers', pra: 'points + rebounds + assists',
+  sog: 'shots on goal', points: 'points', goals: 'goals', assists: 'assists', hits: 'hits', saves: 'saves' };
+const UNIT = { NHL: 'goals', MLB: 'runs' };
 
 export const denverDate = (t = new Date()) =>
   new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Denver', year: 'numeric', month: '2-digit', day: '2-digit' }).format(t);
 
 const r1 = x => Math.round(x * 10) / 10;
-const sgn = x => (x > 0 ? '+' : '') + x;
+const won10 = am => (am > 0 ? am / 10 : 1000 / -am).toFixed(2);   // dollars won on a $10 bet
+const half = l => l % 1 !== 0;
 
-function why(market, z, g) {
-  const side = z.side;
-  if (market === 'spread') {
-    const m = r1(side === g.h ? z.ours : -z.ours);
-    return m > 0 ? `Our model has ${side} winning by ${m}.` : m === 0 ? `Our model calls this game a coin flip.` : `Our model has ${side} losing by only ${-m}, and they get ${z.bet.pt} points.`;
+// "Nuggets to win by 4 or more", "Kansas and Duke score 149 or more points", "J. Smith 4 or fewer catches"
+function plain(r, g) {
+  const L = r.line, u = UNIT[r.sp] || 'points';
+  if (r.market === 'ml') return `${r.pick} to win`;
+  if (r.market === 'spread') {
+    if (Math.abs(L) === 0.5) return `${r.pick} to win (${L > 0 ? '+' : ''}${L})`;
+    if (L < 0) return half(L) ? `${r.pick} to win by ${Math.ceil(-L)} or more` : `${r.pick} to win by ${-L + 1} or more (by exactly ${-L} refunds)`;
+    if (L === 0) return `${r.pick} to win (a tie refunds)`;
+    return half(L) ? `${r.pick} to win, or lose by ${Math.floor(L)} or fewer` : `${r.pick} to win, or lose by ${L - 1} or fewer (by exactly ${L} refunds)`;
   }
-  if (market === 'total') return `Our model expects about ${Math.round(z.ours)} total points; the line is ${z.bet.pt}.`;
-  return `Our model gives ${side} a ${Math.round(z.bet.p * 100)}% chance to win.`;
+  if (r.market === 'total') {
+    const who = g ? `${g.a} and ${g.h}` : r.matchup;
+    if (r.side === 'Over') return half(L) ? `${who} score ${Math.ceil(L)} or more ${u}` : `${who} score more than ${L} ${u}`;
+    return half(L) ? `${who} score ${Math.floor(L)} or fewer ${u}` : `${who} score fewer than ${L} ${u}`;
+  }
+  const st = STAT[r.stat] || r.stat;
+  if (r.stat === 'td' && L <= 0.5) return r.side === 'Over' ? `${r.player} scores a touchdown` : `${r.player} does not score a touchdown`;
+  if (r.side === 'Over') return half(L) ? `${r.player} ${Math.ceil(L)} or more ${st}` : `${r.player} more than ${L} ${st}`;
+  return half(L) ? `${r.player} ${Math.floor(L)} or fewer ${st}` : `${r.player} fewer than ${L} ${st}`;
+}
+// One plain reason. When our number sits on the bet's side of the line, say it; when it does not (a long price on a
+// player we project under the line), the edge is the price, so compare our chance with what the price pays.
+const implied = am => (am > 0 ? 100 / (am + 100) : -am / (-am + 100));
+function plainWhy(r, g) {
+  const price = `Best price: ${r.book_name}, bet $10 to win $${won10(r.price)}.`;
+  const byChance = `We give this a ${Math.round((r.trusted ?? r.ours) * 100)}% chance; the price pays like it's ${Math.round(implied(r.price) * 100)}%. ${price}`;
+  const over = r.side === 'Over';
+  if (r.market === 'prop') {
+    if (r.proj == null || (over ? r.proj <= r.line : r.proj >= r.line)) return byChance;
+    return `We expect about ${r1(r.proj)} ${STAT[r.stat] || r.stat}. ${price}`;
+  }
+  if (r.market === 'ml') return `We give ${r.pick} a ${Math.round(r.ours * 100)}% chance to win. ${price}`;
+  if (!g || g.hs == null) return byChance;
+  if (r.market === 'total') { const t = g.hs + g.as_; return (over ? t > r.line : t < r.line) ? `We expect about ${Math.round(t)} ${UNIT[r.sp] || 'points'}. ${price}` : byChance; }
+  const m = r1(r.pick === g.h ? g.hs - g.as_ : g.as_ - g.hs);
+  if (m + r.line <= 0) return byChance;
+  return (m > 0 ? `We think ${r.pick} wins by about ${m}.` : m === 0 ? 'We think this game is a coin flip.' : `We think ${r.pick} loses by only about ${-m}.`) + ' ' + price;
 }
 
-function build(sport, d, today, now) {
-  const out = [];
-  for (const [gid, g] of Object.entries(d.games || {})) {
-    if (!g.B || g.pre || (g.d && g.d < today)) continue;   // pre = frozen pre-game record of a started game (pregame.keep)
-    if (g.k && Date.parse(g.k) <= now) continue;
-    for (const [k, market] of Object.entries(MARKETS)) {
-      const z = g.B[k];
-      if (!z || !z.bet || !z.side) continue;
-      const ev = z.bet.ev ?? 0;
-      const longShot = k !== 'ml' && (z.u ? z.u.rec === 'play' : ev >= LONG_SHOT_EV);
-      const tier = z.tier === 'A' || z.tier === 'B' ? z.tier : longShot ? 'C' : null;
-      if (!tier) continue;
-      const pick = market === 'moneyline' ? `${z.side} to win` : market === 'total' ? `${z.side} ${z.bet.pt}` : `${z.side} ${sgn(z.bet.pt)}`;
-      out.push({
-        id: `${sport}:${gid}:${k}`, game: `${sport}:${gid}`,
-        sport, date: g.d || null, kickoff: g.k || null, home: g.h, away: g.a, market, pick,
-        tier, label: { A: 'Strong pick', B: 'Lean', C: 'Long shot' }[tier], stars: { A: 3, B: 2, C: 1 }[tier], proven: tier !== 'C',
-        book: z.bet.book_name || z.bet.book, price: z.bet.price, chance: z.bet.p ?? null, ev: Math.round(ev * 1000) / 10,
-        why: why(market, z, g),
-        reasons: [...(tier === 'C' && z.u && z.u.why ? [{ s: '·', t: `Less proven: ${z.u.why}` }] : []), ...(z.reasons || []).map(([s, t]) => ({ s, t }))],
-        score: tier === 'C' && z.u ? z.u.score : null,
-        model: g.A ? { home: r1(g.A.hs), away: r1(g.A.as) } : null,
-      });
-    }
+function build(P, now) {
+  const games = [], picks = [], G = {};
+  for (const g of P.games || []) {
+    if (!SPORTS.includes(g.sp) || (g.k && Date.parse(g.k) <= now)) continue;
+    const key = `${g.sp}:${g.id}`; G[key] = g;
+    games.push({ key, sport: g.sp, home: g.h, away: g.a, date: (g.k || '').slice(0, 10) || null, kickoff: g.k || null,
+      hs: g.hs == null ? null : r1(g.hs), as: g.as_ == null ? null : r1(g.as_), p_home: g.p_home ?? null, spread: g.spread ?? null, total: g.total ?? null });
   }
-  return out;
+  for (const r of P.bets || []) {
+    if (!LABEL[r.label] || !SPORTS.includes(r.sp) || (r.k && Date.parse(r.k) <= now)) continue;
+    const key = `${r.sp}:${r.gid || r.game}`, g = G[key];   // gid: the priced game a prop belongs to (NBA prop keys are slate indices)
+    picks.push({
+      id: `${r.sp}:${r.game}:${r.market}:${r.stat || ''}:${r.player || ''}:${r.side}`, game: g ? key : null, sport: r.sp,
+      date: (r.k || '').slice(0, 10) || r.d || null, kickoff: r.k || null, home: g ? g.h : null, away: g ? g.a : null,
+      matchup: r.matchup, market: r.market === 'ml' ? 'moneyline' : r.market, player: r.player || null,
+      pick: plain(r, g), tier: TIER[r.label], label: LABEL[r.label], stars: STARS[r.label], proven: true,
+      book: r.book_name, price: r.price, chance: r.trusted ?? r.ours ?? null, ev: Math.round((r.ev ?? 0) * 1000) / 10, units: r.label === 'Bet' ? r.stake_u : null,
+      why: plainWhy(r, g), reasons: r.reason ? [{ s: '·', t: r.reason }] : [], score: null,
+      model: g && g.hs != null ? { home: r1(g.hs), away: r1(g.as_) } : null,
+    });
+  }
+  return { games, picks };
 }
 
 export async function loadPicks(env, origin) {
   const now = Date.now();
   if (memo.picks && now - memo.at < 5 * 60e3) return memo;
-  const today = denverDate();
-  const all = [];
-  const get = async f => { try { const r = await env.ASSETS.fetch(new Request(`${origin}/${f}`)); return r.ok ? await r.json() : null; } catch (e) { return null; } };
-  // one bad or missing file should not empty the sheet
-  const games = [];
-  for (const [sport, f] of Object.entries(FILES)) { const d = await get(f); if (d) { all.push(...build(sport, d, today, now)); games.push(...buildGames(sport, d, today, now)); } }
-  const nhl = await get('nhl_sim.json'); if (nhl) games.push(...buildNhlGames(nhl, today, now));
-  const t = TENNIS_ON ? await get('tennis_ab.json') : null; if (t) { all.push(...buildTennis(t, now)); games.push(...buildTennisGames(t, now)); }
-  const pp = await get('prop_picks.json');
-  if (pp) for (const x of buildProps(pp, today, now)) {   // tie each prop to its game: NFL by game id, others by the two teams
-    const gm = games.find(g => g.sport === x.sport && (g.key === `${x.sport}:${x.gref}` || (x.teams.includes(g.home) && x.teams.includes(g.away))));
-    const { teams, gref, ...rest } = x; all.push({ ...rest, game: gm ? gm.key : null });
-  }
+  let P = null;
+  try { const r = await env.ASSETS.fetch(new Request(`${origin}/priced_bets.json`)); P = r.ok ? await r.json() : null; } catch (e) { P = null; }
+  const { games, picks } = P ? build(P, now) : { games: [], picks: [] };
   games.sort((a, b) => (a.kickoff || a.date || '').localeCompare(b.kickoff || b.date || ''));
-  all.sort((a, b) => b.stars - a.stars || (a.kickoff || a.date || '').localeCompare(b.kickoff || b.date || '') || b.ev - a.ev);
-  memo = { at: now, picks: all, games };
+  picks.sort((a, b) => b.stars - a.stars || (a.kickoff || a.date || '').localeCompare(b.kickoff || b.date || '') || b.ev - a.ev);
+  memo = { at: now, picks, games };
   return memo;
 }
