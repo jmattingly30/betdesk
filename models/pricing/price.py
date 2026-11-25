@@ -511,6 +511,16 @@ def prop_fair(stat, s, rows, L):
     est = [min(0.99, (1 / dec(r['o'])) / 1.07) for r in rows if r['L'] == L and r['o'] is not None]
     return (statistics.median(est), 'one-sided') if est else (None, None)
 
+def game_of(sp, g):
+    """id of this sport's priced game (GAMES) for an odds-feed event: same teams, start within 3 h. Prop projections
+    carry their own game key (NBA: a slate index), so the desk and guest pages need this to put a prop under its game."""
+    k = ts(g['k'])
+    for G in GAMES:
+        if G['sp'] != sp or not k or not ts(G['k']) or abs((ts(G['k']) - k).total_seconds()) > 3 * 3600: continue
+        same = lambda ab, full: str(ab).lower() == str(full).lower() or _team_ok(ab, full)
+        if same(G['h'], g['h']) and same(G['a'], g['a']): return G['id']
+    return None
+
 def props(sp, demote):
     PJ, OD = jload(f"{APP}/{sp.lower()}_props.json") or {}, jload(f"{APP}/odds/props_{sp}.json") or {}
     idx = {}
@@ -519,7 +529,7 @@ def props(sp, demote):
             for key in ('f:' + norm(n), 'i:' + init(n)): idx.setdefault(key, []).append((g, n, P))
     old = {}
     for r in (jload(f"{APP}/prop_picks.json") or {}).get('rows') or []:
-        old['|'.join(str(r.get(x)) for x in ('sp', 'g', 'n', 'k', 'side'))] = {'proven': 'Bet', 'flag': 'Bet', 'check': 'Pass'}.get(r.get('kind'))
+        old['|'.join(str(r.get(x)) for x in ('sp', 'g', 'n', 'k', 'side'))] = {'proven': 'Bet', 'flag': 'Bet', 'lean': 'Lean', 'unproven': 'Pass', 'check': 'Pass'}.get(r.get('kind'))
     trust = prop_trust(sp); out = []; n_pass = 0; quiet = []
     for p in PJ.get('players') or []:
         cand = idx.get('f:' + norm(p['n']), []) + idx.get('i:' + init(p['n']), [])
@@ -559,7 +569,7 @@ def props(sp, demote):
                     if is_long:
                         if best_long is None or row['ev'] > best_long['ev']: best_long = row
                     elif best is None or row['ev'] > best['ev']: best = row
-                tag = dict(sp=sp, game=str(p.get('g')), d=p.get('d'), matchup=f"{g['a']} @ {g['h']}", k=g['k'], timing=None, hours_to_start=round(hours(k, NOW), 1), big_dog=False)
+                tag = dict(sp=sp, game=str(p.get('g')), gid=game_of(sp, g), d=p.get('d'), matchup=f"{g['a']} @ {g['h']}", k=g['k'], timing=None, hours_to_start=round(hours(k, NOW), 1), big_dog=False)
                 if best_long:
                     x = finish(best_long, *prop_caps(sp, stat, side), demote.get((sp, 'props')))
                     if x['would_be'] != 'Pass': x.update(tag, old=None); out.append(x)

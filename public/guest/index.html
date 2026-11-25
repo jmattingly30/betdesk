@@ -125,7 +125,10 @@ nav button[aria-current=true]{color:var(--accent);border-top-color:var(--accent)
     return '';
   };
   const level = () => S.me ? S.me.level : 1;
-  const SPORT_NAME = {NFL:'NFL', NBA:'NBA', CFB:'College football', CBB:'College basketball', NHL:'NHL', TENNIS:'Tennis'};
+  const SPORT_NAME = {NFL:'NFL', NBA:'NBA', CFB:'College football', CBB:'College basketball', NHL:'NHL', MLB:'MLB', TENNIS:'Tennis'};
+  // Old names on bets logged before 2026-11-25 (step 5): Strong pick -> Bet, Long shot -> Pass
+  const OLD = {'Strong pick': ['Bet', 'A'], 'Long shot': ['Pass', 'C']};
+  const relabel = b => OLD[b.label] ? {...b, label: OLD[b.label][0], tier: OLD[b.label][1]} : b;
 
   // ---------- picks ----------
   const ctx = p => p.matchup || `${p.away} at ${p.home}`;
@@ -149,8 +152,8 @@ nav button[aria-current=true]{color:var(--accent);border-top-color:var(--accent)
   function section(title, sub, list, cls = ''){
     return `<div class="panel ${cls}"><div class="hd"><h3>${title}</h3>${sub ? `<span class="small muted">${sub}</span>` : ''}</div>${list}</div>`;
   }
-  const ALL_SP = ['NFL', 'NBA', 'CFB', 'CBB', 'NHL'];   // TENNIS held off 2026-11-11 (J)
-  const visible = () => S.picks.filter(p => !S.hidden.has(p.id) && (level() >= 2 || p.tier !== 'C'));
+  const ALL_SP = ['NFL', 'NBA', 'CFB', 'CBB', 'NHL', 'MLB'];   // TENNIS held off 2026-11-11 (J)
+  const visible = () => S.picks.filter(p => !S.hidden.has(p.id) && (level() >= 2 || p.tier !== 'B'));
   const spOrder = () => { const order = (S.me && S.me.profile && S.me.profile.sports) || [];
     return s => { const i = order.indexOf(s); return i >= 0 ? i : 10 + ALL_SP.indexOf(s); }; };
   const dayLabel = d => d ? new Date(d + 'T12:00').toLocaleDateString([], {weekday:'long', month:'short', day:'numeric'}) : 'Upcoming';
@@ -159,14 +162,16 @@ nav button[aria-current=true]{color:var(--accent);border-top-color:var(--accent)
   function gameLine(g){   // our projection in plain words
     if (g.sport === 'TENNIS'){ const p1 = g.p1_win >= 0.5, w = p1 ? g.home : g.away, p = p1 ? g.p1_win : 1 - g.p1_win;
       return `We have ${w} winning ${pct(p)} of the time${g.sets ? `, most often ${g.sets}` : ''}${g.games ? `, about ${Math.round(g.games)} games` : ''}.`; }
-    if (g.sport === 'NHL'){ const hw = (g.p_home ?? 0.5) >= 0.5, w = hw ? g.home : g.away;
-      return `We have ${w} winning ${pct(hw ? g.p_home : 1 - g.p_home)} of the time, about ${(g.hs + g.as).toFixed(1)} total goals${g.p_ot != null ? `, ${pct(g.p_ot)} chance of overtime` : ''}.`; }
+    if (g.hs == null) return 'Our projection for this game is not in yet.';
+    const unit = g.sport === 'MLB' ? 'runs' : 'goals';
+    if (g.sport === 'NHL' || g.sport === 'MLB'){ const hw = (g.p_home ?? 0.5) >= 0.5, w = hw ? g.home : g.away;
+      return `We have ${w} winning ${pct(hw ? g.p_home : 1 - g.p_home)} of the time, about ${(g.hs + g.as).toFixed(1)} total ${unit}${g.p_ot != null ? `, ${pct(g.p_ot)} chance of overtime` : ''}.`; }
     const hw = g.hs >= g.as, w = hw ? g.home : g.away, m = Math.abs(g.hs - g.as);
     return `We have ${w} winning by ${Math.round(m * 10) / 10}${g.p_home != null ? ` (${pct(hw ? g.p_home : 1 - g.p_home)} to win)` : ''}, about ${Math.round(g.hs + g.as)} total points.`;
   }
   function gameRow(g){
     const ps = visible().filter(p => p.game === g.key), open = S.open === g.key, lv = level();
-    const score = g.sport === 'TENNIS' ? `${pct(g.p1_win)} – ${pct(1 - g.p1_win)}` : g.sport === 'NHL' ? `${g.as.toFixed(1)}–${g.hs.toFixed(1)}` : `${Math.round(g.as)}–${Math.round(g.hs)}`;
+    const score = g.sport === 'TENNIS' ? `${pct(g.p1_win)} – ${pct(1 - g.p1_win)}` : g.hs == null ? '–' : g.sport === 'NHL' || g.sport === 'MLB' ? `${g.as.toFixed(1)}–${g.hs.toFixed(1)}` : `${Math.round(g.as)}–${Math.round(g.hs)}`;
     const best = ps.length ? Math.max(...ps.map(p => p.stars)) : 0;
     return `<div class="card game${open ? ' open' : ''}">
       <button type="button" class="grow" data-game="${esc(g.key)}">
@@ -175,7 +180,7 @@ nav button[aria-current=true]{color:var(--accent);border-top-color:var(--accent)
         <span class="meta" style="grid-column:1/-1">${esc(tStr(g))}${g.event ? ' · ' + esc(g.event) : ''}${ps.length ? ` · <b class="pc">${ps.length} pick${ps.length === 1 ? '' : 's'}${best === 3 ? ' ★' : ''}</b>` : ''}</span>
       </button>
       ${open ? `<div class="gbody"><p class="why">${esc(gameLine(g))}</p>
-        ${lv >= 2 && g.spread != null ? `<div class="nums"><span>Books: <b>${esc(g.home)} ${g.spread > 0 ? '−' : '+'}${Math.abs(g.spread)}</b></span>${g.total != null ? `<span>Total <b>${g.total}</b></span>` : ''}</div>` :
+        ${lv >= 2 && g.spread != null ? `<div class="nums"><span>Books: <b>${esc(g.spread <= 0 ? g.home : g.away)} −${Math.abs(g.spread)}</b></span>${g.total != null ? `<span>Total <b>${g.total}</b></span>` : ''}</div>` :
           lv >= 2 && g.total != null ? `<div class="nums"><span>Books' total: <b>${g.total}</b></span></div>` : ''}
         ${ps.length ? ps.map(pickCard).join('') : '<p class="small muted" style="margin:8px 0">No picks in this game. Our number is close to the books’ here.</p>'}</div>` : ''}
     </div>`;
@@ -184,9 +189,9 @@ nav button[aria-current=true]{color:var(--accent);border-top-color:var(--accent)
     const rank = spOrder(), ps = visible();
     const sports = ALL_SP.filter(sp => ps.some(p => p.sport === sp) || S.games.some(g => g.sport === sp)).sort((a, b) => rank(a) - rank(b));
     if (!S.sport || !sports.includes(S.sport)){
-      $('#v-picks').innerHTML = `<h2>Sports</h2>${sports.map(sp => { const n = ps.filter(p => p.sport === sp), gs = S.games.filter(g => g.sport === sp), st = n.filter(p => p.tier === 'A').length;
-        return `<button type="button" class="sprow" data-sport="${sp}"><span class="spn">${esc(SPORT_NAME[sp] || sp)}</span><span class="spc">${n.length} pick${n.length === 1 ? '' : 's'}${st ? ` · ${st} strong` : ''}${gs.length ? ` · ${gs.length} game${gs.length === 1 ? '' : 's'}` : ''}</span><span class="go">›</span></button>`; }).join('') || '<p class="empty">No games or picks right now. Check back later.</p>'}
-        ${level() < 2 && S.picks.some(p => p.tier === 'C') ? `<p class="small muted" style="margin-top:14px">Less proven long shots are hidden. Switch to Guided under Me to see them.</p>` : ''}`;
+      $('#v-picks').innerHTML = `<h2>Sports</h2>${sports.map(sp => { const n = ps.filter(p => p.sport === sp), gs = S.games.filter(g => g.sport === sp), st = n.filter(p => p.tier === 'A').length;   // Bets
+        return `<button type="button" class="sprow" data-sport="${sp}"><span class="spn">${esc(SPORT_NAME[sp] || sp)}</span><span class="spc">${st} bet${st === 1 ? '' : 's'}${n.length - st ? ` · ${n.length - st} lean${n.length - st === 1 ? '' : 's'}` : ''}${gs.length ? ` · ${gs.length} game${gs.length === 1 ? '' : 's'}` : ''}</span><span class="go">›</span></button>`; }).join('') || '<p class="empty">No games or picks right now. Check back later.</p>'}
+        ${level() < 2 && S.picks.some(p => p.tier === 'B') ? `<p class="small muted" style="margin-top:14px">Leans are hidden. Switch to Guided under Me to see them.</p>` : ''}`;
       return;
     }
     const sp = S.sport, list = ps.filter(p => p.sport === sp), gs = S.games.filter(g => g.sport === sp);
@@ -213,11 +218,11 @@ nav button[aria-current=true]{color:var(--accent);border-top-color:var(--accent)
     const done = S.bets.filter(b => b.status !== 'open').sort((a, b) => (b.settled || '').localeCompare(a.settled || ''));
     const w = done.filter(b => b.status === 'won').length, l = done.filter(b => b.status === 'lost').length, pu = done.filter(b => b.status === 'push').length;
     const units = done.reduce((s, b) => s + (b.status === 'won' ? won(b.units, b.price) : b.status === 'lost' ? -b.units : 0), 0);
-    const row = b => `<div class="card" data-bid="${esc(b.id)}">
+    const row = b0 => { const b = relabel(b0); return `<div class="card" data-bid="${esc(b.id)}">
       <div class="row1"><span class="pick">${esc(b.pick)}<span class="tag ${tagCls(b.tier)}">${esc(b.label)}</span></span></div>
       <div class="meta">${esc(SPORT_NAME[b.sport] || b.sport)} · ${esc(b.matchup)} · ${b.units} unit${b.units == 1 ? '' : 's'} at ${esc(b.book)} ${esc(price(b.price))} · ${esc(when(b))}</div>
       <div class="acts">${b.status === 'open' ? `<button class="b" type="button" data-st="won">Won</button><button class="b g" type="button" data-st="lost">Lost</button><button class="b g" type="button" data-st="push">Push</button><button class="b g" type="button" data-del>Remove</button>` :
-        `<b class="${b.status}">${b.status === 'won' ? 'Won +' + won(b.units, b.price).toFixed(2) : b.status === 'lost' ? 'Lost −' + b.units : 'Push'}</b><button class="b g" type="button" data-st="open">Undo</button>`}</div></div>`;
+        `<b class="${b.status}">${b.status === 'won' ? 'Won +' + won(b.units, b.price).toFixed(2) : b.status === 'lost' ? 'Lost −' + b.units : 'Push'}</b><button class="b g" type="button" data-st="open">Undo</button>`}</div></div>`; };
     $('#v-bets').innerHTML = `<div class="rec"><div><b>${w}-${l}${pu ? '-' + pu : ''}</b><span>Record</span></div>
       <div><b class="${units >= 0 ? 'won' : 'lost'}">${units >= 0 ? '+' : '−'}${Math.abs(units).toFixed(1)}</b><span>Units</span></div>
       <div><b>${open.length}</b><span>Open</span></div></div>
@@ -227,7 +232,7 @@ nav button[aria-current=true]{color:var(--accent);border-top-color:var(--accent)
 
   // ---------- me ----------
   const LEVELS = [[1, 'Simple', 'Just the picks, how confident we are, and one plain reason.'],
-                  [2, 'Guided', 'Adds our win chance, a few reasons, and the less proven long shots.'],
+                  [2, 'Guided', 'Adds Leans, our chance it hits, and the price check in numbers.'],
                   [3, 'Full', 'Every number: edge, our projected score, and all the pros and cons.']];
   function renderMe(){
     const m = S.me, cur = m.level_auto ? 'auto' : String(m.level);
@@ -239,7 +244,7 @@ nav button[aria-current=true]{color:var(--accent);border-top-color:var(--accent)
       <textarea id="tell" maxlength="600" placeholder="e.g. I mostly watch the NBA and like overs"></textarea>
       <div class="acts"><button class="b" type="button" id="send">Send</button></div>` : ''}
       <h2>How the picks work</h2>
-      <p class="small">Our models project the score of every game and compare it with the sportsbooks' lines. <b>Strong picks</b> are the kind of bet that has won most often when we tested it on past games. <b>Leans</b> are good but less sure. <b>Long shots</b> are bets our model likes that haven't been tested as well. No pick is a sure thing, so bet amounts you're fine losing.</p>
+      <p class="small">We project the score of every game and every player's stats, then check that against every Colorado sportsbook's price. A <b>Bet</b> still looks good after that check. A <b>Lean</b> is a smaller edge we track but don't stake. No pick is a sure thing, so bet amounts you're fine losing.</p>
       <p class="small muted" style="margin-top:22px"><a href="/logout">Sign out on this device</a></p>`;
   }
 

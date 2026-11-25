@@ -56,3 +56,18 @@ Nothing on the desk reads `priced_bets.json` yet. The old tiers and flags are un
 python3 models/pricing/price.py                          # now
 python3 models/pricing/price.py --now 2026-11-24T22:31Z  # replay a snapshot
 ```
+
+## Names (step 5, J 2026-11-25)
+
+| Old name | Now |
+|---|---|
+| Model A | Our projection |
+| Model B | The price check |
+| Tier A, prop flag, proven | Bet |
+| Tier B, lean | Lean |
+| Tier C, unproven, check, long shot | Pass |
+| Guest "Strong pick" | Bet |
+
+Old records keep their old fields; the Monitor and the guest page show them under the new names ("was tier A").
+The guest pick sheet (`worker/picks.js`) reads `priced_bets.json`, so guests and J see the same labels. Guests see
+Bets at the Simple level and Leans from Guided. Prop rows carry `gid`, the priced game they belong to.

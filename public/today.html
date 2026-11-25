@@ -196,7 +196,7 @@ function mkt(g){
   return g.total != null ? `total ${g.total}` : '';
 }
 function gameRow(g){
-  const picks = (S.P.bets || []).filter(r => r.sp === g.sp && r.game === g.id && r.label !== 'Pass');
+  const picks = (S.P.bets || []).filter(r => r.sp === g.sp && (r.gid || r.game) === g.id && r.label !== 'Pass');
   const nb = picks.filter(r => r.label === 'Bet').length, nl = picks.filter(r => r.label === 'Lean').length;
   return `<button class="game" type="button" data-game="${esc(g.sp + '|' + g.id)}"><span class="t">${esc(g.a)} @ ${esc(g.h)}</span><span class="sc">${sc(g.as_)} – ${sc(g.hs)}</span>
     <span class="m">${esc([g.sp, tm(g.k), mkt(g)].filter(Boolean).join(' · '))}</span><span class="tags">${nb ? `<span class="lab Bet">${nb} BET${nb > 1 ? 'S' : ''}</span>` : ''}${nl ? `<span class="lab Lean">${nl} LEAN${nl > 1 ? 'S' : ''}</span>` : ''}</span></button>`;
@@ -230,7 +230,7 @@ function renderGames(){
   $('#v-games').innerHTML = out ? out + '</div>' : '<div class="empty">No upcoming games with lines for this sport.</div>';
 }
 function renderGame(g){
-  const R = (S.P.bets || []).filter(r => r.sp === g.sp && r.game === g.id);
+  const R = (S.P.bets || []).filter(r => r.sp === g.sp && (r.gid || r.game) === g.id);
   const ord = {Bet: 0, Lean: 1, Pass: 2}, byLab = (a, b) => ord[a.label] - ord[b.label] || (b.ev || 0) - (a.ev || 0);
   const games = R.filter(r => r.market !== 'prop').sort(byLab), shown = games.filter(r => r.label !== 'Pass'), passes = games.filter(r => r.label === 'Pass');
   const props = R.filter(r => r.market === 'prop' && r.label !== 'Pass').sort(byLab);
